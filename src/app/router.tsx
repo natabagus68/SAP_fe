@@ -13,6 +13,9 @@ import ManpowerForm from "@features/admin/master-data/manpower/manpower-form";
 import MesinView from "@features/admin/master-data/mesin/mesin-view";
 import MesinDetails from "@features/admin/master-data/mesin/mesin-details";
 import MesinForm from "@features/admin/master-data/mesin/mesin-form";
+import LocationView from "@features/admin/master-data/location/location-view";
+import LocationDetails from "@features/admin/master-data/location/location-details";
+import LocationForm from "@features/admin/master-data/location/location-form";
 
 const Root = () => {
   return <Outlet />;
@@ -104,6 +107,28 @@ export default createBrowserRouter([
           {
             path: "edit",
             element: <MesinForm />,
+          },
+        ],
+      },
+      {
+        path: "master-data/:type/location",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <LocationView />,
+          },
+          {
+            path: "details",
+            element: <LocationDetails />,
+          },
+          {
+            path: "create",
+            element: <LocationForm />,
+          },
+          {
+            path: "edit",
+            element: <LocationForm />,
           },
         ],
       },
