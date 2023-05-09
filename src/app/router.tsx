@@ -13,6 +13,8 @@ import ManpowerForm from "@features/admin/master-data/manpower/manpower-form";
 import MesinView from "@features/admin/master-data/mesin/mesin-view";
 import MesinDetails from "@features/admin/master-data/mesin/mesin-details";
 import MesinForm from "@features/admin/master-data/mesin/mesin-form";
+import FrequencyView from "@features/admin/master-data/frequency/frequency-view";
+import FrequencyForm from "@features/admin/master-data/frequency/frequency-form";
 
 const Root = () => {
   return <Outlet />;
@@ -104,6 +106,24 @@ export default createBrowserRouter([
           {
             path: "edit",
             element: <MesinForm />,
+          },
+        ],
+      },
+      {
+        path: "master-data/frequency",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <FrequencyView />,
+          },
+          {
+            path: "create",
+            element: <FrequencyForm />,
+          },
+          {
+            path: "edit",
+            element: <FrequencyForm />,
           },
         ],
       },

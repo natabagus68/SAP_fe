@@ -87,6 +87,7 @@ export default function AdminLayout() {
             >
               <NavItem label="Manpower" to={"master-data/manpower/manpower"} />
               <NavItem label="Mesin" to={"master-data/mesin/mesin"} />
+              <NavItem label="Frequency" to={"master-data/frequency"} />
             </NavItem>
           </div>
         </div>
