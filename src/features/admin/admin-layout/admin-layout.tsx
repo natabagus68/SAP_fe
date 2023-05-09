@@ -91,6 +91,10 @@ export default function AdminLayout() {
                 label="Location"
                 to={"master-data/departemen/location"}
               />
+              <NavItem
+                label="Sparepart"
+                to={"master-data/departemen/sparepart"}
+              />
             </NavItem>
           </div>
         </div>
