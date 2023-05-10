@@ -25,6 +25,14 @@ import CalendarView from "@features/admin/schedule/calendar/calendar-view";
 import CalendarForm from "@features/admin/schedule/calendar/calendar-form";
 import CalendarRemark from "@features/admin/schedule/calendar/calendar-remark";
 import MonitoringView from "@features/admin/schedule/monitoring/monitoring-view";
+import DamageView from "@features/admin/master-data/damage/damage-view";
+import DamageForm from "@features/admin/master-data/damage/damage-form";
+import ChecklistView from "@features/admin/report/checklist/checklist-view";
+import ChecklistDetail from "@features/admin/report/checklist/checklist-detail";
+import PreventiveView from "@features/admin/report/preventive/preventive-view";
+import CorrectiveView from "@features/admin/report/corrective/corrective-view";
+import PreventiveDetail from "@features/admin/report/preventive/preventive-detail";
+import CorrectiveDetail from "@features/admin/report/corrective/corrective-detail";
 
 const Root = () => {
   return <Outlet />;
@@ -113,6 +121,56 @@ export default createBrowserRouter([
           },
         ],
       },
+
+      {
+        path: "report",
+        element: <Root />,
+        children: [
+          {
+            path: "checklist",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <ChecklistView />,
+              },
+              {
+                path: "details",
+                element: <ChecklistDetail />,
+              },
+            ],
+          },
+          {
+            path: "preventive",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <PreventiveView />,
+              },
+              {
+                path: "details",
+                element: <PreventiveDetail />,
+              },
+            ],
+          },
+          {
+            path: "corrective",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <CorrectiveView />,
+              },
+              {
+                path: "details",
+                element: <CorrectiveDetail />,
+              },
+            ],
+          },
+        ],
+      },
+
       {
         path: "master-data/:type/manpower",
         element: <Root />,
@@ -216,6 +274,24 @@ export default createBrowserRouter([
           {
             path: "edit",
             element: <SparepartForm />,
+          },
+        ],
+      },
+      {
+        path: "master-data/damage",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <DamageView />,
+          },
+          {
+            path: "create",
+            element: <DamageForm />,
+          },
+          {
+            path: "edit",
+            element: <DamageForm />,
           },
         ],
       },

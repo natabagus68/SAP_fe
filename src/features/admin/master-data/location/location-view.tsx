@@ -166,7 +166,7 @@ export default function LocationView() {
                             edit: true,
                             type: location.type,
                             data: {
-                              name: "KKKK",
+                              section: "section",
                             },
                           },
                         })

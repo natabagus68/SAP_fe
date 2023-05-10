@@ -12,6 +12,7 @@ import SearchIcon from "@common/components/icons-new/SearchIcon";
 import MasterDataIcon from "@common/components/icons-new/MasterDataIcon";
 import CalendarIcon from "@common/components/icons-new/CalendarIcon";
 import SparepartIcon from "@common/components/icons-new/SparepartIcon";
+import FlieIcon from "@common/components/icons-new/FileIcon";
 
 export default function AdminLayout() {
   const admin = useAdmin();
@@ -83,6 +84,16 @@ export default function AdminLayout() {
               <NavItem label="Details" to={"dashboard/details"} />
               <NavItem label="Real Time" to={"dashboard/real-time"} />
             </NavItem>
+
+            <NavItem
+              label={`Report`}
+              icon={<FlieIcon color="#231F20" className="w-[24px] h-[24px]" />}
+            >
+              <NavItem label="Checklist" to={"report/checklist"} />
+              <NavItem label="Preventive" to={"report/preventive"} />
+              <NavItem label="Corrective" to={"report/corrective"} />
+            </NavItem>
+
             <NavItem
               label={`Schedule`}
               icon={<CalendarIcon className="w-[24px] h-[24px]" />}
@@ -106,11 +117,9 @@ export default function AdminLayout() {
                 label="Location"
                 to={"master-data/departemen/location"}
               />
-              <NavItem
-                label="Sparepart"
-                to={"master-data/departemen/sparepart"}
-              />
+              <NavItem label="Sparepart" to={"master-data/part/sparepart"} />
               <NavItem label="Frequency" to={"master-data/frequency"} />
+              <NavItem label="Damage" to={"master-data/damage"} />
             </NavItem>
           </div>
         </div>
