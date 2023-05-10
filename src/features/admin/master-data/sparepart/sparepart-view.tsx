@@ -28,9 +28,9 @@ export default function SparepartView() {
           setTimeout(() => {
             setIsLoading({ loading: false, exec: true });
             if (sparepart.type == "sparepart") {
-              console.log("delete sparepart");
+              console.log("delete part");
             } else {
-              console.log("delete posisi");
+              console.log("delete kategory-inventory");
             }
           }, 3000);
         }}

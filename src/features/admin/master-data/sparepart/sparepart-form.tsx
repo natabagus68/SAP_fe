@@ -402,7 +402,7 @@ export default function SparepartForm() {
                   disabled
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.id ? "bg-red-100" : "bg-white"
+                    sparepart.errors.id ? "bg-red-100" : "bg-[#B8B6B6]"
                   }`}
                   placeholder="Masukan ID"
                   {...sparepart.register("id", { required: true })}
