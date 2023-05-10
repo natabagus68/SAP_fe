@@ -1,5 +1,12 @@
 import useSparepart from "./sparepart-model";
 import { Breadcrumbs } from "@common/components";
+import settings from "../../../../assets/svg/settings.svg";
+import socket from "../../../../assets/svg/socket.svg";
+import toolbox from "../../../../assets/svg/toolbox.svg";
+import rawoil from "../../../../assets/svg/raw-oil.svg";
+import shaft from "../../../../assets/svg/shaft.svg";
+import mariagge from "../../../../assets/svg/marriage.svg";
+import fastener from "../../../../assets/svg/fastener.svg";
 
 export default function SparepartForm() {
   const sparepart = useSparepart();
@@ -298,13 +305,91 @@ export default function SparepartForm() {
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Icon Kategory</span>
-                <input
-                  type="checkbox"
-                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.kategory ? "bg-red-100" : "bg-white"
-                  }`}
-                  {...sparepart.register("kategory", { required: true })}
-                />
+                <div className="flex gap-6 py-4 item-center">
+                  <div className="flex border p-4 gap-2 items-start">
+                    <input
+                      type="checkbox"
+                      {...sparepart.register("iconKategory")}
+                      value="setting"
+                      className="w-[12px] h-[12px]"
+                    />
+                    <span>
+                      <img src={settings} alt="icon-kategory" />
+                    </span>
+                  </div>
+
+                  <div className="flex border p-4 gap-2 items-start">
+                    <input
+                      type="checkbox"
+                      {...sparepart.register("iconKategory")}
+                      value="socket"
+                      className="w-[12px] h-[12px]"
+                    />
+                    <span>
+                      <img src={socket} alt="icon-kategory" />
+                    </span>
+                  </div>
+
+                  <div className="flex border p-4 gap-2 items-start">
+                    <input
+                      type="checkbox"
+                      {...sparepart.register("iconKategory")}
+                      value="fastener"
+                      className="w-[12px] h-[12px]"
+                    />
+                    <span>
+                      <img src={fastener} alt="icon-kategory" />
+                    </span>
+                  </div>
+
+                  <div className="flex border p-4 gap-2 items-start">
+                    <input
+                      type="checkbox"
+                      {...sparepart.register("iconKategory")}
+                      value="shaft"
+                      className="w-[12px] h-[12px]"
+                    />
+                    <span>
+                      <img src={shaft} alt="icon-kategory" />
+                    </span>
+                  </div>
+
+                  <div className="flex border p-4 gap-2 items-start">
+                    <input
+                      type="checkbox"
+                      {...sparepart.register("iconKategory")}
+                      value="mariagge"
+                      className="w-[12px] h-[12px]"
+                    />
+                    <span>
+                      <img src={mariagge} alt="icon-kategory" />
+                    </span>
+                  </div>
+
+                  <div className="flex border p-4 gap-2 items-start">
+                    <input
+                      type="checkbox"
+                      {...sparepart.register("iconKategory")}
+                      value="rawoil"
+                      className="w-[12px] h-[12px]"
+                    />
+                    <span>
+                      <img src={rawoil} alt="icon-kategory" />
+                    </span>
+                  </div>
+
+                  <div className="flex border p-4 gap-2 items-start">
+                    <input
+                      type="checkbox"
+                      {...sparepart.register("iconKategory")}
+                      value="toolbox"
+                      className="w-[12px] h-[12px]"
+                    />
+                    <span>
+                      <img src={toolbox} alt="icon-kategory" />
+                    </span>
+                  </div>
+                </div>
               </div>
             </>
           ) : null}

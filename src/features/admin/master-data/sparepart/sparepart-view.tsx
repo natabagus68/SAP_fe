@@ -8,7 +8,8 @@ import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import useSparepart from "./sparepart-model";
-import { ToggleIcon } from "@common/components/icons";
+import { Toggle } from "@common/components";
+import settings from "../../../../assets/svg/settings.svg";
 
 export default function SparepartView() {
   const sparepart = useSparepart();
@@ -208,10 +209,15 @@ export default function SparepartView() {
             <tbody className="text-base text-[#514E4E]">
               <tr className="border-b border-[#D0D3D9] h-[64px]">
                 <td className="px-[32px]">
-                  <ToggleIcon /> Active
+                  <div className="flex items-center">
+                    <Toggle children={undefined} cb={undefined} />
+                    <span>Active</span>
+                  </div>
                 </td>
                 <td className="px-[32px]">Mecanical</td>
-                <td className="px-[32px]">gambar</td>
+                <td className="px-[32px]">
+                  <img src={settings} alt="icon-kategory" />
+                </td>
                 <td className="px-[32px]">
                   <div className="flex items-center gap-6">
                     <button
