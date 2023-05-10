@@ -205,8 +205,10 @@ export default function MesinForm() {
                   className={`h-[171px] border border-[#D0D3D9] rounded p-2 ${
                     mesin.errors.deskripsi ? "bg-red-100" : "bg-white"
                   }`}
+                  maxLength={100}
                   {...mesin.register("deskripsi", { required: true })}
                 />
+                <span className="text-end">{mesin.maxDesc}/100</span>
               </div>
             </>
           ) : null}

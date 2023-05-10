@@ -21,6 +21,10 @@ import LocationForm from "@features/admin/master-data/location/location-form";
 import SparepartView from "@features/admin/master-data/sparepart/sparepart-view";
 import SparepartDetails from "@features/admin/master-data/sparepart/sparepart-details";
 import SparepartForm from "@features/admin/master-data/sparepart/sparepart-form";
+import CalendarView from "@features/admin/schedule/calendar/calendar-view";
+import CalendarForm from "@features/admin/schedule/calendar/calendar-form";
+import CalendarRemark from "@features/admin/schedule/calendar/calendar-remark";
+import MonitoringView from "@features/admin/schedule/monitoring/monitoring-view";
 
 const Root = () => {
   return <Outlet />;
@@ -50,6 +54,44 @@ export default createBrowserRouter([
           {
             path: "detail",
             element: <TraceabilityDetail />,
+          },
+        ],
+      },
+      {
+        path: "schedule",
+        element: <Root />,
+        children: [
+          {
+            path: "calendar",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <CalendarView />,
+              },
+              {
+                path: "create",
+                element: <CalendarForm />,
+              },
+              {
+                path: "edit",
+                element: <CalendarForm />,
+              },
+              {
+                path: "remark",
+                element: <CalendarRemark />,
+              },
+            ],
+          },
+          {
+            path: "monitoring",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <MonitoringView />,
+              },
+            ],
           },
         ],
       },

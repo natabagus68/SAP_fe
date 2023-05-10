@@ -10,6 +10,8 @@ import { NavItem } from "@common/components";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
 import MasterDataIcon from "@common/components/icons-new/MasterDataIcon";
+import CalendarIcon from "@common/components/icons-new/CalendarIcon";
+import SparepartIcon from "@common/components/icons-new/SparepartIcon";
 
 export default function AdminLayout() {
   const admin = useAdmin();
@@ -80,6 +82,19 @@ export default function AdminLayout() {
               <NavItem label="General" to={"dashboard/general"} />
               <NavItem label="Details" to={"dashboard/details"} />
               <NavItem label="Real Time" to={"dashboard/real-time"} />
+            </NavItem>
+            <NavItem
+              label={`Schedule`}
+              icon={<CalendarIcon className="w-[24px] h-[24px]" />}
+            >
+              <NavItem label="Calendar" to={"schedule/calendar"} />
+              <NavItem label="Monitoring" to={"schedule/monitoring"} />
+            </NavItem>
+            <NavItem
+              label={`Sparepart`}
+              icon={<SparepartIcon className="w-[24px] h-[24px]" />}
+            >
+              <NavItem label="Inventory" to={"sparepart/inventory"} />
             </NavItem>
             <NavItem
               label={`Master Data`}

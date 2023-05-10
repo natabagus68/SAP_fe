@@ -17,6 +17,7 @@ export default function useMesin() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -43,6 +44,8 @@ export default function useMesin() {
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
+  //state max desc
+  const [maxDesc, setMaxDesc] = useState<number>(0);
 
   // create manpower data
   const createMesin = (data) => {
@@ -50,8 +53,8 @@ export default function useMesin() {
   };
 
   useEffect(() => {
-    // console.log(2);
-  }, []);
+    setMaxDesc(watch("deskripsi")?.length)
+  }, [watch("deskripsi")]);
 
   return {
     state,
@@ -62,6 +65,7 @@ export default function useMesin() {
     openModalConfirm,
     openModalSuccess,
     type,
+    maxDesc,
     setSearchParams,
     setUrlParams,
     navigate,
@@ -71,5 +75,6 @@ export default function useMesin() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    setMaxDesc,
   };
 }
