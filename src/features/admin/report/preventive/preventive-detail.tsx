@@ -1,28 +1,26 @@
-import React from "react";
-import useChecklist from "./checklist-model";
+import usePreventive from "./preventive-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import ExportIcon from "@common/components/icons-new/ExportIcon";
 import ChecklistIcon from "@common/components/icons-new/ChecklistIcon";
+import preventiveIcon from "@common/components/icons-new/ChecklistIcon";
+import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import Modal from "@common/components/modals/Modal";
-import gambar_part from "../../../../assets/Gambar-part.png";
-import PlusIcon from "@common/components/icons-new/PlusIcon";
 
-export default function ChecklistDetail() {
-  const checklist = useChecklist();
+export default function PreventiveDetail() {
+  const preventive = usePreventive();
   return (
     <main className="flex flex-col gap-[28px] justify-between">
-      <Breadcrumbs items={["Checklist", "Details"]} />
+      <Breadcrumbs items={["Preventive", "Details"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            Detail Cheklist
+            Detail Preventive
           </span>
           <div className="flex items-end gap-4">
             <button
               className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded"
-              onClick={() => checklist.onOpenBack()}
+              onClick={() => preventive.onOpenBack()}
             >
               <ArrowUpIcon className="-rotate-90 w-5 h-5" color="#20519F" />
               <span className="text-[#20519F] text-sm font-semibold">
@@ -123,7 +121,7 @@ export default function ChecklistDetail() {
         </div>
       </div>
       <div className="rounded-md border border-[#D0D3D9] bg-white">
-        <div className="w-full flex items-center py-[18px] px-[32px] border-b border-[#D0D3D9]">
+        <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
             Laporan Checklist
           </span>
@@ -139,13 +137,7 @@ export default function ChecklistDetail() {
                 Parameter
               </th>
               <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Indikator
-              </th>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
                 Status
-              </th>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Deskripsi
               </th>
               <th className="px-[32px] text-start border-r border-[#D0D3D9]">
                 Action
@@ -163,38 +155,20 @@ export default function ChecklistDetail() {
               <td className="px-[32px] border-r border-[#D0D3D9]">
                 1. pompa listrik
               </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Oil;Presure;Bocor;Mekanis;Motor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Kopel pompa mesin kotor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[32px] w-fit px-3 text-white flex items-center justify-center bg-[#F36960] rounded-xl`}
-                >
-                  Rusak
-                </div>
+              <td className="px-[32px] text-[#10A560] border-r border-[#D0D3D9]">
+                Check
               </td>
             </tr>
             <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td className="px-[32px] border-r border-[#D0D3D9]">2. Gear</td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Berkarat;Bocor;Gelas Ukur
+              <td className="px-[32px] border-l border-[#D0D3D9]">2. Gear</td>
+              <td className="px-[32px] text-[#E18308] border-l border-[#D0D3D9]">
+                Abnormal
               </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">-</td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[32px] w-fit px-3 text-white flex items-center justify-center bg-[#20519F] rounded-xl`}
-                >
-                  OK
-                </div>
-              </td>
-              <td className="px-[32px]">
+              <td className="px-[32px] border-l border-[#D0D3D9]">
                 <div className="flex items-center gap-6">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => checklist.setOpenModalExport(true)}
+                    onClick={() => preventive.setOpenModalExport(true)}
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">
@@ -208,24 +182,14 @@ export default function ChecklistDetail() {
               <td className="px-[32px] border-r border-[#D0D3D9]">
                 3. Shaft & Bearing
               </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Bunyi:tidak lancar;
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Kopel pompa kotor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[40px] w-fit px-3 text-white flex items-center justify-center bg-[#F9A63A] rounded-xl text-xs`}
-                >
-                  Telah diperbaiki
-                </div>
+              <td className="px-[32px] text-[#DA3E33] border-r border-[#D0D3D9]">
+                Change
               </td>
               <td className="px-[32px]">
                 <div className="flex items-center gap-6">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => checklist.setOpenModalExport(true)}
+                    onClick={() => preventive.setOpenModalExport(true)}
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">
@@ -258,8 +222,7 @@ export default function ChecklistDetail() {
           </button>
         </div>
       </div>
-
-      <Modal open={checklist.openModalExport}>
+      <Modal open={preventive.openModalExport}>
         <div className="w-[800px] flex flex-col gap-2">
           <div className="w-full flex items-center justify-between p-[18px] border-b border-[#D0D3D9]">
             <span className="text-2xl text-[#514E4E] font-bold ">
@@ -268,9 +231,9 @@ export default function ChecklistDetail() {
             <div className="flex items-end gap-4">
               <button
                 className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => checklist.onOpenBack()}
+                onClick={() => preventive.onOpenBack()}
               >
-                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
+                <ArrowUpIcon className="-rotate-90 w-5 h-5" color="#20519F" />
                 <span className="text-[#20519F] text-sm font-semibold">
                   Tutup
                 </span>
@@ -285,7 +248,7 @@ export default function ChecklistDetail() {
                   <tr>
                     <td className="px-[16px]">
                       <div className="w-[50px] h-[50px]">
-                        <img src={gambar_part} alt="Gambar=part" />
+                        {/* <img src={gambar_part} alt="Gambar=part" /> */}
                       </div>
                     </td>
                     <td className="px-[16px]">Photo_kerusakan.jpg</td>
@@ -296,7 +259,7 @@ export default function ChecklistDetail() {
                   <tr>
                     <td className="px-[16px]">
                       <div className="w-[50px] h-[50px]">
-                        <img src={gambar_part} alt="Gambar=part" />
+                        {/* <img src={gambar_part} alt="Gambar=part" /> */}
                       </div>
                     </td>
                     <td className="px-[16px]">Photo_kerusakan.jpg</td>
@@ -307,24 +270,22 @@ export default function ChecklistDetail() {
                 </tbody>
               </table>
             </div>
-            <div className="flex flex-col justify-around">
-              <span className="text-base font-bold text-[#514E4E]">Video</span>
-              <table className="w-[50px]">
-                <tbody className="w-[100px] items-center">
-                  <tr>
-                    <td className="px-[16px]">
-                      <div className="w-[50px] h-[50px]">
-                        <img src={gambar_part} alt="Gambar=part" />
-                      </div>
-                    </td>
-                    <td className="px-[16px]">Photo_kerusakan.jpg</td>
-                    <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <span className="text-base font-bold text-[#514E4E]">Video</span>
+            {/* <table className="w-[50px]">
+              <tbody className="w-[100px] items-center">
+                <tr>
+                  <td className="px-[16px]">
+                    <div className="w-[50px] h-[50px]">
+                      <img src={gambar_part} alt="Gambar=part" />
+                    </div>
+                  </td>
+                  <td className="px-[16px]">Photo_kerusakan.jpg</td>
+                  <td className="px-[16px] font-semibold text-blue-700">
+                    Lihat
+                  </td>
+                </tr>
+              </tbody>
+            </table> */}
           </div>
         </div>
       </Modal>

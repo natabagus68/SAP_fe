@@ -25,6 +25,10 @@ import DamageView from "@features/admin/master-data/damage/damage-view";
 import DamageForm from "@features/admin/master-data/damage/damage-form";
 import ChecklistView from "@features/admin/report/checklist/checklist-view";
 import ChecklistDetail from "@features/admin/report/checklist/checklist-detail";
+import PreventiveView from "@features/admin/report/preventive/preventive-view";
+import CorrectiveView from "@features/admin/report/corrective/corrective-view";
+import PreventiveDetail from "@features/admin/report/preventive/preventive-detail";
+import CorrectiveDetail from "@features/admin/report/corrective/corrective-detail";
 
 const Root = () => {
   return <Outlet />;
@@ -91,6 +95,34 @@ export default createBrowserRouter([
               {
                 path: "details",
                 element: <ChecklistDetail />,
+              },
+            ],
+          },
+          {
+            path: "preventive",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <PreventiveView />,
+              },
+              {
+                path: "details",
+                element: <PreventiveDetail />,
+              },
+            ],
+          },
+          {
+            path: "corrective",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <CorrectiveView />,
+              },
+              {
+                path: "details",
+                element: <CorrectiveDetail />,
               },
             ],
           },
