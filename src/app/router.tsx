@@ -21,6 +21,8 @@ import LocationForm from "@features/admin/master-data/location/location-form";
 import SparepartView from "@features/admin/master-data/sparepart/sparepart-view";
 import SparepartDetails from "@features/admin/master-data/sparepart/sparepart-details";
 import SparepartForm from "@features/admin/master-data/sparepart/sparepart-form";
+import DamageView from "@features/admin/master-data/damage/damage-view";
+import DamageForm from "@features/admin/master-data/damage/damage-form";
 
 const Root = () => {
   return <Outlet />;
@@ -174,6 +176,24 @@ export default createBrowserRouter([
           {
             path: "edit",
             element: <SparepartForm />,
+          },
+        ],
+      },
+      {
+        path: "master-data/damage",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <DamageView />,
+          },
+          {
+            path: "create",
+            element: <DamageForm />,
+          },
+          {
+            path: "edit",
+            element: <DamageForm />,
           },
         ],
       },
