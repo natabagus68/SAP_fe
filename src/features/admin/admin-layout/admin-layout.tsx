@@ -10,6 +10,7 @@ import { NavItem } from "@common/components";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
 import MasterDataIcon from "@common/components/icons-new/MasterDataIcon";
+import { ReportIcon } from "@common/components/icons";
 
 export default function AdminLayout() {
   const admin = useAdmin();
@@ -81,6 +82,16 @@ export default function AdminLayout() {
               <NavItem label="Details" to={"dashboard/details"} />
               <NavItem label="Real Time" to={"dashboard/real-time"} />
             </NavItem>
+
+            <NavItem
+              label={`Report`}
+              icon={<ReportIcon className="w-[24px] h-[24px]" />}
+            >
+              <NavItem label="Checklist" to={"report/checklist"} />
+              <NavItem label="Preventive" to={"report/preventive"} />
+              <NavItem label="Corrective" to={"report/corrective"} />
+            </NavItem>
+
             <NavItem
               label={`Master Data`}
               icon={<MasterDataIcon className="w-[24px] h-[24px]" />}

@@ -23,6 +23,8 @@ import SparepartDetails from "@features/admin/master-data/sparepart/sparepart-de
 import SparepartForm from "@features/admin/master-data/sparepart/sparepart-form";
 import DamageView from "@features/admin/master-data/damage/damage-view";
 import DamageForm from "@features/admin/master-data/damage/damage-form";
+import ChecklistView from "@features/admin/report/checklist/checklist-view";
+import ChecklistDetail from "@features/admin/report/checklist/checklist-detail";
 
 const Root = () => {
   return <Outlet />;
@@ -73,6 +75,28 @@ export default createBrowserRouter([
           },
         ],
       },
+
+      {
+        path: "report",
+        element: <Root />,
+        children: [
+          {
+            path: "checklist",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <ChecklistView />,
+              },
+              {
+                path: "details",
+                element: <ChecklistDetail />,
+              },
+            ],
+          },
+        ],
+      },
+
       {
         path: "master-data/:type/manpower",
         element: <Root />,

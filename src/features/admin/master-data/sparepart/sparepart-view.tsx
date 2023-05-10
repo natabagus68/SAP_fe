@@ -229,7 +229,7 @@ export default function SparepartView() {
                             type: sparepart.type,
                             data: {
                               kategory: "Mechanical",
-                              iconKategory: "",
+                              iconKategory: "icon-kategory",
                             },
                           },
                         })
