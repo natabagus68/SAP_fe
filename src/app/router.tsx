@@ -15,6 +15,12 @@ import MesinDetails from "@features/admin/master-data/mesin/mesin-details";
 import MesinForm from "@features/admin/master-data/mesin/mesin-form";
 import FrequencyView from "@features/admin/master-data/frequency/frequency-view";
 import FrequencyForm from "@features/admin/master-data/frequency/frequency-form";
+import LocationView from "@features/admin/master-data/location/location-view";
+import LocationDetails from "@features/admin/master-data/location/location-details";
+import LocationForm from "@features/admin/master-data/location/location-form";
+import SparepartView from "@features/admin/master-data/sparepart/sparepart-view";
+import SparepartDetails from "@features/admin/master-data/sparepart/sparepart-details";
+import SparepartForm from "@features/admin/master-data/sparepart/sparepart-form";
 
 const Root = () => {
   return <Outlet />;
@@ -110,6 +116,28 @@ export default createBrowserRouter([
         ],
       },
       {
+        path: "master-data/:type/location",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <LocationView />,
+          },
+          {
+            path: "details",
+            element: <LocationDetails />,
+          },
+          {
+            path: "create",
+            element: <LocationForm />,
+          },
+          {
+            path: "edit",
+            element: <LocationForm />,
+          },
+        ],
+      },
+      {
         path: "master-data/frequency",
         element: <Root />,
         children: [
@@ -124,6 +152,28 @@ export default createBrowserRouter([
           {
             path: "edit",
             element: <FrequencyForm />,
+          },
+        ],
+      },
+      {
+        path: "master-data/:type/sparepart",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <SparepartView />,
+          },
+          {
+            path: "details",
+            element: <SparepartDetails />,
+          },
+          {
+            path: "create",
+            element: <SparepartForm />,
+          },
+          {
+            path: "edit",
+            element: <SparepartForm />,
           },
         ],
       },
