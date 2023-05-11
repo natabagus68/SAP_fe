@@ -117,7 +117,12 @@ export default function CorrectiveDetail() {
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Before</td>
                   <td className="px-4 py-[6px] font-semibold text-blue-700">
-                    <a onClick={() => corrective.setOpenModalDetail(true)}>
+                    <a
+                      onClick={() => {
+                        corrective.setStatusDocument(false);
+                        corrective.setOpenModalDetail(true);
+                      }}
+                    >
                       Lihat
                     </a>
                   </td>
@@ -126,7 +131,12 @@ export default function CorrectiveDetail() {
                   <td className="px-4 py-[6px]">After</td>
                   <td className="px-4 py-[6px] font-semibold text-blue-700">
                     {" "}
-                    <a onClick={() => corrective.setOpenModalDetail(true)}>
+                    <a
+                      onClick={() => {
+                        corrective.setStatusDocument(true);
+                        corrective.setOpenModalDetail(true);
+                      }}
+                    >
                       Lihat
                     </a>
                   </td>
@@ -199,7 +209,7 @@ export default function CorrectiveDetail() {
         <div className="w-[800px] flex flex-col gap-2">
           <div className="w-full flex items-center justify-between p-[18px] border-b border-[#D0D3D9]">
             <span className="text-2xl text-[#514E4E] font-bold ">
-              {corrective?.state?.data == "Before"
+              {corrective.statusDocument == false
                 ? "Dokumentasi Before"
                 : "Dokumentasi After"}
             </span>
@@ -264,41 +274,39 @@ export default function CorrectiveDetail() {
         </div>
       </Modal>
 
-      <Modal open={corrective.openModalPicture}>
-        <div className="w-[500px] flex flex-col ">
-          <div className="w-full flex items-center justify-end p-[8px]  border-[#D0D3D9]">
-            <div className="flex items-end">
-              <button
-                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => corrective.onOpenBackModalPicture()}
-              >
-                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-center p-[5px]">
-            <img src={gambar_part} alt="Gambar=part" />
+      <dialog
+        open={corrective.openModalPicture}
+        className="bg-black bg-opacity-50 w-[100dvw] h-[100dvh] z-50 top-0 left-0 fixed p-0 m-0"
+      >
+        <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+          <div className="relative flex justify-center ">
+            <img src={gambar_part} alt="Gambar=part" className="w-[500px]" />
+            <button
+              className="flex items-center p-2 top-0 right-0  absolute "
+              onClick={() => corrective.onOpenBackModalPicture()}
+            >
+              <PlusIcon className="rotate-45 w-6 h-6" color="white" />
+            </button>
           </div>
         </div>
-      </Modal>
+      </dialog>
 
-      <Modal open={corrective.openModalVideo}>
-        <div className="w-[500px] flex flex-col ">
-          <div className="w-full flex items-center justify-end border-[#D0D3D9]">
-            <div className="flex items-end">
-              <button
-                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => corrective.onOpenBackModalVideo()}
-              >
-                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-center p-[5px]">
-            <img src={gambar_part} alt="Gambar=part" />
+      <dialog
+        open={corrective.openModalVideo}
+        className="bg-black bg-opacity-50 w-[100dvw] h-[100dvh] z-50 top-0 left-0 fixed p-0 m-0"
+      >
+        <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+          <div className="relative flex justify-center ">
+            <img src={gambar_part} alt="Gambar=part" className="w-[500px]" />
+            <button
+              className="flex items-center p-2 top-0 right-0  absolute "
+              onClick={() => corrective.onOpenBackModalVideo()}
+            >
+              <PlusIcon className="rotate-45 w-6 h-6" color="white" />
+            </button>
           </div>
         </div>
-      </Modal>
+      </dialog>
     </main>
   );
 }

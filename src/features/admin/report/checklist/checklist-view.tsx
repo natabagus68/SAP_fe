@@ -62,16 +62,16 @@ export default function ChecklistView() {
             </select>
           </div>
           <div className="relative space-x-10">
-            <div className="flex items-center justify-end gap-3">
+            <div className="flex items-center gap-3">
               <span>Search</span>
-              <div className="absolute flex items-center p-[8px]">
+              <div className="flex items-center gap-3 border border-[#D0D3D9] rounded px-2">
                 <SearchIcon color="black" />
+                <input
+                  type="search"
+                  className="h-[40px] "
+                  placeholder="search"
+                />
               </div>
-              <input
-                type="search"
-                className="h-[40px] border border-[#D0D3D9] rounded px-2"
-                placeholder="search"
-              />
             </div>
           </div>
         </div>

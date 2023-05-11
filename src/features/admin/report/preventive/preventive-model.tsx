@@ -11,6 +11,7 @@ export default function usePreventive() {
   const [openModalDetail, setOpenModalDetail] = useState(false);
   const [openModalPicture, setOpenModalPicture] = useState(false);
   const [openModalVideo, setOpenModalVideo] = useState(false);
+  const [statusDocument, setStatusDocument] = useState(false);
   //click detail data
   const onOpenDetail = (data): void => {
     navigate("details", {
@@ -84,5 +85,7 @@ export default function usePreventive() {
     setOpenModalDetail,
     setOpenModalPicture,
     setOpenModalVideo,
+    statusDocument,
+    setStatusDocument,
   };
 }

@@ -54,7 +54,10 @@ export default function PreventiveExpand() {
                 <td className="px-[32px] border-l">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                    onClick={() => preventive.setOpenModalDetail(true)}
+                    onClick={() => {
+                      preventive.setStatusDocument(false);
+                      preventive.setOpenModalDetail(true);
+                    }}
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">
@@ -67,7 +70,10 @@ export default function PreventiveExpand() {
                   <div className="flex items-center gap-6">
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                      onClick={() => preventive.setOpenModalDetail(true)}
+                      onClick={() => {
+                        preventive.setStatusDocument(true);
+                        preventive.setOpenModalDetail(true);
+                      }}
                     >
                       <EyeShowIcon color="white" />
                       <span className="text-white text-sm font-semibold">
@@ -128,7 +134,7 @@ export default function PreventiveExpand() {
         <div className="w-[800px] flex flex-col gap-2">
           <div className="w-full flex items-center justify-between p-[18px] border-b border-[#D0D3D9]">
             <span className="text-2xl text-[#514E4E] font-bold ">
-              {preventive?.state?.data == "Before"
+              {preventive.statusDocument == false
                 ? "Dokumentasi Before"
                 : "Dokumentasi After"}
             </span>
@@ -193,41 +199,39 @@ export default function PreventiveExpand() {
         </div>
       </Modal>
 
-      <Modal open={preventive.openModalPicture}>
-        <div className="w-[500px] flex flex-col ">
-          <div className="w-full flex items-center justify-end p-[8px] border-[#D0D3D9]">
-            <div className="flex items-end">
-              <button
-                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => preventive.onOpenBackModalPicture()}
-              >
-                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-center p-[5px]">
-            <img src={gambar_part} alt="Gambar=part" />
+      <dialog
+        open={preventive.openModalPicture}
+        className="bg-black bg-opacity-50 w-[100dvw] h-[100dvh] z-50 top-0 left-0 fixed p-0 m-0"
+      >
+        <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+          <div className="relative flex justify-center ">
+            <img src={gambar_part} alt="Gambar=part" className="w-[500px]" />
+            <button
+              className="flex items-center p-2 top-0 right-0  absolute "
+              onClick={() => preventive.onOpenBackModalPicture()}
+            >
+              <PlusIcon className="rotate-45 w-6 h-6" color="white" />
+            </button>
           </div>
         </div>
-      </Modal>
+      </dialog>
 
-      <Modal open={preventive.openModalVideo}>
-        <div className="w-[500px] flex flex-col ">
-          <div className="w-full flex items-center justify-end p-[8px] border-[#D0D3D9]">
-            <div className="flex items-end">
-              <button
-                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => preventive.onOpenBackModalVideo()}
-              >
-                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-center p-[5px]">
-            <img src={gambar_part} alt="Gambar=part" />
+      <dialog
+        open={preventive.openModalVideo}
+        className="bg-black bg-opacity-50 w-[100dvw] h-[100dvh] z-50 top-0 left-0 fixed p-0 m-0"
+      >
+        <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+          <div className="relative flex justify-center ">
+            <img src={gambar_part} alt="Gambar=part" className="w-[500px]" />
+            <button
+              className="flex items-center p-2 top-0 right-0  absolute "
+              onClick={() => preventive.onOpenBackModalVideo()}
+            >
+              <PlusIcon className="rotate-45 w-6 h-6" color="white" />
+            </button>
           </div>
         </div>
-      </Modal>
+      </dialog>
     </main>
   );
 }

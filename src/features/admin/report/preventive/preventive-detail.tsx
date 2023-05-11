@@ -32,7 +32,7 @@ export default function PreventiveDetail() {
             <button className="flex items-center gap-2 h-[46px] px-[20px] bg-[#20519F] rounded">
               <ExportIcon color="white" />
               <span className="text-white text-sm font-semibold">
-                Export Report
+                Download Report
               </span>
             </button>
           </div>
