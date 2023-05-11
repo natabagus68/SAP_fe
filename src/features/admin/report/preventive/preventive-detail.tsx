@@ -59,8 +59,12 @@ export default function PreventiveDetail() {
                   </td>
                 </tr>
                 <tr>
+                  <td className="px-4 py-[6px]">Interval Preventive</td>
+                  <td className="px-4 py-[6px] font-semibold">3 Bulan</td>
+                </tr>
+                <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Waktu Kerja</td>
-                  <td className="px-4 py-[6px] font-semibold text-[#F04438]">
+                  <td className="px-4 py-[6px] font-semibold">
                     1 Jam 23 menit
                   </td>
                 </tr>
@@ -106,14 +110,10 @@ export default function PreventiveDetail() {
             <table className="w-[442px]">
               <tbody>
                 <tr className="bg-[#D0D3D9]">
-                  <td className="px-4 py-[6px]">Line</td>
-                  <td className="px-4 py-[6px] font-semibold">01</td>
-                </tr>
-                <tr>
                   <td className="px-4 py-[6px]">Section</td>
                   <td className="px-4 py-[6px] font-semibold">Produksi 01</td>
                 </tr>
-                <tr className="bg-[#D0D3D9]">
+                <tr>
                   <td className="px-4 py-[6px]">Departemen</td>
                   <td className="px-4 py-[6px] font-semibold">Warehouse 01</td>
                 </tr>
