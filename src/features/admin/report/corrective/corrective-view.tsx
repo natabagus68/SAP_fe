@@ -60,14 +60,18 @@ export default function CorrectiveView() {
               <option>3</option>
             </select>
           </div>
-          <div className="flex items-center justify-end gap-3 relative">
-            <span>Search</span>
-            <input
-              type="search"
-              className="h-[40px] border border-[#D0D3D9] rounded px-2"
-              placeholder="search"
-            />
-            <SearchIcon color="black" />
+          <div className="relative space-x-10">
+            <div className="flex items-center justify-end gap-3">
+              <span>Search</span>
+              <div className="absolute flex items-center p-[8px]">
+                <SearchIcon color="black" />
+              </div>
+              <input
+                type="search"
+                className="h-[40px] border border-[#D0D3D9] rounded px-2"
+                placeholder="search"
+              />
+            </div>
           </div>
         </div>
 

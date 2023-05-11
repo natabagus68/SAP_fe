@@ -3,6 +3,7 @@ import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
+import SearchIcon from "@common/components/icons-new/SearchIcon";
 import Modal from "@common/components/modals/Modal";
 
 export default function PreventiveView() {
@@ -59,14 +60,18 @@ export default function PreventiveView() {
               <option>3</option>
             </select>
           </div>
-          <div className="flex items-center gap-3">
-            <span>Search</span>
-            <input
-              type="search"
-              className="h-[40px] border border-[#D0D3D9] rounded px-2"
-              placeholder="search"
-              // icon={<SearchIcon color="black" />}
-            />
+          <div className="relative space-x-10">
+            <div className="flex items-center justify-end gap-3">
+              <span>Search</span>
+              <div className="absolute flex items-center p-[8px]">
+                <SearchIcon color="black" />
+              </div>
+              <input
+                type="search"
+                className="h-[40px] border border-[#D0D3D9] rounded px-2"
+                placeholder="search"
+              />
+            </div>
           </div>
         </div>
 
