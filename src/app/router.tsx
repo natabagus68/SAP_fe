@@ -29,6 +29,7 @@ import PreventiveView from "@features/admin/report/preventive/preventive-view";
 import CorrectiveView from "@features/admin/report/corrective/corrective-view";
 import PreventiveDetail from "@features/admin/report/preventive/preventive-detail";
 import CorrectiveDetail from "@features/admin/report/corrective/corrective-detail";
+import PreventiveExpand from "@features/admin/report/preventive/preventive-expand";
 
 const Root = () => {
   return <Outlet />;
@@ -109,6 +110,10 @@ export default createBrowserRouter([
               {
                 path: "details",
                 element: <PreventiveDetail />,
+              },
+              {
+                path: "details/expands",
+                element: <PreventiveExpand />,
               },
             ],
           },

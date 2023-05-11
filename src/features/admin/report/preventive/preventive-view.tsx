@@ -9,7 +9,7 @@ export default function PreventiveView() {
   const preventive = usePreventive();
   return (
     <main className="flex flex-col gap-[28px] justify-between">
-      <Breadcrumbs items={["Checklist"]} />
+      <Breadcrumbs items={["Report", "Preventive"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
@@ -27,7 +27,7 @@ export default function PreventiveView() {
             </button>
           </div>
         </div>
-        <div className="w-full flex items-center py-[18px] px-[32px] gap-4 flex-wrap border-b border-[#D0D3D9]">
+        <div className="w-full flex items-center py-[18px] px-[32px] gap-4 flex-wrap border-b border-[#D0D3D9] justify-between">
           <div className="flex items-center gap-3">
             <span>Tanggal Checklist</span>
             <input
@@ -64,6 +64,8 @@ export default function PreventiveView() {
             <input
               type="search"
               className="h-[40px] border border-[#D0D3D9] rounded px-2"
+              placeholder="search"
+              // icon={<SearchIcon color="black" />}
             />
           </div>
         </div>

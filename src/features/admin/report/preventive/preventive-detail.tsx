@@ -5,7 +5,9 @@ import ChecklistIcon from "@common/components/icons-new/ChecklistIcon";
 import preventiveIcon from "@common/components/icons-new/ChecklistIcon";
 import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
+import PlusIcon from "@common/components/icons-new/PlusIcon";
 import Modal from "@common/components/modals/Modal";
+import gambar_part from "../../../../assets/Gambar-part.png";
 
 export default function PreventiveDetail() {
   const preventive = usePreventive();
@@ -123,7 +125,7 @@ export default function PreventiveDetail() {
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            Laporan Checklist
+            Laporan Preventive
           </span>
         </div>
 
@@ -153,7 +155,7 @@ export default function PreventiveDetail() {
                 Dump Feeder
               </td>
               <td className="px-[32px] border-r border-[#D0D3D9]">
-                1. pompa listrik
+                1. Pompa listrik
               </td>
               <td className="px-[32px] text-[#10A560] border-r border-[#D0D3D9]">
                 Check
@@ -168,7 +170,7 @@ export default function PreventiveDetail() {
                 <div className="flex items-center gap-6">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => preventive.setOpenModalExport(true)}
+                    onClick={() => preventive.navigate("expands")}
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">
@@ -189,7 +191,7 @@ export default function PreventiveDetail() {
                 <div className="flex items-center gap-6">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => preventive.setOpenModalExport(true)}
+                    onClick={() => preventive.navigate("expands")}
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">
@@ -222,73 +224,6 @@ export default function PreventiveDetail() {
           </button>
         </div>
       </div>
-      <Modal open={preventive.openModalExport}>
-        <div className="w-[800px] flex flex-col gap-2">
-          <div className="w-full flex items-center justify-between p-[18px] border-b border-[#D0D3D9]">
-            <span className="text-2xl text-[#514E4E] font-bold ">
-              Detail Cheklist
-            </span>
-            <div className="flex items-end gap-4">
-              <button
-                className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => preventive.onOpenBack()}
-              >
-                <ArrowUpIcon className="-rotate-90 w-5 h-5" color="#20519F" />
-                <span className="text-[#20519F] text-sm font-semibold">
-                  Tutup
-                </span>
-              </button>
-            </div>
-          </div>
-          <div className="w-full flex gap-[50px] py-[18px] px-[32px] flex-wrap">
-            <div className="flex flex-col justify-around">
-              <span className="text-base font-bold text-[#514E4E]">Photo</span>
-              <table className="w-[50px]">
-                <tbody className="w-[100px] items-center">
-                  <tr>
-                    <td className="px-[16px]">
-                      <div className="w-[50px] h-[50px]">
-                        {/* <img src={gambar_part} alt="Gambar=part" /> */}
-                      </div>
-                    </td>
-                    <td className="px-[16px]">Photo_kerusakan.jpg</td>
-                    <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-[16px]">
-                      <div className="w-[50px] h-[50px]">
-                        {/* <img src={gambar_part} alt="Gambar=part" /> */}
-                      </div>
-                    </td>
-                    <td className="px-[16px]">Photo_kerusakan.jpg</td>
-                    <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <span className="text-base font-bold text-[#514E4E]">Video</span>
-            {/* <table className="w-[50px]">
-              <tbody className="w-[100px] items-center">
-                <tr>
-                  <td className="px-[16px]">
-                    <div className="w-[50px] h-[50px]">
-                      <img src={gambar_part} alt="Gambar=part" />
-                    </div>
-                  </td>
-                  <td className="px-[16px]">Photo_kerusakan.jpg</td>
-                  <td className="px-[16px] font-semibold text-blue-700">
-                    Lihat
-                  </td>
-                </tr>
-              </tbody>
-            </table> */}
-          </div>
-        </div>
-      </Modal>
     </main>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function usePreventive() {
@@ -8,6 +8,9 @@ export default function usePreventive() {
   const [dataPreventive, setDataPreventive] = useState([]);
   //modalExport
   const [openModalExport, setOpenModalExport] = useState(false);
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModalPicture, setOpenModalPicture] = useState(false);
+  const [openModalVideo, setOpenModalVideo] = useState(false);
   //click detail data
   const onOpenDetail = (data): void => {
     navigate("details", {
@@ -22,10 +25,29 @@ export default function usePreventive() {
       },
     });
   };
+
+  const onOpenExpand = (parameter): void => {
+    navigate("expands", {
+      state: {
+        parameter: parameter,
+      },
+    });
+  };
   //click back/kembali
   const onOpenBack = (): void => {
     navigate("../");
   };
+
+  const onOpenBackDetail = (): void => {
+    setOpenModalDetail(false);
+  };
+  const onOpenBackModalPicture = (): void => {
+    setOpenModalPicture(false);
+  };
+  const onOpenBackModalVideo = (): void => {
+    setOpenModalVideo(false);
+  };
+
   useEffect(() => {
     setDataPreventive([
       {
@@ -52,8 +74,18 @@ export default function usePreventive() {
     navigate,
     dataPreventive,
     openModalExport,
+    openModalDetail,
+    openModalPicture,
+    openModalVideo,
     onOpenDetail,
     onOpenBack,
+    onOpenExpand,
+    onOpenBackDetail,
+    onOpenBackModalPicture,
+    onOpenBackModalVideo,
     setOpenModalExport,
+    setOpenModalDetail,
+    setOpenModalPicture,
+    setOpenModalVideo,
   };
 }
