@@ -13,7 +13,7 @@ export default function PreventiveDetail() {
   const preventive = usePreventive();
   return (
     <main className="flex flex-col gap-[28px] justify-between">
-      <Breadcrumbs items={["Preventive", "Details"]} />
+      <Breadcrumbs items={["Report", "Preventive", "Details"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
@@ -170,7 +170,13 @@ export default function PreventiveDetail() {
                 <div className="flex items-center gap-6">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => preventive.navigate("expands")}
+                    onClick={() =>
+                      preventive.navigate("expands", {
+                        state: {
+                          data: "Gear",
+                        },
+                      })
+                    }
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">

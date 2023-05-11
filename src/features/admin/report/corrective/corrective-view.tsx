@@ -3,13 +3,14 @@ import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
+import SearchIcon from "@common/components/icons-new/SearchIcon";
 import Modal from "@common/components/modals/Modal";
 
 export default function CorrectiveView() {
   const corrective = useCorrective();
   return (
     <main className="flex flex-col gap-[28px] justify-between">
-      <Breadcrumbs items={["Corective"]} />
+      <Breadcrumbs items={["Report", "Corective"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
@@ -27,7 +28,7 @@ export default function CorrectiveView() {
             </button>
           </div>
         </div>
-        <div className="w-full flex items-center py-[18px] px-[32px] gap-4 flex-wrap border-b border-[#D0D3D9]">
+        <div className="w-full flex items-center py-[18px] px-[32px] gap-4 flex-wrap border-b border-[#D0D3D9] justify-between">
           <div className="flex items-center gap-3">
             <span>Tanggal Checklist</span>
             <input
@@ -59,12 +60,14 @@ export default function CorrectiveView() {
               <option>3</option>
             </select>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-3 relative">
             <span>Search</span>
             <input
               type="search"
               className="h-[40px] border border-[#D0D3D9] rounded px-2"
+              placeholder="search"
             />
+            <SearchIcon color="black" />
           </div>
         </div>
 

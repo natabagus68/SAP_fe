@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 export default function usePreventive() {
   const navigate = useNavigate();
@@ -26,16 +26,13 @@ export default function usePreventive() {
     });
   };
 
-  const onOpenExpand = (parameter): void => {
-    navigate("expands", {
-      state: {
-        parameter: parameter,
-      },
-    });
-  };
   //click back/kembali
   const onOpenBack = (): void => {
     navigate("../");
+  };
+
+  const onOpenBackDetails = (): void => {
+    navigate("../details");
   };
 
   const onOpenBackDetail = (): void => {
@@ -79,8 +76,8 @@ export default function usePreventive() {
     openModalVideo,
     onOpenDetail,
     onOpenBack,
-    onOpenExpand,
     onOpenBackDetail,
+    onOpenBackDetails,
     onOpenBackModalPicture,
     onOpenBackModalVideo,
     setOpenModalExport,

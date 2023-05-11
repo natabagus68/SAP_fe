@@ -332,7 +332,7 @@ export default function ChecklistDetail() {
 
       <Modal open={checklist.openModalPicture}>
         <div className="w-[500px] flex flex-col ">
-          <div className="w-full flex items-center justify-end p-[8px] border-b border-[#D0D3D9]">
+          <div className="w-full flex items-center justify-end p-[8px] border-[#D0D3D9]">
             <div className="flex items-end">
               <button
                 className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
@@ -350,7 +350,7 @@ export default function ChecklistDetail() {
 
       <Modal open={checklist.openModalVideo}>
         <div className="w-[500px] flex flex-col ">
-          <div className="w-full flex items-center justify-end p-[8px] border-b border-[#D0D3D9]">
+          <div className="w-full flex items-center justify-end p-[8px] border-[#D0D3D9]">
             <div className="flex items-end">
               <button
                 className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"

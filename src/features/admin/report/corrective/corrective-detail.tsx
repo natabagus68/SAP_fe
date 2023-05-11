@@ -2,20 +2,21 @@ import React from "react";
 import useCorrective from "./corrective-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import ChecklistIcon from "@common/components/icons-new/ChecklistIcon";
 import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import Modal from "@common/components/modals/Modal";
+import PlusIcon from "@common/components/icons-new/PlusIcon";
+import gambar_part from "../../../../assets/Gambar-part.png";
 
 export default function CorrectiveDetail() {
   const corrective = useCorrective();
   return (
     <main className="flex flex-col gap-[28px] justify-between">
-      <Breadcrumbs items={["Corrective", "Details"]} />
+      <Breadcrumbs items={["Report", "Corrective", "Details"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            Detail Cheklist
+            Detail Corrective
           </span>
           <div className="flex items-end gap-4">
             <button
@@ -30,7 +31,7 @@ export default function CorrectiveDetail() {
             <button className="flex items-center gap-2 h-[46px] px-[20px] bg-[#20519F] rounded">
               <ExportIcon color="white" />
               <span className="text-white text-sm font-semibold">
-                Export Report
+                Download Report
               </span>
             </button>
           </div>
@@ -115,11 +116,20 @@ export default function CorrectiveDetail() {
               <tbody>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Before</td>
-                  <td className="px-4 py-[6px] font-semibold">Lihat</td>
+                  <td className="px-4 py-[6px] font-semibold text-blue-700">
+                    <a onClick={() => corrective.setOpenModalDetail(true)}>
+                      Lihat
+                    </a>
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">After</td>
-                  <td className="px-4 py-[6px] font-semibold">Lihat</td>
+                  <td className="px-4 py-[6px] font-semibold text-blue-700">
+                    {" "}
+                    <a onClick={() => corrective.setOpenModalDetail(true)}>
+                      Lihat
+                    </a>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -127,120 +137,42 @@ export default function CorrectiveDetail() {
         </div>
       </div>
       <div className="rounded-md border border-[#D0D3D9] bg-white">
-        <div className="w-full flex items-center py-[18px] px-[32px] border-b border-[#D0D3D9]">
-          <span className="text-2xl text-[#514E4E] font-bold ">
-            Laporan Checklist
-          </span>
+        <div className="w-full flex items-center py-[18px] px-[32px] border-[#D0D3D9]">
+          <span className="text-2xl text-[#514E4E] font-bold ">Inventory</span>
         </div>
-
-        <table className="w-full">
-          <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
-            <tr>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Sub-Mechine
-              </th>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Parameter
-              </th>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Indikator
-              </th>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Status
-              </th>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Deskripsi
-              </th>
-              <th className="px-[32px] text-start border-r border-[#D0D3D9]">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className="text-base text-[#514E4E]">
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td
-                rowSpan={3}
-                className="px-[32px] border-r border-[#D0D3D9] text-center"
-              >
-                Dump Feeder
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                1. pompa listrik
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Oil;Presure;Bocor;Mekanis;Motor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Kopel pompa mesin kotor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[32px] w-fit px-3 text-white flex items-center justify-center bg-[#F36960] rounded-xl`}
-                >
-                  Rusak
-                </div>
-              </td>
-            </tr>
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td className="px-[32px] border-r border-[#D0D3D9]">2. Gear</td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Berkarat;Bocor;Gelas Ukur
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">-</td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[32px] w-fit px-3 text-white flex items-center justify-center bg-[#20519F] rounded-xl`}
-                >
-                  OK
-                </div>
-              </td>
-              <td className="px-[32px]">
-                <div className="flex items-center gap-6">
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => corrective.setOpenModalExport(true)}
-                  >
-                    <EyeShowIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Lihat
-                    </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                3. Shaft & Bearing
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Bunyi:tidak lancar;
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Kopel pompa kotor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[40px] w-fit px-3 text-white flex items-center justify-center bg-[#F9A63A] rounded-xl text-xs`}
-                >
-                  Telah diperbaiki
-                </div>
-              </td>
-              <td className="px-[32px]">
-                <div className="flex items-center gap-6">
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => corrective.setOpenModalExport(true)}
-                  >
-                    <EyeShowIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Lihat
-                    </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="w-full flex gap-[160px] py-[18px] px-[32px] flex-wrap">
+          {" "}
+          <table className="w-full">
+            <thead className="bg-[#FAFAFB] border border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold ">
+              <tr>
+                <th className="px-[32px] text-start border-l">Nama Part</th>
+                <th className="px-[32px] text-start border-l">Kode Part</th>
+                <th className="px-[32px] text-start border-l">Jumlah Part</th>
+                <th className="px-[32px] text-start border-l">Foto</th>
+              </tr>
+            </thead>
+            <tbody className="text-base text-[#514E4E] ">
+              <tr className="border-b border-[#D0D3D9] h-[64px]">
+                <td className="px-[32px] border-l">Pin Knock Out</td>
+                <td className="px-[32px] border-l">89657</td>
+                <td className="px-[32px] border-l">2</td>
+                <td className="px-[32px] border-l border-r">
+                  <div className="flex items-center gap-6">
+                    <button className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded">
+                      <EyeShowIcon color="white" />
+                      <span
+                        className="text-white text-sm font-semibold "
+                        onClick={() => corrective.setOpenModalPicture(true)}
+                      >
+                        Lihat
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
@@ -263,70 +195,107 @@ export default function CorrectiveDetail() {
         </div>
       </div>
 
-      <Modal open={corrective.openModalExport}>
+      <Modal open={corrective.openModalDetail}>
         <div className="w-[800px] flex flex-col gap-2">
           <div className="w-full flex items-center justify-between p-[18px] border-b border-[#D0D3D9]">
             <span className="text-2xl text-[#514E4E] font-bold ">
-              Detail Cheklist
+              {corrective?.state?.data == "Before"
+                ? "Dokumentasi Before"
+                : "Dokumentasi After"}
             </span>
             <div className="flex items-end gap-4">
               <button
                 className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => corrective.onOpenBack()}
+                onClick={() => corrective.onOpenBackDetail()}
               >
-                <ArrowUpIcon className="-rotate-90 w-5 h-5" color="#20519F" />
+                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
                 <span className="text-[#20519F] text-sm font-semibold">
                   Tutup
                 </span>
               </button>
             </div>
           </div>
-          <div className="w-full flex gap-[50px] py-[18px] px-[32px] flex-wrap">
+          <div className="w-full flex gap-[25px] p-[18px] flex-wrap justify-center">
             <div className="flex flex-col justify-around">
-              <span className="text-base font-bold text-[#514E4E]">Photo</span>
+              <span className="text-base font-bold text-[#514E4E] mb-3">
+                Photo
+              </span>
               <table className="w-[50px]">
                 <tbody className="w-[100px] items-center">
                   <tr>
                     <td className="px-[16px]">
                       <div className="w-[50px] h-[50px]">
-                        {/* <img src={gambar_part} alt="Gambar=part" /> */}
+                        <img src={gambar_part} alt="Gambar=part" />
                       </div>
                     </td>
                     <td className="px-[16px]">Photo_kerusakan.jpg</td>
                     <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-[16px]">
-                      <div className="w-[50px] h-[50px]">
-                        {/* <img src={gambar_part} alt="Gambar=part" /> */}
-                      </div>
-                    </td>
-                    <td className="px-[16px]">Photo_kerusakan.jpg</td>
-                    <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
+                      <a onClick={() => corrective.setOpenModalPicture(true)}>
+                        Lihat
+                      </a>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <span className="text-base font-bold text-[#514E4E]">Video</span>
-            {/* <table className="w-[50px]">
-              <tbody className="w-[100px] items-center">
-                <tr>
-                  <td className="px-[16px]">
-                    <div className="w-[50px] h-[50px]">
-                      <img src={gambar_part} alt="Gambar=part" />
-                    </div>
-                  </td>
-                  <td className="px-[16px]">Photo_kerusakan.jpg</td>
-                  <td className="px-[16px] font-semibold text-blue-700">
-                    Lihat
-                  </td>
-                </tr>
-              </tbody>
-            </table> */}
+            <div className="flex flex-col justify-around">
+              <span className="text-base font-bold text-[#514E4E] mb-3">
+                Video
+              </span>
+              <table className="w-[50px]">
+                <tbody className="w-[100px] items-center">
+                  <tr>
+                    <td className="px-[16px]">
+                      <div className="w-[50px] h-[50px]">
+                        <img src={gambar_part} alt="Gambar=part" />
+                      </div>
+                    </td>
+                    <td className="px-[16px]">video_kerusakan.mp4</td>
+                    <td className="px-[16px] font-semibold text-blue-700">
+                      <a onClick={() => corrective.setOpenModalVideo(true)}>
+                        Lihat
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal open={corrective.openModalPicture}>
+        <div className="w-[500px] flex flex-col ">
+          <div className="w-full flex items-center justify-end p-[8px]  border-[#D0D3D9]">
+            <div className="flex items-end">
+              <button
+                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
+                onClick={() => corrective.onOpenBackModalPicture()}
+              >
+                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-center p-[5px]">
+            <img src={gambar_part} alt="Gambar=part" />
+          </div>
+        </div>
+      </Modal>
+
+      <Modal open={corrective.openModalVideo}>
+        <div className="w-[500px] flex flex-col ">
+          <div className="w-full flex items-center justify-end border-[#D0D3D9]">
+            <div className="flex items-end">
+              <button
+                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
+                onClick={() => corrective.onOpenBackModalVideo()}
+              >
+                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-center p-[5px]">
+            <img src={gambar_part} alt="Gambar=part" />
           </div>
         </div>
       </Modal>
