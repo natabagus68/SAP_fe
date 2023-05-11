@@ -13,7 +13,7 @@ export default function ChecklistDetail() {
   const checklist = useChecklist();
   return (
     <main className="flex flex-col gap-[28px] justify-between">
-      <Breadcrumbs items={["Checklist", "Details"]} />
+      <Breadcrumbs items={["Report", "Checklist", "Detail"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
@@ -123,10 +123,14 @@ export default function ChecklistDetail() {
         </div>
       </div>
       <div className="rounded-md border border-[#D0D3D9] bg-white">
-        <div className="w-full flex items-center py-[18px] px-[32px] border-b border-[#D0D3D9]">
+        <div className="w-full flex justify-between items-center py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
             Laporan Checklist
           </span>
+          <div className="space-x-10">
+            <span>Quantity NG:4</span>
+            <span>Quantity OK:5</span>
+          </div>
         </div>
 
         <table className="w-full">
@@ -194,7 +198,7 @@ export default function ChecklistDetail() {
                 <div className="flex items-center gap-6">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => checklist.setOpenModalExport(true)}
+                    onClick={() => checklist.setOpenModalDetail(true)}
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">
@@ -225,7 +229,7 @@ export default function ChecklistDetail() {
                 <div className="flex items-center gap-6">
                   <button
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => checklist.setOpenModalExport(true)}
+                    onClick={() => checklist.setOpenModalDetail(true)}
                   >
                     <EyeShowIcon color="white" />
                     <span className="text-white text-sm font-semibold">
@@ -259,7 +263,7 @@ export default function ChecklistDetail() {
         </div>
       </div>
 
-      <Modal open={checklist.openModalExport}>
+      <Modal open={checklist.openModalDetail}>
         <div className="w-[800px] flex flex-col gap-2">
           <div className="w-full flex items-center justify-between p-[18px] border-b border-[#D0D3D9]">
             <span className="text-2xl text-[#514E4E] font-bold ">
@@ -268,7 +272,7 @@ export default function ChecklistDetail() {
             <div className="flex items-end gap-4">
               <button
                 className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded"
-                onClick={() => checklist.onOpenBack()}
+                onClick={() => checklist.onOpenBackDetail()}
               >
                 <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
                 <span className="text-[#20519F] text-sm font-semibold">
@@ -277,9 +281,11 @@ export default function ChecklistDetail() {
               </button>
             </div>
           </div>
-          <div className="w-full flex gap-[50px] py-[18px] px-[32px] flex-wrap">
+          <div className="w-full flex gap-[25px] p-[18px] flex-wrap justify-center">
             <div className="flex flex-col justify-around">
-              <span className="text-base font-bold text-[#514E4E]">Photo</span>
+              <span className="text-base font-bold text-[#514E4E] mb-3">
+                Photo
+              </span>
               <table className="w-[50px]">
                 <tbody className="w-[100px] items-center">
                   <tr>
@@ -290,25 +296,18 @@ export default function ChecklistDetail() {
                     </td>
                     <td className="px-[16px]">Photo_kerusakan.jpg</td>
                     <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-[16px]">
-                      <div className="w-[50px] h-[50px]">
-                        <img src={gambar_part} alt="Gambar=part" />
-                      </div>
-                    </td>
-                    <td className="px-[16px]">Photo_kerusakan.jpg</td>
-                    <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
+                      <a onClick={() => checklist.setOpenModalPicture(true)}>
+                        Lihat
+                      </a>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div className="flex flex-col justify-around">
-              <span className="text-base font-bold text-[#514E4E]">Video</span>
+              <span className="text-base font-bold text-[#514E4E] mb-3">
+                Video
+              </span>
               <table className="w-[50px]">
                 <tbody className="w-[100px] items-center">
                   <tr>
@@ -317,14 +316,52 @@ export default function ChecklistDetail() {
                         <img src={gambar_part} alt="Gambar=part" />
                       </div>
                     </td>
-                    <td className="px-[16px]">Photo_kerusakan.jpg</td>
+                    <td className="px-[16px]">video_kerusakan.mp4</td>
                     <td className="px-[16px] font-semibold text-blue-700">
-                      Lihat
+                      <a onClick={() => checklist.setOpenModalVideo(true)}>
+                        Lihat
+                      </a>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal open={checklist.openModalPicture}>
+        <div className="w-[500px] flex flex-col ">
+          <div className="w-full flex items-center justify-end p-[8px] border-b border-[#D0D3D9]">
+            <div className="flex items-end">
+              <button
+                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
+                onClick={() => checklist.onOpenBackModalPicture()}
+              >
+                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-center p-[5px]">
+            <img src={gambar_part} alt="Gambar=part" />
+          </div>
+        </div>
+      </Modal>
+
+      <Modal open={checklist.openModalVideo}>
+        <div className="w-[500px] flex flex-col ">
+          <div className="w-full flex items-center justify-end p-[8px] border-b border-[#D0D3D9]">
+            <div className="flex items-end">
+              <button
+                className="flex items-center h-[46px] px-[20px] border border-[#20519F] rounded"
+                onClick={() => checklist.onOpenBackModalVideo()}
+              >
+                <PlusIcon className="rotate-45 w-5 h-5" color="#20519F" />
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-center p-[5px]">
+            <img src={gambar_part} alt="Gambar=part" />
           </div>
         </div>
       </Modal>

@@ -8,6 +8,9 @@ export default function useChecklist() {
   const [dataChecklist, setDataChecklist] = useState([]);
   //modalExport
   const [openModalExport, setOpenModalExport] = useState(false);
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModalPicture, setOpenModalPicture] = useState(false);
+  const [openModalVideo, setOpenModalVideo] = useState(false);
   //click detail data
   const onOpenDetail = (data): void => {
     navigate("details", {
@@ -26,6 +29,16 @@ export default function useChecklist() {
   const onOpenBack = (): void => {
     navigate("../");
   };
+  const onOpenBackDetail = (): void => {
+    setOpenModalDetail(false);
+  };
+  const onOpenBackModalPicture = (): void => {
+    setOpenModalPicture(false);
+  };
+  const onOpenBackModalVideo = (): void => {
+    setOpenModalVideo(false);
+  };
+
   useEffect(() => {
     setDataChecklist([
       {
@@ -52,8 +65,17 @@ export default function useChecklist() {
     navigate,
     dataChecklist,
     openModalExport,
+    openModalDetail,
+    openModalPicture,
+    openModalVideo,
     onOpenDetail,
     onOpenBack,
+    onOpenBackDetail,
+    onOpenBackModalPicture,
+    onOpenBackModalVideo,
     setOpenModalExport,
+    setOpenModalDetail,
+    setOpenModalPicture,
+    setOpenModalVideo,
   };
 }
