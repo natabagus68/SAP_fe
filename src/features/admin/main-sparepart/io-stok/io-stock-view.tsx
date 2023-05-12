@@ -1,7 +1,6 @@
 import { Breadcrumbs } from "@common/components";
 import useIoStock from "./io-stock-model";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
 import empty_data_table from "../../../../assets/png/empty_data_table.png";
 import ExportIcon from "@common/components/icons-new/ExportIcon";

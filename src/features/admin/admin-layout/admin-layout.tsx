@@ -81,8 +81,8 @@ export default function AdminLayout() {
               icon={<DashboardIcon className="w-[24px] h-[24px]" />}
             >
               <NavItem label="General" to={"dashboard/general"} />
-              <NavItem label="Details" to={"dashboard/details"} />
-              <NavItem label="Real Time" to={"dashboard/real-time"} />
+              {/* <NavItem label="Details" to={"dashboard/details"} />
+              <NavItem label="Real Time" to={"dashboard/real-time"} /> */}
             </NavItem>
 
             <NavItem

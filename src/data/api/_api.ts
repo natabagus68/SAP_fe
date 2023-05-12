@@ -5,9 +5,9 @@ const api = axios.create({
   baseURL: config.apibaseUrl,
 });
 
-api.interceptors.request.use((config) => {
-  const auth = localStorage.getItem("token");
-  config.headers["Authorization"] = `jwt ${auth}`;
+api.interceptors.request.use(async (config) => {
+  const auth = await JSON.parse(localStorage.getItem("ykk-web-admin"));
+  config.headers["Authorization"] = `jwt ${auth?.token}`;
   return config;
 });
 

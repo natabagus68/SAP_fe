@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthenticationApiRepository } from "@data/api/auth/authentication-api-repository";
 
 export default function useAdmin() {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ export default function useAdmin() {
   const [isOpenAvatar, setIsOpenavatar] = useState(false);
   // loading state
   const [isLoading, setIsLoading] = useState(true);
+  //api authenticationRepository
+  const authenticationRepository = new AuthenticationApiRepository();
 
   //navbar status click
   const onOpenNavbar = (): void => {
@@ -30,7 +33,7 @@ export default function useAdmin() {
   //click traceability button
   const onOpenTraceability = (): void => {
     navigate(`../admin/traceability`);
-  }
+  };
 
   //set navigate navbar
   const setNavigate = (url: string): void => {
@@ -38,30 +41,27 @@ export default function useAdmin() {
   };
 
   //on logout
-  const onLogout = async(): Promise<void> => {
+  const onLogout = async (): Promise<void> => {
     try {
-      await localStorage.removeItem("web-admin");
+      await localStorage.removeItem("ykk-web-admin");
       window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
-
   //checking me
   const onIsMe = async (): Promise<void> => {
     setIsLoading(true);
-    const localStorageData = await JSON.parse(
-      localStorage.getItem("web-admin")
-    );
-    setTimeout(() => {
+    try {
+      const result = await authenticationRepository.me();
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate(`../${window.location.pathname}`, { replace: true });
+      }, 500);
+    } catch (error) {
       setIsLoading(false);
-      if (!localStorageData?.token) {
-        navigate("../login");
-      } 
-      // else {
-      //   navigate(`../${window.location.pathname}`);
-      // }
-    }, 500);
+      navigate("../login", { replace: true });
+    }
   };
 
   useEffect(() => {
@@ -78,6 +78,6 @@ export default function useAdmin() {
     setNavigate,
     onOpenAvatar,
     onLogout,
-    onOpenTraceability
+    onOpenTraceability,
   };
 }

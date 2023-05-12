@@ -40,6 +40,7 @@ import LogPartView from "@features/admin/main-sparepart/log-part/log-part-view";
 import LogPartDetails from "@features/admin/main-sparepart/log-part/log-part-details";
 import IoStockView from "@features/admin/main-sparepart/io-stok/io-stock-view";
 import IoStockForm from "@features/admin/main-sparepart/io-stok/io-stock-form";
+import GuestView from "@features/guest/guest-view";
 
 const Root = () => {
   return <Outlet />;
@@ -48,7 +49,7 @@ const Root = () => {
 export default createBrowserRouter([
   {
     path: "",
-    element: <Navigate to="../admin" />,
+    element: <GuestView />,
   },
   {
     path: "login",
