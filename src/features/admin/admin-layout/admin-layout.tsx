@@ -106,6 +106,14 @@ export default function AdminLayout() {
               <NavItem label="Frequency" to={"master-data/frequency"} />
               <NavItem label="Damage" to={"master-data/damage"} />
             </NavItem>
+
+            <NavItem
+              label={`User`}
+              icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
+            >
+              <NavItem label="Account" to={"user/account"} />
+              <NavItem label="Access" to={"user/access"} />
+            </NavItem>
           </div>
         </div>
       </div>

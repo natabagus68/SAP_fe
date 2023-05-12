@@ -30,6 +30,12 @@ import CorrectiveView from "@features/admin/report/corrective/corrective-view";
 import PreventiveDetail from "@features/admin/report/preventive/preventive-detail";
 import CorrectiveDetail from "@features/admin/report/corrective/corrective-detail";
 import PreventiveExpand from "@features/admin/report/preventive/preventive-expand";
+import AccountView from "@features/admin/user/account/account-view";
+import AccountDetail from "@features/admin/user/account/account-detail";
+import AccountForm from "@features/admin/user/account/account-form";
+import AccessView from "@features/admin/user/access/access-view";
+import AccessMenu from "@features/admin/user/access/access-menu";
+import AccessForm from "@features/admin/user/access/access-form";
 
 const Root = () => {
   return <Outlet />;
@@ -255,6 +261,57 @@ export default createBrowserRouter([
           {
             path: "edit",
             element: <DamageForm />,
+          },
+        ],
+      },
+
+      {
+        path: "User",
+        element: <Root />,
+        children: [
+          {
+            path: "Account",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <AccountView />,
+              },
+              {
+                path: "details",
+                element: <AccountDetail />,
+              },
+              {
+                path: "create",
+                element: <AccountForm />,
+              },
+              {
+                path: "edit",
+                element: <AccountForm />,
+              },
+            ],
+          },
+          {
+            path: "Access",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <AccessView />,
+              },
+              {
+                path: "menu",
+                element: <AccessMenu />,
+              },
+              {
+                path: "create",
+                element: <AccessForm />,
+              },
+              {
+                path: "edit",
+                element: <AccessForm />,
+              },
+            ],
           },
         ],
       },
