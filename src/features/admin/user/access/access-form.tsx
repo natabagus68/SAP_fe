@@ -1,4 +1,3 @@
-import React from "react";
 import useAccess from "./access-model";
 import { Breadcrumbs } from "@common/components";
 

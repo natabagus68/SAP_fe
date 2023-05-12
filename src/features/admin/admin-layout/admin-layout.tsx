@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import my_logo from "../../../assets/my-logo.svg";
-import FullscreenIcon from "@common/components/icons-new/FullscreenIcon";
 import BurgerIcon from "@common/components/icons-new/BurgerIcon";
 import DashboardIcon from "@common/components/icons-new/DashboardIcon";
 import ChevronIcon from "@common/components/icons-new/ChevronIcon";
@@ -11,6 +10,7 @@ import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
 import MasterDataIcon from "@common/components/icons-new/MasterDataIcon";
 import { ReportIcon } from "@common/components/icons";
+import UserIcon from "@common/components/icons-new/UserIcon";
 
 export default function AdminLayout() {
   const admin = useAdmin();
@@ -109,7 +109,7 @@ export default function AdminLayout() {
 
             <NavItem
               label={`User`}
-              icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
+              icon={<UserIcon className="w-[24px] h-[24px]" />}
             >
               <NavItem label="Account" to={"user/account"} />
               <NavItem label="Access" to={"user/access"} />

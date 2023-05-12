@@ -1,14 +1,12 @@
-import { Breadcrumbs, Toggle } from "@common/components";
+import { Breadcrumbs } from "@common/components";
 import useAccess from "./access-model";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import { DataIcon } from "@common/components/icons";
 import EditIcon from "@common/components/icons-new/EditIcon";
-import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
-import TrashIcon from "@common/components/icons-new/TrashIcon";
-import PlusIcon from "@common/components/icons-new/PlusIcon";
 import Modal from "@common/components/modals/Modal";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import SaveIcon from "@common/components/icons-new/SaveIcon";
 
 export default function AccessMenu() {
   const access = useAccess();
@@ -44,7 +42,7 @@ export default function AccessMenu() {
               </span>
             </button>
             <button className="flex items-center gap-2 h-[46px] px-[20px] bg-[#20519F] rounded">
-              <DataIcon color="white" />
+              <SaveIcon color="white" />
               <span className="text-white text-sm font-semibold">Simpan</span>
             </button>
           </div>
@@ -52,7 +50,9 @@ export default function AccessMenu() {
         <table className="w-full">
           <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
             <tr>
-              <th className="px-[32px] text-start">checkbox</th>
+              <th className="px-[32px] text-start">
+                <input type="checkbox" className="w-[18px] h-[18px]" />
+              </th>
               <th className="px-[32px] text-start">Menu Name</th>
               <th className="px-[32px] text-start">Permission</th>
               <th className="px-[32px] text-start">Action</th>
@@ -61,7 +61,13 @@ export default function AccessMenu() {
           <tbody className="text-base text-[#514E4E]">
             <tr className="border-b border-[#D0D3D9] h-[64px]">
               <td className="px-[32px]">
-                <div className="flex items-center">checkbox</div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    className="w-[18px] h-[18px]"
+                    value="Dashboard"
+                  />
+                </div>
               </td>
               <td className="px-[32px]">Dashboard</td>
               <td className="px-[32px]">Filter</td>
@@ -81,6 +87,25 @@ export default function AccessMenu() {
             </tr>
           </tbody>
         </table>
+        <div className="flex py-4 px-[32px] justify-end gap-4">
+          <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] -rotate-90"
+              color="#B8B6B6"
+            />
+            <span>Prev</span>
+          </button>
+          <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+            1
+          </div>
+          <button className="px-4 h-[40px] text-[#20519F] border gap-2 border-[#20519F] rounded flex items-center justify-center">
+            <span>Next</span>
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] rotate-90"
+              color="#20519F"
+            />
+          </button>
+        </div>
       </div>
 
       <Modal open={access.openModalAccess}>

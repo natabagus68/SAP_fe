@@ -36,6 +36,7 @@ import AccountForm from "@features/admin/user/account/account-form";
 import AccessView from "@features/admin/user/access/access-view";
 import AccessMenu from "@features/admin/user/access/access-menu";
 import AccessForm from "@features/admin/user/access/access-form";
+import { element } from "prop-types";
 
 const Root = () => {
   return <Outlet />;
@@ -280,6 +281,10 @@ export default createBrowserRouter([
               {
                 path: "details",
                 element: <AccountDetail />,
+              },
+              {
+                path: "details/edit",
+                element: <AccountForm />,
               },
               {
                 path: "create",

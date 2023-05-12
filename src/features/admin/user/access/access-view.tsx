@@ -1,4 +1,3 @@
-import React from "react";
 import useAccess from "./access-model";
 import ModalDelete from "@common/components/modals/ModalDelete";
 import { Breadcrumbs } from "@common/components";
@@ -6,7 +5,7 @@ import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
-import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
+import MapIcon from "@common/components/icons-new/MapIcon";
 import TrashIcon from "@common/components/icons-new/TrashIcon";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 
@@ -66,7 +65,7 @@ export default function AccessView() {
                     className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
                     onClick={() => access.navigate("menu")}
                   >
-                    <EyeShowIcon color="white" />
+                    <MapIcon color="white" />
                     <span className="text-white text-sm font-semibold">
                       Menu
                     </span>
