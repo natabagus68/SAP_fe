@@ -319,7 +319,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "master-data/:type/main-",
+        path: "master-data/:type/sparepart",
         element: <Root />,
         children: [
           {
