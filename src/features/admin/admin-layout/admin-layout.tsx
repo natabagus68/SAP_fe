@@ -68,12 +68,12 @@ export default function AdminLayout() {
       <div
         className={`${
           admin.isOpenSidebar ? null : "-translate-x-[240px]"
-        } fixed w-[240px] h-full bg-white shadow-lg z-50 flex flex-col gap-[20px] transition-all ease-in-out delay-100`}
+        } fixed w-[240px] h-full bg-white shadow-lg z-50 flex flex-col transition-all ease-in-out delay-100`}
       >
         <div className="w-full h-[70px] shadow-sm flex items-center justify-center">
           <img src={my_logo} alt="Logo Ragdalion" className="h-[50px]" />
         </div>
-        <div className="flex flex-col px-4 gap-[12px]">
+        <div className="flex flex-col p-4 gap-[12px] overflow-y-auto">
           <span className="font-semibold text-[#5C5C5C]">Menu</span>
           <div className="flex flex-col gap-2">
             <NavItem
@@ -105,7 +105,9 @@ export default function AdminLayout() {
               label={`Sparepart`}
               icon={<SparepartIcon className="w-[24px] h-[24px]" />}
             >
-              <NavItem label="Inventory" to={"sparepart/inventory"} />
+              <NavItem label="Inventory" to={"main-sparepart/inventory"} />
+              <NavItem label="Log Part" to={"main-sparepart/log-part"} />
+              <NavItem label="In/out Stok" to={"main-sparepart/io-stock"} />
             </NavItem>
             <NavItem
               label={`Master Data`}

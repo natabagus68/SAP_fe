@@ -23,10 +23,10 @@ export default function useManpower() {
       photo: state?.data?.photo,
     },
   });
-  //state & default data url params
-  const [urlParams, setUrlParams] = useState({
-    type: "manpower",
-  });
+  // //state & default data url params
+  // const [urlParams, setUrlParams] = useState({
+  //   type: "manpower",
+  // });
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
   //state modal confirm
@@ -46,14 +46,14 @@ export default function useManpower() {
   return {
     state,
     searchParams,
-    urlParams,
+    // urlParams,
     errors,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
     type,
     setSearchParams,
-    setUrlParams,
+    // setUrlParams,
     navigate,
     createManpower,
     register,

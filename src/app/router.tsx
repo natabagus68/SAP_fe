@@ -33,6 +33,13 @@ import PreventiveView from "@features/admin/report/preventive/preventive-view";
 import CorrectiveView from "@features/admin/report/corrective/corrective-view";
 import PreventiveDetail from "@features/admin/report/preventive/preventive-detail";
 import CorrectiveDetail from "@features/admin/report/corrective/corrective-detail";
+import InventoryView from "@features/admin/main-sparepart/inventory/inventory-view";
+import InventoryTable from "@features/admin/main-sparepart/inventory/inventory-table";
+import InventoryDetails from "@features/admin/main-sparepart/inventory/inventory-details";
+import LogPartView from "@features/admin/main-sparepart/log-part/log-part-view";
+import LogPartDetails from "@features/admin/main-sparepart/log-part/log-part-details";
+import IoStockView from "@features/admin/main-sparepart/io-stok/io-stock-view";
+import IoStockForm from "@features/admin/main-sparepart/io-stok/io-stock-form";
 
 const Root = () => {
   return <Outlet />;
@@ -121,7 +128,6 @@ export default createBrowserRouter([
           },
         ],
       },
-
       {
         path: "report",
         element: <Root />,
@@ -170,7 +176,64 @@ export default createBrowserRouter([
           },
         ],
       },
-
+      {
+        path: "main-sparepart",
+        element: <Root />,
+        children: [
+          {
+            path: "inventory",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <InventoryView />,
+              },
+              {
+                path: ":type/table",
+                element: <Root />,
+                children: [
+                  {
+                    path: "",
+                    element: <InventoryTable />,
+                  },
+                  {
+                    path: "details",
+                    element: <InventoryDetails />,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: "log-part",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <LogPartView />,
+              },
+              {
+                path: "details",
+                element: <LogPartDetails />,
+              },
+            ],
+          },
+          {
+            path: "io-stock",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <IoStockView />,
+              },
+              {
+                path: "create",
+                element: <IoStockForm />,
+              },
+            ],
+          },
+        ],
+      },
       {
         path: "master-data/:type/manpower",
         element: <Root />,
@@ -256,7 +319,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "master-data/:type/sparepart",
+        path: "master-data/:type/main-",
         element: <Root />,
         children: [
           {

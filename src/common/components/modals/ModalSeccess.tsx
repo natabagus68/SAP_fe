@@ -1,7 +1,7 @@
 import Modal from "./Modal";
 import ChecklistIcon from "../icons-new/ChecklistIcon";
 
-export default function ModalSuccess({ open = false, setOpen }) {
+export default function ModalSuccess({ open = false, setOpen, successMessage = "Default Message" }) {
   return (
     <Modal open={open}>
       <div className="w-[430px] flex flex-col gap-8 items-center">
@@ -12,7 +12,7 @@ export default function ModalSuccess({ open = false, setOpen }) {
           <span className="text-[#2D2A2A] text-[24px] font-semibold">
           Sukses
           </span>
-          <span>Data anda telah berhasil disimpan.</span>
+          <span>{successMessage}</span>
         </div>
 
         <div className="flex w-full items-end gap-4">
