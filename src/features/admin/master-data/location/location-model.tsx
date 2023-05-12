@@ -1,3 +1,6 @@
+import { LocationApiRepository } from "@data/api/location/location-api-repository";
+import { Location } from "@domain/models/location/location";
+import { Section } from "@domain/models/location/section";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -35,26 +38,72 @@ export default function useLocationHooks() {
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  //api authenticationRepository
+  const LocationRepository = new LocationApiRepository();
+
+  //state data departemen
+  const [dataDepartemen, setDataDepartemen] = useState<Location[]>([]);
+
+  //state data Section
+  const [dataSection, setDataSection] = useState<Section[]>([]);
+
   // create location data
   const createLocation = (data) => {
     console.log(data);
   };
 
+  // get data departemen
+  const getDataDepartemen = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await LocationRepository.getDepartement();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataDepartemen(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data section
+  const getDataSection = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await LocationRepository.getDepartement();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSection(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // console.log(2);
-  }, []);
+    if (type == "departemen") {
+      getDataDepartemen();
+    } else if (type == "section") {
+      getDataSection();
+    } else {
+      setDataDepartemen([]);
+    }
+  }, [type]);
 
   return {
     state,
     searchParams,
-    urlParams,
+    // urlParams,
     errors,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
     type,
     setSearchParams,
-    setUrlParams,
+    // setUrlParams,
     navigate,
     createLocation,
     register,
@@ -62,5 +111,8 @@ export default function useLocationHooks() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    dataDepartemen,
+    dataSection,
+    isLoadingData,
   };
 }
