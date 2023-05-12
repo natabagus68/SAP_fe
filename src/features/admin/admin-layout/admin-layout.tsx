@@ -9,8 +9,10 @@ import { NavItem } from "@common/components";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
 import MasterDataIcon from "@common/components/icons-new/MasterDataIcon";
-import { ReportIcon } from "@common/components/icons";
 import UserIcon from "@common/components/icons-new/UserIcon";
+import CalendarIcon from "@common/components/icons-new/CalendarIcon";
+import SparepartIcon from "@common/components/icons-new/SparepartIcon";
+import FlieIcon from "@common/components/icons-new/FileIcon";
 
 export default function AdminLayout() {
   const admin = useAdmin();
@@ -66,12 +68,12 @@ export default function AdminLayout() {
       <div
         className={`${
           admin.isOpenSidebar ? null : "-translate-x-[240px]"
-        } fixed w-[240px] h-full bg-white shadow-lg z-50 flex flex-col gap-[20px] transition-all ease-in-out delay-100`}
+        } fixed w-[240px] h-full bg-white shadow-lg z-50 flex flex-col transition-all ease-in-out delay-100`}
       >
         <div className="w-full h-[70px] shadow-sm flex items-center justify-center">
           <img src={my_logo} alt="Logo Ragdalion" className="h-[50px]" />
         </div>
-        <div className="flex flex-col px-4 gap-[12px]">
+        <div className="flex flex-col p-4 gap-[12px] overflow-y-auto">
           <span className="font-semibold text-[#5C5C5C]">Menu</span>
           <div className="flex flex-col gap-2">
             <NavItem
@@ -79,19 +81,34 @@ export default function AdminLayout() {
               icon={<DashboardIcon className="w-[24px] h-[24px]" />}
             >
               <NavItem label="General" to={"dashboard/general"} />
-              <NavItem label="Details" to={"dashboard/details"} />
-              <NavItem label="Real Time" to={"dashboard/real-time"} />
+              {/* <NavItem label="Details" to={"dashboard/details"} />
+              <NavItem label="Real Time" to={"dashboard/real-time"} /> */}
             </NavItem>
 
             <NavItem
               label={`Report`}
-              icon={<ReportIcon className="w-[24px] h-[24px]" />}
+              icon={<FlieIcon color="#231F20" className="w-[24px] h-[24px]" />}
             >
               <NavItem label="Checklist" to={"report/checklist"} />
               <NavItem label="Preventive" to={"report/preventive"} />
               <NavItem label="Corrective" to={"report/corrective"} />
             </NavItem>
 
+            <NavItem
+              label={`Schedule`}
+              icon={<CalendarIcon className="w-[24px] h-[24px]" />}
+            >
+              <NavItem label="Calendar" to={"schedule/calendar"} />
+              <NavItem label="Monitoring" to={"schedule/monitoring"} />
+            </NavItem>
+            <NavItem
+              label={`Sparepart`}
+              icon={<SparepartIcon className="w-[24px] h-[24px]" />}
+            >
+              <NavItem label="Inventory" to={"main-sparepart/inventory"} />
+              <NavItem label="Log Part" to={"main-sparepart/log-part"} />
+              <NavItem label="In/out Stok" to={"main-sparepart/io-stock"} />
+            </NavItem>
             <NavItem
               label={`Master Data`}
               icon={<MasterDataIcon className="w-[24px] h-[24px]" />}

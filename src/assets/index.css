@@ -7,3 +7,94 @@
     font-family: "Open Sans", sans-serif;
   }
 }
+
+:root {
+  /* --fc-border-color: black;
+  --fc-daygrid-event-dot-width: 10px;
+  --fc-event-bg-color: transparent;
+  --fc-event-border-color: transparent;
+  --fc-event-text-color: red;
+  --fc-daygrid-event-text-color: red; */
+  --fc-today-bg-color: #9effad;
+}
+
+/* .fc-daygrid-day-frame {
+  background-color: #667085;
+} */
+/* .fc-event-time {
+  color: transparent !important;
+} */
+
+/* .fc-event-title {
+  color: transparent !important;
+} */
+
+/* .fc-daygrid-day-events{
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: black;
+  padding: 0 4px;
+} */
+
+.fc-toolbar.fc-header-toolbar {
+  margin-bottom: 14px !important;
+}
+
+.fc-button-primary {
+  background-color: #20519f !important;
+}
+
+.fc-button::first-letter {
+  text-transform: uppercase;
+}
+
+.fc-day-other{
+  background-color: #ececec;
+}
+
+.fc-button:disabled {
+  opacity: 0.4 !important;
+}
+
+.fc-toolbar-title {
+  font-size: 16px !important;
+  color: #514e4e !important;
+  font-weight: 600 !important;
+}
+
+.fc-daygrid-event {
+  background-color: #4d74b2;
+  color: white;
+}
+
+.fc-daygrid-event:hover {
+  background-color: #6084be;
+}
+
+.fc-daygrid-event-dot {
+  border: 0;
+}
+
+.fc-event-time {
+  font-size: 0;
+}
+
+.fc-event {
+  position: relative;
+  height: 30px;
+}
+
+.fc-event-future {
+  height: fit-content;
+  height: 30px;
+}
+
+.fc-event-title {
+  position: absolute;
+  /* background-color: aqua; */
+  height: 30px;
+  left: 0;
+  top: 0;
+  width: 100%;
+}

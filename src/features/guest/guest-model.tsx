@@ -1,21 +1,33 @@
-import { useState } from "react";
+import { AuthenticationApiRepository } from "@data/api/auth/authentication-api-repository";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function useGuest() {
   const navigate = useNavigate();
-  const [isMe, setIsMe] = useState(false);
+  // loading state
+  const [isLoading, setIsLoading] = useState(true);
+  //api authenticationRepository
+  const authenticationRepository = new AuthenticationApiRepository();
 
-  const onIsMe = (): void => {
-    const localStorageData = JSON.parse(localStorage.getItem("web-admin"));
-    if(!localStorageData?.token){
-      navigate("../login")
-    }else{
-      navigate("../admin/dashboard/general")
+  //checking me
+  const onIsMe = async () => {
+    setIsLoading(true);
+    try {
+      const result = await authenticationRepository.me();
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate(`../admin/dashboard/general`, {replace: true});
+      }, 500);
+    } catch (error) {
+      setIsLoading(false);
+      navigate("../login", {replace: true});
     }
-  }
+  };
 
+  useEffect(() => {
+    onIsMe();
+  }, []);
   return {
-    isMe,
-    onIsMe
+    isLoading,
   };
 }

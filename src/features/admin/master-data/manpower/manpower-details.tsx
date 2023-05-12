@@ -43,23 +43,33 @@ export default function ManpowerDetails() {
               <tbody>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">No. Induk Pegawai</td>
-                  <td className="px-4 py-[6px] font-semibold">6543908654</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {manpower?.state?.data?.nip}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Nama Lengkap</td>
-                  <td className="px-4 py-[6px] font-semibold">Afif Chandra</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {manpower?.state?.data?.name}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Posisi</td>
-                  <td className="px-4 py-[6px] font-semibold">Operator</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {manpower?.state?.data?.posisi}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Departemen</td>
-                  <td className="px-4 py-[6px] font-semibold">Profile</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {manpower?.state?.data?.departemen}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Section</td>
-                  <td className="px-4 py-[6px] font-semibold">Alloy Casting</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {manpower?.state?.data?.section}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -67,7 +77,15 @@ export default function ManpowerDetails() {
           <div className="flex flex-col gap-6">
             <span className="text-base text-[#514E4E]">Photo</span>
             <div className="w-[155px] h-[155px] rounded-full overflow-hidden">
-              <img src={default_avatar} alt="Default Avatar" />
+              {manpower?.state?.data?.photo ? (
+                <div className="w-full h-full bg-black"></div>
+              ) : (
+                <img
+                  src={default_avatar}
+                  alt="Default Avatar"
+                  className="w-[155px] h-[155px]"
+                />
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function ModalConfirm({
   open = false,
+  confirmMessage = "Default Message",
   setOpen,
   setOpenSuccess,
   cb,
@@ -24,14 +25,14 @@ export default function ModalConfirm({
   return (
     <Modal open={open}>
       <div className="w-[430px] flex flex-col gap-8 items-center">
-        <div className="flex items-center justify-center w-[150px] h-[150px] bg-[#20519F] rounded-full border-[8px] border-[#E9EEF5]">
+        <div className="flex items-center justify-center w-[150px] h-[150px] bg-[#F79009] rounded-full border-[8px] border-[#E9EEF5]">
           <span className="text-[90px] font-bold text-white">!</span>
         </div>
         <div className="flex items-center flex-col">
           <span className="text-[#2D2A2A] text-[24px] font-semibold">
             Konfirmasi
           </span>
-          <span>Apakah data yang dimasukkan sudah benar?</span>
+          <span>{confirmMessage}</span>
         </div>
 
         <div className="flex w-full items-end gap-4">

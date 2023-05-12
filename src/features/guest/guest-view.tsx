@@ -1,7 +1,11 @@
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
-import { useEffect, useState } from "react";
 import useGuest from "./guest-model";
 
 export default function GuestView() {
-  return null;
+  const guest = useGuest();
+  return guest.isLoading ? (
+    <main className="w-screen h-screen flex bg-gray-200 items-center justify-center">
+      <LoadingIcon className="animate-spin w-[80px] h-[80px]" />
+    </main>
+  ) : null;
 }

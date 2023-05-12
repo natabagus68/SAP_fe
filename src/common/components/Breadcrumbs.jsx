@@ -21,8 +21,17 @@ export const Breadcrumbs = ({ items = [] }) => {
           <div key={i} className="flex gap-3 items-center">
             <CaretIcon className="text-neutral-75" />
             <div
-              onClick={() => items[i] && i < arr.length - 1 && navigate(generateLink(i, arr))}
-              className={`font-semibold ${i == arr.length - 1? "text-[#20519F]":"text-gray-700"} ${items[i] && i < arr.length - 1 && "cursor-pointer"}`}
+              onClick={() =>
+                items[i] &&
+                i < arr.length - 1 &&
+                i != 0 &&
+                navigate(generateLink(i, arr))
+              }
+              className={`font-semibold ${
+                i == arr.length - 1 ? "text-[#20519F]" : "text-gray-700"
+              } ${
+                items[i] && i < arr.length - 1 && i != 0 && "cursor-pointer"
+              }`}
             >
               {item}
             </div>

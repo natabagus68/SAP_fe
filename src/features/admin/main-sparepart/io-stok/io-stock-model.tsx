@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
-export default function useDamage() {
+export default function useIoStock() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  //setup url params
-  const [searchParams, setSearchParams] = useSearchParams();
+  //get params url
+  const { type } = useParams();
   //setup react form hook
   const {
     register,
@@ -14,24 +19,23 @@ export default function useDamage() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      id: state?.data?.id,
-      damage: state?.data?.damage,
+      type: "",
+      name: "",
+      quantity: "",
     },
   });
-  //state & default data url params
-  // const [urlParams, setUrlParams] = useState({
-  //   type: "damage",
-  // });
-  //state modal delete
-  const [openModalDelete, setOpenModalDelete] = useState(false);
   //state modal confirm
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
+  //state data transaction
+  const [dataTransaction, setDataTransaction] = useState({});
 
   // create manpower data
-  const createDamage = (data) => {
-    console.log(data);
+  const createTransaction = (data) => {
+    setOpenModalConfirm(true);
+    setDataTransaction(data)
+    // console.log(data);
   };
 
   useEffect(() => {
@@ -40,19 +44,15 @@ export default function useDamage() {
 
   return {
     state,
-    searchParams,
-    // urlParams,
     errors,
-    openModalDelete,
+    type,
     openModalConfirm,
     openModalSuccess,
-    setSearchParams,
-    // setUrlParams,
+    dataTransaction,
     navigate,
-    createDamage,
+    createTransaction,
     register,
     handleSubmit,
-    setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
   };
