@@ -1,4 +1,4 @@
-import DamageApiRepository from "@data/api/damage/damage-api-repository";
+import { DamageApiRepository } from "@data/api/damage/damage-api-repository";
 import { Damage } from "@domain/models/damage/damage";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

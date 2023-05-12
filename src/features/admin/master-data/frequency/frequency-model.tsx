@@ -6,6 +6,8 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { FrequencyApiRepository } from "@data/api/frequency/frequency-api-repository";
+import { Frequency } from "@domain/models/frequency/frequency";
 
 export default function useFrequency() {
   const navigate = useNavigate();
@@ -39,8 +41,29 @@ export default function useFrequency() {
     console.log(data);
   };
 
+  //api authenticationRepository
+  const frequencyRepository = new FrequencyApiRepository();
+  //state data manpower
+  const [dataFrequency, setDataFrequency] = useState<Frequency[]>([]);
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  // get data manpower
+  const getDataFrequency = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await frequencyRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataFrequency(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // console.log(2);
+    getDataFrequency();
   }, []);
 
   return {
@@ -60,5 +83,7 @@ export default function useFrequency() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    dataFrequency,
+    isLoadingData,
   };
 }
