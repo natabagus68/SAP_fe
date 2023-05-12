@@ -7,6 +7,7 @@ import Modal from "@common/components/modals/Modal";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import SaveIcon from "@common/components/icons-new/SaveIcon";
+import DiskIcon from "@common/components/icons-new/DiskIcon";
 
 export default function AccessMenu() {
   const access = useAccess();
@@ -42,7 +43,7 @@ export default function AccessMenu() {
               </span>
             </button>
             <button className="flex items-center gap-2 h-[46px] px-[20px] bg-[#20519F] rounded">
-              <SaveIcon color="white" />
+              <DiskIcon color="white" />
               <span className="text-white text-sm font-semibold">Simpan</span>
             </button>
           </div>
