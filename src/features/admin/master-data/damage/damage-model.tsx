@@ -1,3 +1,5 @@
+import DamageApiRepository from "@data/api/damage/damage-api-repository";
+import { Damage } from "@domain/models/damage/damage";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -22,6 +24,7 @@ export default function useDamage() {
   // const [urlParams, setUrlParams] = useState({
   //   type: "damage",
   // });
+
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
   //state modal confirm
@@ -29,13 +32,34 @@ export default function useDamage() {
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
+  //api authenticationRepository
+  const damageRepository = new DamageApiRepository();
+  //state data manpower
+  const [dataDamage, setDataDamage] = useState<Damage[]>([]);
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
   // create manpower data
   const createDamage = (data) => {
     console.log(data);
   };
 
+  // get data manpower
+  const getDataDamage = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await damageRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataDamage(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // console.log(2);
+    getDataDamage();
   }, []);
 
   return {
@@ -55,5 +79,7 @@ export default function useDamage() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    dataDamage,
+    isLoadingData,
   };
 }
