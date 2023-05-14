@@ -93,6 +93,7 @@ export default function useLocationHooks() {
       getDataSection();
     } else {
       setDataDepartemen([]);
+      setDataSection([]);
     }
   }, [type]);
 

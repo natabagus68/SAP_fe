@@ -1,13 +1,14 @@
 import { Breadcrumbs } from "@common/components";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import TrashIcon from "@common/components/icons-new/TrashIcon";
 import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import useFrequency from "./frequency-model";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import empty_data_table from "../../../../assets/png/empty_data_table.png";
 
 export default function FrequencyView() {
   const frequency = useFrequency();
@@ -72,8 +73,8 @@ export default function FrequencyView() {
                           state: {
                             edit: true,
                             data: {
-                              id: "123",
-                              frequency: "Asd",
+                              id: "",
+                              frequency: item.type,
                             },
                           },
                         })
@@ -99,6 +100,23 @@ export default function FrequencyView() {
             ))}
           </tbody>
         </table>
+
+        {frequency.isLoadingData ? (
+          <div className="w-full h-[48px] flex items-center justify-center">
+            <LoadingIcon
+              color="black"
+              className="w-[24px] h-[24px] animate-spin"
+            />
+          </div>
+        ) : !!!frequency.dataFrequency.length ? (
+          <div className="w-full flex flex-col items-center py-[60px]">
+            <img src={empty_data_table} alt="Empty data table" className="" />
+            <span className="text-[#514E4E] text-2xl font-bold">
+              Tidak ada data
+            </span>
+          </div>
+        ) : null}
+
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
             <ArrowUpIcon

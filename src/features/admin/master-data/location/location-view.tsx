@@ -10,6 +10,7 @@ import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import empty_data_table from "../../../../assets/png/empty_data_table.png";
+import { Section } from "@domain/models/location/section";
 
 export default function LocationView() {
   const location = useLocation();
@@ -102,12 +103,21 @@ export default function LocationView() {
               {location.dataDepartemen.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
-                  <td className="px-[32px]"></td>
+                  <td className="px-[32px]">{location.dataSection.length}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                        onClick={() => location.navigate("details")}
+                        onClick={() =>
+                          location.navigate("details", {
+                            state: {
+                              data: {
+                                departemen: item.name,
+                                section: "section",
+                              },
+                            },
+                          })
+                        }
                       >
                         <EyeShowIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -122,7 +132,7 @@ export default function LocationView() {
                               edit: true,
                               type: location.type,
                               data: {
-                                departemen: "departemen",
+                                departemen: item.name,
                                 section: "section",
                               },
                             },
@@ -171,7 +181,7 @@ export default function LocationView() {
                               edit: true,
                               type: location.type,
                               data: {
-                                section: "section",
+                                section: item.name,
                               },
                             },
                           })
@@ -198,7 +208,8 @@ export default function LocationView() {
             </tbody>
           </table>
         )}
-        {/* {location.dataDepartemen ? (
+
+        {location.isLoadingData ? (
           <div className="w-full h-[48px] flex items-center justify-center">
             <LoadingIcon
               color="black"
@@ -212,7 +223,8 @@ export default function LocationView() {
               Tidak ada data
             </span>
           </div>
-        ) : null} */}
+        ) : null}
+
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
             <ArrowUpIcon

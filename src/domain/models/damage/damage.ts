@@ -16,6 +16,7 @@ export class Damage extends Entity<IDamageProps> implements IDamage {
   unmarshall(): IDamageProps {
     return { id: this.id, type: this.name };
   }
+
   get id(): string {
     return this._props.id;
   }

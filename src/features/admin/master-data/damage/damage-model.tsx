@@ -1,6 +1,6 @@
 import { DamageApiRepository } from "@data/api/damage/damage-api-repository";
 import { Damage } from "@domain/models/damage/damage";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
@@ -39,12 +39,12 @@ export default function useDamage() {
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
 
-  // create manpower data
+  // create damage data
   const createDamage = (data) => {
     console.log(data);
   };
 
-  // get data manpower
+  // get data damage
   const getDataDamage = async () => {
     setIsLoadingData(true);
     try {
