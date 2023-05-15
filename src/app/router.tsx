@@ -299,7 +299,7 @@ export default createBrowserRouter([
             element: <LocationView />,
           },
           {
-            path: "details",
+            path: ":departemenId/details",
             element: <LocationDetails />,
           },
           {

@@ -26,10 +26,11 @@ export default function LocationView() {
         open={location.openModalConfirm}
         setOpen={location.setOpenModalConfirm}
         setOpenSuccess={location.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
           setTimeout(() => {
             setIsLoading({ loading: false, exec: true });
-            if (location.type == "location") {
+            if (location.type == "departemen") {
               console.log("delete departemen");
             } else {
               console.log("delete location");
@@ -103,21 +104,12 @@ export default function LocationView() {
               {location.dataDepartemen.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
-                  <td className="px-[32px]">{location.dataSection.length}</td>
+                  <td className="px-[32px]">{item.section}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                        onClick={() =>
-                          location.navigate("details", {
-                            state: {
-                              data: {
-                                departemen: item.name,
-                                section: "section",
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => location.navigate(`${item.id}/details`)}
                       >
                         <EyeShowIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -126,18 +118,7 @@ export default function LocationView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          location.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: location.type,
-                              data: {
-                                departemen: item.name,
-                                section: "section",
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => location.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
