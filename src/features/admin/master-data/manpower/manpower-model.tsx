@@ -8,6 +8,8 @@ import {
 import { useForm } from "react-hook-form";
 import { ManpowerApiRepository } from "@data/api/manpower/manpower-api-repository";
 import { Manpower } from "@domain/models/manpower/manpower";
+import { PosisiApiRepository } from "@data/api/manpower/posisi-api-repository";
+import { Posisi } from "@domain/models/manpower/posisi";
 
 export default function useManpower() {
   const navigate = useNavigate();
@@ -36,10 +38,14 @@ export default function useManpower() {
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
+
   //api authenticationRepository
   const manpowerRepository = new ManpowerApiRepository();
+  const posisiRepository = new PosisiApiRepository();
+
   //state data manpower
   const [dataManpower, setDataManpower] = useState<Manpower[]>([]);
+  const [dataPosisi, setDataPosisi] = useState<Posisi[]>([]);
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -61,11 +67,28 @@ export default function useManpower() {
     }
   };
 
+  // get data posisi
+  const getDataPosisi = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await posisiRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataPosisi(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    if(type == "manpower"){
+    if (type == "manpower") {
       getDataManpower();
-    }else{
+    } else if (type == "posisi") {
+      getDataPosisi();
+    } else {
       setDataManpower([]);
+      setDataPosisi([]);
     }
   }, [type]);
 
@@ -89,5 +112,6 @@ export default function useManpower() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    dataPosisi,
   };
 }
