@@ -8,6 +8,10 @@ import {
 import { useForm } from "react-hook-form";
 import { MesinApiRepository } from "@data/api/mesin/mesin-api-repository";
 import { Mesin } from "@domain/models/mesin/mesin";
+import { SubMesinApiRepository } from "@data/api/mesin/submesin-api-repository";
+import { SubMesin } from "@domain/models/mesin/sub-mesin";
+import { ParameterApiRepository } from "@data/api/mesin/parameter-api-repository";
+import { Parameter } from "@domain/models/mesin/parameter";
 
 export default function useMesin() {
   const navigate = useNavigate();
@@ -51,9 +55,15 @@ export default function useMesin() {
 
   //api authenticationRepository
   const mesinRepository = new MesinApiRepository();
+  const subMesinRepository = new SubMesinApiRepository();
+  const parameterRepository = new ParameterApiRepository();
 
   //state data mesin
   const [dataMesin, setDataMesin] = useState<Mesin[]>([]);
+
+  const [dataSubMesin, setDataSubMesin] = useState<SubMesin[]>([]);
+
+  const [dataParameter, setDataParameter] = useState<Parameter[]>([]);
 
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -77,6 +87,34 @@ export default function useMesin() {
     }
   };
 
+  // get data submesin
+  const getDataSubMesin = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await subMesinRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSubMesin(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data submesin
+  const getDataParameter = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await parameterRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataParameter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     setMaxDesc(watch("deskripsi")?.length);
   }, [watch("deskripsi")]);
@@ -84,8 +122,14 @@ export default function useMesin() {
   useEffect(() => {
     if (type == "mesin") {
       getDataMesin();
+    } else if (type == "sub-mesin") {
+      getDataSubMesin();
+    } else if (type == "parameter") {
+      getDataParameter();
     } else {
       setDataMesin([]);
+      setDataSubMesin([]);
+      setDataParameter([]);
     }
   }, [type]);
 
@@ -111,5 +155,7 @@ export default function useMesin() {
     setMaxDesc,
     dataMesin,
     isLoadingData,
+    dataSubMesin,
+    dataParameter,
   };
 }

@@ -3,6 +3,7 @@ import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import useMesin from "./mesin-model";
 import ReloadIcon from "@common/components/icons-new/ReloadIcon";
+import { SubMesin } from "@domain/models/mesin/sub-mesin";
 
 export default function MesinDetails() {
   const mesin = useMesin();
@@ -96,12 +97,14 @@ export default function MesinDetails() {
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Sub-Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      Panel Control Feeder
+                      {mesin?.state?.data?.name}
                     </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-[6px]">No. Sub-Mesin</td>
-                    <td className="px-4 py-[6px] font-semibold">600342</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      {mesin?.state?.data?.no}
+                    </td>
                   </tr>
                 </tbody>
               </table>
