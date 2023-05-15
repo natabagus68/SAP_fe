@@ -10,6 +10,8 @@ import ModalSuccess from "@common/components/modals/ModalSeccess";
 import useSparepart from "./sparepart-model";
 import { Toggle } from "@common/components";
 import settings from "../../../../assets/svg/settings.svg";
+import empty_data_table from "../../../../assets/png/empty_data_table.png";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 
 export default function SparepartView() {
   const sparepart = useSparepart();
@@ -29,8 +31,12 @@ export default function SparepartView() {
             setIsLoading({ loading: false, exec: true });
             if (sparepart.type == "sparepart") {
               console.log("delete part");
-            } else {
+            } else if (sparepart.type == "kategory-inventory") {
               console.log("delete kategory-inventory");
+            } else if (sparepart.type == "availability") {
+              console.log("delete availability");
+            } else {
+              console.log("delete kategory-sparepart");
             }
           }, 3000);
         }}
@@ -310,43 +316,61 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">Inti</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        sparepart.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: sparepart.type,
-                            data: {
-                              typeKategory: "inti",
+              {sparepart.dataSparepartKategory.map((item, i) => (
+                <tr className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">{item.name}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          sparepart.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: sparepart.type,
+                              data: {
+                                typeKategory: item.name,
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => sparepart.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => sparepart.setOpenModalDelete(true)}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+        ) : null}
+
+        {sparepart.isLoadingData ? (
+          <div className="w-full h-[48px] flex items-center justify-center">
+            <LoadingIcon
+              color="black"
+              className="w-[24px] h-[24px] animate-spin"
+            />
+          </div>
+        ) : !!!sparepart.dataSparepartKategory.length ? (
+          <div className="w-full flex flex-col items-center py-[60px]">
+            <img src={empty_data_table} alt="Empty data table" className="" />
+            <span className="text-[#514E4E] text-2xl font-bold">
+              Tidak ada data
+            </span>
+          </div>
         ) : null}
 
         <div className="flex py-4 px-[32px] justify-end gap-4">
