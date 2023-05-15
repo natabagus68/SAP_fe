@@ -263,7 +263,7 @@ export default createBrowserRouter([
             element: <ManpowerForm />,
           },
           {
-            path: "edit",
+            path: ":manpowerId/edit",
             element: <ManpowerForm />,
           },
         ],

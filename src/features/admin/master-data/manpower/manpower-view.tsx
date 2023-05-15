@@ -24,20 +24,20 @@ export default function ManpowerView() {
         open={manpower.openModalConfirm}
         setOpen={manpower.setOpenModalConfirm}
         setOpenSuccess={manpower.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            if (manpower.type == "manpower") {
-              console.log("delete manpower");
-            } else {
-              console.log("delete posisi");
-            }
-          }, 3000);
+          if (manpower.type == "manpower") {
+            manpower.deleteDataManpower(manpower.dataId, setIsLoading);
+          } else {
+            console.log("delete posisi");
+          }
         }}
       />
       <ModalSuccess
         open={manpower.openModalSuccess}
         setOpen={manpower.setOpenModalSuccess}
+        isSuccess={manpower.isSuccess}
+        successMessage="Berhasil menghapus data!"
       />
       <Breadcrumbs
         items={[
@@ -110,9 +110,7 @@ export default function ManpowerView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                        onClick={() =>
-                          manpower.navigate(`${item.id}/details`)
-                        }
+                        onClick={() => manpower.navigate(`${item.id}/details`)}
                       >
                         <EyeShowIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -121,18 +119,54 @@ export default function ManpowerView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() => manpower.navigate(`${item.id}/edit`)}
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => {
+                          manpower.setDataId(item.id);
+                          manpower.setOpenModalDelete(true);
+                        }}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <table className="w-full">
+            <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
+              <tr>
+                <th className="px-[32px] text-start">Nama Posisi</th>
+                <th className="px-[32px] text-start">Action</th>
+              </tr>
+            </thead>
+            <tbody className="text-base text-[#514E4E]">
+              {manpower.dataPosition.map((item, i) => (
+                <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">{item.name}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
                         onClick={() =>
                           manpower.navigate("edit", {
                             state: {
                               edit: true,
                               type: manpower.type,
                               data: {
-                                nip: item.employee_no,
-                                name: item.name,
-                                departemen: item.departemen_id,
-                                posisi: item.position_id,
-                                section: item.section_id,
-                                photo: item.avatar,
+                                name: "KKKK",
                               },
                             },
                           })
@@ -158,52 +192,6 @@ export default function ManpowerView() {
               ))}
             </tbody>
           </table>
-        ) : (
-          <table className="w-full">
-            <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
-              <tr>
-                <th className="px-[32px] text-start">Nama Posisi</th>
-                <th className="px-[32px] text-start">Action</th>
-              </tr>
-            </thead>
-            <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">Operator</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        manpower.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: manpower.type,
-                            data: {
-                              name: "KKKK",
-                            },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => manpower.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         )}
         {manpower.isLoadingData ? (
           <div className="w-full h-[48px] flex items-center justify-center">
@@ -212,7 +200,7 @@ export default function ManpowerView() {
               className="w-[24px] h-[24px] animate-spin"
             />
           </div>
-        ) : !!!manpower.dataManpower.length ? (
+        ) : !!!manpower.dataManpower.length && !!!manpower.dataPosition.length ? (
           <div className="w-full flex flex-col items-center py-[60px]">
             <img src={empty_data_table} alt="Empty data table" className="" />
             <span className="text-[#514E4E] text-2xl font-bold">

@@ -27,10 +27,9 @@ export class ManpowerApiRepository implements ManpowerRepository {
       return Manpower.create({
         name: data.data?.name || "-",
         employee_no: data.data?.employee_no || "-",
-        section_name: data.data?.section?.name || "-",
-        position_name: data.data?.position?.name || "-",
-        departemen_name: data.data?.section?.departemen?.name || "-",
-        avatar: data.data?.avatar || ""
+        section_id: data.data?.section?.id || "-",
+        position_id: data.data?.position?.id || "-",
+        avatar: data.data?.avatar || "",
       });
     } catch (error) {
       throw new Error(error);
@@ -38,13 +37,39 @@ export class ManpowerApiRepository implements ManpowerRepository {
   }
   async create(manpower: Manpower): Promise<void> {
     try {
-      const { data } = await api.post("employee", {
-        name: manpower.name,
-        employee_no: manpower.employee_no,
-        section_id: manpower.section_id,
-        position_id: manpower.position_id,
-        departemen_id: manpower.departemen_id,
-      });
+      const formData = new FormData();
+      formData.append("avatar", manpower.avatar[0]);
+      formData.append("employee_no", manpower.employee_no);
+      formData.append("name", manpower.name);
+      formData.append("section_id", manpower.section_id);
+      formData.append("position_id", manpower.position_id);
+      const { data } = await api.post("employee", formData);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async edit(manpower): Promise<void> {
+    try {
+      const formData = new FormData();
+      formData.append("employee_no", manpower.employee_no);
+      formData.append("name", manpower.name);
+      formData.append("section_id", manpower.section_id);
+      formData.append("position_id", manpower.position_id);
+      if (typeof manpower.avatar == "string" || manpower.avatar.length == 0) {
+        formData.append("avatar", "");
+      } else {
+        formData.append("avatar", manpower.avatar[0]);
+      }
+      const { data } = await api.put(`employee/${manpower.id}`, formData);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`employee/${id}`);
       return data.data;
     } catch (error) {
       throw new Error(error);
