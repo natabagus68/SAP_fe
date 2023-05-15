@@ -1,7 +1,9 @@
 import { SparepartInventoryApiRepository } from "@data/api/sparepart/sparepart-inventory-api-repository";
 import { SparepartKategoryApiRepository } from "@data/api/sparepart/sparepart-kategory-api-repository";
+import { SparepartApiRpository } from "@data/api/sparepart/sparepart-part-api-repository";
 import { SparepartInventory } from "@domain/models/sparepart/saprepart-inventory";
 import { SparepartKategory } from "@domain/models/sparepart/sparepart-kategory";
+import { SparepartPart } from "@domain/models/sparepart/sparepart-part";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -69,7 +71,12 @@ export default function useSparepart() {
 
   const inventorySparepartRepository = new SparepartInventoryApiRepository();
 
+  const partSparepartRepository = new SparepartApiRpository();
+
   //state data sparepat
+
+  const [dataSparepart, setDataSparepart] = useState<SparepartPart[]>([]);
+
   const [dataSparepartInventory, setDataSparepartInventory] = useState<
     SparepartInventory[]
   >([]);
@@ -84,6 +91,20 @@ export default function useSparepart() {
   // create sparepart data
   const createSparepart = (data) => {
     console.log(data);
+  };
+
+  // get data sparepart
+  const getDataSparepart = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await partSparepartRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSparepart(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // get data sparepart-kategory
@@ -119,9 +140,12 @@ export default function useSparepart() {
       getDataSparepartKategory();
     } else if (type == "kategory-inventory") {
       getDataSparepartInventory();
+    } else if (type == "part") {
+      getDataSparepart();
     } else {
       setDataSparepartKategory([]);
       setDataSparepartInventory([]);
+      setDataSparepart([]);
     }
   }, [type]);
 
@@ -146,5 +170,6 @@ export default function useSparepart() {
     dataSparepartKategory,
     isLoadingData,
     dataSparepartInventory,
+    dataSparepart,
   };
 }

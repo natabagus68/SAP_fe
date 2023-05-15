@@ -128,76 +128,78 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">Mechanical</td>
-                <td className="px-[32px]">AM1214</td>
-                <td className="px-[32px]">Pilow Block Bearing</td>
-                <td className="px-[32px]">Alloy Casting</td>
-                <td className="px-[32px]">123</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                      onClick={() => sparepart.navigate("details")}
-                    >
-                      <EyeShowIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Detail
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        sparepart.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: sparepart.type,
-                            data: {
-                              kategory: "Mechanical",
-                              itemCode: "0001213",
-                              availability: "Alloy Casting",
-                              rak: "B001",
-                              partNo: "0803",
-                              partName: "Pillow Block Bearing",
-                              brand: "Ferrox",
-                              specification: "Gear",
-                              uom: "Pcs",
-                              maintenceRate: "1 year",
-                              vendor: "PT Ragdalion Technology",
-                              description: "Filter Element",
-                              gambarPart: "picture.png",
-                              drawing: "drawing.png",
-                              typeKategory: "inti",
-                              stock: "123",
-                              minStok: "12",
-                              remark: "Discontinue",
-                              alternativePart: "SF01214",
-                              deliveryTime: "3 Hari",
-                              garansiDatang: "121213",
-                              minStgaransiPakaiok: "121212",
-                              status: "baru",
+              {sparepart.dataSparepart.map((item, i) => (
+                <tr className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">{item.kategory}</td>
+                  <td className="px-[32px]">{item.item_code}</td>
+                  <td className="px-[32px]">{item.part_name}</td>
+                  <td className="px-[32px]">{item.availability}</td>
+                  <td className="px-[32px]">{item.stock}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
+                        onClick={() => sparepart.navigate("details")}
+                      >
+                        <EyeShowIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Detail
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          sparepart.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: sparepart.type,
+                              data: {
+                                kategory: item.kategory,
+                                itemCode: item.item_code,
+                                availability: item.availability,
+                                rak: "B001",
+                                partNo: "0803",
+                                partName: item.part_name,
+                                brand: "Ferrox",
+                                specification: "Gear",
+                                uom: "Pcs",
+                                maintenceRate: "1 year",
+                                vendor: "PT Ragdalion Technology",
+                                description: "Filter Element",
+                                gambarPart: "picture.png",
+                                drawing: "drawing.png",
+                                typeKategory: "inti",
+                                stock: item.stock,
+                                minStok: "12",
+                                remark: "Discontinue",
+                                alternativePart: "SF01214",
+                                deliveryTime: "3 Hari",
+                                garansiDatang: "121213",
+                                minStgaransiPakaiok: "121212",
+                                status: "baru",
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => sparepart.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => sparepart.setOpenModalDelete(true)}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : null}
@@ -374,6 +376,13 @@ export default function SparepartView() {
             </span>
           </div>
         ) : !!!sparepart.dataSparepartInventory.length ? (
+          <div className="w-full flex flex-col items-center py-[60px]">
+            <img src={empty_data_table} alt="Empty data table" className="" />
+            <span className="text-[#514E4E] text-2xl font-bold">
+              Tidak ada data
+            </span>
+          </div>
+        ) : !!!sparepart.dataSparepart.length ? (
           <div className="w-full flex flex-col items-center py-[60px]">
             <img src={empty_data_table} alt="Empty data table" className="" />
             <span className="text-[#514E4E] text-2xl font-bold">
