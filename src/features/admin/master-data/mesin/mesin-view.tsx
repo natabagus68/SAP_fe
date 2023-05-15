@@ -131,7 +131,19 @@ export default function MesinView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                        onClick={() => mesin.navigate("details")}
+                        onClick={() =>
+                          mesin.navigate("details", {
+                            state: {
+                              data: {
+                                no: item.machine_no,
+                                name: item.name,
+                                departemen: "departemen",
+                                section: "section",
+                                photo: "photo.png",
+                              },
+                            },
+                          })
+                        }
                       >
                         <EyeShowIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -248,6 +260,7 @@ export default function MesinView() {
             </tbody>
           </table>
         ) : null}
+
         {mesin.type == "parameter" ? (
           <table className="w-full">
             <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
@@ -303,6 +316,7 @@ export default function MesinView() {
             </tbody>
           </table>
         ) : null}
+
         {mesin.type == "indikator" ? (
           <table className="w-full">
             <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
@@ -325,14 +339,28 @@ export default function MesinView() {
                               edit: true,
                               type: mesin.type,
                               data: {
-                                name: item.name,
+                                description: item.name,
                               },
                             },
                           })
                         }
                       >
                         <EditIcon color="white" />
-                        <span className="text-white text-sm font-semibold">
+                        <span
+                          className="text-white text-sm font-semibold"
+                          onClick={() =>
+                            mesin.navigate("edit", {
+                              state: {
+                                edit: true,
+                                type: mesin.type,
+                                data: {
+                                  title: "",
+                                  uom: item.name,
+                                },
+                              },
+                            })
+                          }
+                        >
                           Edit
                         </span>
                       </button>
@@ -352,6 +380,7 @@ export default function MesinView() {
             </tbody>
           </table>
         ) : null}
+
         {mesin.type == "uom" ? (
           <table className="w-full">
             <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
@@ -364,7 +393,7 @@ export default function MesinView() {
             <tbody className="text-base text-[#514E4E]">
               {mesin.dataUom.map((item, i) => (
                 <tr className="border-b border-[#D0D3D9] h-[64px]">
-                  <td className="px-[32px]"></td>
+                  <td className="px-[32px]">-</td>
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
@@ -377,7 +406,7 @@ export default function MesinView() {
                               type: mesin.type,
                               data: {
                                 title: "",
-                                name: item.name,
+                                uom: item.name,
                               },
                             },
                           })

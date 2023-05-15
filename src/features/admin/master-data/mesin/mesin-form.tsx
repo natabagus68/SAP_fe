@@ -113,14 +113,15 @@ export default function MesinForm() {
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Indikator</span>
-                <input
-                  type="text"
+                <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
                     mesin.errors.indikator ? "bg-red-100" : "bg-white"
                   }`}
-                  placeholder="Pilih Indikator"
                   {...mesin.register("indikator", { required: true })}
-                />
+                >
+                  <option value="">Pilih Indikator</option>
+                  <option value="indikator">Indikator 1</option>
+                </select>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Variable</span>
