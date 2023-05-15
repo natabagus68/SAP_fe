@@ -12,6 +12,10 @@ import { SubMesinApiRepository } from "@data/api/mesin/submesin-api-repository";
 import { SubMesin } from "@domain/models/mesin/sub-mesin";
 import { ParameterApiRepository } from "@data/api/mesin/parameter-api-repository";
 import { Parameter } from "@domain/models/mesin/parameter";
+import { IndikatorApiRepository } from "@data/api/mesin/indikator-api-repository";
+import { Indikator } from "@domain/models/mesin/indikator";
+import { UomApiRepository } from "@data/api/mesin/uom-api-repository";
+import { UnitOfMeasure } from "@domain/models/mesin/uom";
 
 export default function useMesin() {
   const navigate = useNavigate();
@@ -57,6 +61,8 @@ export default function useMesin() {
   const mesinRepository = new MesinApiRepository();
   const subMesinRepository = new SubMesinApiRepository();
   const parameterRepository = new ParameterApiRepository();
+  const indikatorRepository = new IndikatorApiRepository();
+  const uomRepository = new UomApiRepository();
 
   //state data mesin
   const [dataMesin, setDataMesin] = useState<Mesin[]>([]);
@@ -64,6 +70,10 @@ export default function useMesin() {
   const [dataSubMesin, setDataSubMesin] = useState<SubMesin[]>([]);
 
   const [dataParameter, setDataParameter] = useState<Parameter[]>([]);
+
+  const [dataIndikator, setDataIndikator] = useState<Indikator[]>([]);
+
+  const [dataUom, setDataUom] = useState<UnitOfMeasure[]>([]);
 
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -101,7 +111,7 @@ export default function useMesin() {
     }
   };
 
-  // get data submesin
+  // get data parameter
   const getDataParameter = async () => {
     setIsLoadingData(true);
     try {
@@ -109,6 +119,34 @@ export default function useMesin() {
       setTimeout(() => {
         setIsLoadingData(false);
         setDataParameter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data indikator
+  const getDataIndikator = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await indikatorRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataIndikator(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data Uom
+  const getDataUom = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await uomRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataUom(result);
       }, 500);
     } catch (error) {
       console.log(error);
@@ -126,10 +164,16 @@ export default function useMesin() {
       getDataSubMesin();
     } else if (type == "parameter") {
       getDataParameter();
+    } else if (type == "indikator") {
+      getDataIndikator();
+    } else if (type == "uom") {
+      getDataUom();
     } else {
       setDataMesin([]);
       setDataSubMesin([]);
       setDataParameter([]);
+      setDataIndikator([]);
+      setDataUom([]);
     }
   }, [type]);
 
@@ -157,5 +201,7 @@ export default function useMesin() {
     isLoadingData,
     dataSubMesin,
     dataParameter,
+    dataIndikator,
+    dataUom,
   };
 }

@@ -260,7 +260,7 @@ export default function MesinView() {
             </thead>
             <tbody className="text-base text-[#514E4E]">
               {mesin.dataParameter.map((item, i) => (
-                <tr className="border-b border-[#D0D3D9] h-[64px]">
+                <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">{item.variable}</td>
                   <td className="px-[32px]">-</td>
@@ -312,46 +312,43 @@ export default function MesinView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">Lihat & Dengar</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        mesin.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: mesin.type,
-                            data: {
-                              nip: "123",
-                              name: "Asd",
-                              departemen: "departemen",
-                              posisi: "posisi",
-                              section: "section",
-                              photo: "photo.png",
+              {mesin.dataIndikator.map((item, i) => (
+                <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">{item.name}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          mesin.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: mesin.type,
+                              data: {
+                                name: item.name,
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => mesin.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => mesin.setOpenModalDelete(true)}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : null}
@@ -365,47 +362,45 @@ export default function MesinView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">Jumlah</td>
-                <td className="px-[32px]">pcs</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        mesin.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: mesin.type,
-                            data: {
-                              nip: "123",
-                              name: "Asd",
-                              departemen: "departemen",
-                              posisi: "posisi",
-                              section: "section",
-                              photo: "photo.png",
+              {mesin.dataUom.map((item, i) => (
+                <tr className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]"></td>
+                  <td className="px-[32px]">{item.name}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          mesin.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: mesin.type,
+                              data: {
+                                title: "",
+                                name: item.name,
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => mesin.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => mesin.setOpenModalDelete(true)}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : null}
