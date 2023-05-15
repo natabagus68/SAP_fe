@@ -213,42 +213,44 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">
-                  <div className="flex items-center">
-                    <Toggle children={undefined} cb={undefined} />
-                    <span>Active</span>
-                  </div>
-                </td>
-                <td className="px-[32px]">Mecanical</td>
-                <td className="px-[32px]">
-                  <img src={settings} alt="icon-kategory" />
-                </td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        sparepart.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: sparepart.type,
-                            data: {
-                              kategory: "Mechanical",
-                              iconKategory: "icon-kategory",
+              {sparepart.dataSparepartInventory.map((item, i) => (
+                <tr className="border-b border-[#D0D3D9] h-[64px]">
+                  <td key={i} className="px-[32px]">
+                    <div className="flex items-center">
+                      <Toggle children={undefined} cb={undefined} />
+                      <span>{item?.status}</span>
+                    </div>
+                  </td>
+                  <td className="px-[32px]">{item?.name}</td>
+                  <td className="px-[32px]">
+                    <img src={item?.icon} alt="icon-kategory" />
+                  </td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          sparepart.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: sparepart.type,
+                              data: {
+                                kategory: item.name,
+                                iconKategory: item.icon,
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : null}
@@ -365,6 +367,13 @@ export default function SparepartView() {
             />
           </div>
         ) : !!!sparepart.dataSparepartKategory.length ? (
+          <div className="w-full flex flex-col items-center py-[60px]">
+            <img src={empty_data_table} alt="Empty data table" className="" />
+            <span className="text-[#514E4E] text-2xl font-bold">
+              Tidak ada data
+            </span>
+          </div>
+        ) : !!!sparepart.dataSparepartInventory.length ? (
           <div className="w-full flex flex-col items-center py-[60px]">
             <img src={empty_data_table} alt="Empty data table" className="" />
             <span className="text-[#514E4E] text-2xl font-bold">

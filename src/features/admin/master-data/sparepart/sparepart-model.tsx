@@ -1,4 +1,6 @@
+import { SparepartInventoryApiRepository } from "@data/api/sparepart/sparepart-inventory-api-repository";
 import { SparepartKategoryApiRepository } from "@data/api/sparepart/sparepart-kategory-api-repository";
+import { SparepartInventory } from "@domain/models/sparepart/saprepart-inventory";
 import { SparepartKategory } from "@domain/models/sparepart/sparepart-kategory";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -65,7 +67,13 @@ export default function useSparepart() {
   //api authenticationRepository
   const kategorySparepartRepository = new SparepartKategoryApiRepository();
 
+  const inventorySparepartRepository = new SparepartInventoryApiRepository();
+
   //state data sparepat
+  const [dataSparepartInventory, setDataSparepartInventory] = useState<
+    SparepartInventory[]
+  >([]);
+
   const [dataSparepartKategory, setDataSparepartKategory] = useState<
     SparepartKategory[]
   >([]);
@@ -92,11 +100,28 @@ export default function useSparepart() {
     }
   };
 
+  // get data sparepart-inventory
+  const getDataSparepartInventory = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await inventorySparepartRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSparepartInventory(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (type == "kategory-sparepart") {
       getDataSparepartKategory();
+    } else if (type == "kategory-inventory") {
+      getDataSparepartInventory();
     } else {
       setDataSparepartKategory([]);
+      setDataSparepartInventory([]);
     }
   }, [type]);
 
@@ -120,5 +145,6 @@ export default function useSparepart() {
     setOpenModalSuccess,
     dataSparepartKategory,
     isLoadingData,
+    dataSparepartInventory,
   };
 }
