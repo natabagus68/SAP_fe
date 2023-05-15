@@ -1,7 +1,6 @@
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
-import default_avatar from "../../../../assets/default_avatar.jpg";
 import useMesin from "./mesin-model";
 import ReloadIcon from "@common/components/icons-new/ReloadIcon";
 
@@ -51,6 +50,7 @@ export default function MesinDetails() {
             </button>
           </div>
         </div>
+
         {mesin.type == "mesin" ? (
           <div className="w-full flex gap-[160px] py-[18px] px-[32px] flex-wrap">
             <div className="flex flex-col gap-6">
@@ -59,16 +59,20 @@ export default function MesinDetails() {
                 <tbody>
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">No Mesin</td>
-                    <td className="px-4 py-[6px] font-semibold">6543908654</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      {mesin?.state?.data?.no}
+                    </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-[6px]">Nama Mesin</td>
-                    <td className="px-4 py-[6px] font-semibold">Furnace</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      {mesin?.state?.data?.name}
+                    </td>
                   </tr>
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Section</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      Alloy Casting
+                      {mesin?.state?.data?.section}
                     </td>
                   </tr>
                 </tbody>
@@ -77,11 +81,12 @@ export default function MesinDetails() {
             <div className="flex flex-col gap-6">
               <span className="text-base text-[#514E4E]">Gambar Mesin</span>
               <div className="w-[155px] h-[155px] rounded-full overflow-hidden">
-                <img src={default_avatar} alt="Default Avatar" />
+                <img src={mesin?.state?.data?.photo} alt="Default Avatar" />
               </div>
             </div>
           </div>
         ) : null}
+
         {mesin.type == "sub-mesin" ? (
           <div className="w-full flex gap-[160px] py-[18px] px-[32px] flex-wrap">
             <div className="flex flex-col gap-6">
@@ -90,7 +95,9 @@ export default function MesinDetails() {
                 <tbody>
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Sub-Mesin</td>
-                    <td className="px-4 py-[6px] font-semibold">Panel Control Feeder</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      Panel Control Feeder
+                    </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-[6px]">No. Sub-Mesin</td>

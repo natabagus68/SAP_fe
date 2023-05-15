@@ -6,6 +6,8 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { MesinApiRepository } from "@data/api/mesin/mesin-api-repository";
+import { Mesin } from "@domain/models/mesin/mesin";
 
 export default function useMesin() {
   const navigate = useNavigate();
@@ -47,14 +49,45 @@ export default function useMesin() {
   //state max desc
   const [maxDesc, setMaxDesc] = useState<number>(0);
 
+  //api authenticationRepository
+  const mesinRepository = new MesinApiRepository();
+
+  //state data mesin
+  const [dataMesin, setDataMesin] = useState<Mesin[]>([]);
+
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
   // create manpower data
   const createMesin = (data) => {
     console.log(data);
   };
 
+  // get data mesin
+  const getDataMesin = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await mesinRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataMesin(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    setMaxDesc(watch("deskripsi")?.length)
+    setMaxDesc(watch("deskripsi")?.length);
   }, [watch("deskripsi")]);
+
+  useEffect(() => {
+    if (type == "mesin") {
+      getDataMesin();
+    } else {
+      setDataMesin([]);
+    }
+  }, [type]);
 
   return {
     state,
@@ -76,5 +109,7 @@ export default function useMesin() {
     setOpenModalConfirm,
     setOpenModalSuccess,
     setMaxDesc,
+    dataMesin,
+    isLoadingData,
   };
 }
