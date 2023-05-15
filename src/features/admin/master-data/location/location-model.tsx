@@ -1,3 +1,7 @@
+import { DepartemenApiRepository } from "@data/api/location/departemen-api-repository";
+import { SectionApiRepository } from "@data/api/location/section-api-repository";
+import { Departemen } from "@domain/models/location/departemen";
+import { Section } from "@domain/models/location/section";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -35,26 +39,75 @@ export default function useLocationHooks() {
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  //api authenticationRepository
+  const DepartemenRepository = new DepartemenApiRepository();
+
+  const SectionRepository = new SectionApiRepository();
+
+  //state data departemen
+  const [dataDepartemen, setDataDepartemen] = useState<Departemen[]>([]);
+
+  //state data Section
+  const [dataSection, setDataSection] = useState<Section[]>([]);
+
   // create location data
   const createLocation = (data) => {
     console.log(data);
   };
 
+  // get data departemen
+  const getDataDepartemen = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await DepartemenRepository.getDepartement();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataDepartemen(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data section
+  const getDataSection = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await SectionRepository.getSection();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSection(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // console.log(2);
-  }, []);
+    if (type == "departemen") {
+      getDataDepartemen();
+    } else if (type == "section") {
+      getDataSection();
+    } else {
+      setDataDepartemen([]);
+      setDataSection([]);
+    }
+  }, [type]);
 
   return {
     state,
     searchParams,
-    urlParams,
+    // urlParams,
     errors,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
     type,
     setSearchParams,
-    setUrlParams,
+    // setUrlParams,
     navigate,
     createLocation,
     register,
@@ -62,5 +115,8 @@ export default function useLocationHooks() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    dataDepartemen,
+    dataSection,
+    isLoadingData,
   };
 }

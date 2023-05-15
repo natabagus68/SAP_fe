@@ -8,6 +8,9 @@ import TrashIcon from "@common/components/icons-new/TrashIcon";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import empty_data_table from "../../../../assets/png/empty_data_table.png";
+import { Section } from "@domain/models/location/section";
 
 export default function LocationView() {
   const location = useLocation();
@@ -97,52 +100,63 @@ export default function LocationView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">Profil</td>
-                <td className="px-[32px]">6</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                      onClick={() => location.navigate("details")}
-                    >
-                      <EyeShowIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Detail
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        location.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: location.type,
-                            data: {
-                              departemen: "departemen",
-                              section: "section",
+              {location.dataDepartemen.map((item, i) => (
+                <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">{item.name}</td>
+                  <td className="px-[32px]">{location.dataSection.length}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
+                        onClick={() =>
+                          location.navigate("details", {
+                            state: {
+                              data: {
+                                departemen: item.name,
+                                section: "section",
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => location.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EyeShowIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Detail
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          location.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: location.type,
+                              data: {
+                                departemen: item.name,
+                                section: "section",
+                              },
+                            },
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => location.setOpenModalDelete(true)}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : (
@@ -154,44 +168,63 @@ export default function LocationView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">Section</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        location.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: location.type,
-                            data: {
-                              section: "section",
+              {location.dataSection.map((item, i) => (
+                <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">{item.name}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          location.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: location.type,
+                              data: {
+                                section: item.name,
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => location.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => location.setOpenModalDelete(true)}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}
+
+        {location.isLoadingData ? (
+          <div className="w-full h-[48px] flex items-center justify-center">
+            <LoadingIcon
+              color="black"
+              className="w-[24px] h-[24px] animate-spin"
+            />
+          </div>
+        ) : !!!location.dataDepartemen.length ? (
+          <div className="w-full flex flex-col items-center py-[60px]">
+            <img src={empty_data_table} alt="Empty data table" className="" />
+            <span className="text-[#514E4E] text-2xl font-bold">
+              Tidak ada data
+            </span>
+          </div>
+        ) : null}
+
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
             <ArrowUpIcon

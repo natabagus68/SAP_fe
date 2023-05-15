@@ -1,4 +1,3 @@
-import React from "react";
 import useSparepart from "./sparepart-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";

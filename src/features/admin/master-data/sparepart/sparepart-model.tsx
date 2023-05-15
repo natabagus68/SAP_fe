@@ -1,3 +1,5 @@
+import { SparepartKategoryApiRepository } from "@data/api/sparepart/sparepart-kategory-api-repository";
+import { SparepartKategory } from "@domain/models/sparepart/sparepart-kategory";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -60,14 +62,43 @@ export default function useSparepart() {
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
+  //api authenticationRepository
+  const kategorySparepartRepository = new SparepartKategoryApiRepository();
+
+  //state data sparepat
+  const [dataSparepartKategory, setDataSparepartKategory] = useState<
+    SparepartKategory[]
+  >([]);
+
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
   // create sparepart data
   const createSparepart = (data) => {
     console.log(data);
   };
 
+  // get data sparepart-kategory
+  const getDataSparepartKategory = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await kategorySparepartRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSparepartKategory(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // console.log(2);
-  }, []);
+    if (type == "kategory-sparepart") {
+      getDataSparepartKategory();
+    } else {
+      setDataSparepartKategory([]);
+    }
+  }, [type]);
 
   return {
     state,
@@ -87,5 +118,7 @@ export default function useSparepart() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    dataSparepartKategory,
+    isLoadingData,
   };
 }

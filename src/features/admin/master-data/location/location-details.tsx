@@ -37,7 +37,7 @@ export default function LocationDetails() {
                     edit: true,
                     type: location.type,
                     data: {
-                      departemen: "departemen",
+                      departemen: "departmen",
                       section: "section",
                     },
                   },
@@ -58,31 +58,50 @@ export default function LocationDetails() {
               <tbody>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Nama Departemen</td>
-                  <td className="px-4 py-[6px] ">Maintenance</td>
+                  <td className="px-4 py-[6px] ">
+                    {location?.state?.data?.departemen}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Section</td>
-                  <td className="px-4 py-[6px]">1. Alloy Casting</td>
+                  <td className="px-4 py-[6px]">
+                    {location.state?.data?.section}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">2. Extrusion</td>
+                  <td className="px-4 py-[6px]">
+                    {" "}
+                    {location.state?.data?.section}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">3. Anodizing</td>
+                  <td className="px-4 py-[6px]">
+                    {" "}
+                    {location.state?.data?.section}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">4. Painting</td>
+                  <td className="px-4 py-[6px]">
+                    {" "}
+                    {location.state?.data?.section}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">5. Dies manufacturing</td>
+                  <td className="px-4 py-[6px]">
+                    {" "}
+                    {location.state?.data?.section}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">6. TPM/Utilites</td>
+                  <td className="px-4 py-[6px]">
+                    {" "}
+                    {location.state?.data?.section}
+                  </td>
                 </tr>
               </tbody>
             </table>
