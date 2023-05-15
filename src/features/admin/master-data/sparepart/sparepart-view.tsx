@@ -268,45 +268,47 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">AOB123</td>
-                <td className="px-[32px]">A01</td>
-                <td className="px-[32px]">Alloy Casting</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        sparepart.navigate("edit", {
-                          state: {
-                            edit: true,
-                            type: sparepart.type,
-                            data: {
-                              id: "AOB1242",
-                              rak: "A01",
-                              availiability: "Alloy Casting",
+              {sparepart.dataSparepartAvailability.map((item, i) => (
+                <tr className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">{item.id}</td>
+                  <td className="px-[32px]">{item.rak}</td>
+                  <td className="px-[32px]">{item.section}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                        onClick={() =>
+                          sparepart.navigate("edit", {
+                            state: {
+                              edit: true,
+                              type: sparepart.type,
+                              data: {
+                                id: item.id,
+                                rak: item.rak,
+                                availiability: item.section,
+                              },
                             },
-                          },
-                        })
-                      }
-                    >
-                      <EditIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Edit
-                      </span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => sparepart.setOpenModalDelete(true)}
-                    >
-                      <TrashIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                          })
+                        }
+                      >
+                        <EditIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Edit
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                        onClick={() => sparepart.setOpenModalDelete(true)}
+                      >
+                        <TrashIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : null}
@@ -369,20 +371,6 @@ export default function SparepartView() {
             />
           </div>
         ) : !!!sparepart.dataSparepartKategory.length ? (
-          <div className="w-full flex flex-col items-center py-[60px]">
-            <img src={empty_data_table} alt="Empty data table" className="" />
-            <span className="text-[#514E4E] text-2xl font-bold">
-              Tidak ada data
-            </span>
-          </div>
-        ) : !!!sparepart.dataSparepartInventory.length ? (
-          <div className="w-full flex flex-col items-center py-[60px]">
-            <img src={empty_data_table} alt="Empty data table" className="" />
-            <span className="text-[#514E4E] text-2xl font-bold">
-              Tidak ada data
-            </span>
-          </div>
-        ) : !!!sparepart.dataSparepart.length ? (
           <div className="w-full flex flex-col items-center py-[60px]">
             <img src={empty_data_table} alt="Empty data table" className="" />
             <span className="text-[#514E4E] text-2xl font-bold">

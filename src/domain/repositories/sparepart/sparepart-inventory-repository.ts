@@ -1,4 +1,4 @@
-import { SparepartInventory } from "@domain/models/sparepart/saprepart-inventory";
+import { SparepartInventory } from "@domain/models/sparepart/sparepart-inventory";
 
 export interface SparepartInventoryRepository {
   get(): Promise<SparepartInventory[]>;

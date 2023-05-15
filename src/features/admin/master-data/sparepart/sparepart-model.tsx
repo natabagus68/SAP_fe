@@ -1,7 +1,9 @@
+import SparepartAvailabilityApiRepository from "@data/api/sparepart/sparepart-abailability-api-repository";
 import { SparepartInventoryApiRepository } from "@data/api/sparepart/sparepart-inventory-api-repository";
 import { SparepartKategoryApiRepository } from "@data/api/sparepart/sparepart-kategory-api-repository";
 import { SparepartApiRpository } from "@data/api/sparepart/sparepart-part-api-repository";
-import { SparepartInventory } from "@domain/models/sparepart/saprepart-inventory";
+import { SparepartAvailability } from "@domain/models/sparepart/sparepart-availability";
+import { SparepartInventory } from "@domain/models/sparepart/sparepart-inventory";
 import { SparepartKategory } from "@domain/models/sparepart/sparepart-kategory";
 import { SparepartPart } from "@domain/models/sparepart/sparepart-part";
 import { useEffect, useState } from "react";
@@ -73,9 +75,16 @@ export default function useSparepart() {
 
   const partSparepartRepository = new SparepartApiRpository();
 
+  const availabilitySparepartRepository =
+    new SparepartAvailabilityApiRepository();
+
   //state data sparepat
 
   const [dataSparepart, setDataSparepart] = useState<SparepartPart[]>([]);
+
+  const [dataSparepartAvailability, setDataSparepartAvailability] = useState<
+    SparepartAvailability[]
+  >([]);
 
   const [dataSparepartInventory, setDataSparepartInventory] = useState<
     SparepartInventory[]
@@ -101,6 +110,20 @@ export default function useSparepart() {
       setTimeout(() => {
         setIsLoadingData(false);
         setDataSparepart(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data sparepart
+  const getDataSparepatAvailability = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await availabilitySparepartRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSparepartAvailability(result);
       }, 500);
     } catch (error) {
       console.log(error);
@@ -142,10 +165,13 @@ export default function useSparepart() {
       getDataSparepartInventory();
     } else if (type == "part") {
       getDataSparepart();
+    } else if (type == "availability") {
+      getDataSparepatAvailability();
     } else {
       setDataSparepartKategory([]);
       setDataSparepartInventory([]);
       setDataSparepart([]);
+      setDataSparepartAvailability([]);
     }
   }, [type]);
 
@@ -171,5 +197,6 @@ export default function useSparepart() {
     isLoadingData,
     dataSparepartInventory,
     dataSparepart,
+    dataSparepartAvailability,
   };
 }

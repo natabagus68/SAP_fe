@@ -1,4 +1,4 @@
-import { SparepartInventory } from "@domain/models/sparepart/saprepart-inventory";
+import { SparepartInventory } from "@domain/models/sparepart/sparepart-inventory";
 import { SparepartInventoryRepository } from "@domain/repositories/sparepart/sparepart-inventory-repository";
 import { api } from "../_api";
 
