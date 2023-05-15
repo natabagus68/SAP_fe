@@ -12,7 +12,7 @@ import { Manpower } from "@domain/models/manpower/manpower";
 export default function useManpower() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type } = useParams();
+  const { type, manpowerId } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
   //setup react form hook
@@ -40,12 +40,27 @@ export default function useManpower() {
   const manpowerRepository = new ManpowerApiRepository();
   //state data manpower
   const [dataManpower, setDataManpower] = useState<Manpower[]>([]);
+  //state data manpower by id
+  const [dataManpowerById, setDataManpowerById] = useState(null);
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   // create manpower data
-  const createManpower = (data) => {
-    console.log(data);
+  const createManpower = async (data) => {
+    try {
+      const result = await manpowerRepository.create(
+        Manpower.create({
+          name: data.name,
+          employee_no: data.nip,
+          section_id: data.section,
+          position_id: data.posisi,
+          departemen_id: data.departemen,
+        })
+      );
+      console.log(result);
+    } catch (error) {
+      throw new Error(error);
+    }
   };
   // get data manpower
   const getDataManpower = async () => {
@@ -57,17 +72,33 @@ export default function useManpower() {
         setDataManpower(result);
       }, 500);
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
+    }
+  };
+  // get data manpower
+  const getDataManpowerById = async (id: string) => {
+    try {
+      const result = await manpowerRepository.getDataById(id);
+      setTimeout(() => {
+        setDataManpowerById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
   useEffect(() => {
-    if(type == "manpower"){
+    if (type == "manpower") {
       getDataManpower();
-    }else{
+    } else {
       setDataManpower([]);
     }
   }, [type]);
+  useEffect(() => {
+    if (!!manpowerId) {
+      getDataManpowerById(manpowerId);
+    }
+  }, [manpowerId]);
 
   return {
     state,
@@ -80,6 +111,7 @@ export default function useManpower() {
     type,
     dataManpower,
     isLoadingData,
+    dataManpowerById,
     setSearchParams,
     // setUrlParams,
     navigate,

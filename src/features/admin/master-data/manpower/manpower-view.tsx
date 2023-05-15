@@ -111,18 +111,7 @@ export default function ManpowerView() {
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
                         onClick={() =>
-                          manpower.navigate("details", {
-                            state: {
-                              data: {
-                                nip: item.employee_no,
-                                name: item.name,
-                                departemen: item.departemen,
-                                posisi: item.position_name,
-                                section: item.section_name,
-                                photo: item.avatar,
-                              },
-                            },
-                          })
+                          manpower.navigate(`${item.id}/details`)
                         }
                       >
                         <EyeShowIcon color="white" />
@@ -140,9 +129,9 @@ export default function ManpowerView() {
                               data: {
                                 nip: item.employee_no,
                                 name: item.name,
-                                departemen: item.departemen,
-                                posisi: item.position_name,
-                                section: item.section_name,
+                                departemen: item.departemen_id,
+                                posisi: item.position_id,
+                                section: item.section_id,
                                 photo: item.avatar,
                               },
                             },

@@ -39,36 +39,36 @@ export default function ManpowerDetails() {
         <div className="w-full flex gap-[160px] py-[18px] px-[32px] flex-wrap">
           <div className="flex flex-col gap-6">
             <span className="text-2xl text-[#514E4E]">Informasi Manpower</span>
-            <table className="w-[442px]">
+            <table className={`w-[442px] ${!!!manpower?.dataManpowerById? "animate-pulse":null}`}>
               <tbody>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">No. Induk Pegawai</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    {manpower?.state?.data?.nip}
+                    {manpower?.dataManpowerById?.employee_no}
                   </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Nama Lengkap</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    {manpower?.state?.data?.name}
+                    {manpower?.dataManpowerById?.name}
                   </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Posisi</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    {manpower?.state?.data?.posisi}
+                    {manpower?.dataManpowerById?.position_name}
                   </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Departemen</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    {manpower?.state?.data?.departemen}
+                    {manpower?.dataManpowerById?.departemen_name}
                   </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Section</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    {manpower?.state?.data?.section}
+                    {manpower?.dataManpowerById?.section_name}
                   </td>
                 </tr>
               </tbody>
@@ -76,8 +76,8 @@ export default function ManpowerDetails() {
           </div>
           <div className="flex flex-col gap-6">
             <span className="text-base text-[#514E4E]">Photo</span>
-            <div className="w-[155px] h-[155px] rounded-full overflow-hidden">
-              {manpower?.state?.data?.photo ? (
+            <div className={`w-[155px] h-[155px] rounded-full overflow-hidden ${!!!manpower?.dataManpowerById? "animate-pulse":null}`}>
+              {!!manpower?.dataManpowerById?.avatar ? (
                 <div className="w-full h-full bg-black"></div>
               ) : (
                 <img

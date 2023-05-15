@@ -55,18 +55,6 @@ export default function ManpowerForm() {
           {manpower.type == "manpower" ? (
             <>
               <div className="flex flex-col w-full gap-1">
-                <span>Departemen</span>
-                <select
-                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    manpower.errors.departemen ? "bg-red-100" : "bg-white"
-                  }`}
-                  {...manpower.register("departemen", { required: true })}
-                >
-                  <option value="">Pilih departemen</option>
-                  <option value="departemen">Departemen 1</option>
-                </select>
-              </div>
-              <div className="flex flex-col w-full gap-1">
                 <span>Posisi</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
@@ -75,7 +63,23 @@ export default function ManpowerForm() {
                   {...manpower.register("posisi", { required: true })}
                 >
                   <option value="">Pilih posisi</option>
-                  <option value="posisi">Posisi 1</option>
+                  <option value="1d8d51b0-427c-47f6-922f-f824901817c4">
+                    Posisi 1
+                  </option>
+                </select>
+              </div>
+              <div className="flex flex-col w-full gap-1">
+                <span>Departemen</span>
+                <select
+                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
+                    manpower.errors.departemen ? "bg-red-100" : "bg-white"
+                  }`}
+                  {...manpower.register("departemen", { required: true })}
+                >
+                  <option value="">Pilih departemen</option>
+                  <option value="xxxxxxxx-427c-47f6-922f-f824901817c4">
+                    Departemen 1
+                  </option>
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -87,7 +91,9 @@ export default function ManpowerForm() {
                   {...manpower.register("section", { required: true })}
                 >
                   <option value="">Pilih section</option>
-                  <option value="section">Section 1</option>
+                  <option value="a147cbb7-39be-496e-9dd0-cafb597c3753">
+                    Section 1
+                  </option>
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
