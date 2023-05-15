@@ -10,7 +10,7 @@ export class MesinApiRepository implements MesinRepository {
         id: item?.id,
         machine_no: item?.machine_no || "-",
         name: item?.name || "-",
-        section_id: item?.section_id || "-",
+        section: item?.section.name || "-",
       })
     );
   }

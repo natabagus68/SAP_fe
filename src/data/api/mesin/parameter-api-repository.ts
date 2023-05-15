@@ -8,7 +8,7 @@ export class ParameterApiRepository implements ParameterRepository {
     return data?.data?.map((item) =>
       Parameter.create({
         id: item?.id,
-        indicator_id: item?.indicator_id || "-",
+        indicator: item?.indicator.name || "-",
         name: item?.name || "-",
         variable: item?.variable || "-",
       })

@@ -4,7 +4,7 @@ export interface IMesinProps {
   id: string;
   machine_no: string;
   name: string;
-  section_id: string;
+  section: string;
 }
 
 export interface IMesin {
@@ -20,7 +20,7 @@ export class Mesin extends Entity<IMesinProps> implements IMesin {
       id: this.id,
       machine_no: this.machine_no,
       name: this.name,
-      section_id: this.section_id,
+      section: this.section,
     };
   }
 
@@ -33,7 +33,7 @@ export class Mesin extends Entity<IMesinProps> implements IMesin {
   get name(): string {
     return this._props.name;
   }
-  get section_id(): string {
-    return this._props.section_id;
+  get section(): string {
+    return this._props.section;
   }
 }

@@ -126,7 +126,7 @@ export default function MesinView() {
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.machine_no}</td>
                   <td className="px-[32px]">{item.name}</td>
-                  <td className="px-[32px]">-</td>
+                  <td className="px-[32px]">{item.section}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
                       <button
@@ -138,7 +138,7 @@ export default function MesinView() {
                                 no: item.machine_no,
                                 name: item.name,
                                 departemen: "departemen",
-                                section: "section",
+                                section: item.section,
                                 photo: "photo.png",
                               },
                             },
@@ -276,7 +276,7 @@ export default function MesinView() {
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">{item.variable}</td>
-                  <td className="px-[32px]">-</td>
+                  <td className="px-[32px]">{item.indicator}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
                       <button
@@ -289,7 +289,7 @@ export default function MesinView() {
                               data: {
                                 name: item.name,
                                 variable: item.variable,
-                                indicator: item.indicator_id,
+                                indicator: item.indicator,
                               },
                             },
                           })
@@ -393,7 +393,6 @@ export default function MesinView() {
             <tbody className="text-base text-[#514E4E]">
               {mesin.dataUom.map((item, i) => (
                 <tr className="border-b border-[#D0D3D9] h-[64px]">
-                  <td className="px-[32px]">-</td>
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
@@ -405,7 +404,6 @@ export default function MesinView() {
                               edit: true,
                               type: mesin.type,
                               data: {
-                                title: "",
                                 uom: item.name,
                               },
                             },
