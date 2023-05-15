@@ -89,6 +89,7 @@ export default function useLocationHooks() {
   useEffect(() => {
     if (type == "departemen") {
       getDataDepartemen();
+      getDataSection();
     } else if (type == "section") {
       getDataSection();
     } else {

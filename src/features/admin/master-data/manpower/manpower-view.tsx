@@ -200,7 +200,8 @@ export default function ManpowerView() {
               className="w-[24px] h-[24px] animate-spin"
             />
           </div>
-        ) : !!!manpower.dataManpower.length && !!!manpower.dataPosition.length ? (
+        ) : !!!manpower.dataManpower.length &&
+          !!!manpower.dataPosition.length ? (
           <div className="w-full flex flex-col items-center py-[60px]">
             <img src={empty_data_table} alt="Empty data table" className="" />
             <span className="text-[#514E4E] text-2xl font-bold">

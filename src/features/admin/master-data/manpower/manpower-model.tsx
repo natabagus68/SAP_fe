@@ -8,12 +8,16 @@ import {
 import { useForm } from "react-hook-form";
 import { ManpowerApiRepository } from "@data/api/manpower/manpower-api-repository";
 import { Manpower } from "@domain/models/manpower/manpower";
+
 import { SectionApiRepository } from "@data/api/location/section-api-repository";
 import { Section } from "@domain/models/location/section";
 import { Departemen } from "@domain/models/location/departemen";
 import { DepartemenApiRepository } from "@data/api/location/departemen-api-repository";
 import { PositionApiRepository } from "@data/api/manpower/position-api-repository";
 import { Position } from "@domain/models/manpower/position";
+
+import { PosisiApiRepository } from "@data/api/manpower/posisi-api-repository";
+import { Posisi } from "@domain/models/manpower/posisi";
 
 export default function useManpower() {
   const navigate = useNavigate();
@@ -44,10 +48,14 @@ export default function useManpower() {
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
+
   //api authenticationRepository
   const manpowerRepository = new ManpowerApiRepository();
+  const posisiRepository = new PosisiApiRepository();
+
   //state data manpower
   const [dataManpower, setDataManpower] = useState<Manpower[]>([]);
+  const [dataPosisi, setDataPosisi] = useState<Posisi[]>([]);
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
   //state succes create/update data
@@ -182,16 +190,39 @@ export default function useManpower() {
     }
   };
 
+  // get data posisi
+  const getDataPosisi = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await posisiRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataPosisi(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getDataPosition();
     getDataSection();
   }, []);
+
   useEffect(() => {
     if (type == "manpower") {
       getDataManpower();
     } else {
       getDataPosition();
     }
+    // if (type == "manpower") {
+    //   getDataManpower();
+    // } else if (type == "posisi") {
+    //   getDataPosisi();
+    // } else {
+    //   setDataManpower([]);
+    //   setDataPosisi([]);
+    // }
   }, [type]);
   useEffect(() => {
     if (!!manpowerId) {
@@ -215,6 +246,7 @@ export default function useManpower() {
     isSuccess,
     manpowerId,
     dataId,
+    dataPosisi,
     setSearchParams,
     navigate,
     createManpower,
