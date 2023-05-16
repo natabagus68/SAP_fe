@@ -14,9 +14,11 @@ import {
 export default function useLocationHooks() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type } = useParams();
+  const { type, departemenId } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
+  //state data departemen by id
+  const [dataDepartemenById, setDataDepartemenById] = useState(null);
   //setup react form hook
   const {
     register,
@@ -24,8 +26,8 @@ export default function useLocationHooks() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      departemen: state?.data?.departemen,
-      section: state?.data?.section,
+      departemen: dataDepartemenById?.name,
+      section: dataDepartemenById?.section,
     },
   });
   //state & default data url params
@@ -52,6 +54,9 @@ export default function useLocationHooks() {
 
   //state data Section
   const [dataSection, setDataSection] = useState<Section[]>([]);
+
+  //state for parsing data id
+  const [dataId, setDataId] = useState(null);
 
   // create location data
   const createLocation = (data) => {
@@ -86,6 +91,18 @@ export default function useLocationHooks() {
     }
   };
 
+  //get data byID
+  const getDataDepartemenById = async (id: string) => {
+    try {
+      const result = await DepartemenRepository.getDataDepartemenById(id);
+      setTimeout(() => {
+        setDataDepartemenById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   useEffect(() => {
     if (type == "departemen") {
       getDataDepartemen();
@@ -97,6 +114,12 @@ export default function useLocationHooks() {
       setDataSection([]);
     }
   }, [type]);
+
+  useEffect(() => {
+    if (!!departemenId) {
+      getDataDepartemenById(departemenId);
+    }
+  }, [departemenId]);
 
   return {
     state,
@@ -117,7 +140,9 @@ export default function useLocationHooks() {
     setOpenModalConfirm,
     setOpenModalSuccess,
     dataDepartemen,
+    dataDepartemenById,
     dataSection,
     isLoadingData,
+    getDataDepartemenById,
   };
 }

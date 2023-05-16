@@ -2,7 +2,7 @@ import { Entity } from "../_entity";
 
 export interface IParameterProps {
   id: string;
-  indicator_id: string;
+  indicator: string;
   name: string;
   variable: string;
 }
@@ -18,7 +18,7 @@ export class Parameter extends Entity<IParameterProps> implements IParameter {
   unmarshall(): IParameterProps {
     return {
       id: this.id,
-      indicator_id: this.indicator_id,
+      indicator: this.indicator,
       name: this.name,
       variable: this.variable,
     };
@@ -27,8 +27,8 @@ export class Parameter extends Entity<IParameterProps> implements IParameter {
   get id(): string {
     return this._props.id;
   }
-  get indicator_id(): string {
-    return this._props.indicator_id;
+  get indicator(): string {
+    return this._props.indicator;
   }
   get name(): string {
     return this._props.name;

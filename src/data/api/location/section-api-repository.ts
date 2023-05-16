@@ -1,5 +1,4 @@
 import { api } from "../_api";
-import { Departemen } from "@domain/models/location/departemen";
 import { Section } from "@domain/models/location/section";
 import { SectionRepository } from "@domain/repositories/location/section-repository";
 

@@ -59,50 +59,20 @@ export default function LocationDetails() {
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Nama Departemen</td>
                   <td className="px-4 py-[6px] ">
-                    {location?.state?.data?.departemen}
+                    {location?.dataDepartemenById?.name}
                   </td>
                 </tr>
-                <tr>
-                  <td className="px-4 py-[6px]">Section</td>
-                  <td className="px-4 py-[6px]">
-                    {location.state?.data?.section}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">
-                    {" "}
-                    {location.state?.data?.section}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">
-                    {" "}
-                    {location.state?.data?.section}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">
-                    {" "}
-                    {location.state?.data?.section}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">
-                    {" "}
-                    {location.state?.data?.section}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-[6px]"></td>
-                  <td className="px-4 py-[6px]">
-                    {" "}
-                    {location.state?.data?.section}
-                  </td>
-                </tr>
+                {/* {location?.dataDepartemenById?.map((item, i) => (
+                  <tr>
+                    <td rowSpan={item.i} className="px-4 py-[6px]  text-start">
+                      Section
+                    </td>
+
+                    <td className="px-4 py-[6px] ">
+                      {location?.dataDepartemenById?.section}
+                    </td>
+                  </tr>
+                ))} */}
               </tbody>
             </table>
           </div>

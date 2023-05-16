@@ -3,6 +3,7 @@ import { Entity } from "../_entity";
 export interface IDepartemenProps {
   id: string;
   name: string;
+  section: string;
 }
 
 export interface IDepartemen {
@@ -20,6 +21,7 @@ export class Departemen
     return {
       id: this.id,
       name: this.name,
+      section: this.section,
     };
   }
 
@@ -28,5 +30,8 @@ export class Departemen
   }
   get name(): string {
     return this._props.name;
+  }
+  get section(): string {
+    return this._props.section;
   }
 }
