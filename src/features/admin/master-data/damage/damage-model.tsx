@@ -15,15 +15,19 @@ export default function useDamage() {
   const { damageId } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
+
+  //state data by id
+  const [dataDamageById, setDataDamageById] = useState(null);
+
   //setup react form hook
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      id: state?.data?.id,
-      damage: state?.data?.damage,
+    values: {
+      id: dataDamageById?.id,
+      type: dataDamageById?.type,
     },
   });
   //state & default data url params
@@ -45,19 +49,23 @@ export default function useDamage() {
   const damageRepository = new DamageApiRepository();
   //state data manpower
   const [dataDamage, setDataDamage] = useState<Damage[]>([]);
+
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   //state for parsing data id
   const [dataId, setDataId] = useState(null);
 
+  //state message from api
+  const [message, setMessage] = useState(null);
+
   // create damage data
   const createDamage = async (data) => {
     setIsLoadingData(true);
+    setMessage(null);
     try {
       const result = await damageRepository.create(
         Damage.create({
-          id: data.id,
           type: data.type,
         })
       );
@@ -81,9 +89,26 @@ export default function useDamage() {
       setTimeout(() => {
         setIsLoadingData(false);
         setDataDamage(result);
+        //console.log(result);
       }, 500);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //get data by id
+  const getDataDamageById = async (id: string) => {
+    console.log(id);
+
+    try {
+      const result = await damageRepository.getDataById(id);
+      console.log(result);
+
+      setTimeout(() => {
+        setDataDamageById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
@@ -93,7 +118,7 @@ export default function useDamage() {
     try {
       const result = await damageRepository.edit(
         Damage.create({
-          id: damageId,
+          id: data.id,
           type: data.type,
         })
       );
@@ -131,6 +156,13 @@ export default function useDamage() {
     getDataDamage();
   }, []);
 
+  useEffect(() => {
+    if (!!damageId) {
+      getDataDamageById(damageId);
+    }
+    console.log(damageId);
+  }, [damageId]);
+
   return {
     state,
     searchParams,
@@ -156,5 +188,8 @@ export default function useDamage() {
     dataId,
     setDataId,
     deleteDataDamage,
+    dataDamageById,
+    getDataDamageById,
+    message,
   };
 }

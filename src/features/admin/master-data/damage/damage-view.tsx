@@ -55,7 +55,6 @@ export default function DamageView() {
         <table className="w-full">
           <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
             <tr>
-              <th className="px-[32px] text-start">ID</th>
               <th className="px-[32px] text-start">Jenis Kerusakan</th>
               <th className="px-[32px] text-start">Action</th>
             </tr>
@@ -63,8 +62,7 @@ export default function DamageView() {
           <tbody className="text-base text-[#514E4E]">
             {damage.dataDamage.map((item, i) => (
               <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">{item.id}</td>
-                <td className="px-[32px]">{item.name}</td>
+                <td className="px-[32px]">{item.type}</td>
                 <td className="px-[32px]">
                   <div className="flex items-center gap-6">
                     <button

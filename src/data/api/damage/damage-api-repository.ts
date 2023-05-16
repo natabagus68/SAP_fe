@@ -13,12 +13,26 @@ export class DamageApiRepository implements DamageRepository {
     );
   }
 
+  async getDataById(id: string): Promise<Damage> {
+    console.log(id);
+
+    try {
+      const { data } = await api.get(`damage-type/${id}`);
+      return Damage.create({
+        id: data.data?.id,
+        type: data.data?.type || "-",
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async edit(damage: Damage): Promise<void> {
     try {
-      const formData = new FormData();
-      formData.append("id", damage.id);
-      formData.append("name", damage.name);
-      const { data } = await api.put(`damage-type/${damage.id}`, formData);
+      const { data } = await api.put(`damage-type/${damage.id}`, {
+        id: damage.id,
+        type: damage.type,
+      });
       return data.data;
     } catch (error) {
       throw new Error(error);
@@ -27,10 +41,10 @@ export class DamageApiRepository implements DamageRepository {
 
   async create(damage: Damage): Promise<void> {
     try {
-      const formData = new FormData();
-      formData.append("id", damage.id);
-      formData.append("name", damage.name);
-      const { data } = await api.post(`damage-type`, formData);
+      const { data } = await api.post(`damage-type`, {
+        id: damage.id,
+        type: damage.type,
+      });
       return data.data;
     } catch (error) {
       throw new Error(error);
