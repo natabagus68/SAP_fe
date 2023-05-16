@@ -89,7 +89,6 @@ export default function useDamage() {
       setTimeout(() => {
         setIsLoadingData(false);
         setDataDamage(result);
-        //console.log(result);
       }, 500);
     } catch (error) {
       console.log(error);
@@ -98,8 +97,6 @@ export default function useDamage() {
 
   //get data by id
   const getDataDamageById = async (id: string) => {
-    console.log(id);
-
     try {
       const result = await damageRepository.getDataById(id);
       console.log(result);
@@ -160,7 +157,6 @@ export default function useDamage() {
     if (!!damageId) {
       getDataDamageById(damageId);
     }
-    console.log(damageId);
   }, [damageId]);
 
   return {
