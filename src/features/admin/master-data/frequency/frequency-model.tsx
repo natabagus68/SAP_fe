@@ -12,22 +12,23 @@ import { Frequency } from "@domain/models/frequency/frequency";
 export default function useFrequency() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { frequencyId } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
+
+  //state data by id
+  const [dataFrequencyById, setDataFrequencyById] = useState(null);
+
   //setup react form hook
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      id: state?.data?.id,
-      frequency: state?.data?.frequency,
+    values: {
+      id: dataFrequencyById?.id,
+      type: dataFrequencyById?.type,
     },
-  });
-  //state & default data url params
-  const [urlParams, setUrlParams] = useState({
-    type: "manpower",
   });
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -36,19 +37,23 @@ export default function useFrequency() {
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
-  // create manpower data
-  const createMesin = (data) => {
-    console.log(data);
-  };
+  //state succes create/update data
+  const [isSuccess, setIsSuccess] = useState(false);
 
   //api authenticationRepository
   const frequencyRepository = new FrequencyApiRepository();
-  //state data manpower
+  //state data frequency
   const [dataFrequency, setDataFrequency] = useState<Frequency[]>([]);
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
 
-  // get data manpower
+  //state for parsing data id
+  const [dataId, setDataId] = useState(null);
+
+  //state message from api
+  const [message, setMessage] = useState(null);
+
+  // get data frequency
   const getDataFrequency = async () => {
     setIsLoadingData(true);
     try {
@@ -62,22 +67,100 @@ export default function useFrequency() {
     }
   };
 
+  // create frequency data
+  const createFrequency = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await frequencyRepository.create(
+        Frequency.create({
+          type: data.type,
+          id: data.id,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  //get data by id
+  const getDataFrequencyById = async (id: string) => {
+    try {
+      const result = await frequencyRepository.getDataById(id);
+      setTimeout(() => {
+        setDataFrequencyById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  //edit frequency data
+  const editFrequency = async (data) => {
+    setIsLoadingData(true);
+    try {
+      const result = await frequencyRepository.edit(
+        Frequency.create({
+          id: data.id,
+          type: data.type,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      setIsLoadingData(false);
+      throw new Error(error);
+    }
+  };
+
+  // detele data damage
+  const deleteDataFrequency = async (id: string, setIsLoading) => {
+    try {
+      const result = await frequencyRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataFrequency();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
+  };
+
   useEffect(() => {
     getDataFrequency();
   }, []);
 
+  useEffect(() => {
+    if (!!frequencyId) {
+      getDataFrequencyById(frequencyId);
+    }
+  }, [frequencyId]);
+
   return {
     state,
     searchParams,
-    urlParams,
+    // urlParams,
     errors,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
     setSearchParams,
-    setUrlParams,
+    // setUrlParams,
     navigate,
-    createMesin,
+    createFrequency,
     register,
     handleSubmit,
     setOpenModalDelete,
@@ -85,5 +168,13 @@ export default function useFrequency() {
     setOpenModalSuccess,
     dataFrequency,
     isLoadingData,
+    dataId,
+    message,
+    deleteDataFrequency,
+    editFrequency,
+    getDataFrequencyById,
+    isSuccess,
+    setDataId,
+    frequencyId,
   };
 }

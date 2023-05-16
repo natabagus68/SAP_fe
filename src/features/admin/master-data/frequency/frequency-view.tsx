@@ -23,16 +23,17 @@ export default function FrequencyView() {
         open={frequency.openModalConfirm}
         setOpen={frequency.setOpenModalConfirm}
         setOpenSuccess={frequency.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            console.log("delete useFrequency");
-          }, 3000);
+          frequency.deleteDataFrequency(frequency.dataId, setIsLoading);
+          console.log("delete useFrequency");
         }}
       />
       <ModalSuccess
         open={frequency.openModalSuccess}
         setOpen={frequency.setOpenModalSuccess}
+        isSuccess={frequency.isSuccess}
+        successMessage="Berhasil menghapus data!"
       />
       <Breadcrumbs items={["Master Data", `Frequency`]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
@@ -52,33 +53,19 @@ export default function FrequencyView() {
         <table className="w-full">
           <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
             <tr>
-              <th className="px-[32px] text-start">ID</th>
               <th className="px-[32px] text-start">Waktu Frequency</th>
               <th className="px-[32px] text-start">Action</th>
             </tr>
           </thead>
           <tbody className="text-base text-[#514E4E]">
             {frequency.dataFrequency.map((item, i) => (
-              <tr className="border-b border-[#D0D3D9] h-[64px]">
-                <td key={i} className="px-[32px]">
-                  -
-                </td>
+              <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                 <td className="px-[32px]">{item.type}</td>
                 <td className="px-[32px]">
                   <div className="flex items-center gap-6">
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        frequency.navigate("edit", {
-                          state: {
-                            edit: true,
-                            data: {
-                              id: "",
-                              frequency: item.type,
-                            },
-                          },
-                        })
-                      }
+                      onClick={() => frequency.navigate(`${item.id}/edit`)}
                     >
                       <EditIcon color="white" />
                       <span className="text-white text-sm font-semibold">
@@ -87,7 +74,10 @@ export default function FrequencyView() {
                     </button>
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => frequency.setOpenModalDelete(true)}
+                      onClick={() => {
+                        frequency.setDataId(item.id);
+                        frequency.setOpenModalDelete(true);
+                      }}
                     >
                       <TrashIcon color="white" />
                       <span className="text-white text-sm font-semibold">

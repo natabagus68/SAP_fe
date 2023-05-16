@@ -325,7 +325,7 @@ export default createBrowserRouter([
             element: <FrequencyForm />,
           },
           {
-            path: "edit",
+            path: ":frequencyId/edit",
             element: <FrequencyForm />,
           },
         ],
