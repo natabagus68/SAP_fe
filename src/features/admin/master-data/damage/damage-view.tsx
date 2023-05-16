@@ -24,16 +24,17 @@ export default function DamageView() {
         open={damage.openModalConfirm}
         setOpen={damage.setOpenModalConfirm}
         setOpenSuccess={damage.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            console.log("delete useDamage");
-          }, 3000);
+          damage.deleteDataDamage(damage.dataId, setIsLoading);
+          console.log("delete useDamage");
         }}
       />
       <ModalSuccess
         open={damage.openModalSuccess}
         setOpen={damage.setOpenModalSuccess}
+        isSuccess={damage.isSuccess}
+        successMessage="Berhasil menghapus data!"
       />
       <Breadcrumbs items={["Master Data", `Damage`]} />
 
@@ -62,23 +63,13 @@ export default function DamageView() {
           <tbody className="text-base text-[#514E4E]">
             {damage.dataDamage.map((item, i) => (
               <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]"></td>
+                <td className="px-[32px]">{item.id}</td>
                 <td className="px-[32px]">{item.name}</td>
                 <td className="px-[32px]">
                   <div className="flex items-center gap-6">
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                      onClick={() =>
-                        damage.navigate("edit", {
-                          state: {
-                            edit: true,
-                            data: {
-                              id: "",
-                              damage: item.name,
-                            },
-                          },
-                        })
-                      }
+                      onClick={() => damage.navigate(`${item.id}/edit`)}
                     >
                       <EditIcon color="white" />
                       <span className="text-white text-sm font-semibold">
@@ -87,7 +78,10 @@ export default function DamageView() {
                     </button>
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => damage.setOpenModalDelete(true)}
+                      onClick={() => {
+                        damage.setDataId(item.id);
+                        damage.setOpenModalDelete(true);
+                      }}
                     >
                       <TrashIcon color="white" />
                       <span className="text-white text-sm font-semibold">

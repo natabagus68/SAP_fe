@@ -12,4 +12,36 @@ export class DamageApiRepository implements DamageRepository {
       })
     );
   }
+
+  async edit(damage: Damage): Promise<void> {
+    try {
+      const formData = new FormData();
+      formData.append("id", damage.id);
+      formData.append("name", damage.name);
+      const { data } = await api.put(`damage-type/${damage.id}`, formData);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async create(damage: Damage): Promise<void> {
+    try {
+      const formData = new FormData();
+      formData.append("id", damage.id);
+      formData.append("name", damage.name);
+      const { data } = await api.post(`damage-type`, formData);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`damage-type/${id}`);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

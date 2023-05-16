@@ -365,7 +365,7 @@ export default createBrowserRouter([
             element: <DamageForm />,
           },
           {
-            path: "edit",
+            path: ":damageId/edit",
             element: <DamageForm />,
           },
         ],
