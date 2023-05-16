@@ -27,19 +27,18 @@ export default function LocationView() {
         setOpenSuccess={location.setOpenModalSuccess}
         confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            if (location.type == "departemen") {
-              console.log("delete departemen");
-            } else {
-              console.log("delete section");
-            }
-          }, 3000);
+          if (location.type == "departemen") {
+            location.deleteDataDepartemen(location.dataId, setIsLoading);
+          } else {
+            location.deleteDataSection(location.dataId, setIsLoading);
+          }
         }}
       />
       <ModalSuccess
         open={location.openModalSuccess}
         setOpen={location.setOpenModalSuccess}
+        isSuccess={location.isSuccess}
+        successMessage="Berhasil Menghapus Data"
       />
       <Breadcrumbs
         items={[
@@ -127,7 +126,10 @@ export default function LocationView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => location.setOpenModalDelete(true)}
+                        onClick={() => {
+                          location.setDataId(item.id);
+                          location.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -156,17 +158,7 @@ export default function LocationView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          location.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: location.type,
-                              data: {
-                                section: item.name,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => location.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -175,7 +167,10 @@ export default function LocationView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => location.setOpenModalDelete(true)}
+                        onClick={() => {
+                          location.setDataId(item.id);
+                          location.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">

@@ -12,4 +12,53 @@ export class SectionApiRepository implements SectionRepository {
       })
     );
   }
+  async getDataById(id: string): Promise<Section> {
+    try {
+      const { data } = await api.get(`section/${id}`);
+      return Section.create({
+        id: data.data?.id,
+        name: data.data?.name || "-",
+        department_id: data.data?.department_id || "-",
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async edit(section: Section): Promise<void> {
+    try {
+      const { data } = await api.put(`section/${section.id}`, {
+        id: section.id,
+        name: section.name,
+        department_id: section.department_id,
+      });
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async create(section: Section): Promise<void> {
+    console.log(section.department_id);
+
+    try {
+      const { data } = await api.post(`section`, {
+        id: section.id,
+        name: section.name,
+        department_id: section.department_id,
+      });
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`section/${id}`);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

@@ -21,13 +21,21 @@ export class DepartemenApiRepository implements DepartemenRepository {
   async getDataById(id: string): Promise<Departemen> {
     try {
       const { data } = await api.get(`department/${id}`);
-      console.log(data);
 
       return Departemen.create({
         id: data.data?.id,
         name: data.data?.name || "-",
         section: data.data?.Sections || "-",
       });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`department/${id}`);
+      return data.data;
     } catch (error) {
       throw new Error(error);
     }
