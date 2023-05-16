@@ -10,7 +10,6 @@ import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import empty_data_table from "../../../../assets/png/empty_data_table.png";
-import { Section } from "@domain/models/location/section";
 
 export default function LocationView() {
   const location = useLocation();
@@ -33,7 +32,7 @@ export default function LocationView() {
             if (location.type == "departemen") {
               console.log("delete departemen");
             } else {
-              console.log("delete location");
+              console.log("delete section");
             }
           }, 3000);
         }}
@@ -45,6 +44,7 @@ export default function LocationView() {
       <Breadcrumbs
         items={[
           "Master Data",
+          "Location",
           `${location.type[0].toLocaleUpperCase()}${location.type.slice(1)}`,
         ]}
       />

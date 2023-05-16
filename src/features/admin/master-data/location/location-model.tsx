@@ -58,11 +58,6 @@ export default function useLocationHooks() {
   //state for parsing data id
   const [dataId, setDataId] = useState(null);
 
-  // create location data
-  const createLocation = (data) => {
-    console.log(data);
-  };
-
   // get data departemen
   const getDataDepartemen = async () => {
     setIsLoadingData(true);
@@ -94,7 +89,9 @@ export default function useLocationHooks() {
   //get data byID
   const getDataDepartemenById = async (id: string) => {
     try {
-      const result = await DepartemenRepository.getDataDepartemenById(id);
+      const result = await DepartemenRepository.getDataById(id);
+      console.log(result);
+
       setTimeout(() => {
         setDataDepartemenById(result);
       }, 500);
@@ -133,7 +130,6 @@ export default function useLocationHooks() {
     setSearchParams,
     // setUrlParams,
     navigate,
-    createLocation,
     register,
     handleSubmit,
     setOpenModalDelete,

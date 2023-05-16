@@ -4,6 +4,7 @@ export interface IDepartemenProps {
   id: string;
   name: string;
   section: string;
+  // section_name: string;
 }
 
 export interface IDepartemen {
@@ -22,6 +23,7 @@ export class Departemen
       id: this.id,
       name: this.name,
       section: this.section,
+      // section_name: this.section_name,
     };
   }
 
@@ -34,4 +36,7 @@ export class Departemen
   get section(): string {
     return this._props.section;
   }
+  // get section_name(): string {
+  //   return this._props.section_name;
+  // }
 }

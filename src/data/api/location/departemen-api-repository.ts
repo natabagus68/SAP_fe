@@ -18,14 +18,15 @@ export class DepartemenApiRepository implements DepartemenRepository {
     }
   }
 
-  async getDataDepartemenById(id: string): Promise<Departemen> {
+  async getDataById(id: string): Promise<Departemen> {
     try {
       const { data } = await api.get(`department/${id}`);
       console.log(data);
+
       return Departemen.create({
         id: data.data?.id,
         name: data.data?.name || "-",
-        section: data.data?.Sections.name || "-",
+        section: data.data?.Sections || "-",
       });
     } catch (error) {
       throw new Error(error);
