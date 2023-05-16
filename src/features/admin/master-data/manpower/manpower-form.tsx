@@ -10,21 +10,25 @@ export default function ManpowerForm() {
         items={[
           "Master Data",
           `${manpower.type[0].toLocaleUpperCase()}${manpower.type.slice(1)}`,
-          !!manpower?.manpowerId ? "Edit" : "Create",
+          !!manpower?.id ? "Edit" : "Create",
         ]}
       />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            {!!manpower?.manpowerId ? "Edit Data" : "Create Data"}
+            {!!manpower?.id ? "Edit Data" : "Create Data"}
           </span>
         </div>
         <form
           className="w-full flex py-[18px] px-[32px] gap-4 flex-wrap"
           onSubmit={manpower.handleSubmit(
-            !!manpower?.manpowerId
-              ? manpower.editManpower
-              : manpower.createManpower
+            !!manpower?.id
+              ? manpower.type == "manpower"
+                ? manpower.editManpower
+                : manpower.editPosition
+              : manpower.type == "manpower"
+              ? manpower.createManpower
+              : manpower.createPosition
           )}
         >
           {manpower.type == "manpower" ? (
@@ -101,9 +105,17 @@ export default function ManpowerForm() {
                   {...manpower.register("photo")}
                 />
               </div>
+              <div className="w-full">
+                <span
+                  className={`text-[#F04438] text-center ${
+                    !!manpower.message ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  {manpower.message || "-"}
+                </span>
+              </div>
             </>
           ) : null}
-
           <div className="flex items-center gap-6">
             {manpower.isLoadingData ? (
               <button

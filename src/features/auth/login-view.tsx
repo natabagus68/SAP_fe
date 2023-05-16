@@ -39,7 +39,11 @@ export default function LoginView() {
             </span>
           </div>
           <div className="flex flex-col gap-[25px]">
-            <div className={`w-full h-[52px] ${login.errors.email ? "bg-red-100" : "bg-[#EFF1F999]"} px-[18px] flex items-center gap-[16px] rounded-lg`}>
+            <div
+              className={`w-full h-[52px] ${
+                login.errors.email ? "bg-red-100" : "bg-[#EFF1F999]"
+              } px-[18px] flex items-center gap-[16px] rounded-lg`}
+            >
               <EmailIcon />
               <input
                 type="email"
@@ -48,7 +52,11 @@ export default function LoginView() {
                 {...login.register("email", { required: true })}
               />
             </div>
-            <div className={`w-full h-[52px] ${login.errors.password ? "bg-red-100" : "bg-[#EFF1F999]"} px-[18px] flex items-center gap-[16px] rounded-lg`}>
+            <div
+              className={`w-full h-[52px] ${
+                login.errors.password ? "bg-red-100" : "bg-[#EFF1F999]"
+              } px-[18px] flex items-center gap-[16px] rounded-lg`}
+            >
               <LockIcon />
               <input
                 type={`${login.isPasswordShow ? "text" : "password"}`}
@@ -72,12 +80,12 @@ export default function LoginView() {
             </div>
           </div>
           <span
-              className={`text-[#F04438] text-center ${
-                login.messages ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              {login.messages || "-"}
-            </span>
+            className={`text-[#F04438] text-center ${
+              login.messages ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {login.messages || "-"}
+          </span>
           <button className="w-full h-[44px] bg-[#20519F] rounded-xl text-white text-base">
             Login
           </button>
