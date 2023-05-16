@@ -16,17 +16,16 @@ import { DepartemenApiRepository } from "@data/api/location/departemen-api-repos
 import { PositionApiRepository } from "@data/api/manpower/position-api-repository";
 import { Position } from "@domain/models/manpower/position";
 
-import { PosisiApiRepository } from "@data/api/manpower/posisi-api-repository";
-import { Posisi } from "@domain/models/manpower/posisi";
-
 export default function useManpower() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type, manpowerId } = useParams();
+  const { type, id } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
   //state data manpower by id
   const [dataManpowerById, setDataManpowerById] = useState(null);
+  //state data position by id
+  const [dataPositionById, setDataPositionById] = useState(null);
   //setup react form hook
   const {
     register,
@@ -35,7 +34,8 @@ export default function useManpower() {
   } = useForm({
     values: {
       nip: dataManpowerById?.employee_no,
-      name: dataManpowerById?.name,
+      name:
+        type == "manpower" ? dataManpowerById?.name : dataPositionById?.name,
       posisi: dataManpowerById?.position_id,
       section: dataManpowerById?.section_id,
       photo: dataManpowerById?.avatar,
@@ -48,14 +48,10 @@ export default function useManpower() {
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
   //state modal success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
-
   //api authenticationRepository
   const manpowerRepository = new ManpowerApiRepository();
-  const posisiRepository = new PosisiApiRepository();
-
   //state data manpower
   const [dataManpower, setDataManpower] = useState<Manpower[]>([]);
-  const [dataPosisi, setDataPosisi] = useState<Posisi[]>([]);
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
   //state succes create/update data
@@ -66,23 +62,72 @@ export default function useManpower() {
   const sectionRepository = new SectionApiRepository();
   //state data Section
   const [dataSection, setDataSection] = useState<Section[]>([]);
-  // //api repository departement
-  // const departemenRepository = new DepartemenApiRepository();
-  // //state data departemen
-  // const [dataDepartemen, setDataDepartemen] = useState<Departemen[]>([]);
   //api repository position
   const positionRepository = new PositionApiRepository();
   //state data departemen
   const [dataPosition, setDataPosition] = useState<Position[]>([]);
   //state for parsing data id
   const [dataId, setDataId] = useState(null);
+  //state message from api
+  const [message, setMessage] = useState(null);
 
   // create manpower data
   const createManpower = async (data) => {
     setIsLoadingData(true);
+    setMessage(null);
     try {
       const result = await manpowerRepository.create(
         Manpower.create({
+          name: data.name,
+          employee_no: data.nip,
+          section_id: data.section,
+          position_id: data.posisi,
+          avatar: data.photo,
+        })
+      );
+
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("No. Induk Pegawai harus unik!");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // create position data
+  const createPosition = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await positionRepository.create(
+        Position.create({
+          name: data.name,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("No. Induk Pegawai harus unik!");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // edit manpower data
+  const editManpower = async (data) => {
+    setIsLoadingData(true);
+    try {
+      const result = await manpowerRepository.edit(
+        Manpower.create({
+          id: id,
           name: data.name,
           employee_no: data.nip,
           section_id: data.section,
@@ -95,24 +140,18 @@ export default function useManpower() {
         navigate("../");
       }, 500);
     } catch (error) {
-      setTimeout(() => {
-        setIsLoadingData(false);
-      }, 500);
+      setIsLoadingData(false);
       throw new Error(error);
     }
   };
   // edit manpower data
-  const editManpower = async (data) => {
+  const editPosition = async (data) => {
     setIsLoadingData(true);
     try {
-      const result = await manpowerRepository.edit(
-        Manpower.create({
-          id: manpowerId,
+      const result = await positionRepository.edit(
+        Position.create({
+          id: id,
           name: data.name,
-          employee_no: data.nip,
-          section_id: data.section,
-          position_id: data.posisi,
-          avatar: data.photo,
         })
       );
       setTimeout(() => {
@@ -143,15 +182,34 @@ export default function useManpower() {
       }, 500);
     }
   };
+  // delete data manpower
+  const deleteDataPosition = async (id: string, setIsLoading) => {
+    try {
+      const result = await positionRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataPosition();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
+  };
   // get data manpower
   const getDataManpower = async () => {
-    setDataManpower([]);
     setIsLoadingData(true);
+    setDataManpower([]);
     try {
       const result = await manpowerRepository.get();
       setTimeout(() => {
-        setIsLoadingData(false);
         setDataManpower(result);
+        setIsLoadingData(false);
       }, 500);
     } catch (error) {
       throw new Error(error);
@@ -159,12 +217,12 @@ export default function useManpower() {
   };
   // get data position
   const getDataPosition = async () => {
-    setDataPosition([]);
     setIsLoadingData(true);
+    setDataPosition([]);
     try {
       const result = await positionRepository.get();
-      setIsLoadingData(false);
       setDataPosition(result);
+      setIsLoadingData(false);
     } catch (error) {
       throw new Error(error);
     }
@@ -180,6 +238,17 @@ export default function useManpower() {
       throw new Error(error);
     }
   };
+  // get data Position
+  const getDataPositionById = async (id: string) => {
+    try {
+      const result = await positionRepository.getDataById(id);
+      setTimeout(() => {
+        setDataPositionById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
   // get data section
   const getDataSection = async () => {
     try {
@@ -190,45 +259,27 @@ export default function useManpower() {
     }
   };
 
-  // get data posisi
-  const getDataPosisi = async () => {
-    setIsLoadingData(true);
-    try {
-      const result = await posisiRepository.get();
-      setTimeout(() => {
-        setIsLoadingData(false);
-        setDataPosisi(result);
-      }, 500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    setMessage(null);
     getDataPosition();
     getDataSection();
   }, []);
-
   useEffect(() => {
     if (type == "manpower") {
+      setDataPosition([]);
       getDataManpower();
     } else {
+      setDataManpower([]);
       getDataPosition();
     }
-    // if (type == "manpower") {
-    //   getDataManpower();
-    // } else if (type == "posisi") {
-    //   getDataPosisi();
-    // } else {
-    //   setDataManpower([]);
-    //   setDataPosisi([]);
-    // }
   }, [type]);
   useEffect(() => {
-    if (!!manpowerId) {
-      getDataManpowerById(manpowerId);
+    if (!!id && type == "manpower") {
+      getDataManpowerById(id);
+    } else if (!!id && type == "posisi") {
+      getDataPositionById(id);
     }
-  }, [manpowerId]);
+  }, [id, type]);
 
   return {
     state,
@@ -241,22 +292,26 @@ export default function useManpower() {
     dataManpower,
     isLoadingData,
     dataManpowerById,
+    dataPositionById,
     dataSection,
     dataPosition,
     isSuccess,
-    manpowerId,
+    id,
     dataId,
-    dataPosisi,
+    message,
     setSearchParams,
     navigate,
     createManpower,
+    createPosition,
     editManpower,
+    editPosition,
     register,
     handleSubmit,
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
     deleteDataManpower,
+    deleteDataPosition,
     setDataId,
     getDataManpower,
   };

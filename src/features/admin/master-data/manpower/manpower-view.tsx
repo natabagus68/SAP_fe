@@ -29,7 +29,7 @@ export default function ManpowerView() {
           if (manpower.type == "manpower") {
             manpower.deleteDataManpower(manpower.dataId, setIsLoading);
           } else {
-            console.log("delete posisi");
+            manpower.deleteDataPosition(manpower.dataId, setIsLoading);
           }
         }}
       />
@@ -160,17 +160,7 @@ export default function ManpowerView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          manpower.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: manpower.type,
-                              data: {
-                                name: "KKKK",
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => manpower.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -179,7 +169,10 @@ export default function ManpowerView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => manpower.setOpenModalDelete(true)}
+                        onClick={() => {
+                          manpower.setDataId(item.id);
+                          manpower.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -200,15 +193,43 @@ export default function ManpowerView() {
               className="w-[24px] h-[24px] animate-spin"
             />
           </div>
-        ) : !!!manpower.dataManpower.length &&
-          !!!manpower.dataPosition.length ? (
+        ) : null}
+        {!manpower.isLoadingData ? (
+          !!!manpower.dataManpower.length && manpower.type == "manpower" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {!manpower.isLoadingData ? (
+          !!!manpower.dataPosition.length && manpower.type == "posisi" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {/* !!!manpower.dataManpower.length && manpower.type == "manpower" ? (
           <div className="w-full flex flex-col items-center py-[60px]">
             <img src={empty_data_table} alt="Empty data table" className="" />
             <span className="text-[#514E4E] text-2xl font-bold">
               Tidak ada data
             </span>
           </div>
-        ) : null}
+        ) */}
+        {/* {!!!manpower.dataPosition.length ? (
+          <div className="w-full flex flex-col items-center py-[60px]">
+            <img src={empty_data_table} alt="Empty data table" className="" />
+            <span className="text-[#514E4E] text-2xl font-bold">
+              Tidak ada data
+            </span>
+          </div>
+        ) : null} */}
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
             <ArrowUpIcon

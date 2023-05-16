@@ -255,7 +255,7 @@ export default createBrowserRouter([
             element: <ManpowerView />,
           },
           {
-            path: ":manpowerId/details",
+            path: ":id/details",
             element: <ManpowerDetails />,
           },
           {
@@ -263,7 +263,7 @@ export default createBrowserRouter([
             element: <ManpowerForm />,
           },
           {
-            path: ":manpowerId/edit",
+            path: ":id/edit",
             element: <ManpowerForm />,
           },
         ],
