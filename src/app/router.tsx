@@ -277,7 +277,7 @@ export default createBrowserRouter([
             element: <MesinView />,
           },
           {
-            path: "details",
+            path: ":id/details",
             element: <MesinDetails />,
           },
           {
@@ -285,7 +285,7 @@ export default createBrowserRouter([
             element: <MesinForm />,
           },
           {
-            path: "edit",
+            path: ":id/edit",
             element: <MesinForm />,
           },
         ],

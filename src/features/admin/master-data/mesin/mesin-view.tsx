@@ -9,6 +9,8 @@ import TrashIcon from "@common/components/icons-new/TrashIcon";
 import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import empty_data_table from "../../../../assets/png/empty_data_table.png";
 
 export default function MesinView() {
   const mesin = useMesin();
@@ -23,20 +25,26 @@ export default function MesinView() {
         open={mesin.openModalConfirm}
         setOpen={mesin.setOpenModalConfirm}
         setOpenSuccess={mesin.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            if (mesin.type == "mesin") {
-              console.log("delete mesin");
-            } else {
-              console.log("delete posisi");
-            }
-          }, 3000);
+          if (mesin.type == "mesin") {
+            mesin.deleteMesin(mesin.dataId, setIsLoading);
+          } else if (mesin.type == "sub-mesin") {
+            mesin.deleteSubmesin(mesin.dataId, setIsLoading);
+          } else if (mesin.type == "parameter") {
+            mesin.deleteParameter(mesin.dataId, setIsLoading);
+          } else if (mesin.type == "indikator") {
+            mesin.deleteIndikator(mesin.dataId, setIsLoading);
+          } else {
+            mesin.deleteUom(mesin.dataId, setIsLoading);
+          }
         }}
       />
       <ModalSuccess
         open={mesin.openModalSuccess}
         setOpen={mesin.setOpenModalSuccess}
+        isSuccess={mesin.isSuccess}
+        successMessage="Berhasil menghapus data!"
       />
       <Breadcrumbs
         items={[
@@ -111,6 +119,7 @@ export default function MesinView() {
             </button>
           </div>
         </div>
+
         {mesin.type == "mesin" ? (
           <table className="w-full">
             <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
@@ -126,24 +135,12 @@ export default function MesinView() {
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.machine_no}</td>
                   <td className="px-[32px]">{item.name}</td>
-                  <td className="px-[32px]">{item.section}</td>
+                  <td className="px-[32px]">{item.section_name}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                        onClick={() =>
-                          mesin.navigate("details", {
-                            state: {
-                              data: {
-                                no: item.machine_no,
-                                name: item.name,
-                                departemen: "departemen",
-                                section: item.section,
-                                photo: "photo.png",
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => mesin.navigate(`${item.id}/details`)}
                       >
                         <EyeShowIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -152,21 +149,7 @@ export default function MesinView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          mesin.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: mesin.type,
-                              data: {
-                                no: item.machine_no,
-                                name: item.name,
-                                departemen: "departemen",
-                                section: "section",
-                                photo: "photo.png",
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => mesin.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -175,7 +158,10 @@ export default function MesinView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => mesin.setOpenModalDelete(true)}
+                        onClick={() => {
+                          mesin.setDataId(item.id);
+                          mesin.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -208,16 +194,7 @@ export default function MesinView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                        onClick={() =>
-                          mesin.navigate("details", {
-                            state: {
-                              data: {
-                                no: item.sub_machine_no,
-                                name: item.name,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => mesin.navigate(`${item.id}/details`)}
                       >
                         <EyeShowIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -226,18 +203,7 @@ export default function MesinView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          mesin.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: mesin.type,
-                              data: {
-                                no: item.sub_machine_no,
-                                name: item.name,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => mesin.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -246,7 +212,10 @@ export default function MesinView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => mesin.setOpenModalDelete(true)}
+                        onClick={() => {
+                          mesin.setDataId(item.id);
+                          mesin.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -281,19 +250,7 @@ export default function MesinView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          mesin.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: mesin.type,
-                              data: {
-                                name: item.name,
-                                variable: item.variable,
-                                indicator: item.indicator,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => mesin.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -302,7 +259,10 @@ export default function MesinView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => mesin.setOpenModalDelete(true)}
+                        onClick={() => {
+                          mesin.setDataId(item.id);
+                          mesin.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -333,40 +293,19 @@ export default function MesinView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          mesin.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: mesin.type,
-                              data: {
-                                description: item.name,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => mesin.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
-                        <span
-                          className="text-white text-sm font-semibold"
-                          onClick={() =>
-                            mesin.navigate("edit", {
-                              state: {
-                                edit: true,
-                                type: mesin.type,
-                                data: {
-                                  title: "",
-                                  uom: item.name,
-                                },
-                              },
-                            })
-                          }
-                        >
+                        <span className="text-white text-sm font-semibold">
                           Edit
                         </span>
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => mesin.setOpenModalDelete(true)}
+                        onClick={() => {
+                          mesin.setDataId(item.id);
+                          mesin.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -385,7 +324,6 @@ export default function MesinView() {
           <table className="w-full">
             <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
               <tr>
-                <th className="px-[32px] text-start">Title</th>
                 <th className="px-[32px] text-start">Unit of Measurement</th>
                 <th className="px-[32px] text-start">Action</th>
               </tr>
@@ -398,17 +336,7 @@ export default function MesinView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          mesin.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: mesin.type,
-                              data: {
-                                uom: item.name,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => mesin.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -417,7 +345,10 @@ export default function MesinView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => mesin.setOpenModalDelete(true)}
+                        onClick={() => {
+                          mesin.setDataId(item.id);
+                          mesin.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -430,6 +361,65 @@ export default function MesinView() {
               ))}
             </tbody>
           </table>
+        ) : null}
+
+        {mesin.isLoadingData ? (
+          <div className="w-full h-[48px] flex items-center justify-center">
+            <LoadingIcon
+              color="black"
+              className="w-[24px] h-[24px] animate-spin"
+            />
+          </div>
+        ) : null}
+        {!mesin.isLoadingData ? (
+          !!!mesin.dataMesin.length && mesin.type == "mesin" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {!mesin.isLoadingData ? (
+          !!!mesin.dataSubMesin.length && mesin.type == "sub-mesin" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {!mesin.isLoadingData ? (
+          !!!mesin.dataIndikator.length && mesin.type == "indikator" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {!mesin.isLoadingData ? (
+          !!!mesin.dataParameter.length && mesin.type == "parameter" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {!mesin.isLoadingData ? (
+          !!!mesin.dataUom.length && mesin.type == "uom" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
         ) : null}
 
         <div className="flex py-4 px-[32px] justify-end gap-4">

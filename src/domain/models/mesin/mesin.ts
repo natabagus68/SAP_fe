@@ -1,10 +1,12 @@
 import { Entity } from "../_entity";
 
 export interface IMesinProps {
-  id: string;
+  id: string | undefined;
   machine_no: string;
   name: string;
-  section: string;
+  section_id: string | undefined;
+  section_name: string | undefined;
+  photo: string | undefined;
 }
 
 export interface IMesin {
@@ -20,11 +22,13 @@ export class Mesin extends Entity<IMesinProps> implements IMesin {
       id: this.id,
       machine_no: this.machine_no,
       name: this.name,
-      section: this.section,
+      section_id: this.section_id,
+      section_name: this.section_name,
+      photo: this.photo,
     };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
   get machine_no(): string {
@@ -33,7 +37,13 @@ export class Mesin extends Entity<IMesinProps> implements IMesin {
   get name(): string {
     return this._props.name;
   }
-  get section(): string {
-    return this._props.section;
+  get section_id(): string | undefined {
+    return this._props.section_id;
+  }
+  get section_name(): string | undefined {
+    return this._props.section_name;
+  }
+  get photo(): string | undefined {
+    return this._props.photo;
   }
 }
