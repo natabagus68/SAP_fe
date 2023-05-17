@@ -18,7 +18,7 @@ export class SectionApiRepository implements SectionRepository {
       return Section.create({
         id: data.data?.id,
         name: data.data?.name || "-",
-        department_id: data.data?.department_id || "-",
+        department_id: data.data?.department.id || "-",
       });
     } catch (error) {
       throw new Error(error);
@@ -43,7 +43,6 @@ export class SectionApiRepository implements SectionRepository {
       const { data } = await api.post(`section`, {
         id: section.id,
         name: section.name,
-        department_id: section.department_id,
       });
       return data.data;
     } catch (error) {

@@ -47,15 +47,17 @@ export default function LocationForm() {
               <div className="flex flex-col w-full gap-1">
                 <span>Pilih Section</span>
                 <div className="flex flex-col gap-2">
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      {...location.register("name")}
-                      value="Alloy Casting"
-                      className="w-[24px] h-[24px]"
-                    />
-                    <span>Alloy Casting</span>
-                  </div>
+                  {location?.dataSection?.map((item, i) => (
+                    <div key={i} className="flex gap-2 items-center">
+                      <input
+                        type="checkbox"
+                        {...location.register("section_id")}
+                        className="w-[24px] h-[24px]"
+                        value={item.id}
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </>

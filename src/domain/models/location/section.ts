@@ -4,6 +4,7 @@ export interface ISectionProps {
   id: string | undefined;
   name: string;
   department_id?: string | undefined;
+  section_id?: string | undefined;
 }
 
 export interface ISection {
@@ -19,6 +20,7 @@ export class Section extends Entity<ISectionProps> implements ISection {
       id: this.id,
       name: this.name,
       department_id: this.department_id,
+      section_id: this.section_id,
     };
   }
 
@@ -30,5 +32,8 @@ export class Section extends Entity<ISectionProps> implements ISection {
   }
   get department_id(): string | undefined {
     return this._props.department_id;
+  }
+  get section_id(): string | undefined {
+    return this._props.section_id;
   }
 }

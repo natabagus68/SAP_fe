@@ -1,7 +1,7 @@
 import { Entity } from "../_entity";
 
 export interface ISubMesinProps {
-  id: string;
+  id: string | undefined;
   sub_machine_no: string;
   name: string;
 }
@@ -22,7 +22,7 @@ export class SubMesin extends Entity<ISubMesinProps> implements ISubMesin {
     };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
   get sub_machine_no(): string {

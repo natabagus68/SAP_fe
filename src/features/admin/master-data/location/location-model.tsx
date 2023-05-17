@@ -37,8 +37,10 @@ export default function useLocationHooks() {
       name:
         type == "departemen" ? dataDepartemenById?.name : dataSectionById?.name,
       department_id: dataSectionById?.department_id,
+      section_id: dataDepartemenById?.section_id,
     },
   });
+
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
   //state modal confirm
@@ -92,7 +94,6 @@ export default function useLocationHooks() {
         setIsLoadingData(false);
         setDataSection(result);
       }, 500);
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -152,7 +153,6 @@ export default function useLocationHooks() {
           id: data.id,
           name: data.name,
           section: data.section,
-          department_id: data.department_id,
         })
       );
       setTimeout(() => {
@@ -196,7 +196,7 @@ export default function useLocationHooks() {
           id: data.id,
           name: data.name,
           section: data.section,
-          department_id: data.department_id,
+          //department_id: data.department_id,
         })
       );
       setTimeout(() => {
@@ -250,6 +250,7 @@ export default function useLocationHooks() {
 
   useEffect(() => {
     getDataDepartemen();
+    getDataSection();
   }, []);
 
   useEffect(() => {

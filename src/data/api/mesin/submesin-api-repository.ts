@@ -13,4 +13,10 @@ export class SubMesinApiRepository implements SubMesinRepository {
       })
     );
   }
+
+  async getDataById(id: string): Promise<SubMesin> {
+    try {
+      const { data } = await api.get(`sub-machine/${id}`);
+    } catch (error) {}
+  }
 }
