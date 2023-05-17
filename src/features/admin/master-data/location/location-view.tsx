@@ -10,7 +10,6 @@ import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import empty_data_table from "../../../../assets/png/empty_data_table.png";
-import { Section } from "@domain/models/location/section";
 
 export default function LocationView() {
   const location = useLocation();
@@ -28,23 +27,23 @@ export default function LocationView() {
         setOpenSuccess={location.setOpenModalSuccess}
         confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            if (location.type == "departemen") {
-              console.log("delete departemen");
-            } else {
-              console.log("delete location");
-            }
-          }, 3000);
+          if (location.type == "departemen") {
+            location.deleteDataDepartemen(location.dataId, setIsLoading);
+          } else {
+            location.deleteDataSection(location.dataId, setIsLoading);
+          }
         }}
       />
       <ModalSuccess
         open={location.openModalSuccess}
         setOpen={location.setOpenModalSuccess}
+        isSuccess={location.isSuccess}
+        successMessage="Berhasil Menghapus Data"
       />
       <Breadcrumbs
         items={[
           "Master Data",
+          "Location",
           `${location.type[0].toLocaleUpperCase()}${location.type.slice(1)}`,
         ]}
       />
@@ -127,7 +126,10 @@ export default function LocationView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => location.setOpenModalDelete(true)}
+                        onClick={() => {
+                          location.setDataId(item.id);
+                          location.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -156,17 +158,7 @@ export default function LocationView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          location.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: location.type,
-                              data: {
-                                section: item.name,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => location.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -175,7 +167,10 @@ export default function LocationView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => location.setOpenModalDelete(true)}
+                        onClick={() => {
+                          location.setDataId(item.id);
+                          location.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -197,13 +192,26 @@ export default function LocationView() {
               className="w-[24px] h-[24px] animate-spin"
             />
           </div>
-        ) : !!!location.dataDepartemen.length ? (
-          <div className="w-full flex flex-col items-center py-[60px]">
-            <img src={empty_data_table} alt="Empty data table" className="" />
-            <span className="text-[#514E4E] text-2xl font-bold">
-              Tidak ada data
-            </span>
-          </div>
+        ) : null}
+        {!location.isLoadingData ? (
+          !!!location.dataDepartemen.length && location.type == "departemen" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {!location.isLoadingData ? (
+          !!!location.dataSection.length && location.type == "section" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
         ) : null}
 
         <div className="flex py-4 px-[32px] justify-end gap-4">

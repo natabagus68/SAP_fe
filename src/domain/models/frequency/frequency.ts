@@ -1,7 +1,7 @@
 import { Entity } from "../_entity";
 
 export interface IFrequencyProps {
-  id: string;
+  id: string | undefined;
   type: string;
 }
 
@@ -17,7 +17,7 @@ export class Frequency extends Entity<IFrequencyProps> implements IFrequency {
     return { id: this.id, type: this.type };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
   get type(): string {

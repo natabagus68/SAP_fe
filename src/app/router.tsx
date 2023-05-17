@@ -299,7 +299,7 @@ export default createBrowserRouter([
             element: <LocationView />,
           },
           {
-            path: ":departemenId/details",
+            path: ":id/details",
             element: <LocationDetails />,
           },
           {
@@ -307,7 +307,7 @@ export default createBrowserRouter([
             element: <LocationForm />,
           },
           {
-            path: "edit",
+            path: ":id/edit",
             element: <LocationForm />,
           },
         ],
@@ -325,7 +325,7 @@ export default createBrowserRouter([
             element: <FrequencyForm />,
           },
           {
-            path: "edit",
+            path: ":frequencyId/edit",
             element: <FrequencyForm />,
           },
         ],

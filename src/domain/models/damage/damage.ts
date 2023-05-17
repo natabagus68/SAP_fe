@@ -1,7 +1,7 @@
 import { Entity } from "../_entity";
 
 export interface IDamageProps {
-  id: string;
+  id?: string | undefined;
   type: string;
 }
 
@@ -14,13 +14,16 @@ export class Damage extends Entity<IDamageProps> implements IDamage {
     return new Damage(props);
   }
   unmarshall(): IDamageProps {
-    return { id: this.id, type: this.name };
+    return {
+      id: this.id,
+      type: this.type,
+    };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
-  get name(): string {
+  get type(): string {
     return this._props.type;
   }
 }

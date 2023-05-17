@@ -11,6 +11,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
           id: item?.id,
           name: item?.name || "-",
           section: item?.Sections || "-",
+          department_id: item?.department_id || "-",
         })
       );
     } catch (error) {
@@ -18,15 +19,49 @@ export class DepartemenApiRepository implements DepartemenRepository {
     }
   }
 
-  async getDataDepartemenById(id: string): Promise<Departemen> {
+  async getDataById(id: string): Promise<Departemen> {
     try {
       const { data } = await api.get(`department/${id}`);
-      console.log(data);
+
       return Departemen.create({
         id: data.data?.id,
         name: data.data?.name || "-",
-        section: data.data?.Sections.name || "-",
+        section: data.data?.Sections || "-",
+        department_id: data.data?.department_id || "-",
       });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async create(departemen: Departemen): Promise<void> {
+    try {
+      const { data } = await api.post(`department`, {
+        id: departemen.id,
+        name: departemen.name,
+        section: departemen.section,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async edit(departemen: Departemen): Promise<void> {
+    try {
+      const { data } = await api.put(`department/${departemen.id}`, {
+        id: departemen.id,
+        name: departemen.name,
+        section: departemen.section,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`department/${id}`);
+      return data.data;
     } catch (error) {
       throw new Error(error);
     }

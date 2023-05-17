@@ -2,6 +2,7 @@ import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import useLocationHooks from "./location-model";
+import { Departemen } from "@domain/models/location/departemen";
 
 export default function LocationDetails() {
   const location = useLocationHooks();
@@ -31,18 +32,7 @@ export default function LocationDetails() {
             </button>
             <button
               className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-              onClick={() =>
-                location.navigate("edit", {
-                  state: {
-                    edit: true,
-                    type: location.type,
-                    data: {
-                      departemen: "departmen",
-                      section: "section",
-                    },
-                  },
-                })
-              }
+              // onClick={() => location.navigate(`${item.id}/edit`)}
             >
               <EditIcon color="white" />
               <span className="text-white text-sm font-semibold">Edit</span>
@@ -62,17 +52,16 @@ export default function LocationDetails() {
                     {location?.dataDepartemenById?.name}
                   </td>
                 </tr>
-                {/* {location?.dataDepartemenById?.map((item, i) => (
-                  <tr>
-                    <td rowSpan={item.i} className="px-4 py-[6px]  text-start">
-                      Section
-                    </td>
-
-                    <td className="px-4 py-[6px] ">
-                      {location?.dataDepartemenById?.section}
-                    </td>
-                  </tr>
-                ))} */}
+                <tr>
+                  <td className="px-4 py-[6px]">Section</td>
+                  <td className="px-4 py-[6px] ">
+                    <div className="flex flex-col gap-2">
+                      {location?.dataDepartemenById?.section.map((item, i) => (
+                        <div>{item.name}</div>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
