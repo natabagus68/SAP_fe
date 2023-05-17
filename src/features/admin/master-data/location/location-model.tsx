@@ -66,14 +66,17 @@ export default function useLocationHooks() {
   //state for parsing data id
   const [dataId, setDataId] = useState(null);
 
+  //state data checkbox
+  const [isChecked, setIsChecked] = useState(false);
+
   // get data departemen
   const getDataDepartemen = async () => {
     setIsLoadingData(true);
     try {
       const result = await DepartemenRepository.getDepartement();
       setTimeout(() => {
-        setIsLoadingData(false);
         setDataDepartemen(result);
+        setIsLoadingData(false);
       }, 500);
     } catch (error) {
       console.log(error);
@@ -89,6 +92,7 @@ export default function useLocationHooks() {
         setIsLoadingData(false);
         setDataSection(result);
       }, 500);
+      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -121,8 +125,6 @@ export default function useLocationHooks() {
 
   //create data section
   const createDataSection = async (data) => {
-    console.log(data);
-
     setIsLoadingData(true);
     try {
       const result = await SectionRepository.create(
@@ -142,7 +144,25 @@ export default function useLocationHooks() {
   };
 
   //create data departemen
-  const createDataDepartemen = async (data) => {};
+  const createDataDepartemen = async (data) => {
+    console.log(data);
+    try {
+      const result = await DepartemenRepository.create(
+        Departemen.create({
+          id: data.id,
+          name: data.name,
+          section: data.section,
+          department_id: data.department_id,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
   //edit data Section
   const editDataSection = async (data) => {
@@ -166,7 +186,27 @@ export default function useLocationHooks() {
   };
 
   //edit data Departemen
-  const editDataDepartemen = async (data) => {};
+  const editDataDepartemen = async (data) => {
+    setIsLoadingData(true);
+    console.log(data);
+
+    try {
+      const result = await DepartemenRepository.edit(
+        Departemen.create({
+          id: data.id,
+          name: data.name,
+          section: data.section,
+          department_id: data.department_id,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
   //delete data section
   const deleteDataSection = async (id: string, setIsLoading) => {
@@ -215,12 +255,10 @@ export default function useLocationHooks() {
   useEffect(() => {
     if (type == "departemen") {
       getDataDepartemen();
-      getDataSection();
-    } else if (type == "section") {
-      getDataSection();
-    } else {
-      setDataDepartemen([]);
       setDataSection([]);
+    } else {
+      getDataSection();
+      setDataDepartemen([]);
     }
   }, [type]);
 

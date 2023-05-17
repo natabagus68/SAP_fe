@@ -39,8 +39,6 @@ export class SectionApiRepository implements SectionRepository {
   }
 
   async create(section: Section): Promise<void> {
-    console.log(section.department_id);
-
     try {
       const { data } = await api.post(`section`, {
         id: section.id,

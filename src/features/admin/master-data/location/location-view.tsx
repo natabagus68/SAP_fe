@@ -192,13 +192,26 @@ export default function LocationView() {
               className="w-[24px] h-[24px] animate-spin"
             />
           </div>
-        ) : !!!location.dataDepartemen.length ? (
-          <div className="w-full flex flex-col items-center py-[60px]">
-            <img src={empty_data_table} alt="Empty data table" className="" />
-            <span className="text-[#514E4E] text-2xl font-bold">
-              Tidak ada data
-            </span>
-          </div>
+        ) : null}
+        {!location.isLoadingData ? (
+          !!!location.dataDepartemen.length && location.type == "departemen" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
+        {!location.isLoadingData ? (
+          !!!location.dataSection.length && location.type == "section" ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
         ) : null}
 
         <div className="flex py-4 px-[32px] justify-end gap-4">

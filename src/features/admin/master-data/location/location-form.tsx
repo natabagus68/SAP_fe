@@ -49,57 +49,12 @@ export default function LocationForm() {
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-2 items-center">
                     <input
-                      type="checkbox" //
+                      type="checkbox"
                       {...location.register("name")}
                       value="Alloy Casting"
                       className="w-[24px] h-[24px]"
                     />
                     <span>Alloy Casting</span>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      {...location.register("name")}
-                      value="Extruction"
-                      className="w-[24px] h-[24px]"
-                    />
-                    <span>Extruction</span>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      {...location.register("name")}
-                      value="Anodizing"
-                      className="w-[24px] h-[24px]"
-                    />
-                    <span>Anodizing</span>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      {...location.register("name")}
-                      value="Painting"
-                      className="w-[24px] h-[24px]"
-                    />
-                    <span>Painting</span>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      {...location.register("name")}
-                      value="Dies Manufacturing"
-                      className="w-[24px] h-[24px]"
-                    />
-                    <span>Dies Manufacturing</span>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="checkbox"
-                      {...location.register("name")}
-                      value="TPM/Utilites"
-                      className="w-[24px] h-[24px]"
-                    />
-                    <span>TPM/Utilites</span>
                   </div>
                 </div>
               </div>
