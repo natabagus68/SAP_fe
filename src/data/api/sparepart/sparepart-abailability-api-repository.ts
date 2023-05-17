@@ -9,9 +9,9 @@ export default class SparepartAvailabilityApiRepository
     const { data } = await api.get(`availability-sparepart`);
     return data?.data?.map((item) =>
       SparepartAvailability.create({
-        id: item?.id,
-        rak: item?.rak || "-",
-        section: item?.section || "-",
+        id: item.id,
+        rak: item?.rack_code || "-",
+        section: item?.section?.name || "-",
       })
     );
   }

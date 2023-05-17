@@ -7,22 +7,24 @@ import rawoil from "../../../../assets/svg/raw-oil.svg";
 import shaft from "../../../../assets/svg/shaft.svg";
 import mariagge from "../../../../assets/svg/marriage.svg";
 import fastener from "../../../../assets/svg/fastener.svg";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 
 export default function SparepartForm() {
   const sparepart = useSparepart();
+  // console.log(sparepart.dataUom);
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
         items={[
           "Master Data",
           `${sparepart.type[0].toLocaleUpperCase()}${sparepart.type.slice(1)}`,
-          sparepart.state?.edit ? "Edit" : "Create",
+          !!sparepart?.id ? "Edit" : "Create",
         ]}
       />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            {sparepart?.state?.edit ? "Edit Data" : "Add Data"}
+            {!!sparepart?.id ? "Edit Data" : "Add Data"}
           </span>
         </div>
         <form
@@ -32,19 +34,23 @@ export default function SparepartForm() {
           {sparepart.type == "part" ? (
             <>
               <div className="flex flex-col w-full gap-1">
-                <span>Kategory</span>
+                <span>Category</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.kategory ? "bg-red-100" : "bg-white"
+                    sparepart.errors.inventoryId ? "bg-red-100" : "bg-white"
                   }`}
-                  {...sparepart.register("kategory", { required: true })}
+                  {...sparepart.register("inventoryId", { required: true })}
                 >
                   <option value="">Pilih Kategory</option>
-                  <option value="section">Kategory 1</option>
+                  {sparepart.dataSparepartInventory?.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
-                <span>Item Code</span>
+                <span>Item Code(*)</span>
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
@@ -58,15 +64,19 @@ export default function SparepartForm() {
                 <span>Availability</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.availability ? "bg-red-100" : "bg-white"
+                    sparepart.errors.availabilityId ? "bg-red-100" : "bg-white"
                   }`}
-                  {...sparepart.register("availability", { required: true })}
+                  {...sparepart.register("availabilityId", { required: true })}
                 >
                   <option value="">Pilih Availability</option>
-                  <option value="section">Availability 1</option>
+                  {sparepart.dataSparepartAvailability?.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.rak} - {item.section}
+                    </option>
+                  ))}
                 </select>
               </div>
-              <div className="flex flex-col w-full gap-1">
+              {/* <div className="flex flex-col w-full gap-1">
                 <span>Rak</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
@@ -77,7 +87,7 @@ export default function SparepartForm() {
                   <option value="">Pilih Rak</option>
                   <option value="section">Rak 1</option>
                 </select>
-              </div>
+              </div> */}
               <div className="flex flex-col w-full gap-1">
                 <span>Part No</span>
                 <input
@@ -94,10 +104,10 @@ export default function SparepartForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.partName ? "bg-red-100" : "bg-white"
+                    sparepart.errors.name ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Part Name"
-                  {...sparepart.register("partName", { required: true })}
+                  {...sparepart.register("name", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -116,13 +126,13 @@ export default function SparepartForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.specification ? "bg-red-100" : "bg-white"
+                    sparepart.errors.spec ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Specification"
-                  {...sparepart.register("specification", { required: true })}
+                  {...sparepart.register("spec", { required: true })}
                 />
               </div>
-              <div className="flex flex-col w-full gap-1">
+              {/* <div className="flex flex-col w-full gap-1">
                 <span>Unit of Measurement</span>
                 <input
                   type="text"
@@ -132,16 +142,32 @@ export default function SparepartForm() {
                   placeholder="Masukan Unit of Measurement"
                   {...sparepart.register("uom", { required: true })}
                 />
+              </div> */}
+              <div className="flex flex-col w-full gap-1">
+                <span>Unit of Measurement</span>
+                <select
+                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
+                    sparepart.errors.uomId ? "bg-red-100" : "bg-white"
+                  }`}
+                  {...sparepart.register("uomId", { required: true })}
+                >
+                  <option value="">Pilih Availability</option>
+                  {sparepart.dataUom?.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Maintence Rate</span>
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.maintenceRate ? "bg-red-100" : "bg-white"
+                    sparepart.errors.maintenanceRate ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan maintence Rate"
-                  {...sparepart.register("maintenceRate", { required: true })}
+                  {...sparepart.register("maintenanceRate", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -149,10 +175,10 @@ export default function SparepartForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.vendor ? "bg-red-100" : "bg-white"
+                    sparepart.errors.vendorName ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Vendor"
-                  {...sparepart.register("vendor", { required: true })}
+                  {...sparepart.register("vendorName", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -169,9 +195,9 @@ export default function SparepartForm() {
                 <input
                   type="file"
                   className={` border border-[#D0D3D9] rounded p-1  ${
-                    sparepart.errors.gambarPart ? "bg-red-100" : "bg-white"
+                    sparepart.errors.sparepartImage ? "bg-red-100" : "bg-white"
                   }`}
-                  {...sparepart.register("gambarPart", { required: true })}
+                  {...sparepart.register("sparepartImage", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -179,44 +205,73 @@ export default function SparepartForm() {
                 <input
                   type="file"
                   className={` border border-[#D0D3D9] rounded p-1  ${
-                    sparepart.errors.drawing ? "bg-red-100" : "bg-white"
+                    sparepart.errors.drawingImage ? "bg-red-100" : "bg-white"
                   }`}
-                  {...sparepart.register("drawing", { required: true })}
+                  {...sparepart.register("drawingImage", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Category Type</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.typeKategory ? "bg-red-100" : "bg-white"
+                    sparepart.errors.categoryId ? "bg-red-100" : "bg-white"
                   }`}
-                  {...sparepart.register("typeKategory", { required: true })}
+                  {...sparepart.register("categoryId", { required: true })}
                 >
                   <option value="">Pilih Category Type</option>
-                  <option value="section">Category Type 1</option>
+                  {sparepart.dataSparepartKategory?.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Stok</span>
                 <input
-                  type="text"
+                  type="number"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.stock ? "bg-red-100" : "bg-white"
+                    sparepart.errors.qtyStock ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Category Type"
-                  {...sparepart.register("stock", { required: true })}
+                  {...sparepart.register("qtyStock", { required: true })}
+                />
+              </div>
+              <div className="flex flex-col w-full gap-1">
+                <span>Price</span>
+                <input
+                  type="number"
+                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
+                    sparepart.errors.price ? "bg-red-100" : "bg-white"
+                  }`}
+                  placeholder="Masukan Price"
+                  {...sparepart.register("price", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Minimun Stok</span>
                 <input
-                  type="text"
+                  type="number"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.minStok ? "bg-red-100" : "bg-white"
+                    sparepart.errors.minimumStock ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Category Type"
-                  {...sparepart.register("minStok", { required: true })}
+                  {...sparepart.register("minimumStock", { required: true })}
                 />
+              </div>
+              <div className="flex flex-col w-full gap-1">
+                <span>Procurement Type</span>
+                <select
+                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
+                    sparepart.errors.procurementType ? "bg-red-100" : "bg-white"
+                  }`}
+                  {...sparepart.register("procurementType", { required: true })}
+                >
+                  <option value="">Pilih Category Type</option>
+                  <option value="dead stock">Dead Stock</option>
+                  <option value="slow moving">Slow Moving</option>
+                  <option value="fast moving">Fast Moving</option>
+                </select>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Remark</span>
@@ -227,26 +282,36 @@ export default function SparepartForm() {
                   {...sparepart.register("remark", { required: true })}
                 >
                   <option value="">Pilih Remark</option>
-                  <option value="section">Remark 1</option>
+                  <option value="available">Available</option>
+                  <option value="discontinue">Discontinue</option>
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Alternative Part</span>
                 <select
-                  disabled
+                  // disabled
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.alternativePart ? "bg-red-100" : "bg-white"
+                    sparepart.errors.alternativePartId
+                      ? "bg-red-100"
+                      : "bg-white"
                   }`}
-                  {...sparepart.register("alternativePart", { required: true })}
+                  {...sparepart.register("alternativePartId", {
+                    required: true,
+                  })}
                 >
                   <option value="">Pilih Alternative Part</option>
-                  <option value="section">Alternative Part 1</option>
+                  {sparepart.dataSparepart?.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.item_code}
+                    </option>
+                  ))}
+                  {/* IF REMARK discontinue MAKA SELECTION INI AKTIVE */}
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Delivery Time</span>
                 <input
-                  type="text"
+                  type="number"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
                     sparepart.errors.deliveryTime ? "bg-red-100" : "bg-white"
                   }`}
@@ -259,10 +324,10 @@ export default function SparepartForm() {
                 <input
                   type="date"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.garansiDatang ? "bg-red-100" : "bg-white"
+                    sparepart.errors.arrivalWarranty ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Garansi Datang"
-                  {...sparepart.register("garansiDatang", { required: true })}
+                  {...sparepart.register("arrivalWarranty", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -270,22 +335,28 @@ export default function SparepartForm() {
                 <input
                   type="date"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.garansiPakai ? "bg-red-100" : "bg-white"
+                    sparepart.errors.usageWarranty ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Garansi Pakai"
-                  {...sparepart.register("garansiPakai", { required: true })}
+                  {...sparepart.register("usageWarranty", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Status</span>
-                <input
-                  type="text"
+                <select
+                  defaultValue=""
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
                     sparepart.errors.status ? "bg-red-100" : "bg-white"
                   }`}
-                  placeholder="Masukan Status"
-                  {...sparepart.register("status", { required: true })}
-                />
+                  {...sparepart.register("status", {
+                    required: true,
+                  })}
+                >
+                  <option value="">Pilih Status</option>
+                  <option value="new">New</option>
+                  <option value="second">Second</option>
+                  <option value="repair">Repair</option>
+                </select>
               </div>
             </>
           ) : null}
@@ -450,9 +521,21 @@ export default function SparepartForm() {
           ) : null}
 
           <div className="flex items-center gap-6">
-            <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
-              Simpan
-            </button>
+            {sparepart.isLoadingData ? (
+              <button
+                type="button"
+                className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold cursor-wait"
+              >
+                <LoadingIcon
+                  color="white"
+                  className="w-[24px] h-[24px] animate-spin"
+                />
+              </button>
+            ) : (
+              <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
+                Simpan
+              </button>
+            )}
             <button
               className="flex items-center justify-center gap-2 h-[46px] px-[20px] w-[181px] border border-[#20519F] rounded"
               type="button"

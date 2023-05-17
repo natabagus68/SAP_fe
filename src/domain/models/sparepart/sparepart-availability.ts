@@ -1,7 +1,7 @@
 import { Entity } from "../_entity";
 
 export interface ISparepartAvailabilityProps {
-  id: string;
+  id?: string | undefined;
   rak: string;
   section: string;
 }
@@ -21,7 +21,7 @@ export class SparepartAvailability
     return { id: this.id, rak: this.rak, section: this.section };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
   get rak(): string {
