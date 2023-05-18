@@ -75,6 +75,7 @@ export default function useMesin() {
       //title: state?.data?.title,
     },
   });
+
   //state & default data url params
   const [urlParams, setUrlParams] = useState({
     type: "mesin",
@@ -594,34 +595,14 @@ export default function useMesin() {
   useEffect(() => {
     if (type == "mesin") {
       getDataMesin();
-      // setDataSubMesin([]);
-      // setDataIndikator([]);
-      // setDataParameter([]);
-      // setDataUom([]);
     } else if (type == "sub-mesin") {
       getDataSubMesin();
-      // setDataMesin([]);
-      // setDataIndikator([]);
-      // setDataParameter([]);
-      // setDataUom([]);
     } else if (type == "parameter") {
       getDataParameter();
-      // setDataSubMesin([]);
-      // setDataIndikator([]);
-      // setDataMesin([]);
-      // setDataUom([]);
     } else if (type == "indikator") {
       getDataIndikator();
-      // setDataSubMesin([]);
-      // setDataMesin([]);
-      // setDataParameter([]);
-      // setDataUom([]);
     } else {
       getDataUom();
-      // setDataSubMesin([]);
-      // setDataIndikator([]);
-      // setDataParameter([]);
-      // setDataMesin([]);
     }
   }, [type]);
 
@@ -638,26 +619,6 @@ export default function useMesin() {
       getDataUomById(id);
     }
   }, [id, type]);
-
-  // useEffect(() => {
-  //   if (type == "mesin") {
-  //     getDataMesin();
-  //   } else if (type == "sub-mesin") {
-  //     getDataSubMesin();
-  //   } else if (type == "parameter") {
-  //     getDataParameter();
-  //   } else if (type == "indikator") {
-  //     getDataIndikator();
-  //   } else if (type == "uom") {
-  //     getDataUom();
-  //   } else {
-  //     setDataMesin([]);
-  //     setDataSubMesin([]);
-  //     setDataParameter([]);
-  //     setDataIndikator([]);
-  //     setDataUom([]);
-  //   }
-  // }, [type]);
 
   return {
     state,

@@ -1,12 +1,12 @@
 import { Entity } from "../_entity";
 
 export interface IMesinProps {
-  id: string | undefined;
+  id?: string | undefined;
   machine_no: string;
   name: string;
-  section_id: string | undefined;
-  section_name: string | undefined;
-  photo: string | undefined;
+  section_id?: string | undefined;
+  section_name?: string | undefined;
+  photo?: string | undefined;
 }
 
 export interface IMesin {

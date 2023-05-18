@@ -19,13 +19,14 @@ export class MesinApiRepository implements MesinRepository {
 
   async getDataById(id: string): Promise<Mesin> {
     const { data } = await api.get(`machine/${id}`);
+    console.log(data, "getbyid");
 
     return Mesin.create({
-      id: data.data?.id,
+      // id: data.data?.id,
       machine_no: data.data?.machine_no || "-",
       name: data.data?.name || "-",
       section_id: data.data?.section_id || "-",
-      section_name: data.data?.section.name || "-",
+      // section_name: data.data?.section?.name || "-",
       photo: data.data?.photo || "-",
     });
   }
