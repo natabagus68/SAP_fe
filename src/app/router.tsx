@@ -339,7 +339,7 @@ export default createBrowserRouter([
             element: <SparepartView />,
           },
           {
-            path: "details",
+            path: ":id/details",
             element: <SparepartDetails />,
           },
           {
@@ -347,7 +347,7 @@ export default createBrowserRouter([
             element: <SparepartForm />,
           },
           {
-            path: "edit",
+            path: ":id/edit",
             element: <SparepartForm />,
           },
         ],

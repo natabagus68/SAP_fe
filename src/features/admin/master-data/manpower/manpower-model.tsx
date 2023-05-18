@@ -11,8 +11,8 @@ import { Manpower } from "@domain/models/manpower/manpower";
 
 import { SectionApiRepository } from "@data/api/location/section-api-repository";
 import { Section } from "@domain/models/location/section";
-import { Departemen } from "@domain/models/location/departemen";
-import { DepartemenApiRepository } from "@data/api/location/departemen-api-repository";
+// import { Departemen } from "@domain/models/location/departemen";
+// import { DepartemenApiRepository } from "@data/api/location/departemen-api-repository";
 import { PositionApiRepository } from "@data/api/manpower/position-api-repository";
 import { Position } from "@domain/models/manpower/position";
 
@@ -266,10 +266,8 @@ export default function useManpower() {
   }, []);
   useEffect(() => {
     if (type == "manpower") {
-      setDataPosition([]);
       getDataManpower();
     } else {
-      setDataManpower([]);
       getDataPosition();
     }
   }, [type]);

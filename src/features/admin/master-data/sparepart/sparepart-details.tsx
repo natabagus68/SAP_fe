@@ -40,107 +40,137 @@ export default function SparepartDetails() {
         <div className="w-full flex gap-[160px] py-[18px] px-[32px] flex-wrap">
           <div className="flex flex-col gap-6">
             <span className="text-2xl text-[#514E4E]">Informasi Part</span>
-            <table className="w-[442px]">
+            <table className="w-[480px]">
               <tbody>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Stok</td>
-                  <td className="px-4 py-[6px] font-semibold">123</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.qty_stock}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Item Code</td>
-                  <td className="px-4 py-[6px] font-semibold">0001312</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.item_code}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
-                  <td className="px-4 py-[6px]">Availability</td>
-                  <td className="px-4 py-[6px] font-semibold">Alloy Casting</td>
-                </tr>
-                <tr>
                   <td className="px-4 py-[6px]">Rak</td>
-                  <td className="px-4 py-[6px] font-semibold">B001</td>
-                </tr>
-                <tr className="bg-[#D0D3D9]">
-                  <td className="px-4 py-[6px]">Part No</td>
-                  <td className="px-4 py-[6px] font-semibold">0834</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.availability_rack_code}
+                  </td>
                 </tr>
                 <tr>
+                  <td className="px-4 py-[6px]">Part No</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.part_no}
+                  </td>
+                </tr>
+                <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Part Name</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    Pillow Block Bearing
+                    {sparepart.dataSparepartById?.part_name}
                   </td>
                 </tr>
-                <tr className="bg-[#D0D3D9]">
+                <tr>
                   <td className="px-4 py-[6px]">Brand</td>
-                  <td className="px-4 py-[6px] font-semibold">Ferrox</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-[6px]">Specification</td>
-                  <td className="px-4 py-[6px] font-semibold">44 mm</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.brand}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
-                  <td className="px-4 py-[6px]">Unit of Measurament (UoM) </td>
+                  <td className="px-4 py-[6px]">Specification</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    Pillow Block Bearing
+                    {sparepart.dataSparepartById?.spec}
                   </td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-[6px]">Type Kategory </td>
-                  <td className="px-4 py-[6px] font-semibold">Inti</td>
+                  <td className="px-4 py-[6px]">Unit of Measurament (UoM)</td>
+                  <td className="px-4 py-[6px] font-semibold">----</td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
+                  <td className="px-4 py-[6px]">Type Kategory</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.category_name} ??
+                  </td>
+                </tr>
+                <tr>
                   <td className="px-4 py-[6px]">Vendor</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    PT Ragdalion Technology
+                    {sparepart.dataSparepartById?.vendor_name}
+                  </td>
+                </tr>
+                <tr className="bg-[#D0D3D9]">
+                  <td className="px-4 py-[6px]">Cost</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    Rp. {sparepart.dataSparepartById?.price}
                   </td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-[6px]">Cost</td>
-                  <td className="px-4 py-[6px] font-semibold">Rp. 100.000</td>
-                </tr>
-                <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Pengadaan</td>
-                  <td className="px-4 py-[6px] font-semibold">Fast Moving</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.qty_stock}
+                  </td>
                 </tr>
-                <tr>
+                <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Remark</td>
-                  <td className="px-4 py-[6px] font-semibold">Discontinue</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.remark}
+                  </td>
                 </tr>
-                <tr className="bg-[#D0D3D9]">
+                <tr>
                   <td className="px-4 py-[6px]">Alternative Part</td>
-                  <td className="px-4 py-[6px] font-semibold">SF01312</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.alternative_part_name}
+                  </td>
                 </tr>
-                <tr>
+                <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Minimum Stock</td>
-                  <td className="px-4 py-[6px] font-semibold">12</td>
-                </tr>
-                <tr className="bg-[#D0D3D9]">
-                  <td className="px-4 py-[6px]">Delivery Time</td>
-                  <td className="px-4 py-[6px] font-semibold">3 Hari</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.minimum_stock}
+                  </td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-[6px]">Maintence Rate</td>
-                  <td className="px-4 py-[6px] font-semibold">1 Year</td>
+                  <td className="px-4 py-[6px]">Delivery Time</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.delivery_time} Hari
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
+                  <td className="px-4 py-[6px]">Maintence Rate</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.maintenance_rate}
+                  </td>
+                </tr>
+                <tr>
                   <td className="px-4 py-[6px]">Description</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    Filter Element
+                    {sparepart.dataSparepartById?.description}
+                  </td>
+                </tr>
+                <tr className="bg-[#D0D3D9]">
+                  <td className="px-4 py-[6px]">Kategory</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.category_name}
                   </td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-[6px]">Kategory</td>
-                  <td className="px-4 py-[6px] font-semibold">Mechanical</td>
+                  <td className="px-4 py-[6px]">Garansi Datang</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.arrival_warranty}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
-                  <td className="px-4 py-[6px]">Garansi Datang</td>
-                  <td className="px-4 py-[6px] font-semibold">12/12/2023</td>
+                  <td className="px-4 py-[6px]">Garansi Pakai</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.usage_warranty}
+                  </td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-[6px]">Garansi Pakai</td>
-                  <td className="px-4 py-[6px] font-semibold">12/12/2023</td>
-                </tr>
-                <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Status</td>
-                  <td className="px-4 py-[6px] font-semibold">Baru</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {sparepart.dataSparepartById?.part_status}
+                  </td>
                 </tr>
               </tbody>
             </table>

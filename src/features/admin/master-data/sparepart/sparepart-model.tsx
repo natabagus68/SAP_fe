@@ -1,7 +1,9 @@
+import { UomApiRepository } from "@data/api/mesin/uom-api-repository";
 import SparepartAvailabilityApiRepository from "@data/api/sparepart/sparepart-abailability-api-repository";
 import { SparepartInventoryApiRepository } from "@data/api/sparepart/sparepart-inventory-api-repository";
 import { SparepartKategoryApiRepository } from "@data/api/sparepart/sparepart-kategory-api-repository";
 import { SparepartApiRpository } from "@data/api/sparepart/sparepart-part-api-repository";
+import { UnitOfMeasure } from "@domain/models/mesin/uom";
 import { SparepartAvailability } from "@domain/models/sparepart/sparepart-availability";
 import { SparepartInventory } from "@domain/models/sparepart/sparepart-inventory";
 import { SparepartKategory } from "@domain/models/sparepart/sparepart-kategory";
@@ -14,49 +16,14 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
+import moment from "moment";
 
 export default function useSparepart() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type } = useParams();
+  const { type, id } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
-  //setup react form hook
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      stock: state?.data?.stock,
-      itemCode: state?.data?.itemCode,
-      availability: state?.data?.availibility,
-      rak: state?.data?.rak,
-      partNo: state?.data?.partNo,
-      partName: state?.data?.partName,
-      brand: state?.data?.brand,
-      specification: state?.data?.specification,
-      uom: state?.data?.uom,
-      typeKategory: state?.data?.typeKategory,
-      vendor: state?.data?.vendor,
-      cost: state?.data?.cost,
-      pengadaan: state?.data?.pengadaan,
-      remark: state?.data?.remark,
-      alternativePart: state?.data?.alternativePart,
-      minStok: state?.data?.minStok,
-      deliveryTime: state?.data?.deliveryTime,
-      maintenceRate: state?.data?.maintenceRate,
-      description: state?.data?.description,
-      kategory: state?.data?.kategory,
-      garansiDatang: state?.data?.garansiDatang,
-      garansiPakai: state?.data?.garansiPakai,
-      status: state?.data?.status,
-      gambarPart: state?.data?.gambarPart,
-      drawing: state?.data?.drawing,
-      iconKategory: state?.data?.iconKategory,
-      id: state?.data?.id,
-    },
-  });
   //state & default data url params
   const [urlParams, setUrlParams] = useState({
     type: "sparepart",
@@ -78,6 +45,11 @@ export default function useSparepart() {
   const availabilitySparepartRepository =
     new SparepartAvailabilityApiRepository();
 
+  //api uom
+  const uomRepository = new UomApiRepository();
+  //state for uom
+  const [dataUom, setDataUom] = useState<UnitOfMeasure[]>([]);
+
   //state data sparepat
 
   const [dataSparepart, setDataSparepart] = useState<SparepartPart[]>([]);
@@ -97,14 +69,63 @@ export default function useSparepart() {
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
 
+  //state message from api
+  const [message, setMessage] = useState(null);
+
+  //state data sparepart by id
+  const [dataSparepartById, setDataSparepartById] = useState(null);
+
   // create sparepart data
-  const createSparepart = (data) => {
-    console.log(data);
+  const createSparepart = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await partSparepartRepository.create(
+        SparepartPart.create({
+          part_no: data.partNo,//
+          item_code: data.itemCode,
+          part_name: data.name,
+          status: data.status,//
+          brand: data.brand,
+          spec: data.spec,
+          qty_stock: data.qtyStock,
+          minimum_stock: data.minimumStock,
+          price: data.price,
+          vendor_name: data.vendorName,
+          procurement_type: data.procurementType,
+          remark: data.remark,
+          maintenance_rate: data.maintenanceRate,
+          description: data.description,
+          sparepart_image: data.sparepartImage,
+          drawing_image: data.drawingImage,
+          alternative_part_id: data.alternativePartId,
+          delivery_time: data.deliveryTime,
+          arrival_warranty: data.arrivalWarranty,
+          usage_warranty: data.usageWarranty,
+          category_id: data.categoryId,
+          availability_id: data.availabilityId,
+          inventory_id: data.inventoryId,
+          uom_id: data.uomId
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        // navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("No. Induk Pegawai harus unik!");
+      }, 500);
+      throw new Error(error);
+    }
   };
 
   // get data sparepart
   const getDataSparepart = async () => {
     setIsLoadingData(true);
+    setDataSparepart([]);
     try {
       const result = await partSparepartRepository.get();
       setTimeout(() => {
@@ -116,9 +137,37 @@ export default function useSparepart() {
     }
   };
 
+  // get data sparepart / part
+  const getDataSparepartById = async (id: string) => {
+    try {
+      const result = await partSparepartRepository.getDataById(id);
+      setTimeout(() => {
+        setDataSparepartById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  // get data sparepart-inventory
+  const getDataSparepartInventory = async () => {
+    setIsLoadingData(true);
+    setDataSparepartInventory([]);
+    try {
+      const result = await inventorySparepartRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSparepartInventory(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // get data sparepart
   const getDataSparepatAvailability = async () => {
     setIsLoadingData(true);
+    setDataSparepartAvailability([]);
     try {
       const result = await availabilitySparepartRepository.get();
       setTimeout(() => {
@@ -133,6 +182,7 @@ export default function useSparepart() {
   // get data sparepart-kategory
   const getDataSparepartKategory = async () => {
     setIsLoadingData(true);
+    setDataSparepartKategory([]);
     try {
       const result = await kategorySparepartRepository.get();
       setTimeout(() => {
@@ -144,20 +194,59 @@ export default function useSparepart() {
     }
   };
 
-  // get data sparepart-inventory
-  const getDataSparepartInventory = async () => {
-    setIsLoadingData(true);
+  // get data Uom
+  const getDataUom = async () => {
     try {
-      const result = await inventorySparepartRepository.get();
+      const result = await uomRepository.get();
       setTimeout(() => {
-        setIsLoadingData(false);
-        setDataSparepartInventory(result);
+        setDataUom(result);
       }, 500);
     } catch (error) {
       console.log(error);
     }
   };
 
+  //setup react form hook
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    values: {
+      inventoryId: dataSparepartById?.inventory_id,
+      categoryId: dataSparepartById?.category_id,
+      itemCode: dataSparepartById?.item_code,
+      availabilityId: dataSparepartById?.availability_id,
+      partNo: dataSparepartById?.part_no,
+      name: dataSparepartById?.part_name,
+      brand: dataSparepartById?.brand,
+      spec: dataSparepartById?.spec,
+      uomId: dataSparepartById?.uom_id,
+      maintenanceRate: dataSparepartById?.maintenance_rate,
+      vendorName: dataSparepartById?.vendor_name,
+      price: dataSparepartById?.price,
+      description: dataSparepartById?.description,
+      qtyStock: dataSparepartById?.qty_stock,
+      minimumStock: dataSparepartById?.minimum_stock,
+      procurementType: dataSparepartById?.procurement_type,
+      remark: dataSparepartById?.remark,
+      alternativePartId: dataSparepartById?.alternative_part_id,
+      deliveryTime: dataSparepartById?.delivery_time,
+      arrivalWarranty: moment(dataSparepartById?.arrival_warranty).format("YYYY-MM-DD"),
+      usageWarranty: moment(dataSparepartById?.usage_warranty).format("YYYY-MM-DD"),
+      status: dataSparepartById?.status,
+      sparepartImage: dataSparepartById?.sparepart_image,
+      drawingImage: dataSparepartById?.drawing_image,
+    },
+  });
+
+  useEffect(() => {
+    getDataSparepart();
+    getDataSparepartKategory();
+    getDataSparepatAvailability();
+    getDataSparepartInventory();
+    getDataUom();
+  }, []);
   useEffect(() => {
     if (type == "kategory-sparepart") {
       getDataSparepartKategory();
@@ -167,13 +256,13 @@ export default function useSparepart() {
       getDataSparepart();
     } else if (type == "availability") {
       getDataSparepatAvailability();
-    } else {
-      setDataSparepartKategory([]);
-      setDataSparepartInventory([]);
-      setDataSparepart([]);
-      setDataSparepartAvailability([]);
     }
   }, [type]);
+  useEffect(() => {
+    if (!!id && type == "part") {
+      getDataSparepartById(id);
+    }
+  }, [id, type]);
 
   return {
     state,
@@ -184,6 +273,14 @@ export default function useSparepart() {
     openModalConfirm,
     openModalSuccess,
     type,
+    dataSparepartKategory,
+    isLoadingData,
+    dataSparepartInventory,
+    dataSparepart,
+    dataSparepartAvailability,
+    dataSparepartById,
+    dataUom,
+    id,
     setSearchParams,
     setUrlParams,
     navigate,
@@ -193,10 +290,5 @@ export default function useSparepart() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
-    dataSparepartKategory,
-    isLoadingData,
-    dataSparepartInventory,
-    dataSparepart,
-    dataSparepartAvailability,
   };
 }
