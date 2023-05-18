@@ -1,8 +1,8 @@
 import { Entity } from "../_entity";
 
 export interface IParameterProps {
-  id: string;
-  indicator: string;
+  id: string | undefined;
+  indicator: string | undefined;
   name: string;
   variable: string;
 }
@@ -24,10 +24,10 @@ export class Parameter extends Entity<IParameterProps> implements IParameter {
     };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
-  get indicator(): string {
+  get indicator(): string | undefined {
     return this._props.indicator;
   }
   get name(): string {

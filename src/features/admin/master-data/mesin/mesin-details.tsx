@@ -61,7 +61,7 @@ export default function MesinDetails() {
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">No Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.dataMesinById?.no}
+                      {mesin?.dataMesinById?.machine_no}
                     </td>
                   </tr>
                   <tr>

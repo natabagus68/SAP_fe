@@ -211,8 +211,6 @@ export default function useMesin() {
 
   //get data by id
   const getDataMesinById = async (id: string) => {
-    console.log(id, "byId mesin");
-
     try {
       const result = await mesinRepository.getDataById(id);
       setTimeout(() => {
@@ -252,7 +250,6 @@ export default function useMesin() {
       setTimeout(() => {
         setDataParameterById(result);
       }, 500);
-      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -273,6 +270,7 @@ export default function useMesin() {
   const createMesin = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
+
     try {
       const result = await mesinRepository.create(
         Mesin.create({
@@ -284,6 +282,11 @@ export default function useMesin() {
           photo: data.photo,
         })
       );
+
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -376,6 +379,7 @@ export default function useMesin() {
   //edit  data
   const editMesin = async (data) => {
     setIsLoadingData(true);
+
     try {
       const result = await mesinRepository.edit(
         Mesin.create({
@@ -387,6 +391,7 @@ export default function useMesin() {
           photo: data.photo,
         })
       );
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -622,7 +627,7 @@ export default function useMesin() {
 
   useEffect(() => {
     if (!!id && type == "mesin") {
-      getDataSubmesinById(id);
+      getDataMesinById(id);
     } else if (!!id && type == "sub-mesin") {
       getDataSubmesinById(id);
     } else if (!!id && type == "parameter") {

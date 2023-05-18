@@ -53,7 +53,7 @@ export default function MesinForm() {
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
                     mesin.errors.machine_no ? "bg-red-100" : "bg-white"
                   }`}
-                  placeholder="Masukan n.machine_no mesin"
+                  placeholder="Masukan nomor mesin"
                   {...mesin.register("machine_no", { required: true })}
                 />
               </div>
@@ -131,7 +131,7 @@ export default function MesinForm() {
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
                     mesin.errors.name ? "bg-red-100" : "bg-white"
                   }`}
-                  placeholder="Masukan nama Departemen"
+                  placeholder="Masukan Parameter"
                   {...mesin.register("name", { required: true })}
                 />
               </div>
