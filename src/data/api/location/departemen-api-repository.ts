@@ -11,7 +11,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
           id: item?.id,
           name: item?.name || "-",
           section: item?.Sections || "-",
-          department_id: item?.department_id || "-",
+          //department_id: item?.department_id || "-",
         })
       );
     } catch (error) {
@@ -27,7 +27,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
         id: data.data?.id,
         name: data.data?.name || "-",
         section: data.data?.Sections || "-",
-        department_id: data.data?.department_id || "-",
+        //department_id: data.data?.department_id || "-",
       });
     } catch (error) {
       throw new Error(error);

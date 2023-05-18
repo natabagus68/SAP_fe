@@ -13,4 +13,48 @@ export class SubMesinApiRepository implements SubMesinRepository {
       })
     );
   }
+
+  async getDataById(id: string): Promise<SubMesin> {
+    try {
+      const { data } = await api.get(`sub-machine/${id}`);
+      return SubMesin.create({
+        id: data.data?.id || "-",
+        name: data.data?.name || "-",
+        sub_machine_no: data.data?.sub_machine_no || "-",
+      });
+    } catch (error) {}
+  }
+
+  async create(submesin: SubMesin): Promise<void> {
+    try {
+      const { data } = await api.post(`sub-machine`, {
+        name: submesin.name,
+        sub_machine_no: submesin.sub_machine_no,
+      });
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async edit(submesin: SubMesin): Promise<void> {
+    try {
+      const { data } = await api.put(`sub-machine/${submesin.id}`, {
+        name: submesin.name,
+        sub_machine_no: submesin.sub_machine_no,
+      });
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`sub-machine/${id}`);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

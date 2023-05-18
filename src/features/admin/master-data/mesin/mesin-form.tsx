@@ -11,18 +11,38 @@ export default function MesinForm() {
         items={[
           "Master Data",
           `${mesin.type[0].toLocaleUpperCase()}${mesin.type.slice(1)}`,
-          mesin.state?.edit ? "Edit" : "Create",
+          !!mesin?.id ? "Edit" : "Create",
         ]}
       />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            {mesin?.state?.edit ? "Edit Data" : "Create Data"}
+            {!!mesin?.id ? "Edit Data" : "Create Data"}
           </span>
         </div>
         <form
           className="w-full flex py-[18px] px-[32px] gap-4 flex-wrap"
-          onSubmit={mesin.handleSubmit(mesin.createMesin)}
+          onSubmit={mesin.handleSubmit(
+            !!mesin?.id
+              ? mesin.type == "mesin"
+                ? mesin.editMesin
+                : mesin.type == "sub-mesin"
+                ? mesin.editSubmesin
+                : mesin.type == "parameter"
+                ? mesin.editParameter
+                : mesin.type == "indikator"
+                ? mesin.editIndikator
+                : mesin.editUom
+              : mesin.type == "mesin"
+              ? mesin.createMesin
+              : mesin.type == "sub-mesin"
+              ? mesin.createSubmesin
+              : mesin.type == "parameter"
+              ? mesin.createParameter
+              : mesin.type == "indikator"
+              ? mesin.createIndikator
+              : mesin.createUom
+          )}
         >
           {mesin.type == "mesin" ? (
             <>
@@ -57,7 +77,11 @@ export default function MesinForm() {
                   {...mesin.register("section", { required: true })}
                 >
                   <option value="">Pilih section</option>
-                  <option value="section">Section 1</option>
+                  {mesin.dataSection.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -79,10 +103,10 @@ export default function MesinForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    mesin.errors.no ? "bg-red-100" : "bg-white"
+                    mesin.errors.sub_machine_no ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan no. sub-mesin"
-                  {...mesin.register("no", { required: true })}
+                  {...mesin.register("sub_machine_no", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -120,12 +144,17 @@ export default function MesinForm() {
                   {...mesin.register("indikator", { required: true })}
                 >
                   <option value="">Pilih Indikator</option>
-                  <option value="indikator">Indikator 1</option>
+                  {mesin.dataIndikator.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Variable</span>
                 <div className="flex gap-4 items-center">
+                  {/* looping variable */}
                   <div className="flex gap-2 items-center">
                     <input
                       type="radio"
@@ -189,7 +218,7 @@ export default function MesinForm() {
                   </div>
                 </div>
               </div>
-              <button className="flex items-center gap-2 h-[46px] rounded text-[#D0D3D9] font-semibold text-sm">
+              <button className="flex items-center gap-2 h-[46px] rounded text-[#D0D3D9] font-semibold text-sm w-full">
                 <div className="w-[20px] h-[20px] border-2 border-[#D0D3D9] rounded-full flex items-center justify-center">
                   <PlusIcon color="#D0D3D9" />
                 </div>
@@ -216,17 +245,6 @@ export default function MesinForm() {
           {mesin.type == "uom" ? (
             <>
               <div className="flex flex-col w-full gap-1">
-                <span>Title</span>
-                <input
-                  type="text"
-                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    mesin.errors.title ? "bg-red-100" : "bg-white"
-                  }`}
-                  placeholder="Masukkan title"
-                  {...mesin.register("title", { required: true })}
-                />
-              </div>
-              <div className="flex flex-col w-full gap-1">
                 <span>Unit of Measurement</span>
                 <input
                   type="text"
@@ -239,23 +257,24 @@ export default function MesinForm() {
               </div>
             </>
           ) : null}
+
+          {mesin.type != "mesin" ? (
+            <div className="flex items-center gap-6">
+              <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
+                Simpan
+              </button>
+              <button
+                className="flex items-center justify-center gap-2 h-[46px] px-[20px] w-[181px] border border-[#20519F] rounded"
+                type="button"
+                onClick={() => mesin.navigate("..")}
+              >
+                <span className="text-[#20519F] text-sm font-semibold">
+                  Batal
+                </span>
+              </button>
+            </div>
+          ) : null}
         </form>
-        {mesin.type != "mesin" ? (
-          <div className="flex items-center gap-6 pb-[32px] px-[32px]">
-            <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
-              Simpan
-            </button>
-            <button
-              className="flex items-center justify-center gap-2 h-[46px] px-[20px] w-[181px] border border-[#20519F] rounded"
-              type="button"
-              onClick={() => mesin.navigate("..")}
-            >
-              <span className="text-[#20519F] text-sm font-semibold">
-                Batal
-              </span>
-            </button>
-          </div>
-        ) : null}
       </div>
 
       {mesin.type == "mesin" ? (

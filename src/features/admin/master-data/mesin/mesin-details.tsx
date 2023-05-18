@@ -61,19 +61,19 @@ export default function MesinDetails() {
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">No Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.state?.data?.no}
+                      {mesin?.dataMesinById?.no}
                     </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-[6px]">Nama Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.state?.data?.name}
+                      {mesin?.dataMesinById?.name}
                     </td>
                   </tr>
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Section</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.state?.data?.section}
+                      {mesin?.dataMesinById?.section.name}
                     </td>
                   </tr>
                 </tbody>
@@ -82,7 +82,7 @@ export default function MesinDetails() {
             <div className="flex flex-col gap-6">
               <span className="text-base text-[#514E4E]">Gambar Mesin</span>
               <div className="w-[300px] h-[155px]  overflow-hidden">
-                {mesin?.state?.data?.photo ? (
+                {mesin?.dataMesinById?.photo ? (
                   <div className="w-full h-full bg-gray-300"></div>
                 ) : (
                   <img
@@ -105,13 +105,13 @@ export default function MesinDetails() {
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Sub-Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.state?.data?.name}
+                      {mesin?.dataSubmesinById?.name}
                     </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-[6px]">No. Sub-Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.state?.data?.no}
+                      {mesin?.dataSubmesinById?.sub_machine_no}
                     </td>
                   </tr>
                 </tbody>
