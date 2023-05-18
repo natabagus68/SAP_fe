@@ -22,16 +22,17 @@ export default function AccessView() {
         open={access.openModalConfirm}
         setOpen={access.setOpenModalConfirm}
         setOpenSuccess={access.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            console.log("delete useAccess");
-          }, 3000);
+          access.deleteAccess(access.dataId, setIsLoading);
+          console.log("delete Access");
         }}
       />
       <ModalSuccess
         open={access.openModalSuccess}
         setOpen={access.setOpenModalSuccess}
+        isSuccess={access.isSuccess}
+        successMessage="Berhasil menghapus data!"
       />
       <Breadcrumbs items={["User", "Access"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
@@ -57,48 +58,45 @@ export default function AccessView() {
             </tr>
           </thead>
           <tbody className="text-base text-[#514E4E]">
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td className="px-[32px]">Super Admin</td>
-              <td className="px-[32px]">
-                <div className="flex items-center gap-6">
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                    onClick={() => access.navigate("menu")}
-                  >
-                    <MapIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Menu
-                    </span>
-                  </button>
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                    onClick={() =>
-                      access.navigate("edit", {
-                        state: {
-                          edit: true,
-                          type: access.type,
-                          data: { role: "role" },
-                        },
-                      })
-                    }
-                  >
-                    <EditIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Edit
-                    </span>
-                  </button>
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                    onClick={() => access.setOpenModalDelete(true)}
-                  >
-                    <TrashIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Delete
-                    </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {access.dataAccess.map((item, i) => (
+              <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
+                <td className="px-[32px]">{item.name}</td>
+                <td className="px-[32px]">
+                  <div className="flex items-center gap-6">
+                    <button
+                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
+                      onClick={() => access.navigate("menu")}
+                    >
+                      <MapIcon color="white" />
+                      <span className="text-white text-sm font-semibold">
+                        Menu
+                      </span>
+                    </button>
+                    <button
+                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                      onClick={() => access.navigate(`${item.id}/edit`)}
+                    >
+                      <EditIcon color="white" />
+                      <span className="text-white text-sm font-semibold">
+                        Edit
+                      </span>
+                    </button>
+                    <button
+                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                      onClick={() => {
+                        access.setDataId(item.id);
+                        access.setOpenModalDelete(true);
+                      }}
+                    >
+                      <TrashIcon color="white" />
+                      <span className="text-white text-sm font-semibold">
+                        Delete
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <div className="flex py-4 px-[32px] justify-end gap-4">

@@ -14,8 +14,6 @@ export class DamageApiRepository implements DamageRepository {
   }
 
   async getDataById(id: string): Promise<Damage> {
-    console.log(id);
-
     try {
       const { data } = await api.get(`damage-type/${id}`);
       return Damage.create({

@@ -27,7 +27,7 @@ export default function DamageView() {
         confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
           damage.deleteDataDamage(damage.dataId, setIsLoading);
-          console.log("delete useDamage");
+          console.log("delete Damage");
         }}
       />
       <ModalSuccess
