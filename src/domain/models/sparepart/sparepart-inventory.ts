@@ -1,7 +1,7 @@
 import { Entity } from "../_entity";
 
 export interface ISparepartInventoryProps {
-  id: string;
+  id?: string | undefined;
   name: string;
   icon: string;
   status: string;
@@ -27,7 +27,7 @@ export class SparepartInventory
     };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
   get name(): string {

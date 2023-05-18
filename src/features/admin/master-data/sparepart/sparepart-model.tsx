@@ -5,7 +5,10 @@ import { SparepartKategoryApiRepository } from "@data/api/sparepart/sparepart-ka
 import { SparepartApiRpository } from "@data/api/sparepart/sparepart-part-api-repository";
 import { UnitOfMeasure } from "@domain/models/mesin/uom";
 import { SparepartAvailability } from "@domain/models/sparepart/sparepart-availability";
-import { SparepartInventory } from "@domain/models/sparepart/sparepart-inventory";
+import {
+  ISparepartInventoryProps,
+  SparepartInventory,
+} from "@domain/models/sparepart/sparepart-inventory";
 import { SparepartKategory } from "@domain/models/sparepart/sparepart-kategory";
 import { SparepartPart } from "@domain/models/sparepart/sparepart-part";
 import { useEffect, useState } from "react";
@@ -72,9 +75,31 @@ export default function useSparepart() {
   //state message from api
   const [message, setMessage] = useState(null);
 
+  //state succes create/update data
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  //state for parsing data id
+  const [dataId, setDataId] = useState(null);
+
   //state data sparepart by id
   const [dataSparepartById, setDataSparepartById] = useState(null);
+  //state data inventory by id
+  const [dataInventoryById, setDataInventoryById] = useState(null);
 
+  // get data sparepart
+  const getDataSparepart = async () => {
+    setIsLoadingData(true);
+    setDataSparepart([]);
+    try {
+      const result = await partSparepartRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSparepart(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // create sparepart data
   const createSparepart = async (data) => {
     setIsLoadingData(true);
@@ -82,10 +107,10 @@ export default function useSparepart() {
     try {
       const result = await partSparepartRepository.create(
         SparepartPart.create({
-          part_no: data.partNo,//
+          part_no: data.partNo,
           item_code: data.itemCode,
           part_name: data.name,
-          status: data.status,//
+          status: data.status,
           brand: data.brand,
           spec: data.spec,
           qty_stock: data.qtyStock,
@@ -105,38 +130,22 @@ export default function useSparepart() {
           category_id: data.categoryId,
           availability_id: data.availabilityId,
           inventory_id: data.inventoryId,
-          uom_id: data.uomId
+          uom_id: data.uomId,
         })
       );
       setTimeout(() => {
         setIsLoadingData(false);
-        // navigate("../");
+        navigate("../");
       }, 500);
     } catch (error) {
       console.log(error);
       setTimeout(() => {
         setIsLoadingData(false);
-        setMessage("No. Induk Pegawai harus unik!");
+        setMessage("Error");
       }, 500);
       throw new Error(error);
     }
   };
-
-  // get data sparepart
-  const getDataSparepart = async () => {
-    setIsLoadingData(true);
-    setDataSparepart([]);
-    try {
-      const result = await partSparepartRepository.get();
-      setTimeout(() => {
-        setIsLoadingData(false);
-        setDataSparepart(result);
-      }, 500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // get data sparepart / part
   const getDataSparepartById = async (id: string) => {
     try {
@@ -146,6 +155,72 @@ export default function useSparepart() {
       }, 500);
     } catch (error) {
       throw new Error(error);
+    }
+  };
+  // edit sparepart data
+  const editSparepart = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await partSparepartRepository.edit(
+        SparepartPart.create({
+          id: id,
+          part_no: data.partNo,
+          item_code: data.itemCode,
+          part_name: data.name,
+          status: data.status,
+          brand: data.brand,
+          spec: data.spec,
+          qty_stock: data.qtyStock,
+          minimum_stock: data.minimumStock,
+          price: data.price,
+          vendor_name: data.vendorName,
+          procurement_type: data.procurementType,
+          remark: data.remark,
+          maintenance_rate: data.maintenanceRate,
+          description: data.description,
+          sparepart_image: data.sparepartImage,
+          drawing_image: data.drawingImage,
+          alternative_part_id: data.alternativePartId,
+          delivery_time: data.deliveryTime,
+          arrival_warranty: data.arrivalWarranty,
+          usage_warranty: data.usageWarranty,
+          category_id: data.categoryId,
+          availability_id: data.availabilityId,
+          inventory_id: data.inventoryId,
+          uom_id: data.uomId,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("error");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // delete data Sparepart
+  const deleteDataSparepart = async (id: string, setIsLoading) => {
+    try {
+      const result = await partSparepartRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataSparepart();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
     }
   };
 
@@ -163,8 +238,89 @@ export default function useSparepart() {
       console.log(error);
     }
   };
+  // create Inventory data
+  const createInventory = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await inventorySparepartRepository.create(
+        SparepartInventory.create({
+          name: data.name,
+          icon: data.categoryId,
+          status: data.status ? "active" : "inactive",
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Error");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // get data inventory by id
+  const getDataInventoryById = async (id: string) => {
+    try {
+      const result = await inventorySparepartRepository.getDataById(id);
+      setTimeout(() => {
+        setDataInventoryById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  // edit Inventory data
+  const editInventory = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await inventorySparepartRepository.edit(
+        SparepartInventory.create({
+          id: id,
+          name: data.name,
+          icon: data.categoryId,
+          status: data.status ? "active" : "inactive",
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("error");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // delete data inventory
+  const deleteDataInventory = async (id: string, setIsLoading) => {
+    try {
+      const result = await inventorySparepartRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataSparepartInventory();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
+  };
 
-  // get data sparepart
+  // get data Availability
   const getDataSparepatAvailability = async () => {
     setIsLoadingData(true);
     setDataSparepartAvailability([]);
@@ -178,6 +334,86 @@ export default function useSparepart() {
       console.log(error);
     }
   };
+  // create Availability data
+  const createAvailability = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await availabilitySparepartRepository.create(
+        SparepartAvailability.create({
+          rak: data.rak,
+          section: data.section
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Error");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // // get data inventory by id
+  // const getDataInventoryById = async (id: string) => {
+  //   try {
+  //     const result = await inventorySparepartRepository.getDataById(id);
+  //     setTimeout(() => {
+  //       setDataInventoryById(result);
+  //     }, 500);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // };
+  // // edit Inventory data
+  // const editInventory = async (data) => {
+  //   setIsLoadingData(true);
+  //   setMessage(null);
+  //   try {
+  //     const result = await inventorySparepartRepository.edit(
+  //       SparepartInventory.create({
+  //         id: id,
+  //         name: data.name,
+  //         icon: data.categoryId,
+  //         status: data.status ? "active" : "inactive",
+  //       })
+  //     );
+  //     setTimeout(() => {
+  //       setIsLoadingData(false);
+  //       navigate("../");
+  //     }, 500);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setTimeout(() => {
+  //       setIsLoadingData(false);
+  //       setMessage("error");
+  //     }, 500);
+  //     throw new Error(error);
+  //   }
+  // };
+  // // delete data inventory
+  // const deleteDataInventory = async (id: string, setIsLoading) => {
+  //   try {
+  //     const result = await inventorySparepartRepository.delete(id);
+  //     setIsSuccess(true);
+  //     setTimeout(() => {
+  //       getDataSparepartInventory();
+  //       setIsLoading({ loading: false, exec: true });
+  //       setDataId(null);
+  //     }, 500);
+  //   } catch (error) {
+  //     setIsSuccess(false);
+  //     setTimeout(() => {
+  //       setIsLoading({ loading: false, exec: true });
+  //       setDataId(null);
+  //       throw new Error(error);
+  //     }, 500);
+  //   }
+  // };
 
   // get data sparepart-kategory
   const getDataSparepartKategory = async () => {
@@ -211,14 +447,25 @@ export default function useSparepart() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     values: {
       inventoryId: dataSparepartById?.inventory_id,
-      categoryId: dataSparepartById?.category_id,
+      categoryId:
+        type == "pary"
+          ? dataSparepartById?.category_id
+          : type == "kategory-inventory"
+          ? dataInventoryById?.icon
+          : undefined || "mechanical",
       itemCode: dataSparepartById?.item_code,
       availabilityId: dataSparepartById?.availability_id,
       partNo: dataSparepartById?.part_no,
-      name: dataSparepartById?.part_name,
+      name:
+        type == "pary"
+          ? dataSparepartById?.part_name
+          : type == "kategory-inventory"
+          ? dataInventoryById?.name
+          : undefined,
       brand: dataSparepartById?.brand,
       spec: dataSparepartById?.spec,
       uomId: dataSparepartById?.uom_id,
@@ -232,9 +479,20 @@ export default function useSparepart() {
       remark: dataSparepartById?.remark,
       alternativePartId: dataSparepartById?.alternative_part_id,
       deliveryTime: dataSparepartById?.delivery_time,
-      arrivalWarranty: moment(dataSparepartById?.arrival_warranty).format("YYYY-MM-DD"),
-      usageWarranty: moment(dataSparepartById?.usage_warranty).format("YYYY-MM-DD"),
-      status: dataSparepartById?.status,
+      arrivalWarranty: moment(dataSparepartById?.arrival_warranty).format(
+        "YYYY-MM-DD"
+      ),
+      usageWarranty: moment(dataSparepartById?.usage_warranty).format(
+        "YYYY-MM-DD"
+      ),
+      status:
+        type == "pary"
+          ? dataSparepartById?.status
+          : type == "kategory-inventory"
+          ? dataInventoryById?.status == "active"
+            ? true
+            : false
+          : false,
       sparepartImage: dataSparepartById?.sparepart_image,
       drawingImage: dataSparepartById?.drawing_image,
     },
@@ -261,6 +519,8 @@ export default function useSparepart() {
   useEffect(() => {
     if (!!id && type == "part") {
       getDataSparepartById(id);
+    } else if (!!id && type == "kategory-inventory") {
+      getDataInventoryById(id);
     }
   }, [id, type]);
 
@@ -281,6 +541,9 @@ export default function useSparepart() {
     dataSparepartById,
     dataUom,
     id,
+    isSuccess,
+    dataId,
+    dataInventoryById,
     setSearchParams,
     setUrlParams,
     navigate,
@@ -290,5 +553,12 @@ export default function useSparepart() {
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
+    watch,
+    editSparepart,
+    deleteDataSparepart,
+    setDataId,
+    createInventory,
+    editInventory,
+    deleteDataInventory,
   };
 }
