@@ -85,7 +85,7 @@ export default createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: "calendar",
+            path: ":month/calendar",
             element: <Root />,
             children: [
               {

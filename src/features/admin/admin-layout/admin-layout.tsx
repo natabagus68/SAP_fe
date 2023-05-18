@@ -98,7 +98,7 @@ export default function AdminLayout() {
               label={`Schedule`}
               icon={<CalendarIcon className="w-[24px] h-[24px]" />}
             >
-              <NavItem label="Calendar" to={"schedule/calendar"} />
+              <NavItem label="Calendar" to={"schedule/1/calendar"} />
               <NavItem label="Monitoring" to={"schedule/monitoring"} />
             </NavItem>
             <NavItem

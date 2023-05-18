@@ -80,7 +80,7 @@ export default function CalendarView() {
                 Add New Maintenance
               </span>
             </button>
-            <button
+            {/* <button
               className="bg-[#20519F] rounded gap-2 w-full h-[46px] flex items-center justify-center"
               onClick={() => {
                 calendar.createCalendar();
@@ -90,7 +90,7 @@ export default function CalendarView() {
               <span className="text-white font-semibold">
                 Add New Maintenance
               </span>
-            </button>
+            </button> */}
             <button
               className="bg-white rounded gap-2 w-full h-[46px] flex items-center justify-center border border-[#20519F]"
               onClick={() => {

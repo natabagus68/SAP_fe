@@ -1,10 +1,14 @@
 import { Breadcrumbs } from "@common/components";
-import PlusIcon from "@common/components/icons-new/PlusIcon";
-import TrashIcon from "@common/components/icons-new/TrashIcon";
 import useCalendar from "./calendar-model";
+import { useEffect } from "react";
 
 export default function CalendarForm() {
   const calendar = useCalendar();
+  useEffect(() => {
+    calendar.getDataMachine();
+    calendar.getDataSection();
+  }, []);
+  // console.log(calendar.dataSection);
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
@@ -14,16 +18,16 @@ export default function CalendarForm() {
           calendar.state?.edit ? "Edit" : "Create",
         ]}
       />
-      <div className="rounded-md border border-[#D0D3D9] bg-white">
+      <form
+        className="rounded-md border border-[#D0D3D9] bg-white"
+        onSubmit={calendar.handleSubmit(calendar.createMaintenance)}
+      >
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
             {calendar?.state?.edit ? "Edit Data" : "Create Data"}
           </span>
         </div>
-        <form
-          className="w-full flex py-[18px] px-[32px] gap-4 flex-wrap"
-          // onSubmit={frequency.handleSubmit(frequency.createMesin)}
-        >
+        <div className="w-full flex py-[18px] px-[32px] gap-4 flex-wrap">
           <div className="flex flex-col w-full gap-1">
             <span>Tipe Maintenance</span>
             <select
@@ -33,22 +37,28 @@ export default function CalendarForm() {
               {...calendar.register("type", { required: true })}
             >
               <option value="">Pilih maintenance type</option>
-              <option value="type">Maintenance 1</option>
+              <option value="corrective">Corrective</option>
+              <option value="preventive">Preventive</option>
+              <option value="checklist">Checklist</option>
             </select>
           </div>
           <div className="flex flex-col w-full gap-1">
             <span>Machine</span>
             <select
               className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                calendar.errors.machine ? "bg-red-100" : "bg-white"
+                calendar.errors.machine_id ? "bg-red-100" : "bg-white"
               }`}
-              {...calendar.register("machine", { required: true })}
+              {...calendar.register("machine_id", { required: true })}
             >
               <option value="">Pilih Machine</option>
-              <option value="machine">Machine 1</option>
+              {calendar.dataMesin.map((item, i) => (
+                <option key={i} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
-          <div className="flex flex-col w-full gap-1">
+          {/* <div className="flex flex-col w-full gap-1">
             <span>Departemen</span>
             <select
               className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
@@ -59,20 +69,24 @@ export default function CalendarForm() {
               <option value="">Pilih Departemen</option>
               <option value="departemen">Departemen 1</option>
             </select>
-          </div>
+          </div> */}
           <div className="flex flex-col w-full gap-1">
             <span>Section</span>
             <select
               className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                calendar.errors.section ? "bg-red-100" : "bg-white"
+                calendar.errors.section_id ? "bg-red-100" : "bg-white"
               }`}
-              {...calendar.register("section", { required: true })}
+              {...calendar.register("section_id", { required: true })}
             >
               <option value="">Pilih Section</option>
-              <option value="section">Section 1</option>
+              {calendar.dataSection.map((item, i) => (
+                <option key={i} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
-          <div className="flex flex-col w-full gap-1">
+          {/* <div className="flex flex-col w-full gap-1">
             <span>Range Tanggal Aktif</span>
             <select
               className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
@@ -83,6 +97,40 @@ export default function CalendarForm() {
               <option value="">Pilih range tanggal aktif</option>
               <option value="range">Range 1</option>
             </select>
+          </div> */}
+          <div className="flex items-end gap-4">
+            <div className="flex flex-col w-full gap-1">
+              <span>Range Tanggal Aktif</span>
+              <input
+                type="number"
+                className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
+                  calendar.errors.range ? "bg-red-100" : "bg-white"
+                }`}
+                placeholder="Pilih range tanggal aktif"
+                {...calendar.register("range", { required: true })}
+              />
+            </div>
+            <div className="flex items-center gap-3 h-[40px] ">
+              <div className="flex items-center gap-1">
+                <input
+                  defaultChecked
+                  type="radio"
+                  className="w-[24px] h-[24px] cursor-pointer"
+                  value="Bulan"
+                  {...calendar.register("range_type", { required: true })}
+                />
+                <span>Bulan</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  className="w-[24px] h-[24px] cursor-pointer"
+                  value="Minggu"
+                  {...calendar.register("range_type", { required: true })}
+                />
+                <span>Minggu</span>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col w-full gap-1">
             <span>Tanggal Maintenance Dimulai</span>
@@ -94,7 +142,7 @@ export default function CalendarForm() {
               {...calendar.register("date", { required: true })}
             />
           </div>
-        </form>
+        </div>
         <div className="flex items-center gap-6 pb-[32px] px-[32px]">
           <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
             Simpan
@@ -107,7 +155,7 @@ export default function CalendarForm() {
             <span className="text-[#20519F] text-sm font-semibold">Batal</span>
           </button>
         </div>
-      </div>
+      </form>
     </main>
   );
 }
