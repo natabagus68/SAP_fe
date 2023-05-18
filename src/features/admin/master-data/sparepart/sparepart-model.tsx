@@ -20,6 +20,8 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import moment from "moment";
+import { SectionApiRepository } from "@data/api/location/section-api-repository";
+import { Section } from "@domain/models/location/section";
 
 export default function useSparepart() {
   const navigate = useNavigate();
@@ -85,6 +87,14 @@ export default function useSparepart() {
   const [dataSparepartById, setDataSparepartById] = useState(null);
   //state data inventory by id
   const [dataInventoryById, setDataInventoryById] = useState(null);
+  //state data inventory by id
+  const [dataAvailabilityById, setDataAvailabilityById] = useState(null);
+  //state data inventory by id
+  const [dataCategoryById, setDataCategoryById] = useState(null);
+  //repo api section
+  const sectionRepository = new SectionApiRepository();
+  //state data Section
+  const [dataSection, setDataSection] = useState<Section[]>([]);
 
   // get data sparepart
   const getDataSparepart = async () => {
@@ -150,9 +160,7 @@ export default function useSparepart() {
   const getDataSparepartById = async (id: string) => {
     try {
       const result = await partSparepartRepository.getDataById(id);
-      setTimeout(() => {
-        setDataSparepartById(result);
-      }, 500);
+      setDataSparepartById(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -267,9 +275,7 @@ export default function useSparepart() {
   const getDataInventoryById = async (id: string) => {
     try {
       const result = await inventorySparepartRepository.getDataById(id);
-      setTimeout(() => {
-        setDataInventoryById(result);
-      }, 500);
+      setDataInventoryById(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -341,8 +347,8 @@ export default function useSparepart() {
     try {
       const result = await availabilitySparepartRepository.create(
         SparepartAvailability.create({
-          rak: data.rak,
-          section: data.section
+          rack_code: data.name,
+          section_id: data.availabilityId,
         })
       );
       setTimeout(() => {
@@ -358,62 +364,59 @@ export default function useSparepart() {
       throw new Error(error);
     }
   };
-  // // get data inventory by id
-  // const getDataInventoryById = async (id: string) => {
-  //   try {
-  //     const result = await inventorySparepartRepository.getDataById(id);
-  //     setTimeout(() => {
-  //       setDataInventoryById(result);
-  //     }, 500);
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // };
-  // // edit Inventory data
-  // const editInventory = async (data) => {
-  //   setIsLoadingData(true);
-  //   setMessage(null);
-  //   try {
-  //     const result = await inventorySparepartRepository.edit(
-  //       SparepartInventory.create({
-  //         id: id,
-  //         name: data.name,
-  //         icon: data.categoryId,
-  //         status: data.status ? "active" : "inactive",
-  //       })
-  //     );
-  //     setTimeout(() => {
-  //       setIsLoadingData(false);
-  //       navigate("../");
-  //     }, 500);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setTimeout(() => {
-  //       setIsLoadingData(false);
-  //       setMessage("error");
-  //     }, 500);
-  //     throw new Error(error);
-  //   }
-  // };
-  // // delete data inventory
-  // const deleteDataInventory = async (id: string, setIsLoading) => {
-  //   try {
-  //     const result = await inventorySparepartRepository.delete(id);
-  //     setIsSuccess(true);
-  //     setTimeout(() => {
-  //       getDataSparepartInventory();
-  //       setIsLoading({ loading: false, exec: true });
-  //       setDataId(null);
-  //     }, 500);
-  //   } catch (error) {
-  //     setIsSuccess(false);
-  //     setTimeout(() => {
-  //       setIsLoading({ loading: false, exec: true });
-  //       setDataId(null);
-  //       throw new Error(error);
-  //     }, 500);
-  //   }
-  // };
+  // get data Availability by id
+  const getDataIAvailabilityById = async (id: string) => {
+    try {
+      const result = await availabilitySparepartRepository.getDataById(id);
+      setDataAvailabilityById(result);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  // edit Availability data
+  const editAvailability = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await availabilitySparepartRepository.edit(
+        SparepartAvailability.create({
+          id: id,
+          rack_code: data.name,
+          section_id: data.availabilityId,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("error");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // delete data Availability
+  const deleteDataAvailability = async (id: string, setIsLoading) => {
+    try {
+      const result = await availabilitySparepartRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataSparepatAvailability();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
+  };
 
   // get data sparepart-kategory
   const getDataSparepartKategory = async () => {
@@ -429,14 +432,97 @@ export default function useSparepart() {
       console.log(error);
     }
   };
+  // create Category data
+  const createCategory = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await kategorySparepartRepository.create(
+        SparepartKategory.create({
+          name: data.name,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Error");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // get data Category by id
+  const getDataCategoryById = async (id: string) => {
+    try {
+      const result = await kategorySparepartRepository.getDataById(id);
+      setDataCategoryById(result);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  // edit Category data
+  const editCategory = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await kategorySparepartRepository.edit(
+        SparepartKategory.create({
+          id: id,
+          name: data.name,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("error");
+      }, 500);
+      throw new Error(error);
+    }
+  };
+  // delete data Category
+  const deleteDataCategory = async (id: string, setIsLoading) => {
+    try {
+      const result = await kategorySparepartRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataSparepartKategory();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
+  };
+
+  // get data section
+  const getDataSection = async () => {
+    try {
+      const result = await sectionRepository.getSection();
+      setDataSection(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // get data Uom
   const getDataUom = async () => {
     try {
       const result = await uomRepository.get();
-      setTimeout(() => {
-        setDataUom(result);
-      }, 500);
+      setDataUom(result);
     } catch (error) {
       console.log(error);
     }
@@ -452,19 +538,28 @@ export default function useSparepart() {
     values: {
       inventoryId: dataSparepartById?.inventory_id,
       categoryId:
-        type == "pary"
+        type == "part"
           ? dataSparepartById?.category_id
           : type == "kategory-inventory"
           ? dataInventoryById?.icon
           : undefined || "mechanical",
       itemCode: dataSparepartById?.item_code,
-      availabilityId: dataSparepartById?.availability_id,
+      availabilityId:
+        type == "part"
+          ? dataSparepartById?.availability_id
+          : type == "availability"
+          ? dataAvailabilityById?.section_id
+          : undefined,
       partNo: dataSparepartById?.part_no,
       name:
-        type == "pary"
+        type == "part"
           ? dataSparepartById?.part_name
           : type == "kategory-inventory"
           ? dataInventoryById?.name
+          : type == "availability"
+          ? dataAvailabilityById?.rack_code
+          : type == "kategory-sparepart"
+          ? dataCategoryById?.name
           : undefined,
       brand: dataSparepartById?.brand,
       spec: dataSparepartById?.spec,
@@ -486,7 +581,7 @@ export default function useSparepart() {
         "YYYY-MM-DD"
       ),
       status:
-        type == "pary"
+        type == "part"
           ? dataSparepartById?.status
           : type == "kategory-inventory"
           ? dataInventoryById?.status == "active"
@@ -504,6 +599,7 @@ export default function useSparepart() {
     getDataSparepatAvailability();
     getDataSparepartInventory();
     getDataUom();
+    getDataSection();
   }, []);
   useEffect(() => {
     if (type == "kategory-sparepart") {
@@ -521,6 +617,10 @@ export default function useSparepart() {
       getDataSparepartById(id);
     } else if (!!id && type == "kategory-inventory") {
       getDataInventoryById(id);
+    } else if (!!id && type == "availability") {
+      getDataIAvailabilityById(id);
+    } else if (!!id && type == "kategory-sparepart") {
+      getDataCategoryById(id);
     }
   }, [id, type]);
 
@@ -544,6 +644,7 @@ export default function useSparepart() {
     isSuccess,
     dataId,
     dataInventoryById,
+    dataSection,
     setSearchParams,
     setUrlParams,
     navigate,
@@ -560,5 +661,11 @@ export default function useSparepart() {
     createInventory,
     editInventory,
     deleteDataInventory,
+    createAvailability,
+    editAvailability,
+    deleteDataAvailability,
+    createCategory,
+    editCategory,
+    deleteDataCategory,
   };
 }

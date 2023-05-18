@@ -42,6 +42,7 @@ export default function useManpower() {
       // departemen: state?.data?.departemen,
     },
   });
+
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
   //state modal confirm
@@ -85,7 +86,6 @@ export default function useManpower() {
           avatar: data.photo,
         })
       );
-
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -207,10 +207,8 @@ export default function useManpower() {
     setDataManpower([]);
     try {
       const result = await manpowerRepository.get();
-      setTimeout(() => {
-        setDataManpower(result);
-        setIsLoadingData(false);
-      }, 500);
+      setDataManpower(result);
+      setIsLoadingData(false);
     } catch (error) {
       throw new Error(error);
     }
@@ -231,9 +229,7 @@ export default function useManpower() {
   const getDataManpowerById = async (id: string) => {
     try {
       const result = await manpowerRepository.getDataById(id);
-      setTimeout(() => {
-        setDataManpowerById(result);
-      }, 500);
+      setDataManpowerById(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -242,9 +238,7 @@ export default function useManpower() {
   const getDataPositionById = async (id: string) => {
     try {
       const result = await positionRepository.getDataById(id);
-      setTimeout(() => {
-        setDataPositionById(result);
-      }, 500);
+      setDataPositionById(result);
     } catch (error) {
       throw new Error(error);
     }

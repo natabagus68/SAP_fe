@@ -10,16 +10,16 @@ export default class SparepartAvailabilityApiRepository
     return data?.data?.map((item) =>
       SparepartAvailability.create({
         id: item.id,
-        rak: item?.rack_code || "-",
-        section: item?.section?.name || "-",
+        rack_code: item?.rack_code || "-",
+        section_name: item?.section?.name || "-",
       })
     );
   }
-  async create(inventory: SparepartAvailability): Promise<void> {
+  async create(availability: SparepartAvailability): Promise<void> {
     try {
       const { data } = await api.post("availability-sparepart", {
-        rak: inventory?.rak,
-        section: inventory?.section,
+        rack_code: availability?.rack_code,
+        section_id: availability?.section_id,
       });
       return data.data;
     } catch (error) {
@@ -30,8 +30,8 @@ export default class SparepartAvailabilityApiRepository
     try {
       const { data } = await api.get(`availability-sparepart/${id}`);
       return SparepartAvailability.create({
-        rak: "",
-        section: "",
+        rack_code: data.data?.rack_code,
+        section_id: data.data?.section?.id,
       });
     } catch (error) {
       throw new Error(error);
@@ -40,8 +40,8 @@ export default class SparepartAvailabilityApiRepository
   async edit(inventory: SparepartAvailability): Promise<void> {
     try {
       const { data } = await api.put(`availability-sparepart/${inventory.id}`, {
-        rak: "",
-        section: "",
+        rack_code: inventory?.rack_code,
+        section_id: inventory?.section_id,
       });
       return data.data;
     } catch (error) {

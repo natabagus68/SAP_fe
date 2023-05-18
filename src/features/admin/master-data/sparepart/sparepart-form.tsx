@@ -35,11 +35,19 @@ export default function SparepartForm() {
                 ? sparepart.editSparepart
                 : sparepart.type == "kategory-inventory"
                 ? sparepart.editInventory
+                : sparepart.type == "availability"
+                ? sparepart.editAvailability
+                : sparepart.type == "kategory-sparepart"
+                ? sparepart.editCategory
                 : null
               : sparepart.type == "part"
               ? sparepart.createSparepart
               : sparepart.type == "kategory-inventory"
               ? sparepart.createInventory
+              : sparepart.type == "availability"
+              ? sparepart.createAvailability
+              : sparepart.type == "kategory-sparepart"
+              ? sparepart.createCategory
               : null
           )}
         >
@@ -83,7 +91,7 @@ export default function SparepartForm() {
                   <option value="">Pilih Availability</option>
                   {sparepart.dataSparepartAvailability?.map((item, i) => (
                     <option key={i} value={item.id}>
-                      {item.rak} - {item.section}
+                      {item.rack_code} - {item.section_name}
                     </option>
                   ))}
                 </select>
@@ -582,22 +590,26 @@ export default function SparepartForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.rak ? "bg-red-100" : "bg-white"
+                    sparepart.errors.name ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Rak"
-                  {...sparepart.register("rak", { required: true })}
+                  {...sparepart.register("name", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Section</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.availability ? "bg-red-100" : "bg-white"
+                    sparepart.errors.availabilityId ? "bg-red-100" : "bg-white"
                   }`}
-                  {...sparepart.register("availability", { required: true })}
+                  {...sparepart.register("availabilityId", { required: true })}
                 >
                   <option value="">Pilih section</option>
-                  <option value="section">Section 1</option>
+                  {sparepart.dataSection?.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </>
@@ -605,15 +617,14 @@ export default function SparepartForm() {
 
           {sparepart.type == "kategory-sparepart" ? (
             <div className="flex flex-col w-full gap-1">
-              <span>Kategory Type</span>
+              <span>Category Type</span>
               <input
-                disabled
                 type="text"
                 className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                  sparepart.errors.typeKategory ? "bg-red-100" : "bg-white"
+                  sparepart.errors.name ? "bg-red-100" : "bg-white"
                 }`}
-                placeholder="Masukan Kategory Type"
-                {...sparepart.register("typeKategory", { required: true })}
+                placeholder="Masukan category type"
+                {...sparepart.register("name", { required: true })}
               />
             </div>
           ) : null}

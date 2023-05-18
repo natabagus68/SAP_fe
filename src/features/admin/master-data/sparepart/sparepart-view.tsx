@@ -32,15 +32,16 @@ export default function SparepartView() {
         open={sparepart.openModalConfirm}
         setOpen={sparepart.setOpenModalConfirm}
         setOpenSuccess={sparepart.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
           if (sparepart.type == "part") {
             sparepart.deleteDataSparepart(sparepart.dataId, setIsLoading);
           } else if (sparepart.type == "kategory-inventory") {
             sparepart.deleteDataInventory(sparepart.dataId, setIsLoading);
           } else if (sparepart.type == "availability") {
-            console.log("delete availability");
-          } else {
-            console.log("delete kategory-sparepart");
+            sparepart.deleteDataAvailability(sparepart.dataId, setIsLoading);
+          } else if (sparepart.type == "kategory-sparepart") {
+            sparepart.deleteDataCategory(sparepart.dataId, setIsLoading);
           }
         }}
       />
@@ -269,15 +270,15 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {sparepart.dataSparepartAvailability.map((item, i) => (
+              {sparepart.dataSparepartAvailability?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
-                  <td className="px-[32px]">{item.rak}</td>
-                  <td className="px-[32px]">{item.section}</td>
+                  <td className="px-[32px]">{item?.rack_code}</td>
+                  <td className="px-[32px]">{item?.section_name}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() => sparepart.navigate("edit")}
+                        onClick={() => sparepart.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -286,7 +287,10 @@ export default function SparepartView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => sparepart.setOpenModalDelete(true)}
+                        onClick={() => {
+                          sparepart.setDataId(item.id);
+                          sparepart.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -317,17 +321,7 @@ export default function SparepartView() {
                     <div className="flex items-center gap-6">
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                        onClick={() =>
-                          sparepart.navigate("edit", {
-                            state: {
-                              edit: true,
-                              type: sparepart.type,
-                              data: {
-                                typeKategory: item.name,
-                              },
-                            },
-                          })
-                        }
+                        onClick={() => sparepart.navigate(`${item.id}/edit`)}
                       >
                         <EditIcon color="white" />
                         <span className="text-white text-sm font-semibold">
@@ -336,7 +330,10 @@ export default function SparepartView() {
                       </button>
                       <button
                         className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                        onClick={() => sparepart.setOpenModalDelete(true)}
+                        onClick={() => {
+                          sparepart.setDataId(item.id);
+                          sparepart.setOpenModalDelete(true);
+                        }}
                       >
                         <TrashIcon color="white" />
                         <span className="text-white text-sm font-semibold">

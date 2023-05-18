@@ -1,7 +1,7 @@
 import { Entity } from "../_entity";
 
 export interface ISparepartKategoryProps {
-  id: string;
+  id?: string | undefined;
   name: string;
 }
 
@@ -23,7 +23,7 @@ export class SparepartKategory
     };
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this._props.id;
   }
 
