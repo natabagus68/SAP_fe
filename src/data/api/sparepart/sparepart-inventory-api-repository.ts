@@ -18,14 +18,11 @@ export class SparepartInventoryApiRepository
   }
   async create(inventory: SparepartInventory): Promise<void> {
     try {
-      const { data } = await api.post(
-        "inventory-category",
-        SparepartInventory.create({
-          name: inventory.name,
-          icon: inventory.icon,
-          status: inventory.status,
-        })
-      );
+      const { data } = await api.post("inventory-category", {
+        name: inventory.name,
+        icon: inventory.icon,
+        status: inventory.status,
+      });
       return data.data;
     } catch (error) {
       throw new Error(error);
