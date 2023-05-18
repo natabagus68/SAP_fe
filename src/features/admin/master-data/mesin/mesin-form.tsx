@@ -26,19 +26,22 @@ export default function MesinForm() {
             !!mesin?.id
               ? mesin.type == "mesin"
                 ? mesin.editMesin
-                : mesin.editSubmesin
-              : mesin.type == "sub-mesin"
+                : mesin.type == "sub-mesin"
+                ? mesin.editSubmesin
+                : mesin.type == "parameter"
+                ? mesin.editParameter
+                : mesin.type == "indikator"
+                ? mesin.editIndikator
+                : mesin.editUom
+              : mesin.type == "mesin"
               ? mesin.createMesin
-              : mesin.createSubmesin
-            // ? mesin.type == "parameter"
-            //   ? mesin.editMesin
-            //   : mesin.editSubmesin
-            // : mesin.type == "indikator"
-            //   ? mesin.createMesin
-            //   : mesin.createSubmesin
-            // ? mesin.type == "uom"
-            //   ? mesin.createMesin
-            //   : mesin.createSubmesin
+              : mesin.type == "sub-mesin"
+              ? mesin.createSubmesin
+              : mesin.type == "parameter"
+              ? mesin.createParameter
+              : mesin.type == "indikator"
+              ? mesin.createIndikator
+              : mesin.createUom
           )}
         >
           {mesin.type == "mesin" ? (
@@ -59,10 +62,10 @@ export default function MesinForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    mesin.errors.name_mechine ? "bg-red-100" : "bg-white"
+                    mesin.errors.name ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan nama mesin"
-                  {...mesin.register("name_mechine", { required: true })}
+                  {...mesin.register("name", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -215,7 +218,7 @@ export default function MesinForm() {
                   </div>
                 </div>
               </div>
-              <button className="flex items-center gap-2 h-[46px] rounded text-[#D0D3D9] font-semibold text-sm">
+              <button className="flex items-center gap-2 h-[46px] rounded text-[#D0D3D9] font-semibold text-sm w-full">
                 <div className="w-[20px] h-[20px] border-2 border-[#D0D3D9] rounded-full flex items-center justify-center">
                   <PlusIcon color="#D0D3D9" />
                 </div>
@@ -254,8 +257,9 @@ export default function MesinForm() {
               </div>
             </>
           ) : null}
+
           {mesin.type != "mesin" ? (
-            <div className="flex items-center gap-6 pb-[32px] px-[32px]">
+            <div className="flex items-center gap-6">
               <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
                 Simpan
               </button>

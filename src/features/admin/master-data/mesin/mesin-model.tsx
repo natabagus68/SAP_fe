@@ -49,23 +49,30 @@ export default function useMesin() {
     formState: { errors },
   } = useForm({
     values: {
-      name: type == "mesin" ? dataMesinById?.name : dataSubmesinById?.name,
-      //dataSubmesinById?.name, cara ambil nama kurang indikator dan parameter
+      name:
+        type == "mesin"
+          ? dataMesinById?.name
+          : type == "sub-mesin"
+          ? dataSubmesinById?.name
+          : type == "parameter"
+          ? dataParameterById?.name
+          : type == "indikator"
+          ? dataIndikatorById?.name
+          : dataUomById?.name,
+      sub_machine_no: dataSubmesinById?.sub_machine_no,
 
       no: dataMesinById?.no,
-      name_mechine: dataMesinById?.name,
       section: dataMesinById?.section,
       photo: dataMesinById?.photo,
 
-      sub_machine_no: dataSubmesinById?.sub_machine_no,
-
       indikator: dataParameterById?.indikator,
       variable: dataParameterById?.variable,
+
       uom: dataUomById?.uom,
 
-      batasAtas: state?.data?.batasAtas,
-      batasBawah: state?.data?.batasBawah,
-      deskripsi: state?.data?.deskripsi,
+      batasAtas: dataParameterById?.batasAtas,
+      batasBawah: dataParameterById?.batasBawah,
+      deskripsi: dataIndikatorById?.deskripsi,
       //title: state?.data?.title,
     },
   });
@@ -121,6 +128,7 @@ export default function useMesin() {
   // get data mesin
   const getDataMesin = async () => {
     setIsLoadingData(true);
+    setDataMesin([]);
     try {
       const result = await mesinRepository.get();
       setTimeout(() => {
@@ -135,6 +143,7 @@ export default function useMesin() {
   // get data submesin
   const getDataSubMesin = async () => {
     setIsLoadingData(true);
+    setDataSubMesin([]);
     try {
       const result = await subMesinRepository.get();
       setTimeout(() => {
@@ -149,6 +158,7 @@ export default function useMesin() {
   // get data parameter
   const getDataParameter = async () => {
     setIsLoadingData(true);
+    setDataParameter([]);
     try {
       const result = await parameterRepository.get();
       setTimeout(() => {
@@ -163,6 +173,7 @@ export default function useMesin() {
   // get data indikator
   const getDataIndikator = async () => {
     setIsLoadingData(true);
+    setDataIndikator([]);
     try {
       const result = await indikatorRepository.get();
       setTimeout(() => {
@@ -177,6 +188,7 @@ export default function useMesin() {
   // get data Uom
   const getDataUom = async () => {
     setIsLoadingData(true);
+    setDataUom([]);
     try {
       const result = await uomRepository.get();
       setTimeout(() => {
@@ -277,6 +289,8 @@ export default function useMesin() {
   const createSubmesin = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
+    console.log(data);
+
     try {
       const result = await subMesinRepository.create(
         SubMesin.create({
@@ -285,6 +299,7 @@ export default function useMesin() {
           sub_machine_no: data.sub_machine_no,
         })
       );
+      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -361,6 +376,8 @@ export default function useMesin() {
   };
 
   const editSubmesin = async (data) => {
+    console.log(data, "edit submesin");
+
     setIsLoadingData(true);
     try {
       const result = await subMesinRepository.edit(
@@ -414,7 +431,6 @@ export default function useMesin() {
 
   const editUom = async (data) => {
     setIsLoadingData(true);
-    setMessage(null);
     try {
       const result = await uomRepository.edit(
         UnitOfMeasure.create({
