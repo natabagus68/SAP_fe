@@ -217,7 +217,6 @@ export default function useMesin() {
       setTimeout(() => {
         setDataMesinById(result);
       }, 500);
-      console.log(result, "byId mesin");
     } catch (error) {
       throw new Error(error);
     }
@@ -251,6 +250,7 @@ export default function useMesin() {
       setTimeout(() => {
         setDataParameterById(result);
       }, 500);
+      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -453,7 +453,7 @@ export default function useMesin() {
           id: id,
           indicator: data.indicator,
           name: data.name,
-          variable: data.variable,
+          variable: data?.variable,
         })
       );
       setTimeout(() => {

@@ -145,8 +145,8 @@ export default function MesinForm() {
                 >
                   <option value="">Pilih Indikator</option>
                   {mesin.dataIndikator.map((item, i) => (
-                    <option key={i} value={item.id}>
-                      {item.name}
+                    <option key={i} value={item?.id}>
+                      {item?.name}
                     </option>
                   ))}
                 </select>

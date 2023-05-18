@@ -133,9 +133,9 @@ export default function MesinView() {
             <tbody className="text-base text-[#514E4E]">
               {mesin.dataMesin.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
-                  <td className="px-[32px]">{item?.machine_no}</td>
-                  <td className="px-[32px]">{item?.name}</td>
-                  <td className="px-[32px]">{item?.section_name}</td>
+                  <td className="px-[32px]">{item.machine_no}</td>
+                  <td className="px-[32px]">{item.name}</td>
+                  <td className="px-[32px]">{item.section_name}</td>
                   <td className="px-[32px]">
                     <div className="flex items-center gap-6">
                       <button

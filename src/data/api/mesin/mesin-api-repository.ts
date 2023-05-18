@@ -19,7 +19,6 @@ export class MesinApiRepository implements MesinRepository {
 
   async getDataById(id: string): Promise<Mesin> {
     const { data } = await api.get(`machine/${id}`);
-    console.log(data, "getbyid");
 
     return Mesin.create({
       // id: data.data?.id,
