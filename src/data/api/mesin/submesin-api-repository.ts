@@ -5,10 +5,11 @@ import { api } from "../_api";
 export class SubMesinApiRepository implements SubMesinRepository {
   async get(): Promise<SubMesin[]> {
     const { data } = await api.get(`sub-machine`);
+
     return data?.data?.map((item) =>
       SubMesin.create({
         id: item?.id,
-        sub_machine_no: item?.sub_machine_no || "-",
+        no: item?.sub_machine_no || "-",
         name: item?.name || "-",
       })
     );
@@ -20,7 +21,7 @@ export class SubMesinApiRepository implements SubMesinRepository {
       return SubMesin.create({
         id: data.data?.id || "-",
         name: data.data?.name || "-",
-        sub_machine_no: data.data?.sub_machine_no || "-",
+        no: data.data?.sub_machine_no || "-",
       });
     } catch (error) {}
   }
@@ -29,7 +30,7 @@ export class SubMesinApiRepository implements SubMesinRepository {
     try {
       const { data } = await api.post(`sub-machine`, {
         name: submesin.name,
-        sub_machine_no: submesin.sub_machine_no,
+        no: submesin.no,
       });
       return data.data;
     } catch (error) {
@@ -41,8 +42,9 @@ export class SubMesinApiRepository implements SubMesinRepository {
     try {
       const { data } = await api.put(`sub-machine/${submesin.id}`, {
         name: submesin.name,
-        sub_machine_no: submesin.sub_machine_no,
+        no: submesin.no,
       });
+
       return data.data;
     } catch (error) {
       throw new Error(error);

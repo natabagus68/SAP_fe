@@ -99,7 +99,6 @@ export default function useDamage() {
   const getDataDamageById = async (id: string) => {
     try {
       const result = await damageRepository.getDataById(id);
-      console.log(result);
 
       setTimeout(() => {
         setDataDamageById(result);

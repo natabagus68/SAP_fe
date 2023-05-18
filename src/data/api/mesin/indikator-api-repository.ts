@@ -5,6 +5,7 @@ import { api } from "../_api";
 export class IndikatorApiRepository implements IndikatorRepository {
   async get(): Promise<Indikator[]> {
     const { data } = await api.get(`machine-indicator`);
+
     return data?.data?.map((item) =>
       Indikator.create({
         id: item?.id,
@@ -16,6 +17,7 @@ export class IndikatorApiRepository implements IndikatorRepository {
   async getDataById(id: string): Promise<Indikator> {
     try {
       const { data } = await api.get(`machine-indicator/${id}`);
+
       return Indikator.create({
         id: data.data?.id,
         name: data.data?.name || "-",
@@ -30,6 +32,7 @@ export class IndikatorApiRepository implements IndikatorRepository {
       const { data } = await api.post("machine-indicator", {
         name: indikator.name,
       });
+
       return data.data;
     } catch (error) {
       throw new Error(error);

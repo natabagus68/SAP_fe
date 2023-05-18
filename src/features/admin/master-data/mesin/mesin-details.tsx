@@ -111,7 +111,7 @@ export default function MesinDetails() {
                   <tr>
                     <td className="px-4 py-[6px]">No. Sub-Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.dataSubmesinById?.sub_machine_no}
+                      {mesin?.dataSubmesinById?.no}
                     </td>
                   </tr>
                 </tbody>

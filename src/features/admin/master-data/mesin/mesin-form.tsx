@@ -51,10 +51,10 @@ export default function MesinForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    mesin.errors.no ? "bg-red-100" : "bg-white"
+                    mesin.errors.machine_no ? "bg-red-100" : "bg-white"
                   }`}
-                  placeholder="Masukan no mesin"
-                  {...mesin.register("no", { required: true })}
+                  placeholder="Masukan n.machine_no mesin"
+                  {...mesin.register("machine_no", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -103,10 +103,10 @@ export default function MesinForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    mesin.errors.sub_machine_no ? "bg-red-100" : "bg-white"
+                    mesin.errors.sub_mechine_no ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan no. sub-mesin"
-                  {...mesin.register("sub_machine_no", { required: true })}
+                  {...mesin.register("sub_mechine_no", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -184,10 +184,10 @@ export default function MesinForm() {
                     <input
                       type="text"
                       className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 ${
-                        mesin.errors.uom ? "bg-red-100" : "bg-white"
+                        mesin.errors.name ? "bg-red-100" : "bg-white"
                       }`}
                       placeholder="Masukan UoM"
-                      {...mesin.register("uom", { required: true })}
+                      {...mesin.register("name", { required: true })}
                     />
                   </div>
                 </div>
@@ -233,10 +233,10 @@ export default function MesinForm() {
                 <textarea
                   placeholder="Masukkan Deskripsi Indikator"
                   className={`h-[171px] border border-[#D0D3D9] rounded p-2 ${
-                    mesin.errors.deskripsi ? "bg-red-100" : "bg-white"
+                    mesin.errors.name ? "bg-red-100" : "bg-white"
                   }`}
                   maxLength={100}
-                  {...mesin.register("deskripsi", { required: true })}
+                  {...mesin.register("name", { required: true })}
                 />
                 <span className="text-end">{mesin.maxDesc}/100</span>
               </div>
@@ -249,10 +249,10 @@ export default function MesinForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    mesin.errors.uom ? "bg-red-100" : "bg-white"
+                    mesin.errors.name ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukkan unit of measurement"
-                  {...mesin.register("uom", { required: true })}
+                  {...mesin.register("name", { required: true })}
                 />
               </div>
             </>

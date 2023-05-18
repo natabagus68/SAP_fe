@@ -65,7 +65,7 @@ export class MesinApiRepository implements MesinRepository {
   }
   async delete(id: string): Promise<void> {
     try {
-      const { data } = await api.delete(`position/${id}`);
+      const { data } = await api.delete(`machine/${id}`);
       return data.data;
     } catch (error) {
       throw new Error(error);
