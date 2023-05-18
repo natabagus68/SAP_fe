@@ -16,4 +16,48 @@ export class SparepartInventoryApiRepository
       })
     );
   }
+  async create(inventory: SparepartInventory): Promise<void> {
+    try {
+      const { data } = await api.post("inventory-category", {
+        name: inventory.name,
+        icon: inventory.icon,
+        status: inventory.status,
+      });
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async getDataById(id: string): Promise<SparepartInventory> {
+    try {
+      const { data } = await api.get(`inventory-category/${id}`);
+      return SparepartInventory.create({
+        name: data.data.name,
+        icon: data.data.icon,
+        status: data.data.status,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async edit(inventory: SparepartInventory): Promise<void> {
+    try {
+      const { data } = await api.put(`inventory-category/${inventory.id}`, {
+        name: inventory.name,
+        icon: inventory.icon,
+        status: inventory.status,
+      });
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`inventory-category/${id}`);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

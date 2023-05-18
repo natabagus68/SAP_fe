@@ -19,6 +19,7 @@ export class SparepartApiRpository implements SparepartPartRepository {
   async getDataById(id: string): Promise<SparepartPart> {
     try {
       const { data } = await api.get(`sparepart/${id}`);
+      console.log(data);
       return SparepartPart.create({
         part_no: data.data?.part_no || "-",
         part_name: data.data?.name || "-",
@@ -35,17 +36,17 @@ export class SparepartApiRpository implements SparepartPartRepository {
         description: data.data?.description || "-",
         sparepart_image: data.data?.image_path || "-",
         drawing_image: data.data?.image_drawing_path || "-",
-        alternative_part_id: data.data?.alternative_part?.id || "-",
+        alternative_part_id: data.data?.alternative_part_id || "",
         alternative_part_name: data.data?.alternative_part?.name || "-",
         delivery_time: data.data?.delivery_time || 0,
         arrival_warranty: data.data?.arrival_warranty || "-",
         usage_warranty: data.data?.usage_warranty || "-",
         status: data.data?.part_status || "-",
-        category_id: data.data?.category?.id || "-",
+        category_id: data.data?.category?.id || "",
         category_name: data.data?.category?.name || "-",
-        availability_id: data.data?.availability?.id || "-",
+        availability_id: data.data?.availability?.id || "",
         availability_rack_code: data.data?.availability?.rack_code || "-",
-        inventory_id: data.data?.inventory?.id || "-",
+        inventory_id: data.data?.inventory?.id || "",
         inventory_name: data.data?.inventory?.name || "-",
         uom_id: data.data?.uom_id || "-",
       });
@@ -81,6 +82,47 @@ export class SparepartApiRpository implements SparepartPartRepository {
       formData.append("uom_id", part.uom_id);
       formData.append("part_no", part.part_no);
       const { data } = await api.post("sparepart", formData);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async edit(part: SparepartPart): Promise<void> {
+    try {
+      const formData = new FormData();
+      formData.append("name", part.part_name);
+      formData.append("item_code", part.item_code);
+      formData.append("brand", part.brand);
+      formData.append("spec", part.spec);
+      formData.append("qty_stock", String(part.qty_stock));
+      formData.append("minimum_stock", String(part.minimum_stock));
+      formData.append("price", String(part.price));
+      formData.append("vendor_name", part.vendor_name);
+      formData.append("procurement_type", part.procurement_type);
+      formData.append("remark", part.remark);
+      formData.append("maintenance_rate", part.maintenance_rate);
+      formData.append("description", part.description);
+      formData.append("sparepart_image", part.sparepart_image[0]);
+      formData.append("drawing_image", part.drawing_image[0]);
+      formData.append("alternative_part_id", part.alternative_part_id);
+      formData.append("delivery_time", String(part.delivery_time));
+      formData.append("arrival_warranty", part.arrival_warranty);
+      formData.append("usage_warranty", part.usage_warranty);
+      formData.append("status", part.status);
+      formData.append("category_id", part.category_id);
+      formData.append("availability_id", part.availability_id);
+      formData.append("inventory_id", part.inventory_id);
+      formData.append("uom_id", part.uom_id);
+      formData.append("part_no", part.part_no);
+      const { data } = await api.put(`sparepart/${part.id}`, formData);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async delete(id: string): Promise<void> {
+    try {
+      const { data } = await api.delete(`sparepart/${id}`);
       return data.data;
     } catch (error) {
       throw new Error(error);

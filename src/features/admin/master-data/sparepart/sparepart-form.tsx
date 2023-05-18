@@ -1,17 +1,17 @@
 import useSparepart from "./sparepart-model";
-import { Breadcrumbs } from "@common/components";
-import settings from "../../../../assets/svg/settings.svg";
-import socket from "../../../../assets/svg/socket.svg";
-import toolbox from "../../../../assets/svg/toolbox.svg";
-import rawoil from "../../../../assets/svg/raw-oil.svg";
+import { Breadcrumbs, Toggle } from "@common/components";
+import mechanical from "../../../../assets/svg/settings.svg";
+import electrical from "../../../../assets/svg/socket.svg";
+import fasteners from "../../../../assets/svg/fastener.svg";
 import shaft from "../../../../assets/svg/shaft.svg";
-import mariagge from "../../../../assets/svg/marriage.svg";
-import fastener from "../../../../assets/svg/fastener.svg";
+import ring from "../../../../assets/svg/marriage.svg";
+import oil from "../../../../assets/svg/raw-oil.svg";
+import other from "../../../../assets/svg/toolbox.svg";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import ChecklistIcon from "@common/components/icons-new/ChecklistIcon";
 
 export default function SparepartForm() {
   const sparepart = useSparepart();
-  // console.log(sparepart.dataUom);
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
@@ -29,7 +29,27 @@ export default function SparepartForm() {
         </div>
         <form
           className="w-full flex py-[18px] px-[32px] gap-4 flex-wrap"
-          onSubmit={sparepart.handleSubmit(sparepart.createSparepart)}
+          onSubmit={sparepart.handleSubmit(
+            !!sparepart?.id
+              ? sparepart.type == "part"
+                ? sparepart.editSparepart
+                : sparepart.type == "kategory-inventory"
+                ? sparepart.editInventory
+                : sparepart.type == "availability"
+                ? sparepart.editAvailability
+                : sparepart.type == "kategory-sparepart"
+                ? sparepart.editCategory
+                : null
+              : sparepart.type == "part"
+              ? sparepart.createSparepart
+              : sparepart.type == "kategory-inventory"
+              ? sparepart.createInventory
+              : sparepart.type == "availability"
+              ? sparepart.createAvailability
+              : sparepart.type == "kategory-sparepart"
+              ? sparepart.createCategory
+              : null
+          )}
         >
           {sparepart.type == "part" ? (
             <>
@@ -71,23 +91,11 @@ export default function SparepartForm() {
                   <option value="">Pilih Availability</option>
                   {sparepart.dataSparepartAvailability?.map((item, i) => (
                     <option key={i} value={item.id}>
-                      {item.rak} - {item.section}
+                      {item.rack_code} - {item.section_name}
                     </option>
                   ))}
                 </select>
               </div>
-              {/* <div className="flex flex-col w-full gap-1">
-                <span>Rak</span>
-                <select
-                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.rak ? "bg-red-100" : "bg-white"
-                  }`}
-                  {...sparepart.register("rak", { required: true })}
-                >
-                  <option value="">Pilih Rak</option>
-                  <option value="section">Rak 1</option>
-                </select>
-              </div> */}
               <div className="flex flex-col w-full gap-1">
                 <span>Part No</span>
                 <input
@@ -132,17 +140,6 @@ export default function SparepartForm() {
                   {...sparepart.register("spec", { required: true })}
                 />
               </div>
-              {/* <div className="flex flex-col w-full gap-1">
-                <span>Unit of Measurement</span>
-                <input
-                  type="text"
-                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.uom ? "bg-red-100" : "bg-white"
-                  }`}
-                  placeholder="Masukan Unit of Measurement"
-                  {...sparepart.register("uom", { required: true })}
-                />
-              </div> */}
               <div className="flex flex-col w-full gap-1">
                 <span>Unit of Measurement</span>
                 <select
@@ -289,14 +286,16 @@ export default function SparepartForm() {
               <div className="flex flex-col w-full gap-1">
                 <span>Alternative Part</span>
                 <select
-                  // disabled
+                  disabled={
+                    sparepart.watch("remark") == "available" ? true : false
+                  }
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
                     sparepart.errors.alternativePartId
                       ? "bg-red-100"
                       : "bg-white"
                   }`}
                   {...sparepart.register("alternativePartId", {
-                    required: true,
+                    required: false,
                   })}
                 >
                   <option value="">Pilih Alternative Part</option>
@@ -368,98 +367,217 @@ export default function SparepartForm() {
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.kategory ? "bg-red-100" : "bg-white"
+                    sparepart.errors.name ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Nama Kategory"
-                  {...sparepart.register("kategory", { required: true })}
+                  {...sparepart.register("name", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Icon Kategory</span>
-                <div className="flex gap-6 py-4 item-center">
-                  <div className="flex border p-4 gap-2 items-start">
+                <div className="flex gap-6 item-center">
+                  <div
+                    className={`flex border ${
+                      sparepart.watch("categoryId") == "mechanical"
+                        ? "border-[#20519F]"
+                        : null
+                    } w-[85px] h-[71px] items-center justify-center rounded-md relative`}
+                  >
                     <input
-                      type="checkbox"
-                      {...sparepart.register("iconKategory")}
-                      value="setting"
-                      className="w-[12px] h-[12px]"
+                      type="radio"
+                      {...sparepart.register("categoryId")}
+                      value="mechanical"
+                      className="w-full h-full absolute top-0 right-0 opacity-0"
                     />
-                    <span>
-                      <img src={settings} alt="icon-kategory" />
-                    </span>
+                    <div
+                      className={`absolute w-[16px] h-[16px] top-1 right-1 border ${
+                        sparepart.watch("categoryId") == "mechanical"
+                          ? "bg-[#20519F]"
+                          : null
+                      } rounded-full flex items-center justify-center`}
+                    >
+                      <ChecklistIcon
+                        color="white"
+                        className="w-[12px] h-[12px]"
+                      />
+                    </div>
+                    <img src={mechanical} alt="icon-kategory" />
                   </div>
-
-                  <div className="flex border p-4 gap-2 items-start">
+                  <div
+                    className={`flex border ${
+                      sparepart.watch("categoryId") == "electrical"
+                        ? "border-[#20519F]"
+                        : null
+                    } w-[85px] h-[71px] items-center justify-center rounded-md relative`}
+                  >
                     <input
-                      type="checkbox"
-                      {...sparepart.register("iconKategory")}
-                      value="socket"
-                      className="w-[12px] h-[12px]"
+                      type="radio"
+                      {...sparepart.register("categoryId")}
+                      value="electrical"
+                      className="w-full h-full absolute top-0 right-0 opacity-0"
                     />
-                    <span>
-                      <img src={socket} alt="icon-kategory" />
-                    </span>
+                    <div
+                      className={`absolute w-[16px] h-[16px] top-1 right-1 border ${
+                        sparepart.watch("categoryId") == "electrical"
+                          ? "bg-[#20519F]"
+                          : null
+                      } rounded-full flex items-center justify-center`}
+                    >
+                      <ChecklistIcon
+                        color="white"
+                        className="w-[12px] h-[12px]"
+                      />
+                    </div>
+                    <img src={electrical} alt="icon-kategory" />
                   </div>
-
-                  <div className="flex border p-4 gap-2 items-start">
+                  <div
+                    className={`flex border ${
+                      sparepart.watch("categoryId") == "fasteners"
+                        ? "border-[#20519F]"
+                        : null
+                    } w-[85px] h-[71px] items-center justify-center rounded-md relative`}
+                  >
                     <input
-                      type="checkbox"
-                      {...sparepart.register("iconKategory")}
-                      value="fastener"
-                      className="w-[12px] h-[12px]"
+                      type="radio"
+                      {...sparepart.register("categoryId")}
+                      value="fasteners"
+                      className="w-full h-full absolute top-0 right-0 opacity-0"
                     />
-                    <span>
-                      <img src={fastener} alt="icon-kategory" />
-                    </span>
+                    <div
+                      className={`absolute w-[16px] h-[16px] top-1 right-1 border ${
+                        sparepart.watch("categoryId") == "fasteners"
+                          ? "bg-[#20519F]"
+                          : null
+                      } rounded-full flex items-center justify-center`}
+                    >
+                      <ChecklistIcon
+                        color="white"
+                        className="w-[12px] h-[12px]"
+                      />
+                    </div>
+                    <img src={fasteners} alt="icon-kategory" />
                   </div>
-
-                  <div className="flex border p-4 gap-2 items-start">
+                  <div
+                    className={`flex border ${
+                      sparepart.watch("categoryId") == "shaft"
+                        ? "border-[#20519F]"
+                        : null
+                    } w-[85px] h-[71px] items-center justify-center rounded-md relative`}
+                  >
                     <input
-                      type="checkbox"
-                      {...sparepart.register("iconKategory")}
+                      type="radio"
+                      {...sparepart.register("categoryId")}
                       value="shaft"
-                      className="w-[12px] h-[12px]"
+                      className="w-full h-full absolute top-0 right-0 opacity-0"
                     />
-                    <span>
-                      <img src={shaft} alt="icon-kategory" />
-                    </span>
+                    <div
+                      className={`absolute w-[16px] h-[16px] top-1 right-1 border ${
+                        sparepart.watch("categoryId") == "shaft"
+                          ? "bg-[#20519F]"
+                          : null
+                      } rounded-full flex items-center justify-center`}
+                    >
+                      <ChecklistIcon
+                        color="white"
+                        className="w-[12px] h-[12px]"
+                      />
+                    </div>
+                    <img src={shaft} alt="icon-kategory" />
                   </div>
-
-                  <div className="flex border p-4 gap-2 items-start">
+                  <div
+                    className={`flex border ${
+                      sparepart.watch("categoryId") == "ring"
+                        ? "border-[#20519F]"
+                        : null
+                    } w-[85px] h-[71px] items-center justify-center rounded-md relative`}
+                  >
                     <input
-                      type="checkbox"
-                      {...sparepart.register("iconKategory")}
-                      value="mariagge"
-                      className="w-[12px] h-[12px]"
+                      type="radio"
+                      {...sparepart.register("categoryId")}
+                      value="ring"
+                      className="w-full h-full absolute top-0 right-0 opacity-0"
                     />
-                    <span>
-                      <img src={mariagge} alt="icon-kategory" />
-                    </span>
+                    <div
+                      className={`absolute w-[16px] h-[16px] top-1 right-1 border ${
+                        sparepart.watch("categoryId") == "ring"
+                          ? "bg-[#20519F]"
+                          : null
+                      } rounded-full flex items-center justify-center`}
+                    >
+                      <ChecklistIcon
+                        color="white"
+                        className="w-[12px] h-[12px]"
+                      />
+                    </div>
+                    <img src={ring} alt="icon-kategory" />
                   </div>
-
-                  <div className="flex border p-4 gap-2 items-start">
+                  <div
+                    className={`flex border ${
+                      sparepart.watch("categoryId") == "oil"
+                        ? "border-[#20519F]"
+                        : null
+                    } w-[85px] h-[71px] items-center justify-center rounded-md relative`}
+                  >
                     <input
-                      type="checkbox"
-                      {...sparepart.register("iconKategory")}
-                      value="rawoil"
-                      className="w-[12px] h-[12px]"
+                      type="radio"
+                      {...sparepart.register("categoryId")}
+                      value="oil"
+                      className="w-full h-full absolute top-0 right-0 opacity-0"
                     />
-                    <span>
-                      <img src={rawoil} alt="icon-kategory" />
-                    </span>
+                    <div
+                      className={`absolute w-[16px] h-[16px] top-1 right-1 border ${
+                        sparepart.watch("categoryId") == "oil"
+                          ? "bg-[#20519F]"
+                          : null
+                      } rounded-full flex items-center justify-center`}
+                    >
+                      <ChecklistIcon
+                        color="white"
+                        className="w-[12px] h-[12px]"
+                      />
+                    </div>
+                    <img src={oil} alt="icon-kategory" />
                   </div>
-
-                  <div className="flex border p-4 gap-2 items-start">
+                  <div
+                    className={`flex border ${
+                      sparepart.watch("categoryId") == "other"
+                        ? "border-[#20519F]"
+                        : null
+                    } w-[85px] h-[71px] items-center justify-center rounded-md relative`}
+                  >
                     <input
-                      type="checkbox"
-                      {...sparepart.register("iconKategory")}
-                      value="toolbox"
-                      className="w-[12px] h-[12px]"
+                      type="radio"
+                      {...sparepart.register("categoryId")}
+                      value="other"
+                      className="w-full h-full absolute top-0 right-0 opacity-0"
                     />
-                    <span>
-                      <img src={toolbox} alt="icon-kategory" />
-                    </span>
+                    <div
+                      className={`absolute w-[16px] h-[16px] top-1 right-1 border ${
+                        sparepart.watch("categoryId") == "other"
+                          ? "bg-[#20519F]"
+                          : null
+                      } rounded-full flex items-center justify-center`}
+                    >
+                      <ChecklistIcon
+                        color="white"
+                        className="w-[12px] h-[12px]"
+                      />
+                    </div>
+                    <img src={other} alt="icon-kategory" />
                   </div>
+                </div>
+              </div>
+              <div className="flex flex-col w-full gap-1">
+                <span>Status</span>
+                <div className="w-fit flex gap-2 items-center">
+                  <input
+                    type="checkbox"
+                    className="w-[16px] h-[16px]"
+                    {...sparepart.register("status")}
+                  />
+                  <span>
+                    {sparepart.watch("status") == false ? "Inactive" : "Active"}
+                  </span>
                 </div>
               </div>
             </>
@@ -468,38 +586,30 @@ export default function SparepartForm() {
           {sparepart.type == "availability" ? (
             <>
               <div className="flex flex-col w-full gap-1">
-                <span>ID</span>
-                <input
-                  disabled
-                  type="text"
-                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.id ? "bg-red-100" : "bg-[#B8B6B6]"
-                  }`}
-                  placeholder="Masukan ID"
-                  {...sparepart.register("id", { required: true })}
-                />
-              </div>
-              <div className="flex flex-col w-full gap-1">
                 <span>Rak</span>
                 <input
                   type="text"
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.rak ? "bg-red-100" : "bg-white"
+                    sparepart.errors.name ? "bg-red-100" : "bg-white"
                   }`}
                   placeholder="Masukan Rak"
-                  {...sparepart.register("rak", { required: true })}
+                  {...sparepart.register("name", { required: true })}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
                 <span>Section</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    sparepart.errors.availability ? "bg-red-100" : "bg-white"
+                    sparepart.errors.availabilityId ? "bg-red-100" : "bg-white"
                   }`}
-                  {...sparepart.register("availability", { required: true })}
+                  {...sparepart.register("availabilityId", { required: true })}
                 >
                   <option value="">Pilih section</option>
-                  <option value="section">Section 1</option>
+                  {sparepart.dataSection?.map((item, i) => (
+                    <option key={i} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </>
@@ -507,15 +617,14 @@ export default function SparepartForm() {
 
           {sparepart.type == "kategory-sparepart" ? (
             <div className="flex flex-col w-full gap-1">
-              <span>Kategory Type</span>
+              <span>Category Type</span>
               <input
-                disabled
                 type="text"
                 className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                  sparepart.errors.typeKategory ? "bg-red-100" : "bg-white"
+                  sparepart.errors.name ? "bg-red-100" : "bg-white"
                 }`}
-                placeholder="Masukan Kategory Type"
-                {...sparepart.register("typeKategory", { required: true })}
+                placeholder="Masukan category type"
+                {...sparepart.register("name", { required: true })}
               />
             </div>
           ) : null}

@@ -11,7 +11,9 @@ export class ManpowerApiRepository implements ManpowerRepository {
           id: item?.id,
           name: item?.name || "-",
           employee_no: item?.employee_no || "-",
+          section_id: item?.section?.id || "-",
           section_name: item?.section?.name || "-",
+          position_id: item?.position?.id || "-",
           position_name: item?.position?.name || "-",
           departemen_name: item?.section?.departemen?.name || "-",
           avatar: item?.avatar || "",
@@ -28,7 +30,9 @@ export class ManpowerApiRepository implements ManpowerRepository {
         name: data.data?.name || "-",
         employee_no: data.data?.employee_no || "-",
         section_id: data.data?.section?.id || "-",
+        section_name: data.data?.section?.name || "-",
         position_id: data.data?.position?.id || "-",
+        position_name: data.data?.position?.name || "-",
         avatar: data.data?.avatar || "",
       });
     } catch (error) {

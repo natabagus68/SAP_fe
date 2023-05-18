@@ -209,7 +209,7 @@ export default createBrowserRouter([
                     element: <InventoryTable />,
                   },
                   {
-                    path: "details",
+                    path: ":id/details",
                     element: <InventoryDetails />,
                   },
                 ],
