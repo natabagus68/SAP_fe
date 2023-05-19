@@ -24,16 +24,17 @@ export default function AccountView() {
         open={account.openModalConfirm}
         setOpen={account.setOpenModalConfirm}
         setOpenSuccess={account.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
         cb={(setIsLoading) => {
-          setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            console.log("delete useAccount");
-          }, 3000);
+          account.deleteAccount(account.dataId, setIsLoading);
+          console.log("delete Acccount");
         }}
       />
       <ModalSuccess
         open={account.openModalSuccess}
         setOpen={account.setOpenModalSuccess}
+        isSuccess={account.isSuccess}
+        successMessage="Berhasil menghapus data!"
       />
       <Breadcrumbs items={["User", "Account"]} />
 
@@ -84,7 +85,7 @@ export default function AccountView() {
                       checked={item.is_ready ? true : false}
                       cb={() => console.log("onChange Toggle")}
                     />
-                    <span>{item.is_ready ? "active" : "nonactive"}</span>
+                    <span>{item.is_ready ? "active" : "inactive"}</span>
                   </div>
                 </td>
                 <td className="px-[32px]">{item.name}</td>

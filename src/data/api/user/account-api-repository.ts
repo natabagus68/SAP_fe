@@ -21,6 +21,8 @@ export class AccountApiRepository implements AccountRepository {
   async getDataById(id: string): Promise<Account> {
     try {
       const { data } = await api.get(`user/${id}`);
+      console.log(data);
+
       return Account.create({
         id: data.data?.id,
         name: data.data?.name || "-",
@@ -35,8 +37,6 @@ export class AccountApiRepository implements AccountRepository {
     }
   }
   async edit(account: Account): Promise<void> {
-    console.log(account, "testLog");
-
     try {
       const { data } = await api.put(`user/${account.id}`, {
         name: account.name,
@@ -45,7 +45,6 @@ export class AccountApiRepository implements AccountRepository {
         password: account.password,
         role_id: account.role_id,
       });
-      console.log(data, "edit-apirepo");
       return data.data;
     } catch (error) {
       throw new Error(error);
