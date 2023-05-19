@@ -84,8 +84,8 @@ export default function GeneralView() {
           <MixedChart />
         </div>
       </div>
-      <div className="mt-10 w-full flex justify-between  gap-4">
-        <div className="w-full border border-gray-300 rounded-xl py-4 px-4 bg-white">
+      <div className="mt-10 w-full flex justify-between  gap-2">
+        <div className="w-full border border-gray-300 rounded-xl py-4 px-1 bg-white">
           <div className="w-full flex justify-between">
             <h1 className="font-bold text-xl">Checklist Problem</h1>
             <div>
@@ -106,69 +106,69 @@ export default function GeneralView() {
             <div className="w-full items-center flex  h-96 px-20 gap-8 ">
               <div className="flex flex-col gap-7">
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#49CADD]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#49CADD]"></div>
                   <p className="font-semibold text-neutral-500">
                     Rantai Conveyor
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#F36960]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#F36960]"></div>
                   <p className="font-semibold text-neutral-500">
                     Shaft & Bearing
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#4D74B2]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#4D74B2]"></div>
                   <p className="font-semibold text-neutral-500">
                     Flowmeter Methanol
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#858D9D]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#858D9D]"></div>
                   <p className="font-semibold text-neutral-500">
                     Hot Water Safety Valve
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#F16BC9]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#F16BC9]"></div>
                   <p className="font-semibold text-neutral-500">Crankshaft</p>
                 </div>
               </div>
 
               <div className="flex flex-col gap-7">
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#F9A63A]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#F9A63A]"></div>
                   <p className="font-semibold text-neutral-500">
                     Mess Belt Conveyor
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#FAF15F]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#FAF15F]"></div>
                   <p className="font-semibold text-neutral-500">
                     Gear Box & Motor
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#41C487]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#41C487]"></div>
                   <p className="font-semibold text-neutral-500">
                     Mixed Fan & Motor
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#A765AD]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#A765AD]"></div>
                   <p className="font-semibold text-neutral-500">
                     Preasure Gauge
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                  <div className="w-6 h-6 rounded-full bg-[#B192F1]"></div>
+                  <div className="w-5 h-5 rounded-full bg-[#B192F1]"></div>
                   <p className="font-semibold text-neutral-500">Turbocharger</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="w-[90%] border border-gray-300 rounded-xl py-4 px-4 bg-white">
+        <div className="w-[80%] border border-gray-300 rounded-xl py-4 px-4 bg-white">
           <div className="w-full flex justify-between">
             <h1 className="font-bold text-xl">Sparepart Cost</h1>
             <div className="flex items-center gap-4">
