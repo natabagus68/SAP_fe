@@ -75,61 +75,54 @@ export default function AccountView() {
             </tr>
           </thead>
           <tbody className="text-base text-[#514E4E]">
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td className="px-[32px]">
-                <div className="flex items-center">
-                  <Toggle children={undefined} cb={undefined} />
-                  <span>Active</span>
-                </div>
-              </td>
-              <td className="px-[32px]">Ayu Umi Pertiwi</td>
-              <td className="px-[32px]">Ayu@mail.com</td>
-              <td className="px-[32px]">Super Admin</td>
-              <td className="px-[32px]">
-                <div className="flex items-center gap-6">
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                    onClick={() => account.navigate("details")}
-                  >
-                    <EyeShowIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Detail
-                    </span>
-                  </button>
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-                    onClick={() =>
-                      account.navigate("edit", {
-                        state: {
-                          edit: true,
-                          type: account.type,
-                          data: {
-                            manpower: "manpower",
-                            email: "ayu@mail.com",
-                            password: "password",
-                            role: "role",
-                          },
-                        },
-                      })
-                    }
-                  >
-                    <EditIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Edit
-                    </span>
-                  </button>
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                    onClick={() => account.setOpenModalDelete(true)}
-                  >
-                    <TrashIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Delete
-                    </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {account.dataAccount.map((item, i) => (
+              <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
+                <td className="px-[32px]">
+                  <div className="flex items-center">
+                    <Toggle
+                      id={item.id}
+                      checked={item.is_ready ? true : false}
+                      cb={() => console.log("onChange Toggle")}
+                    />
+                    <span>{item.is_ready ? "active" : "nonactive"}</span>
+                  </div>
+                </td>
+                <td className="px-[32px]">{item.name}</td>
+                <td className="px-[32px]">{item.email}</td>
+                <td className="px-[32px]">-</td>
+                <td className="px-[32px]">
+                  <div className="flex items-center gap-6">
+                    <button
+                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
+                      onClick={() => account.navigate(`${item.id}/details`)}
+                    >
+                      <EyeShowIcon color="white" />
+                      <span className="text-white text-sm font-semibold">
+                        Detail
+                      </span>
+                    </button>
+                    <button
+                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
+                      onClick={() => account.navigate(`${item.id}/edit`)}
+                    >
+                      <EditIcon color="white" />
+                      <span className="text-white text-sm font-semibold">
+                        Edit
+                      </span>
+                    </button>
+                    <button
+                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
+                      onClick={() => account.setOpenModalDelete(true)}
+                    >
+                      <TrashIcon color="white" />
+                      <span className="text-white text-sm font-semibold">
+                        Delete
+                      </span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <div className="flex py-4 px-[32px] justify-end gap-4">

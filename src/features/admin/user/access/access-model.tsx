@@ -70,7 +70,7 @@ export default function useAccess() {
   const getDataAccess = async () => {
     setIsLoadingData(true);
     try {
-      const result = await accessRepository.get();
+      const result = await accessRepository.getAccess();
       setTimeout(() => {
         setIsLoadingData(false);
         setDataAccess(result);
