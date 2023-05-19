@@ -1,6 +1,9 @@
 import { Breadcrumbs } from "@common/components/";
 import useLocationHooks from "./location-model";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import { Section } from "@domain/models/location/section";
+import { SectionApiRepository } from "@data/api/location/section-api-repository";
+import { Departemen } from "@domain/models/location/departemen";
 
 export default function LocationForm() {
   const location = useLocationHooks();
@@ -47,7 +50,7 @@ export default function LocationForm() {
               <div className="flex flex-col w-full gap-1">
                 <span>Pilih Section</span>
                 <div className="flex flex-col gap-2">
-                  {location?.dataSection?.map((item, i) => (
+                  {location?.dataSection.map((item, i) => (
                     <div key={i} className="flex gap-2 items-center">
                       <input
                         type="checkbox"

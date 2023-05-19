@@ -34,13 +34,15 @@ export class DepartemenApiRepository implements DepartemenRepository {
   }
 
   async create(departemen: Departemen): Promise<void> {
+    console.log(departemen, "api log");
+
     try {
       const { data } = await api.post(`department`, {
-        id: departemen.id,
+        //id: departemen.id,
         name: departemen.name,
         section: departemen.section,
       });
-      console.log(data);
+      console.log(data, "create-apirepo");
     } catch (error) {
       throw new Error(error);
     }
@@ -51,7 +53,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
       const { data } = await api.put(`department/${departemen.id}`, {
         id: departemen.id,
         name: departemen.name,
-        section: departemen.section,
+        section_id: departemen.section_id,
       });
     } catch (error) {
       throw new Error(error);

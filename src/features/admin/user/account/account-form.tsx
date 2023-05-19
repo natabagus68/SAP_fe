@@ -68,7 +68,7 @@ export default function AccountForm() {
               {...account.register("role_id", { required: true })}
             >
               <option value="">Pilih Role</option>
-              {account.dataAccess?.map((item, i) => (
+              {account.dataPosition?.map((item, i) => (
                 <option key={i} value={item.id}>
                   {item.name}
                 </option>

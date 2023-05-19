@@ -2,9 +2,10 @@ import { Entity } from "../_entity";
 import { Section } from "./section";
 
 export interface IDepartemenProps {
-  id: string | undefined;
+  id?: string | undefined;
   name: string;
   section: string;
+  section_id?: string | undefined;
 }
 
 export interface IDepartemen {
@@ -23,6 +24,7 @@ export class Departemen
       id: this.id,
       name: this.name,
       section: this.section,
+      section_id: this.section_id,
     };
   }
 
@@ -34,5 +36,8 @@ export class Departemen
   }
   get section(): string {
     return this._props.section;
+  }
+  get section_id(): string | undefined {
+    return this._props.section_id;
   }
 }

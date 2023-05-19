@@ -146,21 +146,21 @@ export default function useLocationHooks() {
 
   //create data departemen
   const createDataDepartemen = async (data) => {
-    console.log(data);
+    console.log(data, "data-model");
     try {
       const result = await DepartemenRepository.create(
         Departemen.create({
-          id: data.id,
+          //id: data.id,
           name: data.name,
-          section: data.section,
+          section: data.section_id,
         })
       );
-      console.log(result);
+      console.log(result, "result-model");
 
-      setTimeout(() => {
-        setIsLoadingData(false);
-        navigate("../");
-      }, 500);
+      // setTimeout(() => {
+      //   setIsLoadingData(false);
+      //   navigate("../");
+      // }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -190,15 +190,18 @@ export default function useLocationHooks() {
   //edit data Departemen
   const editDataDepartemen = async (data) => {
     setIsLoadingData(true);
+    console.log(data, "edit-model");
 
     try {
       const result = await DepartemenRepository.edit(
         Departemen.create({
           id: data.id,
           name: data.name,
-          section: data.section,
+          section: data.section_id,
         })
       );
+      console.log(result, "edit-result");
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");

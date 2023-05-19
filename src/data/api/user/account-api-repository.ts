@@ -22,14 +22,15 @@ export class AccountApiRepository implements AccountRepository {
   async getDataById(id: string): Promise<Account> {
     try {
       const { data } = await api.get(`user/${id}`);
+      console.log(data);
 
       return Account.create({
         id: data.data?.id,
         name: data.data?.name || "-",
         email: data.data?.email || "-",
-        employee_id: data.data?.employee_id || "-",
+        employee_id: data.data?.employee?.id || "-",
         password: data.data?.password || "-",
-        role_id: data.data?.role_id || "-",
+        role_id: data.data?.employee?.position_id || "-",
         is_ready: data.data?.is_ready,
       });
     } catch (error) {
@@ -46,6 +47,8 @@ export class AccountApiRepository implements AccountRepository {
         password: account.password,
         role_id: account.role_id,
       });
+      console.log(data);
+
       return data.data;
     } catch (error) {
       throw new Error(error);

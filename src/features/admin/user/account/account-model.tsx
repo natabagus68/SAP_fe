@@ -1,7 +1,9 @@
 import { ManpowerApiRepository } from "@data/api/manpower/manpower-api-repository";
+import { PositionApiRepository } from "@data/api/manpower/position-api-repository";
 import { AccessApiRepository } from "@data/api/user/access-api-repository";
 import { AccountApiRepository } from "@data/api/user/account-api-repository";
 import { Manpower } from "@domain/models/manpower/manpower";
+import { Position } from "@domain/models/manpower/position";
 import { Access } from "@domain/models/user/access";
 import { Account } from "@domain/models/user/account";
 import { useEffect, useState } from "react";
@@ -18,11 +20,7 @@ export default function useAccount() {
 
   //state account by id
   const [dataAccountById, setDataAccountById] = useState(null);
-
-  //state manpowe by id
-  const [dataManpowerById, setDataManpowerById] = useState(null);
-  //state access by id
-  const [dataAccessById, setDataAccessById] = useState(null);
+  //console.log(dataAccountById);
 
   //setup react form hook
   const {
@@ -32,10 +30,10 @@ export default function useAccount() {
   } = useForm({
     values: {
       id: dataAccountById?.id,
-      employee_id: dataManpowerById?.employee_id,
+      employee_id: dataAccountById?.employee_id,
       email: dataAccountById?.email,
       password: dataAccountById?.password,
-      role_id: dataAccessById?.role_id,
+      role_id: dataAccountById?.role_id,
     },
   });
 
@@ -68,10 +66,10 @@ export default function useAccount() {
   const manpowerRepository = new ManpowerApiRepository();
 
   //state data access
-  const [dataAccess, setDataAccess] = useState<Access[]>([]);
+  const [dataPosition, setDataPosition] = useState<Position[]>([]);
 
   //api data manpower
-  const accessRepository = new AccessApiRepository();
+  const positionRepository = new PositionApiRepository();
 
   //click back/kembali
   const onOpenBack = (): void => {
@@ -99,6 +97,7 @@ export default function useAccount() {
       setTimeout(() => {
         setDataAccountById(result);
       }, 500);
+      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -142,7 +141,7 @@ export default function useAccount() {
     try {
       const result = await accountRepository.edit(
         Account.create({
-          id: data.id,
+          //id: data.id,
           name: data.name,
           email: data.email,
           employee_id: data.employee_id,
@@ -182,24 +181,12 @@ export default function useAccount() {
   };
 
   //getdata access
-  const getDataAccess = async () => {
+  const getDataPosition = async () => {
     try {
-      const result = await accessRepository.getAccess();
-      setDataAccess(result);
+      const result = await positionRepository.get();
+      setDataPosition(result);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  //getdata access by Id
-  const getDataAccessById = async (id: string) => {
-    try {
-      const result = await accessRepository.getDataById(id);
-      setTimeout(() => {
-        setDataAccessById(result);
-      }, 500);
-    } catch (error) {
-      throw new Error(error);
     }
   };
 
@@ -212,28 +199,28 @@ export default function useAccount() {
       console.log(error);
     }
   };
-
-  //get data manpower by Id
-  const getDataManpowerById = async (id: string) => {
-    try {
-      const result = await manpowerRepository.getDataById(id);
-      setTimeout(() => {
-        setDataManpowerById(result);
-      }, 500);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+  // const getDataManpowerById = async (id: string) => {
+  //   try {
+  //     const result = await manpowerRepository.getDataById(id);
+  //     setTimeout(() => {
+  //       setDataManpowerById(result);
+  //     }, 500);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // };
 
   useEffect(() => {
     getDataAccount();
     getDataManpower();
-    getDataAccess();
+    getDataPosition();
   }, []);
 
   useEffect(() => {
     if (!!AccountId) {
       getDataAccountById(AccountId);
+      //getDataManpowerById(AccountId);
+      //getDataAccessById(AccountId);
     }
   }, [AccountId]);
 
@@ -263,6 +250,6 @@ export default function useAccount() {
     message,
     isSuccess,
     dataManpower,
-    dataAccess,
+    dataPosition,
   };
 }
