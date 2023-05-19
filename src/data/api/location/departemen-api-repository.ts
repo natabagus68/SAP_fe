@@ -6,12 +6,12 @@ export class DepartemenApiRepository implements DepartemenRepository {
   async getDepartement(): Promise<Departemen[]> {
     try {
       const { data } = await api.get(`department`);
+      console.log(data);
       return data?.data?.map((item) =>
         Departemen.create({
           id: item?.id,
           name: item?.name || "-",
           section: item?.Sections || "-",
-          //department_id: item?.department_id || "-",
         })
       );
     } catch (error) {

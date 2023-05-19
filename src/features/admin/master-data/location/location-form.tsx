@@ -66,6 +66,17 @@ export default function LocationForm() {
           {location.type == "section" ? (
             <>
               <div className="flex flex-col w-full gap-1">
+                <span>Section</span>
+                <input
+                  type="text"
+                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
+                    location.errors.name ? "bg-red-100" : "bg-white"
+                  }`}
+                  placeholder="section"
+                  {...location.register("name", { required: true })}
+                />
+              </div>
+              <div className="flex flex-col w-full gap-1">
                 <span>Departemen</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
@@ -80,17 +91,6 @@ export default function LocationForm() {
                     </option>
                   ))}
                 </select>
-              </div>
-              <div className="flex flex-col w-full gap-1">
-                <span>Section</span>
-                <input
-                  type="text"
-                  className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                    location.errors.name ? "bg-red-100" : "bg-white"
-                  }`}
-                  placeholder="section"
-                  {...location.register("name", { required: true })}
-                />
               </div>
             </>
           ) : null}
