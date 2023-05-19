@@ -127,7 +127,7 @@ export default function useAccount() {
   const editAccount = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-    console.log(data, "edit-data-model");
+
     try {
       const result = await accountRepository.edit(
         Account.create({
@@ -139,7 +139,6 @@ export default function useAccount() {
           password: data.password,
         })
       );
-      console.log(result, "edit-model");
 
       setTimeout(() => {
         setIsLoadingData(false);
@@ -160,6 +159,7 @@ export default function useAccount() {
         setIsLoading({ loading: false, exec: true });
         setDataId(null);
       }, 500);
+      console.log(result);
     } catch (error) {
       setIsSuccess(false);
       setTimeout(() => {
