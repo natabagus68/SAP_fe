@@ -40,6 +40,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
         name: departemen.name,
         section: departemen.section,
       });
+      console.log(data);
     } catch (error) {
       throw new Error(error);
     }

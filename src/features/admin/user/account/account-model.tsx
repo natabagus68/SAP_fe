@@ -19,6 +19,11 @@ export default function useAccount() {
   //state account by id
   const [dataAccountById, setDataAccountById] = useState(null);
 
+  //state manpowe by id
+  const [dataManpowerById, setDataManpowerById] = useState(null);
+  //state access by id
+  const [dataAccessById, setDataAccessById] = useState(null);
+
   //setup react form hook
   const {
     register,
@@ -27,10 +32,10 @@ export default function useAccount() {
   } = useForm({
     values: {
       id: dataAccountById?.id,
-      employee_id: dataAccountById?.employee_id,
+      employee_id: dataManpowerById?.employee_id,
       email: dataAccountById?.email,
       password: dataAccountById?.password,
-      role_id: dataAccountById?.role_id,
+      role_id: dataAccessById?.role_id,
     },
   });
 
@@ -58,11 +63,13 @@ export default function useAccount() {
 
   //state data manpower
   const [dataManpower, setDataManpower] = useState<Manpower[]>([]);
+
   //api data manpower
   const manpowerRepository = new ManpowerApiRepository();
 
   //state data access
   const [dataAccess, setDataAccess] = useState<Access[]>([]);
+
   //api data manpower
   const accessRepository = new AccessApiRepository();
 
@@ -119,6 +126,10 @@ export default function useAccount() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -180,6 +191,18 @@ export default function useAccount() {
     }
   };
 
+  //getdata access by Id
+  const getDataAccessById = async (id: string) => {
+    try {
+      const result = await accessRepository.getDataById(id);
+      setTimeout(() => {
+        setDataAccessById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   //get data manopower
   const getDataManpower = async () => {
     try {
@@ -187,6 +210,18 @@ export default function useAccount() {
       setDataManpower(result);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //get data manpower by Id
+  const getDataManpowerById = async (id: string) => {
+    try {
+      const result = await manpowerRepository.getDataById(id);
+      setTimeout(() => {
+        setDataManpowerById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
@@ -213,11 +248,8 @@ export default function useAccount() {
     setOpenModalDelete,
     openModalSuccess,
     setOpenModalSuccess,
-    //urlParams,
-    //setUrlParams,
     createAccount,
     onOpenBack,
-    //type,
     handleSubmit,
     register,
     errors,

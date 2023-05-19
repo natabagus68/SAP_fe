@@ -146,6 +146,7 @@ export default function useLocationHooks() {
 
   //create data departemen
   const createDataDepartemen = async (data) => {
+    console.log(data);
     try {
       const result = await DepartemenRepository.create(
         Departemen.create({
@@ -154,6 +155,8 @@ export default function useLocationHooks() {
           section: data.section,
         })
       );
+      console.log(result);
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -194,7 +197,6 @@ export default function useLocationHooks() {
           id: data.id,
           name: data.name,
           section: data.section,
-          //department_id: data.department_id,
         })
       );
       setTimeout(() => {

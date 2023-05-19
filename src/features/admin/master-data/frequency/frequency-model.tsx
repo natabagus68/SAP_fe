@@ -83,6 +83,10 @@ export default function useFrequency() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };

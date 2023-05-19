@@ -52,11 +52,6 @@ export default function useAccess() {
   //state message from api
   const [message, setMessage] = useState(null);
 
-  // //state & default data url params
-  // const [urlParams, setUrlParams] = useState({
-  //   type: "Access",
-  // });
-
   //click back/kembali
   const onOpenBack = (): void => {
     navigate("../");
@@ -107,6 +102,10 @@ export default function useAccess() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -164,7 +163,7 @@ export default function useAccess() {
   return {
     navigate,
     state,
-    //type,
+
     dataAccess,
     setDataAccess,
     register,
@@ -177,8 +176,7 @@ export default function useAccess() {
     openModalSuccess,
     setOpenModalSuccess,
     onOpenBack,
-    //urlParams,
-    //setUrlParams,
+
     openModalAccess,
     setOpenModalAccess,
     onOpenBackMenu,

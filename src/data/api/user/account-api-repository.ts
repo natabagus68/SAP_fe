@@ -18,10 +18,10 @@ export class AccountApiRepository implements AccountRepository {
       })
     );
   }
+
   async getDataById(id: string): Promise<Account> {
     try {
       const { data } = await api.get(`user/${id}`);
-      console.log(data);
 
       return Account.create({
         id: data.data?.id,
@@ -36,6 +36,7 @@ export class AccountApiRepository implements AccountRepository {
       throw new Error(error);
     }
   }
+
   async edit(account: Account): Promise<void> {
     try {
       const { data } = await api.put(`user/${account.id}`, {
@@ -50,6 +51,7 @@ export class AccountApiRepository implements AccountRepository {
       throw new Error(error);
     }
   }
+
   async create(account: Account): Promise<void> {
     try {
       const { data } = await api.post(`user`, {
@@ -67,8 +69,6 @@ export class AccountApiRepository implements AccountRepository {
   async delete(id: string): Promise<void> {
     try {
       const { data } = await api.delete(`user/${id}`);
-      console.log(data);
-
       return data.data;
     } catch (error) {
       throw new Error(error);

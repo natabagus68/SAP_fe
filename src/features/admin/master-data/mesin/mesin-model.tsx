@@ -287,6 +287,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Nomor Mesin Harus Unik !");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -307,6 +311,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("No Sub-Mesin Harus Unik!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -326,6 +334,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Deskripsi Harus terlalu pendek");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -349,6 +361,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -370,6 +386,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };

@@ -16,7 +16,6 @@ export class AccessApiRepository implements AccessRepository {
   async getDataById(id: string): Promise<Access> {
     try {
       const { data } = await api.get(`role/${id}`);
-      console.log(data);
 
       return Access.create({
         id: data.data?.id,
