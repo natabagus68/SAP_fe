@@ -114,7 +114,6 @@ export default function useAccess() {
   //edit access data
   const editAccess = async (data) => {
     setIsLoadingData(true);
-    console.log(data);
     try {
       const result = await accessRepository.edit(
         Access.create({

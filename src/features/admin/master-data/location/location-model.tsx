@@ -146,7 +146,6 @@ export default function useLocationHooks() {
 
   //create data departemen
   const createDataDepartemen = async (data) => {
-    console.log(data);
     try {
       const result = await DepartemenRepository.create(
         Departemen.create({
@@ -188,7 +187,6 @@ export default function useLocationHooks() {
   //edit data Departemen
   const editDataDepartemen = async (data) => {
     setIsLoadingData(true);
-    console.log(data);
 
     try {
       const result = await DepartemenRepository.edit(
@@ -274,14 +272,12 @@ export default function useLocationHooks() {
   return {
     state,
     searchParams,
-    // urlParams,
     errors,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
     type,
     setSearchParams,
-    // setUrlParams,
     navigate,
     register,
     handleSubmit,

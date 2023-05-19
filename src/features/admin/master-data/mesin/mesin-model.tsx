@@ -72,7 +72,6 @@ export default function useMesin() {
       batasBawah: dataParameterById?.batasBawah,
 
       deskripsi: state?.data?.deskripsi,
-      //title: state?.data?.title,
     },
   });
 
@@ -250,7 +249,6 @@ export default function useMesin() {
       setTimeout(() => {
         setDataParameterById(result);
       }, 500);
-      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -335,7 +333,6 @@ export default function useMesin() {
   const createParameter = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-    console.log(data);
 
     try {
       const result = await parameterRepository.create(
@@ -346,7 +343,7 @@ export default function useMesin() {
           variable: data.variable,
         })
       );
-      console.log(result);
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -403,8 +400,6 @@ export default function useMesin() {
   };
 
   const editSubmesin = async (data) => {
-    console.log(data);
-
     setIsLoadingData(true);
     try {
       const result = await subMesinRepository.edit(
@@ -418,7 +413,6 @@ export default function useMesin() {
         setIsLoadingData(false);
         navigate("../");
       }, 500);
-      console.log(result);
     } catch (error) {
       setIsLoadingData(false);
       throw new Error(error);

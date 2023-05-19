@@ -6,7 +6,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
   async getDepartement(): Promise<Departemen[]> {
     try {
       const { data } = await api.get(`department`);
-      console.log(data);
+
       return data?.data?.map((item) =>
         Departemen.create({
           id: item?.id,
@@ -27,7 +27,6 @@ export class DepartemenApiRepository implements DepartemenRepository {
         id: data.data?.id,
         name: data.data?.name || "-",
         section: data.data?.Sections || "-",
-        //department_id: data.data?.department_id || "-",
       });
     } catch (error) {
       throw new Error(error);
