@@ -1,3 +1,9 @@
+import { SectionApiRepository } from "@data/api/location/section-api-repository";
+import { MesinApiRepository } from "@data/api/mesin/mesin-api-repository";
+import { CalendarApiRepository } from "@data/api/schedule/calendar/calendar-api-repository";
+import { Section } from "@domain/models/location/section";
+import { Mesin } from "@domain/models/mesin/mesin";
+import { Calendar } from "@domain/models/schedule/calendar/calendar";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -27,10 +33,10 @@ export default function useCalendar() {
   } = useForm({
     defaultValues: {
       type: state?.data?.type,
-      machine: state?.data?.machine,
-      departemen: state?.data?.departemen,
-      section: state?.data?.section,
+      machine_id: state?.data?.machine,
+      section_id: state?.data?.section,
       range: state?.data?.range,
+      range_type: state?.data?.range_type || "Bulan",
       date: state?.data?.date,
       deskripsi: state?.data?.deskripsi,
     },
@@ -47,6 +53,35 @@ export default function useCalendar() {
   const [maxDesc, setMaxDesc] = useState<number>(0);
   //state modal remark
   const [openModalRemark, setOpenModalRemark] = useState<boolean>(false);
+  //state data mesin
+  const [dataMesin, setDataMesin] = useState<Mesin[]>([]);
+  //state data Section
+  const [dataSection, setDataSection] = useState<Section[]>([]);
+
+  //api repository
+  const machineRepository = new MesinApiRepository();
+  const sectionRepository = new SectionApiRepository();
+  const calendarRepository = new CalendarApiRepository();
+
+  // get data mesin
+  const getDataMachine = async () => {
+    try {
+      const result = await machineRepository.get();
+      setDataMesin(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data section
+  const getDataSection = async () => {
+    try {
+      const result = await sectionRepository.getSection();
+      setDataSection(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //create event calendar
   const createCalendar = () => {
@@ -64,8 +99,26 @@ export default function useCalendar() {
     ]);
   };
 
+  //create Maintenance
+  const createMaintenance = async (data) => {
+    const result = await calendarRepository.create(
+      Calendar.create({
+        type: data.type,
+        machineId: data.machine_id,
+        sectionId: data.section_id,
+        activeRange: `${data.range} ${data.range_type}`,
+        startDate: data.date.split("-").reverse().join("-"),
+      })
+    );
+    if (result.success) {
+      navigate("..");
+    } else {
+      console.log(result.message);
+    }
+  };
+
   useEffect(() => {
-    setMaxDesc(watch("deskripsi")?.length)
+    setMaxDesc(watch("deskripsi")?.length);
   }, [watch("deskripsi")]);
 
   return {
@@ -77,6 +130,8 @@ export default function useCalendar() {
     openModalSuccess,
     maxDesc,
     openModalRemark,
+    dataMesin,
+    dataSection,
     createCalendar,
     navigate,
     register,
@@ -85,6 +140,9 @@ export default function useCalendar() {
     setOpenModalConfirm,
     setOpenModalSuccess,
     setMaxDesc,
-    setOpenModalRemark
+    setOpenModalRemark,
+    getDataMachine,
+    getDataSection,
+    createMaintenance,
   };
 }
