@@ -6,7 +6,7 @@ import ExportIcon from "@common/components/icons-new/ExportIcon";
 import ChecklistIcon from "@common/components/icons-new/ChecklistIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import Modal from "@common/components/modals/Modal";
-import gambar_part from "../../../../assets/Gambar-part.png";
+import gambar_part from "../../../../assets/gambar-part.png";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
 
 export default function ChecklistDetail() {
@@ -366,3 +366,4 @@ export default function ChecklistDetail() {
     </main>
   );
 }
+
