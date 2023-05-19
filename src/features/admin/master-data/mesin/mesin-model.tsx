@@ -59,26 +59,26 @@ export default function useMesin() {
           : type == "indikator"
           ? dataIndikatorById?.name
           : dataUomById?.name,
-      sub_machine_no: dataSubmesinById?.sub_machine_no,
 
-      no: dataMesinById?.no,
+      sub_mechine_no: dataSubmesinById?.no,
+
+      machine_no: dataMesinById?.machine_no,
       section: dataMesinById?.section,
       photo: dataMesinById?.photo,
 
       indikator: dataParameterById?.indikator,
       variable: dataParameterById?.variable,
-
-      uom: dataUomById?.uom,
-
       batasAtas: dataParameterById?.batasAtas,
       batasBawah: dataParameterById?.batasBawah,
-      deskripsi: dataIndikatorById?.deskripsi,
+
+      deskripsi: state?.data?.deskripsi,
       //title: state?.data?.title,
     },
   });
+
   //state & default data url params
   const [urlParams, setUrlParams] = useState({
-    type: "manpower",
+    type: "mesin",
   });
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -250,6 +250,7 @@ export default function useMesin() {
       setTimeout(() => {
         setDataParameterById(result);
       }, 500);
+      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -270,6 +271,7 @@ export default function useMesin() {
   const createMesin = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
+
     try {
       const result = await mesinRepository.create(
         Mesin.create({
@@ -281,6 +283,11 @@ export default function useMesin() {
           photo: data.photo,
         })
       );
+
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -289,17 +296,18 @@ export default function useMesin() {
   const createSubmesin = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-    console.log(data);
-
     try {
       const result = await subMesinRepository.create(
         SubMesin.create({
           id: data.id,
           name: data.name,
-          sub_machine_no: data.sub_machine_no,
+          no: data.sub_mechine_no,
         })
       );
-      console.log(result);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -315,6 +323,10 @@ export default function useMesin() {
           name: data.name,
         })
       );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -323,6 +335,8 @@ export default function useMesin() {
   const createParameter = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
+    console.log(data);
+
     try {
       const result = await parameterRepository.create(
         Parameter.create({
@@ -332,6 +346,11 @@ export default function useMesin() {
           variable: data.variable,
         })
       );
+      console.log(result);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -340,6 +359,7 @@ export default function useMesin() {
   const createUom = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
+
     try {
       const result = await uomRepository.create(
         UnitOfMeasure.create({
@@ -347,6 +367,11 @@ export default function useMesin() {
           name: data.name,
         })
       );
+
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -355,6 +380,7 @@ export default function useMesin() {
   //edit  data
   const editMesin = async (data) => {
     setIsLoadingData(true);
+
     try {
       const result = await mesinRepository.edit(
         Mesin.create({
@@ -366,6 +392,7 @@ export default function useMesin() {
           photo: data.photo,
         })
       );
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -376,21 +403,22 @@ export default function useMesin() {
   };
 
   const editSubmesin = async (data) => {
-    console.log(data, "edit submesin");
+    console.log(data);
 
     setIsLoadingData(true);
     try {
       const result = await subMesinRepository.edit(
         SubMesin.create({
-          id: data.id,
+          id: id,
           name: data.name,
-          sub_machine_no: data.sub_machine_no,
+          no: data.no,
         })
       );
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
       }, 500);
+      console.log(result);
     } catch (error) {
       setIsLoadingData(false);
       throw new Error(error);
@@ -403,10 +431,14 @@ export default function useMesin() {
     try {
       const result = await indikatorRepository.edit(
         Indikator.create({
-          id: data.id,
+          id: id,
           name: data.name,
         })
       );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -418,12 +450,16 @@ export default function useMesin() {
     try {
       const result = await parameterRepository.edit(
         Parameter.create({
-          id: data.id,
+          id: id,
           indicator: data.indicator,
           name: data.name,
-          variable: data.variable,
+          variable: data?.variable,
         })
       );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -434,10 +470,14 @@ export default function useMesin() {
     try {
       const result = await uomRepository.edit(
         UnitOfMeasure.create({
-          id: data.id,
+          id: id,
           name: data.name,
         })
       );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -555,40 +595,20 @@ export default function useMesin() {
   useEffect(() => {
     if (type == "mesin") {
       getDataMesin();
-      setDataSubMesin([]);
-      setDataIndikator([]);
-      setDataParameter([]);
-      setDataUom([]);
     } else if (type == "sub-mesin") {
       getDataSubMesin();
-      setDataMesin([]);
-      setDataIndikator([]);
-      setDataParameter([]);
-      setDataUom([]);
     } else if (type == "parameter") {
       getDataParameter();
-      setDataSubMesin([]);
-      setDataIndikator([]);
-      setDataMesin([]);
-      setDataUom([]);
     } else if (type == "indikator") {
       getDataIndikator();
-      setDataSubMesin([]);
-      setDataMesin([]);
-      setDataParameter([]);
-      setDataUom([]);
     } else {
       getDataUom();
-      setDataSubMesin([]);
-      setDataIndikator([]);
-      setDataParameter([]);
-      setDataMesin([]);
     }
   }, [type]);
 
   useEffect(() => {
     if (!!id && type == "mesin") {
-      getDataSubmesinById(id);
+      getDataMesinById(id);
     } else if (!!id && type == "sub-mesin") {
       getDataSubmesinById(id);
     } else if (!!id && type == "parameter") {
@@ -599,26 +619,6 @@ export default function useMesin() {
       getDataUomById(id);
     }
   }, [id, type]);
-
-  // useEffect(() => {
-  //   if (type == "mesin") {
-  //     getDataMesin();
-  //   } else if (type == "sub-mesin") {
-  //     getDataSubMesin();
-  //   } else if (type == "parameter") {
-  //     getDataParameter();
-  //   } else if (type == "indikator") {
-  //     getDataIndikator();
-  //   } else if (type == "uom") {
-  //     getDataUom();
-  //   } else {
-  //     setDataMesin([]);
-  //     setDataSubMesin([]);
-  //     setDataParameter([]);
-  //     setDataIndikator([]);
-  //     setDataUom([]);
-  //   }
-  // }, [type]);
 
   return {
     state,

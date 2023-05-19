@@ -61,7 +61,7 @@ export default function MesinDetails() {
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">No Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.dataMesinById?.no}
+                      {mesin?.dataMesinById?.machine_no}
                     </td>
                   </tr>
                   <tr>
@@ -73,7 +73,7 @@ export default function MesinDetails() {
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Section</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.dataMesinById?.section.name}
+                      {mesin?.dataMesinById?.section_id}
                     </td>
                   </tr>
                 </tbody>
@@ -111,7 +111,7 @@ export default function MesinDetails() {
                   <tr>
                     <td className="px-4 py-[6px]">No. Sub-Mesin</td>
                     <td className="px-4 py-[6px] font-semibold">
-                      {mesin?.dataSubmesinById?.sub_machine_no}
+                      {mesin?.dataSubmesinById?.no}
                     </td>
                   </tr>
                 </tbody>

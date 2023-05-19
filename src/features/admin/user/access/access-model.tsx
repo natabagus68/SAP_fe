@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { AccessApiRepository } from "@data/api/user/access-api-repository";
+import { Access } from "@domain/models/user/access";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function useAccess() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type } = useParams();
-  //data Access
-  const [dataAccess, setDataAccess] = useState([]);
+  const { AccessId } = useParams();
+
+  //state access by id
+  const [dataAccessById, setDataAccessById] = useState(null);
 
   //setup react from hook
   const {
@@ -15,9 +18,10 @@ export default function useAccess() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
+    values: {
       menu: state?.data?.menu,
-      role: state?.data?.role,
+      id: dataAccessById?.id,
+      role: dataAccessById?.name,
     },
   });
 
@@ -30,10 +34,28 @@ export default function useAccess() {
   //modal Success
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
-  //state & default data url params
-  const [urlParams, setUrlParams] = useState({
-    type: "Access",
-  });
+  //state succes create/update data
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  //api authenticationRepository
+  const accessRepository = new AccessApiRepository();
+
+  //state data access
+  const [dataAccess, setDataAccess] = useState<Access[]>([]);
+
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  //state for parsing data id
+  const [dataId, setDataId] = useState(null);
+
+  //state message from api
+  const [message, setMessage] = useState(null);
+
+  // //state & default data url params
+  // const [urlParams, setUrlParams] = useState({
+  //   type: "Access",
+  // });
 
   //click back/kembali
   const onOpenBack = (): void => {
@@ -44,15 +66,106 @@ export default function useAccess() {
     setOpenModalAccess(false);
   };
 
-  // create account data
-  const createAcccess = (data) => {
-    console.log(data);
+  //get data access
+  const getDataAccess = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await accessRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataAccess(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  //get data access by id
+  const getDataAccessById = async (id: string) => {
+    try {
+      const result = await accessRepository.getDataById(id);
+      setTimeout(() => {
+        setDataAccessById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  // create access data
+  const createAcccess = async (data) => {
+    setIsLoadingData(true);
+    setMessage(null);
+    try {
+      const result = await accessRepository.create(
+        Access.create({
+          name: data.role,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  //edit access data
+  const editAccess = async (data) => {
+    setIsLoadingData(true);
+    console.log(data);
+    try {
+      const result = await accessRepository.edit(
+        Access.create({
+          id: data.id,
+          name: data.role,
+        })
+      );
+      console.log(result);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  //delete damage
+  const deleteAccess = async (id: string, setIsLoading) => {
+    try {
+      const result = await accessRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataAccess();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
+  };
+
+  useEffect(() => {
+    getDataAccess();
+  }, []);
+
+  useEffect(() => {
+    if (!!AccessId) {
+      getDataAccessById(AccessId);
+    }
+  }, [AccessId]);
 
   return {
     navigate,
     state,
-    type,
+    //type,
     dataAccess,
     setDataAccess,
     register,
@@ -65,11 +178,17 @@ export default function useAccess() {
     openModalSuccess,
     setOpenModalSuccess,
     onOpenBack,
-    urlParams,
-    setUrlParams,
+    //urlParams,
+    //setUrlParams,
     openModalAccess,
     setOpenModalAccess,
     onOpenBackMenu,
     createAcccess,
+    editAccess,
+    deleteAccess,
+    dataId,
+    setDataId,
+    isSuccess,
+    AccessId,
   };
 }

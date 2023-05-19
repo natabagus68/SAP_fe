@@ -418,7 +418,7 @@ export default createBrowserRouter([
                 element: <AccessForm />,
               },
               {
-                path: "edit",
+                path: ":AccessId/edit",
                 element: <AccessForm />,
               },
             ],
