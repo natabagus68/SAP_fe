@@ -146,7 +146,6 @@ export default function useLocationHooks() {
 
   //create data departemen
   const createDataDepartemen = async (data) => {
-    console.log(data, "data-model");
     try {
       const result = await DepartemenRepository.create(
         Departemen.create({
@@ -155,12 +154,11 @@ export default function useLocationHooks() {
           section: data.section_id,
         })
       );
-      console.log(result, "result-model");
 
-      // setTimeout(() => {
-      //   setIsLoadingData(false);
-      //   navigate("../");
-      // }, 500);
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -190,7 +188,6 @@ export default function useLocationHooks() {
   //edit data Departemen
   const editDataDepartemen = async (data) => {
     setIsLoadingData(true);
-    console.log(data, "edit-model");
 
     try {
       const result = await DepartemenRepository.edit(
@@ -200,7 +197,6 @@ export default function useLocationHooks() {
           section: data.section_id,
         })
       );
-      console.log(result, "edit-result");
 
       setTimeout(() => {
         setIsLoadingData(false);
@@ -276,15 +272,19 @@ export default function useLocationHooks() {
 
   return {
     state,
-    searchParams,
+    type,
     errors,
+    navigate,
+    register,
+    dataId,
+    setDataId,
+    id,
+    isSuccess,
+    searchParams,
+    setSearchParams,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
-    type,
-    setSearchParams,
-    navigate,
-    register,
     handleSubmit,
     setOpenModalDelete,
     setOpenModalConfirm,
@@ -296,14 +296,10 @@ export default function useLocationHooks() {
     getDataDepartemenById,
     getDataSectionById,
     createDataSection,
+    createDataDepartemen,
     editDataSection,
+    editDataDepartemen,
     deleteDataSection,
     deleteDataDepartemen,
-    dataId,
-    setDataId,
-    id,
-    editDataDepartemen,
-    createDataDepartemen,
-    isSuccess,
   };
 }

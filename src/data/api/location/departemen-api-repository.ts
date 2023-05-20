@@ -34,15 +34,11 @@ export class DepartemenApiRepository implements DepartemenRepository {
   }
 
   async create(departemen: Departemen): Promise<void> {
-    console.log(departemen, "api log");
-
     try {
       const { data } = await api.post(`department`, {
-        //id: departemen.id,
         name: departemen.name,
         section: departemen.section,
       });
-      console.log(data, "create-apirepo");
     } catch (error) {
       throw new Error(error);
     }

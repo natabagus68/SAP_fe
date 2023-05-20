@@ -163,7 +163,6 @@ export default function useAccess() {
   return {
     navigate,
     state,
-
     dataAccess,
     setDataAccess,
     register,
@@ -176,7 +175,6 @@ export default function useAccess() {
     openModalSuccess,
     setOpenModalSuccess,
     onOpenBack,
-
     openModalAccess,
     setOpenModalAccess,
     onOpenBackMenu,

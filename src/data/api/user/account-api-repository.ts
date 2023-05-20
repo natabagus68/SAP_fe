@@ -70,11 +70,9 @@ export class AccountApiRepository implements AccountRepository {
   }
 
   async delete(id: string): Promise<void> {
-    console.log(id);
-
     try {
       const { data } = await api.delete(`user/${id}`);
-      console.log(data, "delete-api");
+
       return data.data;
     } catch (error) {
       throw new Error(error);
