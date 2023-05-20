@@ -216,6 +216,7 @@ export default function useMesin() {
       setTimeout(() => {
         setDataMesinById(result);
       }, 500);
+      console.log(result, "databyid-model");
     } catch (error) {
       throw new Error(error);
     }
