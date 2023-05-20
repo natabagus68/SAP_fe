@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import { Entity } from "../_entity";
 
 export interface IAccountProps {
@@ -7,6 +6,7 @@ export interface IAccountProps {
   email: string;
   employee_id?: string | undefined;
   role_id?: string | undefined;
+  role_name?: string | undefined;
   password: string;
   is_ready?: boolean | undefined;
 }
@@ -28,6 +28,7 @@ export class Account extends Entity<IAccountProps> implements IAccount {
       password: this.password,
       role_id: this.role_id,
       is_ready: this.is_ready,
+      role_name: this.role_name,
     };
   }
 
@@ -51,5 +52,8 @@ export class Account extends Entity<IAccountProps> implements IAccount {
   }
   get is_ready(): boolean | undefined {
     return this._props.is_ready;
+  }
+  get role_name(): string | undefined {
+    return this._props.role_name;
   }
 }

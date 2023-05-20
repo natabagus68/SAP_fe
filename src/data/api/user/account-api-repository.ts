@@ -13,8 +13,9 @@ export class AccountApiRepository implements AccountRepository {
         email: item?.email || "-",
         employee_id: item?.employee_id || "-",
         password: item?.password || "-",
-        role_id: item?.role_id || "-",
+        role_id: item?.Roles[0]?.id || "-",
         is_ready: item?.employee ? item.employee.is_ready : null,
+        role_name: item?.Roles[0]?.name || "-",
       })
     );
   }
@@ -22,7 +23,6 @@ export class AccountApiRepository implements AccountRepository {
   async getDataById(id: string): Promise<Account> {
     try {
       const { data } = await api.get(`user/${id}`);
-      console.log(data);
 
       return Account.create({
         id: data.data?.id,
@@ -30,7 +30,7 @@ export class AccountApiRepository implements AccountRepository {
         email: data.data?.email || "-",
         employee_id: data.data?.employee?.id || "-",
         password: data.data?.password || "-",
-        role_id: data.data?.employee?.position_id || "-",
+        role_id: data.data?.Roles[0].id || "-",
         is_ready: data.data?.is_ready,
       });
     } catch (error) {
@@ -47,7 +47,6 @@ export class AccountApiRepository implements AccountRepository {
         password: account.password,
         role_id: account.role_id,
       });
-      console.log(data);
 
       return data.data;
     } catch (error) {
@@ -69,9 +68,13 @@ export class AccountApiRepository implements AccountRepository {
       throw new Error(error);
     }
   }
+
   async delete(id: string): Promise<void> {
+    console.log(id);
+
     try {
       const { data } = await api.delete(`user/${id}`);
+      console.log(data, "delete-api");
       return data.data;
     } catch (error) {
       throw new Error(error);

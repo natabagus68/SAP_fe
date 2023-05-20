@@ -1,9 +1,7 @@
 import { ManpowerApiRepository } from "@data/api/manpower/manpower-api-repository";
-import { PositionApiRepository } from "@data/api/manpower/position-api-repository";
 import { AccessApiRepository } from "@data/api/user/access-api-repository";
 import { AccountApiRepository } from "@data/api/user/account-api-repository";
 import { Manpower } from "@domain/models/manpower/manpower";
-import { Position } from "@domain/models/manpower/position";
 import { Access } from "@domain/models/user/access";
 import { Account } from "@domain/models/user/account";
 import { useEffect, useState } from "react";
@@ -20,7 +18,6 @@ export default function useAccount() {
 
   //state account by id
   const [dataAccountById, setDataAccountById] = useState(null);
-  //console.log(dataAccountById);
 
   //setup react form hook
   const {
@@ -34,6 +31,7 @@ export default function useAccount() {
       email: dataAccountById?.email,
       password: dataAccountById?.password,
       role_id: dataAccountById?.role_id,
+      role_name: dataAccountById?.role_name,
     },
   });
 
@@ -66,10 +64,10 @@ export default function useAccount() {
   const manpowerRepository = new ManpowerApiRepository();
 
   //state data access
-  const [dataPosition, setDataPosition] = useState<Position[]>([]);
+  const [dataAccess, setDataAccess] = useState<Access[]>([]);
 
   //api data manpower
-  const positionRepository = new PositionApiRepository();
+  const accessRepository = new AccessApiRepository();
 
   //click back/kembali
   const onOpenBack = (): void => {
@@ -97,7 +95,6 @@ export default function useAccount() {
       setTimeout(() => {
         setDataAccountById(result);
       }, 500);
-      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -107,7 +104,6 @@ export default function useAccount() {
   const createAccount = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-
     try {
       const result = await accountRepository.create(
         Account.create({
@@ -137,11 +133,12 @@ export default function useAccount() {
   const editAccount = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
+    console.log(data);
 
     try {
       const result = await accountRepository.edit(
         Account.create({
-          //id: data.id,
+          id: data.id,
           name: data.name,
           email: data.email,
           employee_id: data.employee_id,
@@ -149,6 +146,7 @@ export default function useAccount() {
           password: data.password,
         })
       );
+      //console.log(result, "edit-model");
 
       setTimeout(() => {
         setIsLoadingData(false);
@@ -169,7 +167,6 @@ export default function useAccount() {
         setIsLoading({ loading: false, exec: true });
         setDataId(null);
       }, 500);
-      console.log(result);
     } catch (error) {
       setIsSuccess(false);
       setTimeout(() => {
@@ -181,10 +178,10 @@ export default function useAccount() {
   };
 
   //getdata access
-  const getDataPosition = async () => {
+  const getDataAccess = async () => {
     try {
-      const result = await positionRepository.get();
-      setDataPosition(result);
+      const result = await accessRepository.getAccess();
+      setDataAccess(result);
     } catch (error) {
       console.log(error);
     }
@@ -199,28 +196,16 @@ export default function useAccount() {
       console.log(error);
     }
   };
-  // const getDataManpowerById = async (id: string) => {
-  //   try {
-  //     const result = await manpowerRepository.getDataById(id);
-  //     setTimeout(() => {
-  //       setDataManpowerById(result);
-  //     }, 500);
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // };
 
   useEffect(() => {
     getDataAccount();
     getDataManpower();
-    getDataPosition();
+    getDataAccess();
   }, []);
 
   useEffect(() => {
     if (!!AccountId) {
       getDataAccountById(AccountId);
-      //getDataManpowerById(AccountId);
-      //getDataAccessById(AccountId);
     }
   }, [AccountId]);
 
@@ -250,6 +235,6 @@ export default function useAccount() {
     message,
     isSuccess,
     dataManpower,
-    dataPosition,
+    dataAccess,
   };
 }

@@ -27,18 +27,7 @@ export default function AccountDetail() {
             <button
               className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
               // onClick={() =>
-              //   account.navigate("edit", {
-              //     state: {
-              //       edit: true,
-
-              //       data: {
-              //         manpower: "manpower",
-              //         email: "ayu@mail.com",
-              //         password: "password",
-              //         role: "role",
-              //       },
-              //     },
-              //   })
+              //   account.navigate("edit")
               // }
             >
               <EditIcon color="white" />

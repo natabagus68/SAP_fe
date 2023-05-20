@@ -6,7 +6,6 @@ import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
-import ExportIcon from "@common/components/icons-new/ExportIcon";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import TrashIcon from "@common/components/icons-new/TrashIcon";
@@ -84,13 +83,15 @@ export default function AccountView() {
                       id={item.id}
                       checked={item.is_ready ? true : false}
                       cb={() => console.log("onChange Toggle")}
+                      activeText="active"
+                      inactiveText="inactive"
                     />
-                    <span>{item.is_ready ? "active" : "inactive"}</span>
+                    {/* <span>{item.is_ready ? "active" : "inactive"}</span> */}
                   </div>
                 </td>
                 <td className="px-[32px]">{item.name}</td>
                 <td className="px-[32px]">{item.email}</td>
-                <td className="px-[32px]">-</td>
+                <td className="px-[32px]">{item.role_name}</td>
                 <td className="px-[32px]">
                   <div className="flex items-center gap-6">
                     <button
@@ -113,7 +114,10 @@ export default function AccountView() {
                     </button>
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F04438] rounded"
-                      onClick={() => account.setOpenModalDelete(true)}
+                      onClick={() => {
+                        account.setDataId(item.id);
+                        account.setOpenModalDelete(true);
+                      }}
                     >
                       <TrashIcon color="white" />
                       <span className="text-white text-sm font-semibold">
