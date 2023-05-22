@@ -30,6 +30,7 @@ export class AccountApiRepository implements AccountRepository {
         email: data.data?.email || "-",
         employee_id: data.data?.employee?.id || "-",
         password: data.data?.password || "-",
+        role_name: data.data?.Roles[0].name || "-",
         role_id: data.data?.Roles[0].id || "-",
         is_ready: data.data?.is_ready,
       });
