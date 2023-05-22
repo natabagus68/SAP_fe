@@ -225,7 +225,7 @@ export default createBrowserRouter([
                 element: <LogPartView />,
               },
               {
-                path: "details",
+                path: ":id/details",
                 element: <LogPartDetails />,
               },
             ],
