@@ -3,7 +3,7 @@ import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import useMesin from "./mesin-model";
 import ReloadIcon from "@common/components/icons-new/ReloadIcon";
-import default_avatar from "../../../../assets/default_avatar.jpg";
+import default_image from "../../../../assets/default_image.jpg";
 
 export default function MesinDetails() {
   const mesin = useMesin();
@@ -81,14 +81,18 @@ export default function MesinDetails() {
             </div>
             <div className="flex flex-col gap-6">
               <span className="text-base text-[#514E4E]">Gambar Mesin</span>
-              <div className="w-[300px] h-[155px]  overflow-hidden">
-                {mesin?.dataMesinById?.photo ? (
-                  <div className="w-full h-full bg-gray-300"></div>
+              <div
+                className={`w-[300px] h-[155px]  overflow-hidden ${
+                  !!!mesin?.dataMesinById ? "animate-pulse" : null
+                }`}
+              >
+                {!!mesin?.dataMesinById?.photo ? (
+                  <div className="w-full h-full bg-gray-400"></div>
                 ) : (
                   <img
-                    src={default_avatar}
-                    alt="Default Avatar"
-                    className="w-[155px] h-[155px]"
+                    src={default_image}
+                    alt="Default Image"
+                    className="w-[300px] h-[155px]"
                   />
                 )}
               </div>

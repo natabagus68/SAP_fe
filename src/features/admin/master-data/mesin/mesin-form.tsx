@@ -2,9 +2,11 @@ import { Breadcrumbs } from "@common/components";
 import useMesin from "./mesin-model";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
 import TrashIcon from "@common/components/icons-new/TrashIcon";
+import { SubMesin } from "@domain/models/mesin/sub-mesin";
 
 export default function MesinForm() {
   const mesin = useMesin();
+
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
@@ -176,49 +178,60 @@ export default function MesinForm() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-start w-full gap-4 p-4 border border-[#D0D3D9]">
-                <span>Variable 1</span>
-                <div className="flex flex-col w-full gap-1">
-                  <span>Unit of Measurement</span>
-                  <div className="flex gap-4 items-center">
-                    <input
-                      type="text"
-                      className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 ${
-                        mesin.errors.name ? "bg-red-100" : "bg-white"
-                      }`}
-                      placeholder="Masukan UoM"
-                      {...mesin.register("name", { required: true })}
-                    />
+              {mesin.variableForm.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col items-start w-full gap-4 p-4 border border-[#D0D3D9]"
+                >
+                  <span>Variable 1</span>
+                  <div className="flex flex-col w-full gap-1">
+                    <span>Unit of Measurement</span>
+                    <div className="flex gap-4 items-center">
+                      <input
+                        type="text"
+                        value={item.uom}
+                        className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 ${
+                          mesin.errors.name ? "bg-red-100" : "bg-white"
+                        }`}
+                        placeholder="Masukan UoM"
+                        {...mesin.register("name", { required: true })}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col w-full gap-1">
+                    <span>Batas Atas</span>
+                    <div className="flex gap-4 items-center">
+                      <input
+                        type="text"
+                        value={item.batasAtas}
+                        className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 ${
+                          mesin.errors.batasAtas ? "bg-red-100" : "bg-white"
+                        }`}
+                        placeholder="Masukan batas atas"
+                        {...mesin.register("batasAtas", { required: true })}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col w-full gap-1">
+                    <span>Batas Bawah</span>
+                    <div className="flex gap-4 items-center">
+                      <input
+                        type="text"
+                        value={item.batasBawah}
+                        className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 ${
+                          mesin.errors.batasBawah ? "bg-red-100" : "bg-white"
+                        }`}
+                        placeholder="Masukan batas bawah"
+                        {...mesin.register("batasBawah", { required: true })}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-col w-full gap-1">
-                  <span>Batas Atas</span>
-                  <div className="flex gap-4 items-center">
-                    <input
-                      type="text"
-                      className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 ${
-                        mesin.errors.batasAtas ? "bg-red-100" : "bg-white"
-                      }`}
-                      placeholder="Masukan batas atas"
-                      {...mesin.register("batasAtas", { required: true })}
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col w-full gap-1">
-                  <span>Batas Bawah</span>
-                  <div className="flex gap-4 items-center">
-                    <input
-                      type="text"
-                      className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 ${
-                        mesin.errors.batasBawah ? "bg-red-100" : "bg-white"
-                      }`}
-                      placeholder="Masukan batas bawah"
-                      {...mesin.register("batasBawah", { required: true })}
-                    />
-                  </div>
-                </div>
-              </div>
-              <button className="flex items-center gap-2 h-[46px] rounded text-[#D0D3D9] font-semibold text-sm w-full">
+              ))}
+              <button
+                className="flex items-center gap-2 h-[46px] rounded text-[#D0D3D9] font-semibold text-sm w-full"
+                onClick={() => mesin.addFormVariable()}
+              >
                 <div className="w-[20px] h-[20px] border-2 border-[#D0D3D9] rounded-full flex items-center justify-center">
                   <PlusIcon color="#D0D3D9" />
                 </div>
@@ -315,7 +328,13 @@ export default function MesinForm() {
                             Pilih Sub-Mesin
                           </option>
                           {mesin.dataSubMesin?.map((item, i) => (
-                            <option key={i} value={item.id}>
+                            <option
+                              key={i}
+                              value={item.id}
+                              onChange={(e) =>
+                                mesin.FormChangeSubmesin(item, i)
+                              }
+                            >
                               {item.name}
                             </option>
                           ))}
@@ -342,7 +361,13 @@ export default function MesinForm() {
                               Pilih Parameter
                             </option>
                             {mesin.dataParameter?.map((item, i) => (
-                              <option key={i} value={item.id}>
+                              <option
+                                key={i}
+                                value={item.id}
+                                onChange={(e) =>
+                                  mesin.FormChangeParameter(item, i)
+                                }
+                              >
                                 {item.name}
                               </option>
                             ))}
@@ -372,6 +397,7 @@ export default function MesinForm() {
                             className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F] px-3"
                             placeholder="Masukan jumlah interval"
                             value={item.interval}
+                            onChange={(e) => mesin.FormChangeParameter(item, i)}
                           />
                         ))}
 
@@ -391,7 +417,13 @@ export default function MesinForm() {
                                 Pilih Frequency
                               </option>
                               {mesin.dataFrequency.map((item, i) => (
-                                <option key={i} value={item.id}>
+                                <option
+                                  key={i}
+                                  value={item.id}
+                                  onChange={(e) =>
+                                    mesin.FormChangeParameter(item, i)
+                                  }
+                                >
                                   {item.type}
                                 </option>
                               ))}

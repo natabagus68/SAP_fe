@@ -60,7 +60,9 @@ export default function useMesin() {
           ? dataParameterById?.name
           : type == "indikator"
           ? dataIndikatorById?.name
-          : dataUomById?.name,
+          : type == "uom"
+          ? dataUomById?.name
+          : null,
 
       sub_mechine_no: dataSubmesinById?.no,
 
@@ -145,7 +147,7 @@ export default function useMesin() {
     }
   };
 
-  //state data Submesin detail
+  //state form Submesin detail
   const [subMesinDetail, setSubMesinDetail] = useState([
     {
       subMesinId: "",
@@ -158,6 +160,12 @@ export default function useMesin() {
       ],
     },
   ]);
+
+  const FormChangeSubmesin = (item, e) => {
+    let data = [...subMesinDetail];
+    data[item][e.target.name] = e.target.value;
+    setSubMesinDetail(data);
+  };
 
   const addFormSubmesin = () => {
     let newSubMesinDetail = {
@@ -179,19 +187,22 @@ export default function useMesin() {
     setSubMesinDetail(data);
   };
 
-  //state data parameter detail
+  //state filed parameter detail
   const [parameterDetail, setParameterDetail] = useState([
     {
       parameterId: "",
       interval: "",
       frequencyId: "",
     },
-    // {
-    //   parameterId: "",
-    //   interval: "",
-    //   frequencyId: "",
-    // },
   ]);
+
+  const FormChangeParameter = (item, e) => {
+    let data = [...parameterDetail];
+    data[item][e.target.parameterId] = e.target.value;
+    data[item][e.target.interval] = e.target.value;
+    data[item][e.target.frequencyId] = e.target.value;
+    setParameterDetail(data);
+  };
 
   const addFieldParameter = () => {
     let newFieldParameter = {
@@ -206,6 +217,24 @@ export default function useMesin() {
     let data = [...parameterDetail];
     data.splice(item, 1);
     setParameterDetail(data);
+  };
+
+  //state form variable
+  const [variableForm, setVariableForm] = useState([
+    {
+      uom: "",
+      batasAtas: "",
+      batasBawah: "",
+    },
+  ]);
+
+  const addFormVariable = () => {
+    let newFormVariable = {
+      uom: "",
+      batasAtas: "",
+      batasBawah: "",
+    };
+    setVariableForm([...variableForm, newFormVariable]);
   };
 
   // get data mesin
@@ -781,9 +810,13 @@ export default function useMesin() {
     dataFrequency,
     subMesinDetail,
     parameterDetail,
+    variableForm,
     addFieldParameter,
     addFormSubmesin,
+    addFormVariable,
     removeFormSubmesin,
     removeFieldParameter,
+    FormChangeSubmesin,
+    FormChangeParameter,
   };
 }
