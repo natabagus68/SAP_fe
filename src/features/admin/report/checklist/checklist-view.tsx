@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useChecklist from "./checklist-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
@@ -6,9 +6,16 @@ import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import Modal from "@common/components/modals/Modal";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import empty_data_table from "../../../../assets/png/empty_data_table.png";
 
 export default function ChecklistView() {
   const checklist = useChecklist();
+  useEffect(() => {
+    checklist.getDataChecklist();
+    checklist.getDataSection();
+  }, [checklist.date, checklist.status, checklist.section_id]);
+
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs items={["Report", "Checklist"]} />
@@ -30,36 +37,69 @@ export default function ChecklistView() {
           </div>
         </div>
         <div className="w-full flex items-center py-[18px] px-[32px] gap-4 flex-wrap border-b border-[#D0D3D9] justify-between">
-          <div className="flex items-center gap-3">
-            <span>Tanggal Checklist</span>
-            <input
-              type="date"
-              className="h-[40px] border border-[#D0D3D9] rounded px-2"
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <span>Status</span>
-            <select
-              defaultValue=""
-              className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
-            >
-              <option value="">Semua</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </select>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>Section</span>
-            <select
-              defaultValue=""
-              className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
-            >
-              <option value="">Semua</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </select>
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
+              <span>Tanggal Checklist</span>
+              <input
+                type="date"
+                value={
+                  checklist.date != "null"
+                    ? checklist.date.split("-").reverse().join("-")
+                    : ""
+                }
+                className="h-[40px] border border-[#D0D3D9] rounded px-2"
+                onChange={(e) =>
+                  checklist.navigate(
+                    `../${
+                      e.target.value != ""
+                        ? e.target.value.split("-").reverse().join("-")
+                        : "null"
+                    }/${checklist.status}/${checklist.section_id}/checklist`
+                  )
+                }
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <span>Status</span>
+              <select
+                value={checklist.status != "null" ? checklist.status : ""}
+                className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
+                onChange={(e) =>
+                  checklist.navigate(
+                    `../${checklist.date}/${
+                      e.target.value != "" ? e.target.value : "null"
+                    }/${checklist.section_id}/checklist`
+                  )
+                }
+              >
+                <option value="">Select status</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>Section</span>
+              <select
+                value={
+                  checklist.section_id != "null" ? checklist.section_id : ""
+                }
+                className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
+                onChange={(e) =>
+                  checklist.navigate(
+                    `../${checklist.date}/${checklist.status}/${
+                      e.target.value != "" ? e.target.value : "null"
+                    }/checklist`
+                  )
+                }
+              >
+                <option value="">Select section</option>
+                {checklist.dataSection?.map((item, i) => (
+                  <option key={i} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="relative space-x-10">
             <div className="flex items-center gap-3">
@@ -79,7 +119,6 @@ export default function ChecklistView() {
         <table className="w-full">
           <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
             <tr>
-              <th className="px-[32px] text-start">ID Checklist</th>
               <th className="px-[32px] text-start">Tanggal Checklist</th>
               <th className="px-[32px] text-start">No Machine</th>
               <th className="px-[32px] text-start">Pelaksana</th>
@@ -90,10 +129,11 @@ export default function ChecklistView() {
           <tbody className="text-base text-[#514E4E]">
             {checklist?.dataChecklist?.map((item) => (
               <tr key={item?.id} className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">{item?.idChecklist}</td>
-                <td className="px-[32px]">{item?.date}</td>
-                <td className="px-[32px]">{item?.noMesin}</td>
-                <td className="px-[32px]">{item?.pelaksana}</td>
+                <td className="px-[32px]">
+                  {item?.date.split("T")[0].split("-").reverse().join("-")}
+                </td>
+                <td className="px-[32px]">{item?.machine_no}</td>
+                <td className="px-[32px]">{item?.pic}</td>
                 <td className="px-[32px]">
                   <div
                     className={`h-[32px] w-[99px] text-white flex items-center justify-center ${
@@ -124,6 +164,25 @@ export default function ChecklistView() {
             ))}
           </tbody>
         </table>
+
+        {checklist.isLoadingData ? (
+          <div className="w-full h-[48px] flex items-center justify-center">
+            <LoadingIcon
+              color="black"
+              className="w-[24px] h-[24px] animate-spin"
+            />
+          </div>
+        ) : null}
+        {!checklist.isLoadingData ? (
+          !!!checklist.dataChecklist.length ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
 
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
