@@ -1,5 +1,6 @@
 import { Breadcrumbs } from "@common/components";
 import useFrequency from "./frequency-model";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 
 export default function FrequencyForm() {
   const frequency = useFrequency();
@@ -37,10 +38,22 @@ export default function FrequencyForm() {
               {...frequency.register("type", { required: true })}
             />
           </div>
-          <div className="flex items-center gap-6 pb-[32px] px-[32px]">
-            <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
-              Simpan
-            </button>
+          <div className="flex items-center gap-6">
+            {frequency.isLoadingData ? (
+              <button
+                type="button"
+                className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold cursor-wait"
+              >
+                <LoadingIcon
+                  color="white"
+                  className="w-[24px] h-[24px] animate-spin"
+                />
+              </button>
+            ) : (
+              <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
+                Simpan
+              </button>
+            )}
             <button
               className="flex items-center justify-center gap-2 h-[46px] px-[20px] w-[181px] border border-[#20519F] rounded"
               type="button"

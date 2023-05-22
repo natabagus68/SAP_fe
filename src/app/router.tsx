@@ -384,7 +384,7 @@ export default createBrowserRouter([
                 element: <AccountView />,
               },
               {
-                path: "details",
+                path: ":AccountId/details",
                 element: <AccountDetail />,
               },
               {
@@ -396,7 +396,7 @@ export default createBrowserRouter([
                 element: <AccountForm />,
               },
               {
-                path: "edit",
+                path: ":AccountId/edit",
                 element: <AccountForm />,
               },
             ],

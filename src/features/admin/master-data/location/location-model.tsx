@@ -146,15 +146,15 @@ export default function useLocationHooks() {
 
   //create data departemen
   const createDataDepartemen = async (data) => {
-    console.log(data);
     try {
       const result = await DepartemenRepository.create(
         Departemen.create({
-          id: data.id,
+          //id: data.id,
           name: data.name,
-          section: data.section,
+          section: data.section_id,
         })
       );
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -188,17 +188,16 @@ export default function useLocationHooks() {
   //edit data Departemen
   const editDataDepartemen = async (data) => {
     setIsLoadingData(true);
-    console.log(data);
 
     try {
       const result = await DepartemenRepository.edit(
         Departemen.create({
           id: data.id,
           name: data.name,
-          section: data.section,
-          //department_id: data.department_id,
+          section: data.section_id,
         })
       );
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -273,17 +272,19 @@ export default function useLocationHooks() {
 
   return {
     state,
-    searchParams,
-    // urlParams,
+    type,
     errors,
+    navigate,
+    register,
+    dataId,
+    setDataId,
+    id,
+    isSuccess,
+    searchParams,
+    setSearchParams,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
-    type,
-    setSearchParams,
-    // setUrlParams,
-    navigate,
-    register,
     handleSubmit,
     setOpenModalDelete,
     setOpenModalConfirm,
@@ -295,14 +296,10 @@ export default function useLocationHooks() {
     getDataDepartemenById,
     getDataSectionById,
     createDataSection,
+    createDataDepartemen,
     editDataSection,
+    editDataDepartemen,
     deleteDataSection,
     deleteDataDepartemen,
-    dataId,
-    setDataId,
-    id,
-    editDataDepartemen,
-    createDataDepartemen,
-    isSuccess,
   };
 }

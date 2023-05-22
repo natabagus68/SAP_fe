@@ -6,12 +6,12 @@ export class DepartemenApiRepository implements DepartemenRepository {
   async getDepartement(): Promise<Departemen[]> {
     try {
       const { data } = await api.get(`department`);
+
       return data?.data?.map((item) =>
         Departemen.create({
           id: item?.id,
           name: item?.name || "-",
           section: item?.Sections || "-",
-          //department_id: item?.department_id || "-",
         })
       );
     } catch (error) {
@@ -27,7 +27,6 @@ export class DepartemenApiRepository implements DepartemenRepository {
         id: data.data?.id,
         name: data.data?.name || "-",
         section: data.data?.Sections || "-",
-        //department_id: data.data?.department_id || "-",
       });
     } catch (error) {
       throw new Error(error);
@@ -37,7 +36,6 @@ export class DepartemenApiRepository implements DepartemenRepository {
   async create(departemen: Departemen): Promise<void> {
     try {
       const { data } = await api.post(`department`, {
-        id: departemen.id,
         name: departemen.name,
         section: departemen.section,
       });
@@ -51,7 +49,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
       const { data } = await api.put(`department/${departemen.id}`, {
         id: departemen.id,
         name: departemen.name,
-        section: departemen.section,
+        section_id: departemen.section_id,
       });
     } catch (error) {
       throw new Error(error);

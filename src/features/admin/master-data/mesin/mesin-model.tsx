@@ -72,7 +72,6 @@ export default function useMesin() {
       batasBawah: dataParameterById?.batasBawah,
 
       deskripsi: state?.data?.deskripsi,
-      //title: state?.data?.title,
     },
   });
 
@@ -250,7 +249,6 @@ export default function useMesin() {
       setTimeout(() => {
         setDataParameterById(result);
       }, 500);
-      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -289,6 +287,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Nomor Mesin Harus Unik !");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -309,6 +311,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("No Sub-Mesin Harus Unik!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -328,6 +334,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Deskripsi Harus terlalu pendek");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -335,7 +345,6 @@ export default function useMesin() {
   const createParameter = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-    console.log(data);
 
     try {
       const result = await parameterRepository.create(
@@ -346,12 +355,16 @@ export default function useMesin() {
           variable: data.variable,
         })
       );
-      console.log(result);
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -373,6 +386,10 @@ export default function useMesin() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -403,8 +420,6 @@ export default function useMesin() {
   };
 
   const editSubmesin = async (data) => {
-    console.log(data);
-
     setIsLoadingData(true);
     try {
       const result = await subMesinRepository.edit(
@@ -418,7 +433,6 @@ export default function useMesin() {
         setIsLoadingData(false);
         navigate("../");
       }, 500);
-      console.log(result);
     } catch (error) {
       setIsLoadingData(false);
       throw new Error(error);
@@ -625,45 +639,47 @@ export default function useMesin() {
     searchParams,
     urlParams,
     errors,
+    type,
+    maxDesc,
+    navigate,
+    register,
+    handleSubmit,
+    isLoadingData,
+    setMaxDesc,
+    message,
+    isSuccess,
+    id,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
-    type,
-    maxDesc,
     setSearchParams,
     setUrlParams,
-    navigate,
     createMesin,
-    editMesin,
-    deleteMesin,
     createSubmesin,
-    editSubmesin,
-    deleteSubmesin,
-    editIndikator,
     createIndikator,
-    deleteIndikator,
-    deleteParameter,
-    editParameter,
     createParameter,
     createUom,
-    deleteUom,
+    editMesin,
+    editSubmesin,
     editUom,
-    register,
-    handleSubmit,
+    editParameter,
+    editIndikator,
+    deleteMesin,
+    deleteSubmesin,
+    deleteIndikator,
+    deleteParameter,
+    deleteUom,
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
-    setMaxDesc,
+    setDataId,
     dataMesin,
-    isLoadingData,
     dataSubMesin,
     dataParameter,
     dataIndikator,
     dataUom,
     dataId,
     dataSection,
-    message,
-    isSuccess,
     getDataSubmesinById,
     getDataMesinById,
     getDataSection,
@@ -675,7 +691,5 @@ export default function useMesin() {
     dataUomById,
     dataIndikatorById,
     dataParameterById,
-    id,
-    setDataId,
   };
 }

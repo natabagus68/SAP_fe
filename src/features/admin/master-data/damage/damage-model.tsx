@@ -30,10 +30,6 @@ export default function useDamage() {
       type: dataDamageById?.type,
     },
   });
-  //state & default data url params
-  // const [urlParams, setUrlParams] = useState({
-  //   type: "damage",
-  // });
 
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -76,6 +72,7 @@ export default function useDamage() {
     } catch (error) {
       setTimeout(() => {
         setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
       }, 500);
       throw new Error(error);
     }
@@ -161,13 +158,11 @@ export default function useDamage() {
   return {
     state,
     searchParams,
-    // urlParams,
     errors,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
     setSearchParams,
-    // setUrlParams,
     navigate,
     createDamage,
     register,

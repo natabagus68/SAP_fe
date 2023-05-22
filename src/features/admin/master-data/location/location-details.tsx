@@ -2,7 +2,6 @@ import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import useLocationHooks from "./location-model";
-import { Departemen } from "@domain/models/location/departemen";
 
 export default function LocationDetails() {
   const location = useLocationHooks();
@@ -11,6 +10,7 @@ export default function LocationDetails() {
       <Breadcrumbs
         items={[
           "Master Data",
+          "Location",
           `${location.type[0].toLocaleUpperCase()}${location.type.slice(1)}`,
           "Details",
         ]}
@@ -57,7 +57,7 @@ export default function LocationDetails() {
                   <td className="px-4 py-[6px] ">
                     <div className="flex flex-col gap-2">
                       {location?.dataDepartemenById?.section.map((item, i) => (
-                        <div>{item.name}</div>
+                        <div key={i}>{item.name}</div>
                       ))}
                     </div>
                   </td>

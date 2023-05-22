@@ -1,7 +1,7 @@
 import { Access } from "@domain/models/user/access";
 
 export interface AccessRepository {
-  get(): Promise<Access[]>;
+  getAccess(): Promise<Access[]>;
   getDataById(id: string): Promise<Access>;
   edit(access: Access): Promise<void>;
   create(access: Access): Promise<void>;

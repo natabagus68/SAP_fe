@@ -52,11 +52,6 @@ export default function useAccess() {
   //state message from api
   const [message, setMessage] = useState(null);
 
-  // //state & default data url params
-  // const [urlParams, setUrlParams] = useState({
-  //   type: "Access",
-  // });
-
   //click back/kembali
   const onOpenBack = (): void => {
     navigate("../");
@@ -70,7 +65,7 @@ export default function useAccess() {
   const getDataAccess = async () => {
     setIsLoadingData(true);
     try {
-      const result = await accessRepository.get();
+      const result = await accessRepository.getAccess();
       setTimeout(() => {
         setIsLoadingData(false);
         setDataAccess(result);
@@ -107,6 +102,10 @@ export default function useAccess() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -114,7 +113,6 @@ export default function useAccess() {
   //edit access data
   const editAccess = async (data) => {
     setIsLoadingData(true);
-    console.log(data);
     try {
       const result = await accessRepository.edit(
         Access.create({
@@ -165,7 +163,6 @@ export default function useAccess() {
   return {
     navigate,
     state,
-    //type,
     dataAccess,
     setDataAccess,
     register,
@@ -178,8 +175,6 @@ export default function useAccess() {
     openModalSuccess,
     setOpenModalSuccess,
     onOpenBack,
-    //urlParams,
-    //setUrlParams,
     openModalAccess,
     setOpenModalAccess,
     onOpenBackMenu,

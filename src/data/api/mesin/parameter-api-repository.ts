@@ -19,9 +19,8 @@ export class ParameterApiRepository implements ParameterRepository {
   async getDataById(id: string): Promise<Parameter> {
     try {
       const { data } = await api.get(`machine-parameter/${id}`);
-      console.log(data);
+
       return Parameter.create({
-        // id: data.data?.id,
         indicator: data.data?.indicator?.name || "-",
         name: data.data?.name || "-",
         variable: data.data?.variable || "-",
@@ -36,7 +35,6 @@ export class ParameterApiRepository implements ParameterRepository {
       const { data } = await api.post("machine-parameter", {
         name: parameter.name,
         indicator: parameter.indicator,
-        //variable: parameter.variable,
       });
 
       return data.data;
@@ -50,7 +48,6 @@ export class ParameterApiRepository implements ParameterRepository {
       const { data } = await api.put(`machine-parameter/${parameter.id}`, {
         name: parameter.name,
         indicator: parameter.indicator,
-        //variable: parameter.variable,
       });
       return data.data;
     } catch (error) {
