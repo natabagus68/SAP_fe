@@ -3,7 +3,7 @@ import useLogPart from "./log-part-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
-import gambar_part from "../../../../assets/Gambar-part.png";
+import gambar_part from "../../../../assets/gambar-part.png";
 import drawing from "../../../../assets/Drawing.png";
 import ExportIcon from "@common/components/icons-new/ExportIcon";
 
@@ -202,3 +202,4 @@ export default function LogPartDetails() {
     </main>
   );
 }
+

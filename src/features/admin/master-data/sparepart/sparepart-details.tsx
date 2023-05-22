@@ -2,7 +2,7 @@ import useSparepart from "./sparepart-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
-import gambar_part from "../../../../assets/Gambar-part.png";
+import gambar_part from "../../../../assets/gambar-part.png";
 import drawing from "../../../../assets/Drawing.png";
 
 export default function SparepartDetails() {
@@ -190,3 +190,4 @@ export default function SparepartDetails() {
     </main>
   );
 }
+
