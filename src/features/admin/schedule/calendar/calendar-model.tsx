@@ -4,14 +4,21 @@ import { CalendarApiRepository } from "@data/api/schedule/calendar/calendar-api-
 import { Section } from "@domain/models/location/section";
 import { Mesin } from "@domain/models/mesin/mesin";
 import { Calendar } from "@domain/models/schedule/calendar/calendar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Calendar as FullCalendar } from "@fullcalendar/core";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import moment from "moment";
+import { Remark } from "@domain/models/schedule/calendar/remark";
 
 export default function useCalendar() {
   const navigate = useNavigate();
   // data parsing state after navigate
   const { state } = useLocation();
+  // get data from params url
+  const { day, month, year } = useParams();
   // dummy data
   const dummyEvents = [
     {
@@ -57,11 +64,27 @@ export default function useCalendar() {
   const [dataMesin, setDataMesin] = useState<Mesin[]>([]);
   //state data Section
   const [dataSection, setDataSection] = useState<Section[]>([]);
+  //state data Maintenance
+  const [dataMaintenance, setDataMaintenance] = useState<Calendar[]>([]);
+  //state loading data
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   //api repository
   const machineRepository = new MesinApiRepository();
   const sectionRepository = new SectionApiRepository();
   const calendarRepository = new CalendarApiRepository();
+
+  //use ref for calendar
+  const calendarRef = useRef<HTMLDivElement>();
+  //use ref for calendarInstanc
+  const calendarInstance = useRef<FullCalendar>();
+
+  //state for parsing data id
+  const [dataId, setDataId] = useState(null);
+  //state succes create/update data
+  const [isSuccess, setIsSuccess] = useState(false);
+  //state succes create/update data
+  const [remarkData, setRemarkData] = useState(null);
 
   // get data mesin
   const getDataMachine = async () => {
@@ -99,6 +122,20 @@ export default function useCalendar() {
     ]);
   };
 
+  // get data Maintenance
+  const getDataMaintenance = async () => {
+    setIsLoadingData(true);
+    setDataMaintenance([]);
+    try {
+      const result = await calendarRepository.get(Number(day), Number(month));
+      setTimeout(() => {
+        setDataMaintenance(result);
+        setIsLoadingData(false);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
   //create Maintenance
   const createMaintenance = async (data) => {
     const result = await calendarRepository.create(
@@ -116,6 +153,148 @@ export default function useCalendar() {
       console.log(result.message);
     }
   };
+  //create Maintenance
+  const deleteMaintenance = async (id: string, setIsLoading) => {
+    // console.log(id);
+    // setIsLoading({ loading: false, exec: true });
+    const result = await calendarRepository.delete(id);
+    if (result.success) {
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataMaintenance();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } else {
+      setIsSuccess(false);
+      console.log(result.message);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    }
+  };
+  //create Maintenance
+  const createRemark = async (data) => {
+    const result = await calendarRepository.remark(
+      Remark.create({
+        remark: data.deskripsi,
+        date: data.date.split("-").reverse().join("-"),
+      })
+    );
+    if (result.success) {
+      navigate("..");
+    } else {
+      console.log(result.message);
+    }
+  };
+  //create Maintenance
+  const deleteRemark = async (id: string, setIsLoading) => {
+    const result = await calendarRepository.deleteRemark(id);
+    if (result.success) {
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataMaintenance();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } else {
+      setIsSuccess(false);
+      console.log(result.message);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    }
+  };
+  //setup Fullcalendar library
+  const Fullcalendar = (element: HTMLDivElement) => {
+    let calendar = new FullCalendar(element, {
+      plugins: [dayGridPlugin, interactionPlugin],
+      initialView: "dayGridMonth",
+      height: "100%",
+      headerToolbar: {
+        left: "title",
+        center: "",
+        right: "prev today next",
+      },
+      // events: eventsCalendar,
+      selectable: true,
+      longPressDelay: 0,
+      initialDate: `${year}-${Number(month) < 10 ? `0${month}` : month}-${
+        Number(day) < 10 ? `0${day}` : day
+      }`,
+      select: (info) => {
+        setTimeout(() => {
+          if (Number(info.startStr.split("-")[1]) == Number(month)) {
+            navigate(
+              `../${Number(info.startStr.split("-")[2])}/${Number(
+                moment(calendar.getDate()).format("MM")
+              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+            );
+          }
+        }, 150);
+      },
+      dayCellDidMount: (info) => {
+        if (
+          moment(info.date).format("YYYYMMDD") ==
+          `${year}${Number(month) < 10 ? `0${month}` : month}${
+            Number(day) < 10 ? `0${day}` : day
+          }`
+        ) {
+          const element = document.createElement("div");
+          element.className = "day-components";
+          element.innerHTML = `
+            <div class="day-corrective"></div>
+            <div class="day-preventive"></div>
+            <div class="day-checklist"></div>
+          `;
+          info.el.childNodes[0].appendChild(element);
+        }
+      },
+      customButtons: {
+        prev: {
+          click: () => {
+            calendar.prev();
+            // setTimeout(() => {
+            navigate(
+              `../${day}/${Number(
+                moment(calendar.getDate()).format("MM")
+              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+            );
+            // }, 150);
+          },
+        },
+        next: {
+          click: () => {
+            calendar.next();
+            // setTimeout(() => {
+            navigate(
+              `../${day}/${Number(
+                moment(calendar.getDate()).format("MM")
+              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+            );
+            // }, 150);
+          },
+        },
+        today: {
+          text: "Today",
+          click: () => {
+            calendar.today();
+            // setTimeout(() => {
+            navigate(
+              `../${Number(moment(calendar.getDate()).format("DD"))}/${Number(
+                moment(calendar.getDate()).format("MM")
+              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+            );
+            // }, 150);
+          },
+        },
+      },
+    });
+    calendar.render();
+    return calendar;
+  };
 
   useEffect(() => {
     setMaxDesc(watch("deskripsi")?.length);
@@ -132,6 +311,15 @@ export default function useCalendar() {
     openModalRemark,
     dataMesin,
     dataSection,
+    isLoadingData,
+    dataMaintenance,
+    month,
+    calendarRef,
+    dataId,
+    isSuccess,
+    remarkData,
+    day,
+    calendarInstance,
     createCalendar,
     navigate,
     register,
@@ -143,6 +331,13 @@ export default function useCalendar() {
     setOpenModalRemark,
     getDataMachine,
     getDataSection,
+    getDataMaintenance,
     createMaintenance,
+    Fullcalendar,
+    setDataId,
+    deleteMaintenance,
+    createRemark,
+    deleteRemark,
+    setRemarkData,
   };
 }

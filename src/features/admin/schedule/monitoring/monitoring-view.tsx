@@ -7,9 +7,15 @@ import Modal from "@common/components/modals/Modal";
 import ReloadIcon from "@common/components/icons-new/ReloadIcon";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import { useEffect } from "react";
 
 export default function MonitoringView() {
   const monitorng = useMonitoring();
+  useEffect(() => {
+    monitorng.getDataMonitoring();
+  }, []);
+
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <ModalConfirm
@@ -20,7 +26,6 @@ export default function MonitoringView() {
         cb={(setIsLoading) => {
           setTimeout(() => {
             setIsLoading({ loading: false, exec: true });
-            console.log("delete mesin");
           }, 3000);
         }}
       />
@@ -45,40 +50,53 @@ export default function MonitoringView() {
             </tr>
           </thead>
           <tbody className="text-base text-[#514E4E]">
-            {monitorng?.dataTraceability?.map((item) => (
-              <tr key={item?.id} className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">07/05/2016</td>
-                <td className="px-[32px]">2 Bulan</td>
-                <td className="px-[32px]">Furnace</td>
-                <td className="px-[32px]">
-                  <div
-                    className={`h-[32px] w-[99px] text-white flex items-center justify-center ${
-                      item?.tipeMaintenance == "Checklist"
-                        ? "bg-[#4D74B2]"
-                        : "bg-[#F9A63A]"
-                    } rounded-xl`}
-                  >
-                    {item?.tipeMaintenance}
-                  </div>
-                </td>
-                <td className="px-[32px]">Alloy Casting</td>
-                <td className="px-[32px]">
-                  <div className="flex items-center gap-6">
-                    <button
-                      className="flex items-center gap-2 h-[46px] px-[20px] bg-[#12B569] rounded"
-                      onClick={() => monitorng.setOpenModalConfirm(true)}
+            {!monitorng.isLoadingData &&
+              monitorng?.dataMonitoring?.map((item, i) => (
+                <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
+                  <td className="px-[32px]">
+                    {item.date.split("T")[0].split("-").reverse().join("-")}
+                  </td>
+                  <td className="px-[32px]">{item.range}</td>
+                  <td className="px-[32px]">{item.machine_name}</td>
+                  <td className="px-[32px]">
+                    <div
+                      className={`h-[32px] w-[99px] text-white flex items-center justify-center ${
+                        item?.type == "checklist"
+                          ? "bg-[#FECE00]"
+                          : item?.type == "preventive"
+                          ? "bg-[#20519F]"
+                          : "bg-[#DB6037]"
+                      } rounded-xl`}
                     >
-                      <ReloadIcon color="white" />
-                      <span className="text-white text-sm font-semibold">
-                        Renew
-                      </span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                      {item?.type[0].toLocaleUpperCase()}{item?.type.slice(1)}
+                    </div>
+                  </td>
+                  <td className="px-[32px]">{item.section_name}</td>
+                  <td className="px-[32px]">
+                    <div className="flex items-center gap-6">
+                      <button
+                        className="flex items-center gap-2 h-[46px] px-[20px] bg-[#12B569] rounded"
+                        onClick={() => monitorng.setOpenModalConfirm(true)}
+                      >
+                        <ReloadIcon color="white" />
+                        <span className="text-white text-sm font-semibold">
+                          Renew
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
+        {monitorng.isLoadingData ? (
+          <div className="w-full h-[48px] flex items-center justify-center">
+            <LoadingIcon
+              color="black"
+              className="w-[24px] h-[24px] animate-spin"
+            />
+          </div>
+        ) : null}
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
             <ArrowUpIcon

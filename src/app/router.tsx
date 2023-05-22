@@ -85,7 +85,7 @@ export default createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: ":month/calendar",
+            path: ":day/:month/:year/calendar",
             element: <Root />,
             children: [
               {
@@ -97,7 +97,7 @@ export default createBrowserRouter([
                 element: <CalendarForm />,
               },
               {
-                path: "edit",
+                path: ":id/edit",
                 element: <CalendarForm />,
               },
               {
