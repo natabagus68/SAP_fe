@@ -18,6 +18,8 @@ import { UomApiRepository } from "@data/api/mesin/uom-api-repository";
 import { UnitOfMeasure } from "@domain/models/mesin/uom";
 import { Section } from "@domain/models/location/section";
 import { SectionApiRepository } from "@data/api/location/section-api-repository";
+import { FrequencyApiRepository } from "@data/api/frequency/frequency-api-repository";
+import { Frequency } from "@domain/models/frequency/frequency";
 
 export default function useMesin() {
   const navigate = useNavigate();
@@ -58,7 +60,9 @@ export default function useMesin() {
           ? dataParameterById?.name
           : type == "indikator"
           ? dataIndikatorById?.name
-          : dataUomById?.name,
+          : type == "uom"
+          ? dataUomById?.name
+          : null,
 
       sub_mechine_no: dataSubmesinById?.no,
 
@@ -123,6 +127,115 @@ export default function useMesin() {
 
   //state succes create/update data
   const [isSuccess, setIsSuccess] = useState(false);
+
+  //api authenticationRepository
+  const frequencyRepository = new FrequencyApiRepository();
+  //state data frequency
+  const [dataFrequency, setDataFrequency] = useState<Frequency[]>([]);
+
+  // get data frequency
+  const getDataFrequency = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await frequencyRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataFrequency(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //state form Submesin detail
+  const [subMesinDetail, setSubMesinDetail] = useState([
+    {
+      subMesinId: "",
+      parameter: [
+        {
+          parameterId: "",
+          interval: "",
+          frequencyId: "",
+        },
+      ],
+    },
+  ]);
+
+  const FormChangeSubmesin = (item, e) => {
+    let data = [...subMesinDetail];
+    data[item][e.target.name] = e.target.value;
+    setSubMesinDetail(data);
+  };
+
+  const addFormSubmesin = () => {
+    let newSubMesinDetail = {
+      subMesinId: "",
+      parameter: [
+        {
+          parameterId: "",
+          interval: "",
+          frequencyId: "",
+        },
+      ],
+    };
+    setSubMesinDetail([...subMesinDetail, newSubMesinDetail]);
+  };
+
+  const removeFormSubmesin = (item) => {
+    let data = [...subMesinDetail];
+    data.splice(item, 1);
+    setSubMesinDetail(data);
+  };
+
+  //state filed parameter detail
+  const [parameterDetail, setParameterDetail] = useState([
+    {
+      parameterId: "",
+      interval: "",
+      frequencyId: "",
+    },
+  ]);
+
+  const FormChangeParameter = (item, e) => {
+    let data = [...parameterDetail];
+    data[item][e.target.parameterId] = e.target.value;
+    data[item][e.target.interval] = e.target.value;
+    data[item][e.target.frequencyId] = e.target.value;
+    setParameterDetail(data);
+  };
+
+  const addFieldParameter = () => {
+    let newFieldParameter = {
+      parameterId: "",
+      interval: "",
+      frequencyId: "",
+    };
+    setParameterDetail([...parameterDetail, newFieldParameter]);
+  };
+
+  const removeFieldParameter = (item) => {
+    let data = [...parameterDetail];
+    data.splice(item, 1);
+    setParameterDetail(data);
+  };
+
+  //state form variable
+  const [variableForm, setVariableForm] = useState([
+    {
+      uom: "",
+      batasAtas: "",
+      batasBawah: "",
+    },
+  ]);
+
+  const addFormVariable = () => {
+    let newFormVariable = {
+      uom: "",
+      batasAtas: "",
+      batasBawah: "",
+    };
+    setVariableForm([...variableForm, newFormVariable]);
+  };
 
   // get data mesin
   const getDataMesin = async () => {
@@ -604,6 +717,8 @@ export default function useMesin() {
     getDataParameter();
     getDataIndikator();
     getDataUom();
+    getDataFrequency();
+    getDataSection();
   }, []);
 
   useEffect(() => {
@@ -686,10 +801,22 @@ export default function useMesin() {
     getDataIndikatorById,
     getDataParameterById,
     getDataUomById,
+    getDataFrequency,
     dataSubmesinById,
     dataMesinById,
     dataUomById,
     dataIndikatorById,
     dataParameterById,
+    dataFrequency,
+    subMesinDetail,
+    parameterDetail,
+    variableForm,
+    addFieldParameter,
+    addFormSubmesin,
+    addFormVariable,
+    removeFormSubmesin,
+    removeFieldParameter,
+    FormChangeSubmesin,
+    FormChangeParameter,
   };
 }
