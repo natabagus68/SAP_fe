@@ -2,8 +2,6 @@ import React from "react";
 import useAccount from "./account-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import ChecklistIcon from "@common/components/icons-new/ChecklistIcon";
-import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 
 export default function AccountDetail() {
@@ -28,20 +26,9 @@ export default function AccountDetail() {
             </button>
             <button
               className="flex items-center gap-2 h-[46px] px-[20px] bg-[#F79009] rounded"
-              onClick={() =>
-                account.navigate("edit", {
-                  state: {
-                    edit: true,
-                    type: account.type,
-                    data: {
-                      manpower: "manpower",
-                      email: "ayu@mail.com",
-                      password: "password",
-                      role: "role",
-                    },
-                  },
-                })
-              }
+              // onClick={() =>
+              //   account.navigate("edit")
+              // }
             >
               <EditIcon color="white" />
               <span className="text-white text-sm font-semibold">Edit</span>
@@ -57,16 +44,18 @@ export default function AccountDetail() {
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Nama</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    Ayu Umi Pertiwi
+                    {account.dataAccountById?.name}
                   </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Email</td>
-                  <td className="px-4 py-[6px] font-semibold">Ayu@mail.com</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {account.dataAccountById?.email}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Role</td>
-                  <td className="px-4 py-[6px] font-semibold">Super Admin</td>
+                  <td className="px-4 py-[6px] font-semibold">-</td>
                 </tr>
               </tbody>
             </table>

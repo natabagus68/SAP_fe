@@ -2,7 +2,7 @@ import React from "react";
 import useInventory from "./inventory-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import gambar_part from "../../../../assets/Gambar-part.png";
+import gambar_part from "../../../../assets/gambar-part.png";
 import drawing from "../../../../assets/Drawing.png";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import empty_data_table from "../../../../assets/png/empty_data_table.png";
@@ -246,3 +246,4 @@ export default function InventoryDetails() {
     </main>
   );
 }
+

@@ -10,6 +10,7 @@ import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 import empty_data_table from "../../../../assets/png/empty_data_table.png";
+import { Section } from "@domain/models/location/section";
 
 export default function LocationView() {
   const location = useLocation();

@@ -37,7 +37,7 @@ export default function DamageForm() {
               {...damage.register("type", { required: true })}
             />
           </div>
-          <div className="flex items-center gap-6 pb-[32px] px-[32px]">
+          <div className="flex items-center gap-6">
             {damage.isLoadingData ? (
               <button
                 type="button"

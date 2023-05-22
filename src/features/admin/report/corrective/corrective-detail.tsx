@@ -6,7 +6,7 @@ import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import Modal from "@common/components/modals/Modal";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
-import gambar_part from "../../../../assets/Gambar-part.png";
+import gambar_part from "../../../../assets/gambar-part.png";
 
 export default function CorrectiveDetail() {
   const corrective = useCorrective();
@@ -310,3 +310,4 @@ export default function CorrectiveDetail() {
     </main>
   );
 }
+

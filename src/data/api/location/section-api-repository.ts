@@ -9,6 +9,7 @@ export class SectionApiRepository implements SectionRepository {
       Section.create({
         id: item?.id,
         name: item?.name || "-",
+        department_id: item?.department?.id || "-",
       })
     );
   }

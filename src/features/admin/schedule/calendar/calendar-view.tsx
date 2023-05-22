@@ -1,6 +1,5 @@
 import { Breadcrumbs } from "@common/components";
 import Fullcalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import useCalendar from "./calendar-model";
@@ -16,9 +15,24 @@ import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
+import { useEffect, useRef } from "react";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import moment from "moment";
+// import moment from "moment/min/moment-with-locales";
+// import "moment/locale/id";
 
 export default function CalendarView() {
   const calendar = useCalendar();
+  useEffect(() => {
+    calendar.getDataMaintenance();
+    calendar.calendarInstance.current = calendar.Fullcalendar(
+      calendar.calendarRef.current
+    );
+    return () => {
+      calendar.calendarInstance.current.destroy();
+    };
+  }, [calendar.month, calendar.day]);
+
   return (
     <main className="flex flex-col gap-[28px] h-[calc(100dvh-120px)]">
       <ModalDelete
@@ -33,14 +47,20 @@ export default function CalendarView() {
         setOpenSuccess={calendar.setOpenModalSuccess}
         cb={(setIsLoading) => {
           setTimeout(() => {
-            setIsLoading({ loading: false, exec: true });
-            console.log("delete mesin");
-          }, 3000);
+            if (calendar.remarkData == "remark") {
+              calendar.deleteRemark(calendar.dataId, setIsLoading);
+            } else {
+              calendar.deleteMaintenance(calendar.dataId, setIsLoading);
+            }
+            calendar.setRemarkData(null);
+          }, 500);
         }}
       />
       <ModalSuccess
         open={calendar.openModalSuccess}
         setOpen={calendar.setOpenModalSuccess}
+        isSuccess={calendar.isSuccess}
+        successMessage="Berhasil menghapus data!"
       />
       <dialog
         open={calendar.openModalRemark}
@@ -53,25 +73,23 @@ export default function CalendarView() {
               className="bg-white rounded gap-2 h-[46px] px-2 flex items-center justify-center border border-[#20519F]"
               onClick={() => {
                 calendar.setOpenModalRemark(false);
+                calendar.setRemarkData(null);
               }}
             >
               <PlusIcon color="#20519F" className="rotate-45" />
               <span className="text-[#20519F] font-semibold">Tutup</span>
             </button>
           </div>
-          <div className="p-[32px]">
-            Maintenance minggu ini akan ditunda beberapa minggu.
-          </div>
+          <div className="p-[32px]">{calendar.remarkData || "-"}</div>
         </div>
       </dialog>
       <Breadcrumbs items={["Schedule", "Calendar"]} />
-      <div className="flex gap-[28px] flex-1">
-        <div className="rounded-md border w-[308px] p-6 border-[#D0D3D9] bg-white flex flex-col justify-between">
+      <div className="flex gap-[28px] h-[calc(100dvh-175px)]">
+        <div className="rounded-md border w-[308px] p-6 border-[#D0D3D9] bg-white flex flex-col justify-between gap-3 overflow-auto">
           <div className="flex flex-col gap-3">
             <button
               className="bg-[#20519F] rounded gap-2 w-full h-[46px] flex items-center justify-center"
               onClick={() => {
-                // calendar.createCalendar();
                 calendar.navigate("create");
               }}
             >
@@ -80,133 +98,139 @@ export default function CalendarView() {
                 Add New Maintenance
               </span>
             </button>
-            {/* <button
-              className="bg-[#20519F] rounded gap-2 w-full h-[46px] flex items-center justify-center"
-              onClick={() => {
-                calendar.createCalendar();
-              }}
-            >
-              <PlusIcon />
-              <span className="text-white font-semibold">
-                Add New Maintenance
-              </span>
-            </button> */}
             <button
               className="bg-white rounded gap-2 w-full h-[46px] flex items-center justify-center border border-[#20519F]"
               onClick={() => {
-                // calendar.createCalendar();
                 calendar.navigate("remark");
               }}
             >
               <FlieIcon />
               <span className="text-[#20519F] font-semibold">Add Remark</span>
             </button>
-            <div className="px-[20px] py-[17px] gap-2 border rounded flex flex-col justify-between">
-              <div className="flex flex-col">
-                <span className="text-[#514E4E] font-semibold text-base">
-                  Remark
-                </span>
-                <span className="text-[#514E4E] truncate">
-                  Maintenance minggu ini akan ditunda beberapa minggu.
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button onClick={() => calendar.setOpenModalRemark(true)}>
-                  <EyeShowIcon color="#20519F" />
-                </button>
-                <button onClick={() => calendar.setOpenModalDelete(true)}>
-                  <TrashIcon color="#F04438" />
-                </button>
-              </div>
+            <div className="w-full h-[1px] bg-gray-300"></div>
+            <div>
+              {calendar.isLoadingData ? (
+                <div className="w-full h-[48px] flex items-center justify-center">
+                  <LoadingIcon
+                    color="black"
+                    className="w-[24px] h-[24px] animate-spin"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {calendar.dataMaintenance?.map((item, _i) =>
+                    item.schedules?.maintenance?.map((maintenance, i) => (
+                      <div
+                        key={i}
+                        className="px-[20px] py-[17px] gap-2 border rounded flex flex-col justify-between"
+                      >
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={
+                              maintenance.type == "checklist"
+                                ? maintenance_success
+                                : maintenance.type == "preventive"
+                                ? maintenance_process
+                                : maintenance_warning
+                            }
+                            alt="Maintenace Icon"
+                            className="w-[20px] h-[20px]"
+                          />
+                          <span className="text-[#514E4E] ">
+                            {maintenance.type[0].toLocaleUpperCase()}
+                            {maintenance.type.slice(1)}
+                          </span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[#514E4E] font-semibold text-base">
+                            {maintenance.type[0].toLocaleUpperCase()}
+                            {maintenance.type.slice(1)} Machine{" "}
+                            {maintenance.machine}
+                          </span>
+                          <span className="text-[#514E4E] ">
+                            {moment(
+                              item.schedules?.date
+                                .split("-")
+                                .reverse()
+                                .join("-")
+                            ).format("dddd, DD MMM YYYY")}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() =>
+                              calendar.navigate(`${maintenance.id}/edit`)
+                            }
+                          >
+                            <EditIcon color="#F79009" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              calendar.setDataId(maintenance.id);
+                              calendar.setOpenModalDelete(true);
+                            }}
+                          >
+                            <TrashIcon color="#F04438" />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  {calendar.dataMaintenance?.map((item, _i) =>
+                    item.schedules?.remark?.map((remark, i) => (
+                      <div
+                        key={i}
+                        className="px-[20px] py-[17px] gap-2 border rounded flex flex-col justify-between"
+                      >
+                        <div className="flex flex-col">
+                          <span className="text-[#514E4E] font-semibold text-base">
+                            Remark
+                          </span>
+                          <span className="text-[#514E4E] truncate">
+                            {remark.remark}
+                          </span>
+                          <span className="text-[#514E4E] ">
+                            {moment(
+                              item.schedules?.date
+                                .split("-")
+                                .reverse()
+                                .join("-")
+                            ).format("dddd, DD MMM YYYY")}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              calendar.setOpenModalRemark(true);
+                              calendar.setRemarkData(remark.remark);
+                            }}
+                          >
+                            <EyeShowIcon color="#20519F" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              calendar.setRemarkData("remark");
+                              calendar.setDataId(remark.id);
+                              calendar.setOpenModalDelete(true);
+                            }}
+                          >
+                            <TrashIcon color="#F04438" />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
-            <div className="px-[20px] py-[17px] gap-2 border rounded flex flex-col justify-between">
-              <div className="flex items-center gap-2">
-                <img
-                  src={maintenance_success}
-                  alt="Maintenace Icon"
-                  className="w-[20px] h-[20px]"
-                />
-                <span className="text-[#514E4E] ">Senin, 4 Jul , 2022</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[#514E4E] font-semibold text-base">
-                  Preventive Machine A
+            {!calendar.isLoadingData ? (
+              !!!calendar.dataMaintenance[0]?.schedules?.maintenance.length &&
+              !!!calendar.dataMaintenance[0]?.schedules?.remark.length ? (
+                <span className="text-[#514E4E] text-[14px] font-semibold text-center">
+                  Tidak ada data
                 </span>
-                <span className="text-[#514E4E] ">Senin, 4 Jul , 2022</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() =>
-                    calendar.navigate("edit", {
-                      state: {
-                        edit: true,
-                        data: {
-                          type: "type",
-                          machine: "machine",
-                          departemen: "departemen",
-                          section: "section",
-                          range: "range",
-                          date: "1999-05-08",
-                        },
-                      },
-                    })
-                  }
-                >
-                  <EditIcon color="#F79009" />
-                </button>
-                <button onClick={() => calendar.setOpenModalDelete(true)}>
-                  <TrashIcon color="#F04438" />
-                </button>
-              </div>
-            </div>
-            {/* <div className="px-[20px] py-[17px] gap-2 border rounded flex flex-col justify-between">
-              <div className="flex items-center gap-2">
-                <img
-                  src={maintenance_process}
-                  alt="Maintenace Icon"
-                  className="w-[20px] h-[20px]"
-                />
-                <span className="text-[#514E4E] ">Senin, 4 Jul , 2022</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[#514E4E] font-semibold text-base">
-                  Preventive Machine C
-                </span>
-                <span className="text-[#514E4E] ">Senin, 4 Jul , 2022</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button>
-                  <EditIcon color="#F79009" />
-                </button>
-                <button>
-                  <TrashIcon color="#F04438" />
-                </button>
-              </div>
-            </div> */}
-            {/* <div className="px-[20px] py-[17px] gap-2 border rounded flex flex-col justify-between">
-              <div className="flex items-center gap-2">
-                <img
-                  src={maintenance_warning}
-                  alt="Maintenace Icon"
-                  className="w-[20px] h-[20px]"
-                />
-                <span className="text-[#514E4E] ">Senin, 4 Jul , 2022</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[#514E4E] font-semibold text-base">
-                  Preventive Machine B
-                </span>
-                <span className="text-[#514E4E] ">Senin, 4 Jul , 2022</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button>
-                  <EditIcon color="#F79009" />
-                </button>
-                <button>
-                  <TrashIcon color="#F04438" />
-                </button>
-              </div>
-            </div> */}
+              ) : null
+            ) : null}
           </div>
           <div className="flex justify-center gap-4">
             <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
@@ -233,18 +257,7 @@ export default function CalendarView() {
           </div>
         </div>
         <div className="rounded-md border flex-1 border-[#D0D3D9] p-[14px] bg-white">
-          <Fullcalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            height={"100%"}
-            headerToolbar={{
-              left: "title",
-              center: "",
-              right: "prev today next",
-            }}
-            events={calendar.eventsCalendar}
-            longPressDelay={0}
-          />
+          <div ref={calendar.calendarRef} />
         </div>
       </div>
     </main>

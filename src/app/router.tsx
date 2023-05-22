@@ -85,7 +85,7 @@ export default createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: ":month/calendar",
+            path: ":day/:month/:year/calendar",
             element: <Root />,
             children: [
               {
@@ -97,7 +97,7 @@ export default createBrowserRouter([
                 element: <CalendarForm />,
               },
               {
-                path: "edit",
+                path: ":id/edit",
                 element: <CalendarForm />,
               },
               {
@@ -384,7 +384,7 @@ export default createBrowserRouter([
                 element: <AccountView />,
               },
               {
-                path: "details",
+                path: ":AccountId/details",
                 element: <AccountDetail />,
               },
               {
@@ -396,7 +396,7 @@ export default createBrowserRouter([
                 element: <AccountForm />,
               },
               {
-                path: "edit",
+                path: ":AccountId/edit",
                 element: <AccountForm />,
               },
             ],

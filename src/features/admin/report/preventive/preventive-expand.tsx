@@ -4,7 +4,7 @@ import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
 import Modal from "@common/components/modals/Modal";
-import gambar_part from "../../../../assets/Gambar-part.png";
+import gambar_part from "../../../../assets/gambar-part.png";
 
 export default function PreventiveExpand() {
   const preventive = usePreventive();
@@ -235,3 +235,4 @@ export default function PreventiveExpand() {
     </main>
   );
 }
+

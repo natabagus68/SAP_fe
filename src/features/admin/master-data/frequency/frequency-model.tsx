@@ -83,6 +83,10 @@ export default function useFrequency() {
         navigate("../");
       }, 500);
     } catch (error) {
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setMessage("Form Harus diisi Semua!!");
+      }, 500);
       throw new Error(error);
     }
   };
@@ -151,30 +155,28 @@ export default function useFrequency() {
 
   return {
     state,
-    searchParams,
-    // urlParams,
     errors,
+    navigate,
+    register,
+    dataId,
+    dataFrequency,
+    setDataId,
+    frequencyId,
+    message,
+    searchParams,
+    setSearchParams,
+    isSuccess,
+    handleSubmit,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
-    setSearchParams,
-    // setUrlParams,
-    navigate,
-    createFrequency,
-    register,
-    handleSubmit,
     setOpenModalDelete,
     setOpenModalConfirm,
     setOpenModalSuccess,
-    dataFrequency,
+    getDataFrequencyById,
     isLoadingData,
-    dataId,
-    message,
+    createFrequency,
     deleteDataFrequency,
     editFrequency,
-    getDataFrequencyById,
-    isSuccess,
-    setDataId,
-    frequencyId,
   };
 }

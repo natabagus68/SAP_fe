@@ -8,7 +8,6 @@ export default function CalendarForm() {
     calendar.getDataMachine();
     calendar.getDataSection();
   }, []);
-  // console.log(calendar.dataSection);
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
