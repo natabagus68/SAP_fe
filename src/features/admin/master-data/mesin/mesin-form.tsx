@@ -284,7 +284,10 @@ export default function MesinForm() {
               Informasi Sub-Mesin
             </span>
             <div className="flex items-end gap-4">
-              <button className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded bg-[#1BBDD4]">
+              <button
+                className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded bg-[#1BBDD4]"
+                onClick={() => mesin.addFormSubmesin()}
+              >
                 <PlusIcon color="white" />
                 <span className="text-white text-sm font-semibold">
                   Tambah Sub-Mesin
@@ -303,71 +306,117 @@ export default function MesinForm() {
                 </tr>
               </thead>
               <tbody className="text-base text-[#514E4E]">
-                <tr className="border-b border-[#D0D3D9]">
-                  <td className="px-[32px] py-2">
-                    <div className="flex flex-col gap-2">
-                      <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
-                        <option>Pilih Sub-Mesin</option>
-                      </select>
-                      <button className="flex items-center gap-2 h-[46px] w-[200px] px-[20px] rounded bg-[#F04438]">
-                        <TrashIcon color="white" />
-                        <span className="text-white text-sm font-semibold">
-                          Delete Sub-Mesin
-                        </span>
-                      </button>
-                    </div>
-                  </td>
-                  <td className="px-[32px] py-2">
-                    <div className="flex flex-col gap-2">
-                      <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
-                        <option>Pilih Parameter</option>
-                      </select>
-                      <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
-                        <option>Pilih Parameter</option>
-                      </select>
-                      <button className="flex items-center gap-2 h-[46px] w-[200px] px-[20px] rounded bg-[#1BBDD4]">
-                        <PlusIcon color="white" />
-                        <span className="text-white text-sm font-semibold">
-                          Tambah Parameter
-                        </span>
-                      </button>
-                    </div>
-                  </td>
-                  <td className="px-[32px]" style={{ verticalAlign: "top" }}>
-                    <div className="flex flex-col gap-2 py-2">
-                      <input
-                        type="text"
-                        className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F] px-3"
-                        placeholder="Masukan jumlah interval"
-                      />
-                      <input
-                        type="text"
-                        className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F] px-3"
-                        placeholder="Masukan jumlah interval"
-                      />
-                    </div>
-                  </td>
-                  <td className="px-[32px]" style={{ verticalAlign: "top" }}>
-                    <div className="flex flex-col gap-2 py-2">
-                      <div className="flex gap-2">
+                {mesin.subMesinDetail?.map((item, i) => (
+                  <tr key={i} className="border-b border-[#D0D3D9]">
+                    <td className="px-[32px] py-2">
+                      <div className="flex flex-col gap-2">
                         <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
-                          <option>Pilih Frequency</option>
+                          <option value={item.subMesinId}>
+                            Pilih Sub-Mesin
+                          </option>
+                          {mesin.dataSubMesin?.map((item, i) => (
+                            <option key={i} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))}
                         </select>
-                        <button className="w-[46px] h-[46px] bg-[#F04438] rounded-md flex items-center justify-center">
-                          <TrashIcon className="w-[28px] h-[28px]" />
+                        <button
+                          className="flex items-center gap-2 h-[46px] w-[200px] px-[20px] rounded bg-[#F04438]"
+                          onClick={() => mesin.removeFormSubmesin(item)}
+                        >
+                          <TrashIcon color="white" />
+                          <span className="text-white text-sm font-semibold">
+                            Delete Sub-Mesin
+                          </span>
                         </button>
                       </div>
-                      <div className="flex gap-2">
-                        <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
-                          <option>Pilih Frequency</option>
-                        </select>
-                        <button className="w-[46px] h-[46px] bg-[#F04438] rounded-md flex items-center justify-center">
-                          <TrashIcon className="w-[28px] h-[28px]" />
+                    </td>
+                    <td className="px-[32px] py-2">
+                      <div className="flex flex-col gap-2">
+                        {mesin.parameterDetail?.map((item, i) => (
+                          <select
+                            key={i}
+                            className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]"
+                          >
+                            <option value={item.parameterId}>
+                              Pilih Parameter
+                            </option>
+                            {mesin.dataParameter?.map((item, i) => (
+                              <option key={i} value={item.id}>
+                                {item.name}
+                              </option>
+                            ))}
+                          </select>
+                        ))}
+
+                        {/* <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
+                          <option>Pilih Parameter</option>
+                        </select> */}
+                        <button
+                          className="flex items-center gap-2 h-[46px] w-[200px] px-[20px] rounded bg-[#1BBDD4]"
+                          onClick={() => mesin.addFieldParameter()}
+                        >
+                          <PlusIcon color="white" />
+                          <span className="text-white text-sm font-semibold">
+                            Tambah Parameter
+                          </span>
                         </button>
                       </div>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                    <td className="px-[32px]" style={{ verticalAlign: "top" }}>
+                      <div className="flex flex-col gap-2 py-2">
+                        {mesin.parameterDetail?.map((item, i) => (
+                          <input
+                            key={i}
+                            type="text"
+                            className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F] px-3"
+                            placeholder="Masukan jumlah interval"
+                            value={item.interval}
+                          />
+                        ))}
+
+                        {/* <input
+                          type="text"
+                          className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F] px-3"
+                          placeholder="Masukan jumlah interval"
+                        /> */}
+                      </div>
+                    </td>
+                    <td className="px-[32px]" style={{ verticalAlign: "top" }}>
+                      <div className="flex flex-col gap-2 py-2">
+                        {mesin.parameterDetail.map((item, i) => (
+                          <div key={i} className="flex gap-2">
+                            <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
+                              <option value={item.frequencyId}>
+                                Pilih Frequency
+                              </option>
+                              {mesin.dataFrequency.map((item, i) => (
+                                <option key={i} value={item.id}>
+                                  {item.type}
+                                </option>
+                              ))}
+                            </select>
+
+                            <button
+                              className="w-[46px] h-[46px] bg-[#F04438] rounded-md flex items-center justify-center"
+                              onClick={() => mesin.removeFieldParameter(item)}
+                            >
+                              <TrashIcon className="w-[28px] h-[28px]" />
+                            </button>
+                          </div>
+                        ))}
+                        {/* <div className="flex gap-2">
+                          <select className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]">
+                            <option>Pilih Frequency</option>
+                          </select>
+                          <button className="w-[46px] h-[46px] bg-[#F04438] rounded-md flex items-center justify-center">
+                            <TrashIcon className="w-[28px] h-[28px]" />
+                          </button>
+                        </div> */}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

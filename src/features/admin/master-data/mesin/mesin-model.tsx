@@ -18,6 +18,8 @@ import { UomApiRepository } from "@data/api/mesin/uom-api-repository";
 import { UnitOfMeasure } from "@domain/models/mesin/uom";
 import { Section } from "@domain/models/location/section";
 import { SectionApiRepository } from "@data/api/location/section-api-repository";
+import { FrequencyApiRepository } from "@data/api/frequency/frequency-api-repository";
+import { Frequency } from "@domain/models/frequency/frequency";
 
 export default function useMesin() {
   const navigate = useNavigate();
@@ -123,6 +125,88 @@ export default function useMesin() {
 
   //state succes create/update data
   const [isSuccess, setIsSuccess] = useState(false);
+
+  //api authenticationRepository
+  const frequencyRepository = new FrequencyApiRepository();
+  //state data frequency
+  const [dataFrequency, setDataFrequency] = useState<Frequency[]>([]);
+
+  // get data frequency
+  const getDataFrequency = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await frequencyRepository.get();
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataFrequency(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //state data Submesin detail
+  const [subMesinDetail, setSubMesinDetail] = useState([
+    {
+      subMesinId: "",
+      parameter: [
+        {
+          parameterId: "",
+          interval: "",
+          frequencyId: "",
+        },
+      ],
+    },
+  ]);
+
+  const addFormSubmesin = () => {
+    let newSubMesinDetail = {
+      subMesinId: "",
+      parameter: [
+        {
+          parameterId: "",
+          interval: "",
+          frequencyId: "",
+        },
+      ],
+    };
+    setSubMesinDetail([...subMesinDetail, newSubMesinDetail]);
+  };
+
+  const removeFormSubmesin = (item) => {
+    let data = [...subMesinDetail];
+    data.splice(item, 1);
+    setSubMesinDetail(data);
+  };
+
+  //state data parameter detail
+  const [parameterDetail, setParameterDetail] = useState([
+    {
+      parameterId: "",
+      interval: "",
+      frequencyId: "",
+    },
+    // {
+    //   parameterId: "",
+    //   interval: "",
+    //   frequencyId: "",
+    // },
+  ]);
+
+  const addFieldParameter = () => {
+    let newFieldParameter = {
+      parameterId: "",
+      interval: "",
+      frequencyId: "",
+    };
+    setParameterDetail([...parameterDetail, newFieldParameter]);
+  };
+
+  const removeFieldParameter = (item) => {
+    let data = [...parameterDetail];
+    data.splice(item, 1);
+    setParameterDetail(data);
+  };
 
   // get data mesin
   const getDataMesin = async () => {
@@ -604,6 +688,8 @@ export default function useMesin() {
     getDataParameter();
     getDataIndikator();
     getDataUom();
+    getDataFrequency();
+    getDataSection();
   }, []);
 
   useEffect(() => {
@@ -686,10 +772,18 @@ export default function useMesin() {
     getDataIndikatorById,
     getDataParameterById,
     getDataUomById,
+    getDataFrequency,
     dataSubmesinById,
     dataMesinById,
     dataUomById,
     dataIndikatorById,
     dataParameterById,
+    dataFrequency,
+    subMesinDetail,
+    parameterDetail,
+    addFieldParameter,
+    addFormSubmesin,
+    removeFormSubmesin,
+    removeFieldParameter,
   };
 }
