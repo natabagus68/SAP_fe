@@ -149,7 +149,7 @@ export default createBrowserRouter([
                 element: <ChecklistView />,
               },
               {
-                path: "details",
+                path: ":id/details",
                 element: <ChecklistDetail />,
               },
             ],

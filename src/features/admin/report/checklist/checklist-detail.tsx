@@ -46,22 +46,26 @@ export default function ChecklistDetail() {
               <tbody>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">No Mesin</td>
-                  <td className="px-4 py-[6px] font-semibold">SR-12345</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {checklist.dataCheklistById?.machine_no}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Nama Mesin</td>
-                  <td className="px-4 py-[6px] font-semibold">Furnace</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {checklist.dataCheklistById?.machine_name}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Pelaksana</td>
                   <td className="px-4 py-[6px] font-semibold">
-                    Bramantra Putra
+                    {checklist.dataCheklistById?.pic}
                   </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Waktu Kerja</td>
                   <td className="px-4 py-[6px] font-semibold text-[#F04438]">
-                    1 Jam 23 menit
+                    {checklist.dataCheklistById?.working_time}
                   </td>
                 </tr>
               </tbody>
@@ -83,7 +87,7 @@ export default function ChecklistDetail() {
                       <div className="p-[1px] border rounded-full border-[#12B569] w-fit">
                         <ChecklistIcon className="w-[14px] h-[14px]" />
                       </div>
-                      <span>Ferdian</span>
+                      <span>{checklist.dataCheklistById?.checkedBy}</span>
                     </div>
                   </td>
                   <td>
@@ -91,7 +95,7 @@ export default function ChecklistDetail() {
                       <div className="p-[1px] border rounded-full border-[#12B569] w-fit">
                         <ChecklistIcon className="w-[14px] h-[14px]" />
                       </div>
-                      <span>Kusnanto</span>
+                      <span>{checklist.dataCheklistById?.approveBy}</span>
                     </div>
                   </td>
                 </tr>
@@ -101,21 +105,23 @@ export default function ChecklistDetail() {
           <div className="flex flex-col gap-6">
             <div className="text-base text-[#514E4E] flex items-center gap-4">
               <span>Tanggal & Jam Checklist :</span>
-              <span className="font-semibold">12/12/2022</span>
+              <span className="font-semibold">
+                {checklist.dataCheklistById?.date}
+              </span>
             </div>
             <table className="w-[442px]">
               <tbody>
                 <tr className="bg-[#D0D3D9]">
-                  <td className="px-4 py-[6px]">Line</td>
-                  <td className="px-4 py-[6px] font-semibold">01</td>
+                  <td className="px-4 py-[6px]">Section</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {checklist.dataCheklistById?.section}
+                  </td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-[6px]">Section</td>
-                  <td className="px-4 py-[6px] font-semibold">Produksi 01</td>
-                </tr>
-                <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Departemen</td>
-                  <td className="px-4 py-[6px] font-semibold">Warehouse 01</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {checklist.dataCheklistById?.department}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -128,8 +134,18 @@ export default function ChecklistDetail() {
             Laporan Checklist
           </span>
           <div className="space-x-10">
-            <span>Quantity NG:4</span>
-            <span>Quantity OK:5</span>
+            <span>
+              Quantity_
+              <span className="font-semibold, text-[#F04438]">
+                NG:{checklist.dataCheklistById?.ng}
+              </span>
+            </span>
+            <span>
+              Quantity_
+              <span className="font-semibold, text-[#12B569]">
+                OK:{checklist.dataCheklistById?.ok}
+              </span>
+            </span>
           </div>
         </div>
 
@@ -156,89 +172,66 @@ export default function ChecklistDetail() {
               </th>
             </tr>
           </thead>
-          <tbody className="text-base text-[#514E4E]">
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td
-                rowSpan={3}
-                className="px-[32px] border-r border-[#D0D3D9] text-center"
-              >
-                Dump Feeder
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                1. pompa listrik
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Oil;Presure;Bocor;Mekanis;Motor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Kopel pompa mesin kotor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[32px] w-fit px-3 text-white flex items-center justify-center bg-[#F36960] rounded-xl`}
-                >
-                  Rusak
-                </div>
-              </td>
-            </tr>
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td className="px-[32px] border-r border-[#D0D3D9]">2. Gear</td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Berkarat;Bocor;Gelas Ukur
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">-</td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[32px] w-fit px-3 text-white flex items-center justify-center bg-[#20519F] rounded-xl`}
-                >
-                  OK
-                </div>
-              </td>
-              <td className="px-[32px]">
-                <div className="flex items-center gap-6">
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => checklist.setOpenModalDetail(true)}
+          <tbody className="text-base text-[#514E4E] border">
+            {checklist.dataCheklistById?.report?.map((item, i) => (
+              <>
+                <tr key={i}>
+                  <td
+                    rowSpan={item.parameter?.length + 1}
+                    className="px-[32px] border-r border-b border-[#D0D3D9] text-center"
                   >
-                    <EyeShowIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Lihat
-                    </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr className="border-b border-[#D0D3D9] h-[64px]">
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                3. Shaft & Bearing
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Bunyi:tidak lancar;
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                Kopel pompa kotor
-              </td>
-              <td className="px-[32px] border-r border-[#D0D3D9]">
-                <div
-                  className={`h-[40px] w-fit px-3 text-white flex items-center justify-center bg-[#F9A63A] rounded-xl text-xs`}
-                >
-                  Telah diperbaiki
-                </div>
-              </td>
-              <td className="px-[32px]">
-                <div className="flex items-center gap-6">
-                  <button
-                    className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4]"
-                    onClick={() => checklist.setOpenModalDetail(true)}
-                  >
-                    <EyeShowIcon color="white" />
-                    <span className="text-white text-sm font-semibold">
-                      Lihat
-                    </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
+                    {item.submesin_name} {item.parameter?.length}
+                  </td>
+                </tr>
+                {(item.parameter || []).map((item, ii) => (
+                  <tr key={`${i}_${ii}`}>
+                    <td className="px-[32px] border-r border-b border-[#D0D3D9] text-center">
+                      {item.parameter_name}
+                    </td>
+                    <td className="px-[32px] border-r border-b border-[#D0D3D9] text-center">
+                      {item.indikator}
+                    </td>
+                    <td className="px-[32px] py-[10px] border-r border-b border-[#D0D3D9] text-center ">
+                      <div
+                        className={`h-[40px] w-fit px-3 text-white flex items-center justify-center ${
+                          item?.status_report == "rusak"
+                            ? "bg-[#F36960]"
+                            : item?.status_report == "ok"
+                            ? "bg-[#20519F]"
+                            : item?.status_report == "indikasi"
+                            ? "bg-[#12B569]"
+                            : item?.status_report == "telah diperbaiki"
+                            ? "bg-[#F9A63A]"
+                            : null
+                        } rounded-xl text-base`}
+                      >
+                        {item.status_report}
+                      </div>
+                    </td>
+                    <td className="px-[32px] border-r border-b border-[#D0D3D9] text-center">
+                      {item.deskripsi}
+                    </td>
+                    <td className="px-[32px] border-b py-[10px]">
+                      <div className="flex items-center gap-6">
+                        {item.status_report == "ok" ? (
+                          "-"
+                        ) : (
+                          <button
+                            className="flex items-center gap-2 h-[40px] px-[20px] bg-[#1BBDD4]"
+                            onClick={() => checklist.setOpenModalDetail(true)}
+                          >
+                            <EyeShowIcon color="white" />
+                            <span className="text-white text-sm font-semibold">
+                              Lihat
+                            </span>
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            ))}
           </tbody>
         </table>
 
@@ -366,4 +359,3 @@ export default function ChecklistDetail() {
     </main>
   );
 }
-
