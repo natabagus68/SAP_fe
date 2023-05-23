@@ -38,7 +38,18 @@ export default function AccountDetail() {
         <div className="w-full flex gap-[160px] py-[18px] px-[32px] flex-wrap">
           <div className="flex flex-col gap-6">
             <span className="text-2xl text-[#514E4E]">Informasi Manpower</span>
-            <span>Status : Active</span>
+            <span
+              className={`${
+                account.dataAccountById?.is_ready == true
+                  ? "text-[#12B569]"
+                  : "text-[#F04438]"
+              }`}
+            >
+              Status :
+              {account.dataAccountById?.is_ready == true
+                ? "Active"
+                : "Inactive"}
+            </span>
             <table className="w-[442px]">
               <tbody>
                 <tr className="bg-[#D0D3D9]">
@@ -55,7 +66,9 @@ export default function AccountDetail() {
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Role</td>
-                  <td className="px-4 py-[6px] font-semibold">-</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {account.dataAccountById?.role_name}
+                  </td>
                 </tr>
               </tbody>
             </table>

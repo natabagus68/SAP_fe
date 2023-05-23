@@ -86,7 +86,6 @@ export default function AccountView() {
                       activeText="active"
                       inactiveText="inactive"
                     />
-                    {/* <span>{item.is_ready ? "active" : "inactive"}</span> */}
                   </div>
                 </td>
                 <td className="px-[32px]">{item.name}</td>
