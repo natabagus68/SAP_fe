@@ -31,7 +31,10 @@ export default function CalendarView() {
     return () => {
       calendar.calendarInstance.current.destroy();
     };
-  }, [calendar.month, calendar.day]);
+  }, [calendar.month, calendar.day, calendar.dataSchedules]);
+  useEffect(() => {
+    calendar.getDataMaintenanceAll();
+  }, [calendar.month]);
 
   return (
     <main className="flex flex-col gap-[28px] h-[calc(100dvh-120px)]">

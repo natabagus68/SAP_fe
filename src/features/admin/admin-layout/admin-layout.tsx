@@ -89,8 +89,14 @@ export default function AdminLayout() {
               label={`Report`}
               icon={<FlieIcon color="#231F20" className="w-[24px] h-[24px]" />}
             >
-              <NavItem label="Checklist" to={"report/checklist"} />
-              <NavItem label="Preventive" to={"report/preventive"} />
+              <NavItem
+                label="Checklist"
+                to={"report/null/null/null/checklist"}
+              />
+              <NavItem
+                label="Preventive"
+                to={"report/null/null/null/preventive"}
+              />
               <NavItem label="Corrective" to={"report/corrective"} />
             </NavItem>
 

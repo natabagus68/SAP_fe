@@ -141,7 +141,7 @@ export default createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: "checklist",
+            path: ":date/:status/:section_id/checklist",
             element: <Root />,
             children: [
               {
@@ -155,7 +155,7 @@ export default createBrowserRouter([
             ],
           },
           {
-            path: "preventive",
+            path: ":date/:status/:section_id/preventive",
             element: <Root />,
             children: [
               {
