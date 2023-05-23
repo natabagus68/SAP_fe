@@ -12,6 +12,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import { Remark } from "@domain/models/schedule/calendar/remark";
+import { number } from "prop-types";
 
 export default function useCalendar() {
   const navigate = useNavigate();
@@ -68,6 +69,8 @@ export default function useCalendar() {
   const [dataMaintenance, setDataMaintenance] = useState<Calendar[]>([]);
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
+  //state data Schedules
+  const [dataSchedules, setDataSchedules] = useState([]);
 
   //api repository
   const machineRepository = new MesinApiRepository();
@@ -136,6 +139,23 @@ export default function useCalendar() {
       throw new Error(error);
     }
   };
+  // get data Maintenance
+  const getDataMaintenanceAll = async () => {
+    setDataSchedules([]);
+    try {
+      const result = await calendarRepository.get(null, Number(month));
+      setDataSchedules(
+        result.map((item) =>
+          Array.from(
+            new Set(item.schedules?.maintenance?.map((item) => item?.type))
+          )
+        )
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   //create Maintenance
   const createMaintenance = async (data) => {
     const result = await calendarRepository.create(
@@ -155,13 +175,12 @@ export default function useCalendar() {
   };
   //create Maintenance
   const deleteMaintenance = async (id: string, setIsLoading) => {
-    // console.log(id);
-    // setIsLoading({ loading: false, exec: true });
     const result = await calendarRepository.delete(id);
     if (result.success) {
       setIsSuccess(true);
       setTimeout(() => {
         getDataMaintenance();
+        getDataMaintenanceAll();
         setIsLoading({ loading: false, exec: true });
         setDataId(null);
       }, 500);
@@ -195,6 +214,7 @@ export default function useCalendar() {
       setIsSuccess(true);
       setTimeout(() => {
         getDataMaintenance();
+        getDataMaintenanceAll();
         setIsLoading({ loading: false, exec: true });
         setDataId(null);
       }, 500);
@@ -207,6 +227,7 @@ export default function useCalendar() {
       }, 500);
     }
   };
+
   //setup Fullcalendar library
   const Fullcalendar = (element: HTMLDivElement) => {
     let calendar = new FullCalendar(element, {
@@ -235,59 +256,66 @@ export default function useCalendar() {
           }
         }, 150);
       },
-      dayCellDidMount: (info) => {
+      dayCellDidMount: async (info) => {
         if (
-          moment(info.date).format("YYYYMMDD") ==
-          `${year}${Number(month) < 10 ? `0${month}` : month}${
-            Number(day) < 10 ? `0${day}` : day
-          }`
+          moment(info.date).format("YYYYMM") ==
+          `${year}${Number(month) < 10 ? `0${month}` : month}`
         ) {
           const element = document.createElement("div");
           element.className = "day-components";
-          element.innerHTML = `
-            <div class="day-corrective"></div>
-            <div class="day-preventive"></div>
-            <div class="day-checklist"></div>
-          `;
+          try {
+            element.innerHTML = dataSchedules.length
+              ? dataSchedules[Number(moment(info.date).format("DD")) - 1]
+                  ?.map((item) =>
+                    item == "corrective"
+                      ? `<div class="day-corrective"></div>`
+                      : item == "preventive"
+                      ? `<div class="day-preventive"></div>`
+                      : item == "checklist"
+                      ? `<div class="day-checklist"></div>`
+                      : null
+                  )
+                  .join("")
+              : null;
+          } catch (error) {
+            throw new Error(error);
+          }
           info.el.childNodes[0].appendChild(element);
         }
       },
       customButtons: {
         prev: {
           click: () => {
+            setDataSchedules([]);
             calendar.prev();
-            // setTimeout(() => {
             navigate(
               `../${day}/${Number(
                 moment(calendar.getDate()).format("MM")
               )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
             );
-            // }, 150);
           },
         },
         next: {
           click: () => {
+            setDataSchedules([]);
             calendar.next();
-            // setTimeout(() => {
             navigate(
               `../${day}/${Number(
                 moment(calendar.getDate()).format("MM")
               )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
             );
-            // }, 150);
           },
         },
         today: {
           text: "Today",
           click: () => {
+            setDataSchedules([]);
             calendar.today();
-            // setTimeout(() => {
             navigate(
               `../${Number(moment(calendar.getDate()).format("DD"))}/${Number(
                 moment(calendar.getDate()).format("MM")
               )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
             );
-            // }, 150);
           },
         },
       },
@@ -320,6 +348,7 @@ export default function useCalendar() {
     remarkData,
     day,
     calendarInstance,
+    dataSchedules,
     createCalendar,
     navigate,
     register,
@@ -339,5 +368,6 @@ export default function useCalendar() {
     createRemark,
     deleteRemark,
     setRemarkData,
+    getDataMaintenanceAll,
   };
 }
