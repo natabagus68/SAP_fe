@@ -236,11 +236,11 @@ export default createBrowserRouter([
             children: [
               {
                 path: "",
-                element: <IoStockView />,
+                element: <IoStockForm />,
               },
               {
-                path: "create",
-                element: <IoStockForm />,
+                path: "log-transaksi",
+                element: <IoStockView />,
               },
             ],
           },

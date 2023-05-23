@@ -2,6 +2,7 @@ import { Breadcrumbs } from "@common/components";
 import useIoStock from "./io-stock-model";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import FlieIcon from "@common/components/icons-new/FileIcon";
 
 export default function IoStockForm() {
   const ioStock = useIoStock();
@@ -15,7 +16,7 @@ export default function IoStockForm() {
         cb={(setIsLoading) => {
           setTimeout(() => {
             setIsLoading({ loading: false, exec: true });
-            console.log(ioStock.dataTransaction);
+            ioStock.createIoStock(ioStock.formData)
           }, 3000);
         }}
       />
@@ -23,17 +24,27 @@ export default function IoStockForm() {
         open={ioStock.openModalSuccess}
         setOpen={ioStock.setOpenModalSuccess}
         successMessage="Data anda telah berhasil disimpan."
+        isSuccess={ioStock.isSuccess}
       />
-      <Breadcrumbs items={["Sparepart", "Log Transaksi", "Create Data"]} />
+      <Breadcrumbs items={["Sparepart", "In/out stock"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            Create Data
+            In/out stock
           </span>
+            <button
+              className="flex items-center gap-2 h-[46px] px-[20px] border border-[#20519F] rounded"
+              onClick={() => ioStock.navigate("log-transaksi")}
+            >
+              <FlieIcon className="w-5 h-5" color="#20519F" />
+              <span className="text-[#20519F] text-sm font-semibold">
+                Log Transaksi
+              </span>
+            </button>
         </div>
         <form
           className="w-full flex py-[18px] px-[32px] gap-4 flex-wrap"
-          onSubmit={ioStock.handleSubmit(ioStock.createTransaction)}
+          onSubmit={ioStock.handleSubmit(ioStock.onsubmit)}
         >
           <div className="flex flex-col w-full gap-1">
             <span>Jenis Transaksi</span>
@@ -42,7 +53,7 @@ export default function IoStockForm() {
                 <input
                   type="radio"
                   {...ioStock.register("type")}
-                  value="status"
+                  value="in"
                   defaultChecked
                   className="w-[24px] h-[24px]"
                 />
@@ -52,7 +63,7 @@ export default function IoStockForm() {
                 <input
                   type="radio"
                   {...ioStock.register("type")}
-                  value="form"
+                  value="out"
                   className="w-[24px] h-[24px]"
                 />
                 <span>Out</span>
@@ -63,12 +74,16 @@ export default function IoStockForm() {
             <span>Part No - Part Name</span>
             <select
               className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                ioStock.errors.name ? "bg-red-100" : "bg-white"
+                ioStock.errors.part_id ? "bg-red-100" : "bg-white"
               }`}
-              {...ioStock.register("name", { required: true })}
+              {...ioStock.register("part_id", { required: true })}
             >
               <option value="">Pilih section</option>
-              <option value="section">Section 1</option>
+              {
+                ioStock.dataSparepart.map(item=>(
+                  <option key={item.id} value={item.id}>{item.part_no} - {item.part_name}</option>
+                ))
+              }
             </select>
           </div>
           <div className="flex flex-col w-full gap-1">
@@ -76,25 +91,16 @@ export default function IoStockForm() {
             <input
               type="number"
               className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                ioStock.errors.quantity ? "bg-red-100" : "bg-white"
+                ioStock.errors.qty ? "bg-red-100" : "bg-white"
               }`}
               placeholder="Input Quantity"
-              {...ioStock.register("quantity", { required: true })}
+              {...ioStock.register("qty", { required: true })}
             />
           </div>
           <div className="flex items-center gap-6">
             <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
               Simpan
-            </button>
-            <button
-              className="flex items-center justify-center gap-2 h-[46px] px-[20px] w-[181px] border border-[#20519F] rounded"
-              type="button"
-              onClick={() => ioStock.navigate("..")}
-            >
-              <span className="text-[#20519F] text-sm font-semibold">
-                Batal
-              </span>
-            </button>
+            </button>            
           </div>
         </form>
       </div>
