@@ -163,7 +163,7 @@ export default createBrowserRouter([
                 element: <PreventiveView />,
               },
               {
-                path: "details",
+                path: ":id/details",
                 element: <PreventiveDetail />,
               },
               {

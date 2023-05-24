@@ -83,7 +83,6 @@ export default function useChecklist() {
     try {
       const result = await checklistRepository.getDataById(id);
       setDataCheklistById(result);
-      console.log(result);
     } catch (error) {
       throw new Error(error);
     }
