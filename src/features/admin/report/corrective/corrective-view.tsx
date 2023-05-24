@@ -5,9 +5,11 @@ import ExportIcon from "@common/components/icons-new/ExportIcon";
 import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
 import Modal from "@common/components/modals/Modal";
+import { useEffect } from "react";
 
 export default function CorrectiveView() {
   const corrective = useCorrective();
+
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs items={["Report", "Corective"]} />
