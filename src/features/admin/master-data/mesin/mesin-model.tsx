@@ -149,17 +149,81 @@ export default function useMesin() {
 
   //state form Submesin detail
   const [subMesinDetail, setSubMesinDetail] = useState([
-    {
-      subMesinId: "",
-      parameter: [
-        {
-          parameterId: "",
-          interval: "",
-          frequencyId: "",
-        },
-      ],
-    },
+    // {
+    //   subMachineId: "",
+    //   parameters: [
+    //     {
+    //       parameterId: "",
+    //       interval: "",
+    //       frequencyTypeId: "",
+    //     },
+    //   ],
+    // },
   ]);
+
+  const addFormSubmesin = () => {
+    setSubMesinDetail([
+      ...subMesinDetail,
+      {
+        subMachineId: "",
+        parameters: [
+          {
+            parameterId: "",
+            interval: "",
+            frequencyTypeId: "",
+          },
+        ],
+      },
+    ]);
+  };
+
+  const removeFormSubmesin = (i) => {
+    let arr = [...subMesinDetail];
+    arr[i] = undefined;
+    arr = arr.filter((e) => e);
+    setSubMesinDetail(arr);
+  };
+
+  const addFieldParameter = (i) => {
+    let arr = [...subMesinDetail];
+    arr[i].parameters = [
+      ...arr[i].parameters,
+      {
+        parameterId: "",
+        interval: "",
+        frequencyTypeId: "",
+      },
+    ];
+    setSubMesinDetail(arr);
+  };
+
+  const removeFieldParameter = (i, idx) => {
+    let arr = [...subMesinDetail];
+    arr[i].parameters[idx] = undefined;
+    arr[i].parameters = arr[i].parameters.filter((e) => e);
+    setSubMesinDetail(arr);
+  };
+
+  const setValueSubMachine = (i, value) => {
+    let arr = [...subMesinDetail];
+    arr[i].subMachineId = value;
+    setSubMesinDetail(arr);
+  };
+  const setValueParameter = (i, idx, value) => {
+    let arr = [...subMesinDetail];
+    arr[i].parameters[idx].parameterId = value;
+    setSubMesinDetail(arr);
+  };
+  const setValueInterval = (i, idx, value) => {
+    let arr = [...subMesinDetail];
+    arr[i].parameters[idx].interval = value;
+    setSubMesinDetail(arr);
+  };
+  const setValueFrequency = (i, idx, value) => {
+    let arr = [...subMesinDetail];
+    arr[i].parameters[idx].frequencyTypeId = value;
+    setSubMesinDetail(arr);
+  };
 
   const FormChangeSubmesin = (item, e) => {
     let data = [...subMesinDetail];
@@ -167,75 +231,46 @@ export default function useMesin() {
     setSubMesinDetail(data);
   };
 
-  const addFormSubmesin = () => {
-    let newSubMesinDetail = {
-      subMesinId: "",
-      parameter: [
-        {
-          parameterId: "",
-          interval: "",
-          frequencyId: "",
-        },
-      ],
-    };
-    setSubMesinDetail([...subMesinDetail, newSubMesinDetail]);
-  };
+  // const removeFormSubmesin = (item) => {
+  //   let data = [...subMesinDetail];
+  //   data.splice(item, 1);
+  //   setSubMesinDetail(data);
+  // };
 
-  const removeFormSubmesin = (item) => {
-    let data = [...subMesinDetail];
-    data.splice(item, 1);
-    setSubMesinDetail(data);
-  };
+  // //state filed parameter detail
+  // const [parameterDetail, setParameterDetail] = useState([
+  //   {
+  //     parameters: [null],
+  //     intervals: [null],
+  //     frequencys: [null],
+  //   },
+  // ]);
 
-  //state filed parameter detail
-  const [parameterDetail, setParameterDetail] = useState([
-    {
-      parameterId: "",
-      interval: "",
-      frequencyId: "",
-    },
-  ]);
+  // const FormChangeParameter = (item, e) => {
+  //   let data = [...parameterDetail];
+  //   data[item][e.target.parameterId] = e.target.value;
+  //   data[item][e.target.interval] = e.target.value;
+  //   data[item][e.target.frequencyId] = e.target.value;
+  //   setParameterDetail(data);
+  // };
 
-  const FormChangeParameter = (item, e) => {
-    let data = [...parameterDetail];
-    data[item][e.target.parameterId] = e.target.value;
-    data[item][e.target.interval] = e.target.value;
-    data[item][e.target.frequencyId] = e.target.value;
-    setParameterDetail(data);
-  };
+  // //state form variable
+  // const [variableForm, setVariableForm] = useState([
+  //   {
+  //     uom: "",
+  //     batasAtas: "",
+  //     batasBawah: "",
+  //   },
+  // ]);
 
-  const addFieldParameter = () => {
-    let newFieldParameter = {
-      parameterId: "",
-      interval: "",
-      frequencyId: "",
-    };
-    setParameterDetail([...parameterDetail, newFieldParameter]);
-  };
-
-  const removeFieldParameter = (item) => {
-    let data = [...parameterDetail];
-    data.splice(item, 1);
-    setParameterDetail(data);
-  };
-
-  //state form variable
-  const [variableForm, setVariableForm] = useState([
-    {
-      uom: "",
-      batasAtas: "",
-      batasBawah: "",
-    },
-  ]);
-
-  const addFormVariable = () => {
-    let newFormVariable = {
-      uom: "",
-      batasAtas: "",
-      batasBawah: "",
-    };
-    setVariableForm([...variableForm, newFormVariable]);
-  };
+  // const addFormVariable = () => {
+  //   let newFormVariable = {
+  //     uom: "",
+  //     batasAtas: "",
+  //     batasBawah: "",
+  //   };
+  //   setVariableForm([...variableForm, newFormVariable]);
+  // };
 
   // get data mesin
   const getDataMesin = async () => {
@@ -380,32 +415,79 @@ export default function useMesin() {
 
   // create  data
   const createMesin = async (data) => {
-    setIsLoadingData(true);
-    setMessage(null);
-
-    try {
-      const result = await mesinRepository.create(
-        Mesin.create({
-          id: data.id,
-          name: data.name,
-          machine_no: data.machine_no,
-          section_name: data.section_name,
-          section_id: data.section_id,
-          photo: data.photo,
-        })
-      );
-
-      setTimeout(() => {
-        setIsLoadingData(false);
-        navigate("../");
-      }, 500);
-    } catch (error) {
-      setTimeout(() => {
-        setIsLoadingData(false);
-        setMessage("Nomor Mesin Harus Unik !");
-      }, 500);
-      throw new Error(error);
+    const arrCheckData = (
+      subMesinDetail.length
+        ? subMesinDetail.map((item) =>
+            !!!item.subMachineId
+              ? false
+              : item.parameters?.map((item) =>
+                  !!!item.parameterId ||
+                  !!!item.interval ||
+                  !!!item.frequencyTypeId
+                    ? false
+                    : true
+                )
+          )
+        : [false]
+    ).flat();
+    let checkData = true;
+    arrCheckData.map((item) => {
+      if (item && checkData) {
+        checkData = true;
+      } else {
+        checkData = false;
+      }
+    });
+    if (checkData) {
+      setIsLoadingData(true);
+      setMessage(null);
+      try {
+        const result = await mesinRepository.create(
+          Mesin.create({
+            name: data.name,
+            machine_no: data.machine_no,
+            section_id: data.section,
+            photo: data.photo,
+            subMachines: JSON.stringify(subMesinDetail),
+          })
+        );
+        setTimeout(() => {
+          setIsLoadingData(false);
+          navigate("../");
+        }, 500);
+      } catch (error) {
+        setTimeout(() => {
+          setIsLoadingData(false);
+          setMessage("Nomor Mesin Harus Unik !");
+        }, 500);
+        throw new Error(error);
+      }
     }
+  };
+  //edit  data
+  const editMesin = async (data) => {
+    console.log(data);
+
+    // setIsLoadingData(true);
+    // try {
+    //   const result = await mesinRepository.edit(
+    //     Mesin.create({
+    //       id: id,
+    //       name: data.name,
+    //       machine_no: data.machine_no,
+    //       section_name: data.section_name,
+    //       section_id: data.section_id,
+    //       photo: data.photo,
+    //     })
+    //   );
+
+    //   setTimeout(() => {
+    //     setIsLoadingData(false);
+    //     navigate("../");
+    //   }, 500);
+    // } catch (error) {
+    //   throw new Error(error);
+    // }
   };
 
   const createSubmesin = async (data) => {
@@ -503,31 +585,6 @@ export default function useMesin() {
         setIsLoadingData(false);
         setMessage("Form Harus diisi Semua!!");
       }, 500);
-      throw new Error(error);
-    }
-  };
-
-  //edit  data
-  const editMesin = async (data) => {
-    setIsLoadingData(true);
-
-    try {
-      const result = await mesinRepository.edit(
-        Mesin.create({
-          id: id,
-          name: data.name,
-          machine_no: data.machine_no,
-          section_name: data.section_name,
-          section_id: data.section_id,
-          photo: data.photo,
-        })
-      );
-
-      setTimeout(() => {
-        setIsLoadingData(false);
-        navigate("../");
-      }, 500);
-    } catch (error) {
       throw new Error(error);
     }
   };
@@ -756,17 +813,31 @@ export default function useMesin() {
     errors,
     type,
     maxDesc,
-    navigate,
-    register,
-    handleSubmit,
     isLoadingData,
-    setMaxDesc,
     message,
     isSuccess,
     id,
     openModalDelete,
     openModalConfirm,
     openModalSuccess,
+    dataMesin,
+    dataSubMesin,
+    dataParameter,
+    dataIndikator,
+    dataUom,
+    dataId,
+    dataSection,
+    dataSubmesinById,
+    dataMesinById,
+    dataUomById,
+    dataIndikatorById,
+    dataParameterById,
+    dataFrequency,
+    subMesinDetail,
+    navigate,
+    register,
+    handleSubmit,
+    setMaxDesc,
     setSearchParams,
     setUrlParams,
     createMesin,
@@ -788,13 +859,6 @@ export default function useMesin() {
     setOpenModalConfirm,
     setOpenModalSuccess,
     setDataId,
-    dataMesin,
-    dataSubMesin,
-    dataParameter,
-    dataIndikator,
-    dataUom,
-    dataId,
-    dataSection,
     getDataSubmesinById,
     getDataMesinById,
     getDataSection,
@@ -802,21 +866,14 @@ export default function useMesin() {
     getDataParameterById,
     getDataUomById,
     getDataFrequency,
-    dataSubmesinById,
-    dataMesinById,
-    dataUomById,
-    dataIndikatorById,
-    dataParameterById,
-    dataFrequency,
-    subMesinDetail,
-    parameterDetail,
-    variableForm,
     addFieldParameter,
     addFormSubmesin,
-    addFormVariable,
     removeFormSubmesin,
     removeFieldParameter,
     FormChangeSubmesin,
-    FormChangeParameter,
+    setValueSubMachine,
+    setValueInterval,
+    setValueParameter,
+    setValueFrequency,
   };
 }

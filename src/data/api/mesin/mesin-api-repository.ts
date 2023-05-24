@@ -36,10 +36,11 @@ export class MesinApiRepository implements MesinRepository {
   async create(mesin: Mesin): Promise<void> {
     try {
       const formData = new FormData();
-      formData.append("photo", mesin.photo[0]);
-      formData.append("machine_no", mesin.machine_no);
       formData.append("name", mesin.name);
-      formData.append("section", mesin.section_id);
+      formData.append("machine_no", mesin.machine_no);
+      formData.append("section_id", mesin.section_id);
+      formData.append("subMachines", mesin.subMachines);
+      formData.append("image", mesin.photo[0]);
       const { data } = await api.post(`machine`, formData);
       return data.data;
     } catch (error) {
