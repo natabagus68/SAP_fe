@@ -148,7 +148,7 @@ export default function PreventiveView() {
                   <div className="flex items-center gap-6">
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                      onClick={() => preventive.navigate("details")}
+                      onClick={() => preventive.navigate(`${item.id}/details`)}
                     >
                       <EyeShowIcon color="white" />
                       <span className="text-white text-sm font-semibold">

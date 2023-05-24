@@ -9,7 +9,7 @@ export default function useChecklist() {
   const navigate = useNavigate();
   const { state } = useLocation();
   // params data from url
-  const { date, status, section_id } = useParams();
+  const { date, status, section_id, id } = useParams();
   //modalExport
   const [openModalExport, setOpenModalExport] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(false);
@@ -20,6 +20,9 @@ export default function useChecklist() {
   const [isLoadingData, setIsLoadingData] = useState(true);
   //state data Checklist
   const [dataChecklist, setDataChecklist] = useState<Checklist[]>([]);
+
+  //state dataCheklist By Id
+  const [dataCheklistById, setDataCheklistById] = useState(null);
   //state data Section
   const [dataSection, setDataSection] = useState<Section[]>([]);
 
@@ -32,11 +35,11 @@ export default function useChecklist() {
     navigate("details", {
       state: {
         data: {
-          id: state?.data?.id,
-          idChecklist: state?.data?.idChecklist,
-          date: state?.data?.date,
-          noMesin: state?.data?.noMesin,
-          pelaksana: state?.data?.pelaksana,
+          id: dataCheklistById?.id,
+          idChecklist: dataCheklistById?.idChecklist,
+          date: dataCheklistById?.date,
+          noMesin: dataCheklistById?.noMesin,
+          pelaksana: dataCheklistById?.pelaksana,
         },
       },
     });
@@ -61,13 +64,27 @@ export default function useChecklist() {
     setDataChecklist([]);
     try {
       //date: string, status: string, section_id: string
-      const result = await checklistRepository.get(date != "null"? date:"", status != "null"? status:"", section_id != "null"? section_id:"");
+      const result = await checklistRepository.get(
+        date != "null" ? date : "",
+        status != "null" ? status : "",
+        section_id != "null" ? section_id : ""
+      );
       setTimeout(() => {
         setIsLoadingData(false);
         setDataChecklist(result);
       }, 500);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //get data cheklist by Id
+  const getDataCheklistById = async (id: string) => {
+    try {
+      const result = await checklistRepository.getDataById(id);
+      setDataCheklistById(result);
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
@@ -80,6 +97,12 @@ export default function useChecklist() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (!!id) {
+      getDataCheklistById(id);
+    }
+  }, []);
 
   return {
     state,
@@ -105,5 +128,7 @@ export default function useChecklist() {
     setOpenModalVideo,
     getDataChecklist,
     getDataSection,
+    getDataCheklistById,
+    dataCheklistById,
   };
 }
