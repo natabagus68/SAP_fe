@@ -24,6 +24,7 @@ export class ParameterApiRepository implements ParameterRepository {
         indicator: data.data?.indicator_id || "-",
         name: data.data?.name || "-",
         variable: data.data?.variable || "-",
+        uom: data.data?.machine_parameter_measurements || "-",
       });
     } catch (error) {
       throw new Error(error);
@@ -38,7 +39,6 @@ export class ParameterApiRepository implements ParameterRepository {
         variable: parameter.variable,
         uom: parameter.uom,
       });
-      console.log(data, "apirepo");
 
       return data.data;
     } catch (error) {
@@ -50,10 +50,11 @@ export class ParameterApiRepository implements ParameterRepository {
     try {
       const { data } = await api.put(`machine-parameter/${parameter.id}`, {
         name: parameter.name,
-        indicatorId: parameter.indicator,
+        indicator: parameter.indicator,
         variable: parameter.variable,
+        uom: parameter.uom,
       });
-      console.log(data);
+      console.log(data, "edit-api-repo");
 
       return data.data;
     } catch (error) {

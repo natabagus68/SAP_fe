@@ -70,7 +70,7 @@ export default function useMesin() {
       section: dataMesinById?.section,
       photo: dataMesinById?.photo,
 
-      indikator: dataParameterById?.indikator,
+      indicator: dataParameterById?.indicator,
       variable: dataParameterById?.variable,
       // batasAtas: dataParameterById?.batasAtas,
       // batasBawah: dataParameterById?.batasBawah,
@@ -248,28 +248,28 @@ export default function useMesin() {
       ...variableDetail,
 
       {
-        uomId: "",
-        upperLimit: "",
-        lowerLimit: "",
+        uom_id: "",
+        upper_limit: "",
+        lower_limit: "",
       },
     ]);
   };
 
   const setValueUom = (i, value) => {
     let data = [...variableDetail];
-    data[i].uomId = value;
+    data[i].uom_id = value;
     setVariableDetail(data);
   };
 
   const setValueUpperLimit = (i, value) => {
     let data = [...variableDetail];
-    data[i].upperLimit = value;
+    data[i].upper_limit = value;
     setVariableDetail(data);
   };
 
   const setValueLowerrLimit = (i, value) => {
     let data = [...variableDetail];
-    data[i].lowerLimit = value;
+    data[i].lower_limit = value;
     setVariableDetail(data);
   };
 
@@ -438,6 +438,7 @@ export default function useMesin() {
       const result = await parameterRepository.getDataById(id);
       setTimeout(() => {
         setDataParameterById(result);
+        setVariableDetail(result.uom);
       }, 500);
     } catch (error) {
       throw new Error(error);
@@ -594,6 +595,7 @@ export default function useMesin() {
           uom: variableDetail,
         })
       );
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -670,7 +672,7 @@ export default function useMesin() {
   const editParameter = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-    //console.log(data, "mesin-model");
+    console.log(data, "mesin-data-model");
 
     try {
       const result = await parameterRepository.edit(
@@ -678,10 +680,11 @@ export default function useMesin() {
           id: id,
           indicator: data.indikator,
           name: data.name,
-          variable: data?.variable,
+          variable: data.variable,
+          uom: variableDetail,
         })
       );
-      //console.log(result, "mesin-model");
+      console.log(result, "mesin-result-model");
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");

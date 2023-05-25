@@ -85,9 +85,9 @@ export default function MesinForm() {
                   <span>Indikator</span>
                   <select
                     className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
-                      mesin.errors.indikator ? "bg-red-100" : "bg-white"
+                      mesin.errors.indicator ? "bg-red-100" : "bg-white"
                     }`}
-                    {...mesin.register("indikator", { required: true })}
+                    {...mesin.register("indicator", { required: true })}
                   >
                     <option value="">Pilih Indikator</option>
                     {mesin.dataIndikator?.map((item, i) => (
@@ -105,7 +105,7 @@ export default function MesinForm() {
                         type="radio"
                         {...mesin.register("variable")}
                         value="status"
-                        checked={mesin.isSeclectVar == "status"}
+                        //checked={mesin.isSeclectVar == "status"}
                         onChange={mesin.valueStatusChange}
                         className="w-[24px] h-[24px]"
                       />
@@ -117,7 +117,7 @@ export default function MesinForm() {
                         type="radio"
                         {...mesin.register("variable")}
                         value="form"
-                        checked={mesin.isSeclectVar == "form"}
+                        //checked={mesin.isSeclectVar == "form"}
                         onChange={mesin.valueStatusChange}
                         className="w-[24px] h-[24px]"
                       />
@@ -137,7 +137,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <select
                           className={`h-[40px] w-full border border-[#D0D3D9] rounded px-2`}
-                          value={item.uomId || ""}
+                          value={item.uom_id || ""}
                           onChange={(e) => mesin.setValueUom(i, e.target.value)}
                         >
                           <option value="">Pilih UoM</option>
@@ -161,7 +161,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <input
                           type="text"
-                          value={item.upperLimit || ""}
+                          value={item.upper_limit || ""}
                           className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 `}
                           placeholder="Masukan batas atas"
                           onChange={(e) =>
@@ -175,7 +175,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <input
                           type="text"
-                          value={item.lowerLimit || ""}
+                          value={item.lower_limit || ""}
                           className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 `}
                           placeholder="Masukan batas bawah"
                           onChange={(e) =>
