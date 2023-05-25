@@ -227,8 +227,8 @@ export default function CalendarView() {
               )}
             </div>
             {!calendar.isLoadingData ? (
-              !!!calendar.dataMaintenance[0]?.schedules?.maintenance.length &&
-              !!!calendar.dataMaintenance[0]?.schedules?.remark.length ? (
+              !!!calendar.dataMaintenance[0]?.schedules?.maintenance?.length &&
+              !!!calendar.dataMaintenance[0]?.schedules?.remark?.length ? (
                 <span className="text-[#514E4E] text-[14px] font-semibold text-center">
                   Tidak ada data
                 </span>
