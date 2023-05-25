@@ -5,6 +5,8 @@ export interface IParameterProps {
   indicator?: string | undefined;
   name: string;
   variable: string;
+  indicatorId?: string | undefined;
+  uom?: object | undefined;
 }
 
 export interface IParameter {
@@ -21,6 +23,8 @@ export class Parameter extends Entity<IParameterProps> implements IParameter {
       indicator: this.indicator,
       name: this.name,
       variable: this.variable,
+      indicatorId: this.indicatorId,
+      uom: this.uom,
     };
   }
 
@@ -35,5 +39,11 @@ export class Parameter extends Entity<IParameterProps> implements IParameter {
   }
   get variable(): string {
     return this._props.variable;
+  }
+  get indicatorId(): string | undefined {
+    return this._props.indicatorId;
+  }
+  get uom(): object | undefined {
+    return this._props.uom;
   }
 }

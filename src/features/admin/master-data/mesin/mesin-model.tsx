@@ -72,8 +72,8 @@ export default function useMesin() {
 
       indikator: dataParameterById?.indikator,
       variable: dataParameterById?.variable,
-      batasAtas: dataParameterById?.batasAtas,
-      batasBawah: dataParameterById?.batasBawah,
+      // batasAtas: dataParameterById?.batasAtas,
+      // batasBawah: dataParameterById?.batasBawah,
 
       deskripsi: state?.data?.deskripsi,
     },
@@ -133,6 +133,8 @@ export default function useMesin() {
   //state data frequency
   const [dataFrequency, setDataFrequency] = useState<Frequency[]>([]);
 
+  const [isSeclectVar, setIsSelectVar] = useState("");
+
   // get data frequency
   const getDataFrequency = async () => {
     setIsLoadingData(true);
@@ -160,6 +162,8 @@ export default function useMesin() {
     //   ],
     // },
   ]);
+
+  const [variableDetail, setVariableDetail] = useState([]);
 
   const addFormSubmesin = () => {
     setSubMesinDetail([
@@ -209,16 +213,19 @@ export default function useMesin() {
     arr[i].subMachineId = value;
     setSubMesinDetail(arr);
   };
+
   const setValueParameter = (i, idx, value) => {
     let arr = [...subMesinDetail];
     arr[i].parameters[idx].parameterId = value;
     setSubMesinDetail(arr);
   };
+
   const setValueInterval = (i, idx, value) => {
     let arr = [...subMesinDetail];
     arr[i].parameters[idx].interval = value;
     setSubMesinDetail(arr);
   };
+
   const setValueFrequency = (i, idx, value) => {
     let arr = [...subMesinDetail];
     arr[i].parameters[idx].frequencyTypeId = value;
@@ -229,6 +236,41 @@ export default function useMesin() {
     let data = [...subMesinDetail];
     data[item][e.target.name] = e.target.value;
     setSubMesinDetail(data);
+  };
+
+  const valueStatusChange = (e) => {
+    setIsSelectVar(e.target.value);
+    setVariableDetail([]);
+  };
+
+  const addFormVariable = () => {
+    setVariableDetail([
+      ...variableDetail,
+
+      {
+        uomId: "",
+        upperLimit: "",
+        lowerLimit: "",
+      },
+    ]);
+  };
+
+  const setValueUom = (i, value) => {
+    let data = [...variableDetail];
+    data[i].uomId = value;
+    setVariableDetail(data);
+  };
+
+  const setValueUpperLimit = (i, value) => {
+    let data = [...variableDetail];
+    data[i].upperLimit = value;
+    setVariableDetail(data);
+  };
+
+  const setValueLowerrLimit = (i, value) => {
+    let data = [...variableDetail];
+    data[i].lowerLimit = value;
+    setVariableDetail(data);
   };
 
   // const removeFormSubmesin = (item) => {
@@ -451,6 +493,7 @@ export default function useMesin() {
             subMachines: JSON.stringify(subMesinDetail),
           })
         );
+
         setTimeout(() => {
           setIsLoadingData(false);
           navigate("../");
@@ -464,6 +507,7 @@ export default function useMesin() {
       }
     }
   };
+
   //edit  data
   const editMesin = async (data) => {
     console.log(data);
@@ -544,22 +588,17 @@ export default function useMesin() {
     try {
       const result = await parameterRepository.create(
         Parameter.create({
-          id: data.id,
-          indicator: data.indicator,
+          indicator: data.indikator,
           name: data.name,
           variable: data.variable,
+          uom: variableDetail,
         })
       );
-
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
       }, 500);
     } catch (error) {
-      setTimeout(() => {
-        setIsLoadingData(false);
-        setMessage("Form Harus diisi Semua!!");
-      }, 500);
       throw new Error(error);
     }
   };
@@ -631,15 +670,18 @@ export default function useMesin() {
   const editParameter = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
+    //console.log(data, "mesin-model");
+
     try {
       const result = await parameterRepository.edit(
         Parameter.create({
           id: id,
-          indicator: data.indicator,
+          indicator: data.indikator,
           name: data.name,
           variable: data?.variable,
         })
       );
+      //console.log(result, "mesin-model");
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -814,6 +856,7 @@ export default function useMesin() {
     type,
     maxDesc,
     isLoadingData,
+    isSeclectVar,
     message,
     isSuccess,
     id,
@@ -868,6 +911,7 @@ export default function useMesin() {
     getDataFrequency,
     addFieldParameter,
     addFormSubmesin,
+    addFormVariable,
     removeFormSubmesin,
     removeFieldParameter,
     FormChangeSubmesin,
@@ -875,5 +919,10 @@ export default function useMesin() {
     setValueInterval,
     setValueParameter,
     setValueFrequency,
+    valueStatusChange,
+    variableDetail,
+    setValueUom,
+    setValueUpperLimit,
+    setValueLowerrLimit,
   };
 }
