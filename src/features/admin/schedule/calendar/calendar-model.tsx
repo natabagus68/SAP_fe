@@ -19,7 +19,7 @@ export default function useCalendar() {
   // data parsing state after navigate
   const { state } = useLocation();
   // get data from params url
-  const { day, month, year } = useParams();
+  const { day, month, year, page } = useParams();
   // dummy data
   const dummyEvents = [
     {
@@ -130,7 +130,12 @@ export default function useCalendar() {
     setIsLoadingData(true);
     setDataMaintenance([]);
     try {
-      const result = await calendarRepository.get(Number(day), Number(month));
+      const result = await calendarRepository.get(
+        Number(day),
+        Number(month),
+        Number(page),
+        3
+      );
       setTimeout(() => {
         setDataMaintenance(result);
         setIsLoadingData(false);
@@ -143,7 +148,12 @@ export default function useCalendar() {
   const getDataMaintenanceAll = async () => {
     setDataSchedules([]);
     try {
-      const result = await calendarRepository.get(null, Number(month));
+      const result = await calendarRepository.get(
+        null,
+        Number(month),
+        null,
+        null
+      );
       setDataSchedules(
         result.map((item) =>
           Array.from(
@@ -251,7 +261,7 @@ export default function useCalendar() {
             navigate(
               `../${Number(info.startStr.split("-")[2])}/${Number(
                 moment(calendar.getDate()).format("MM")
-              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+              )}/${moment(calendar.getDate()).format("YYYY")}/1/calendar`
             );
           }
         }, 150);
@@ -291,7 +301,7 @@ export default function useCalendar() {
             navigate(
               `../${day}/${Number(
                 moment(calendar.getDate()).format("MM")
-              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+              )}/${moment(calendar.getDate()).format("YYYY")}/1/calendar`
             );
           },
         },
@@ -302,7 +312,7 @@ export default function useCalendar() {
             navigate(
               `../${day}/${Number(
                 moment(calendar.getDate()).format("MM")
-              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+              )}/${moment(calendar.getDate()).format("YYYY")}/1/calendar`
             );
           },
         },
@@ -314,7 +324,7 @@ export default function useCalendar() {
             navigate(
               `../${Number(moment(calendar.getDate()).format("DD"))}/${Number(
                 moment(calendar.getDate()).format("MM")
-              )}/${moment(calendar.getDate()).format("YYYY")}/calendar`
+              )}/${moment(calendar.getDate()).format("YYYY")}/1/calendar`
             );
           },
         },
@@ -347,6 +357,8 @@ export default function useCalendar() {
     isSuccess,
     remarkData,
     day,
+    year,
+    page,
     calendarInstance,
     dataSchedules,
     createCalendar,

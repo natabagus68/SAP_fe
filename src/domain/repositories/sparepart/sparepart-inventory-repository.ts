@@ -5,5 +5,6 @@ export interface SparepartInventoryRepository {
   create(inventory: SparepartInventory): Promise<void>;
   getDataById(id: string): Promise<SparepartInventory>;
   edit(inventory: SparepartInventory): Promise<void>;
+  editStatus(id: string): Promise<void>;
   delete(id: string): Promise<void>;
 }

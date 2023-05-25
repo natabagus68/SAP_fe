@@ -1,5 +1,6 @@
 import { Entity } from "@domain/models/_entity";
 import { Schedules } from "./schedules";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export interface ICalendarProps {
   id?: string | undefined;
@@ -11,10 +12,10 @@ export interface ICalendarProps {
   activeRange?: string | undefined;
   startDate?: string | undefined;
   type?: string | undefined;
+  meta?: MetaPagination | undefined;
 
   // machine_name?: string | undefined;
   // section_name?: string | undefined;
-  // content?: string | undefined;
   // maintenance?: Array<ICalendar> | undefined;
   // remark?: Array<ICalendar> | undefined;
 }
@@ -38,11 +39,11 @@ export class Calendar extends Entity<ICalendarProps> implements ICalendar {
       activeRange: this.activeRange,
       startDate: this.startDate,
       type: this.type,
+      meta: this.meta,
       // machine_name: this.machine_name,
       // section_name: this.section_name,
       // maintenance: this.maintenance,
       // remark: this.remark,
-      // content: this.content,
     };
   }
 
@@ -73,6 +74,9 @@ export class Calendar extends Entity<ICalendarProps> implements ICalendar {
   get type(): string | undefined {
     return this._props.type;
   }
+  get meta(): MetaPagination | undefined {
+    return this._props.meta;
+  }
   // get machine_name(): string | undefined {
   //   return this._props.machine_name;
   // }
@@ -84,8 +88,5 @@ export class Calendar extends Entity<ICalendarProps> implements ICalendar {
   // }
   // get remark(): Array<ICalendar> | undefined {
   //   return this._props.remark;
-  // }
-  // get content(): string | undefined {
-  //   return this._props.content;
   // }
 }

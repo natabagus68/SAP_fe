@@ -4,6 +4,7 @@ import { api } from "@data/api/_api";
 import { Schedules } from "@domain/models/schedule/calendar/schedules";
 import { Maintenance } from "@domain/models/schedule/calendar/maintenance";
 import { Remark } from "@domain/models/schedule/calendar/remark";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export class CalendarApiRepository implements CalendarRepository {
   async create(calendar: Calendar): Promise<Calendar> {
@@ -20,13 +21,60 @@ export class CalendarApiRepository implements CalendarRepository {
       });
     }
   }
-  async get(day: number, month: number): Promise<Calendar[]> {
+  async get(
+    day: number,
+    month: number,
+    page: number,
+    limit: number
+  ): Promise<Calendar[]> {
     try {
-      const { data } = await api.get(`schedules?month=${month}&day=${day}`);
+      const { data } = await api.get(
+        `schedules?month=${month}&day=${!!day ? day : ""}&page=${
+          !!page ? page : ""
+        }&limit=${!!limit ? limit : ""}`
+      );
       return data.data?.map((item) =>
         Calendar.create({
           success: true,
           message: "Message success",
+          meta: MetaPagination.create({
+            page: !!day ? data.meta?.page : item.meta?.page || null,
+            totalPages: !!day
+              ? data.meta?.totalPages
+              : item.meta?.totalPages || null,
+            prevPage: !!day ? data.meta?.prevPage : item.meta?.prevPage || null,
+            nextPage: !!day ? data.meta?.nextPage : item.meta?.nextPage || null,
+          }),
+          schedules: Schedules.create({
+            date: item.date,
+            maintenance: item.maintenance?.map((item) =>
+              Maintenance.create({
+                id: item.id,
+                type: item.type,
+                machine: item.machine,
+                section: item.section,
+                content: item.content,
+              })
+            ),
+            remark: item.remark?.map((item) =>
+              Remark.create({
+                id: item.id,
+                remark: item.content,
+              })
+            ),
+          }),
+        })
+      );
+      return data.data?.map((item) =>
+        Calendar.create({
+          success: true,
+          message: "Message success",
+          meta: MetaPagination.create({
+            page: item.meta.page || 1,
+            totalPages: item.meta.page || 1,
+            prevPage: item.meta.page || null,
+            nextPage: item.meta.page || null,
+          }),
           schedules: Schedules.create({
             date: item.date,
             maintenance: item.maintenance?.map((item) =>

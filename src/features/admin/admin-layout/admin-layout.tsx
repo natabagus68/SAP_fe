@@ -108,7 +108,7 @@ export default function AdminLayout() {
                 label="Calendar"
                 to={`schedule/${new Date().getDate()}/${
                   new Date().getMonth() + 1
-                }/${new Date().getFullYear()}/calendar`}
+                }/${new Date().getFullYear()}/1/calendar`}
               />
               <NavItem label="Monitoring" to={"schedule/monitoring"} />
             </NavItem>

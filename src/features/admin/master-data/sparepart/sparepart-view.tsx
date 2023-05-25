@@ -203,7 +203,7 @@ export default function SparepartView() {
                       <Toggle
                         id={item.id}
                         checked={item.status == "active" ? true : false}
-                        cb={() => console.log("onChange Toggle")}
+                        cb={() => sparepart.editStatusInventory(item.id)}
                       />
                       <span>{item?.status}</span>
                     </div>

@@ -20,13 +20,12 @@ export class MesinApiRepository implements MesinRepository {
   async getDataById(id: string): Promise<Mesin> {
     try {
       const { data } = await api.get(`machine/${id}`);
-
       return Mesin.create({
-        machine_no: data.data?.machine_no || "-",
+        machine_no: data.data?.no || "-",
         name: data.data?.name || "-",
-        section_id: data.data?.section_id || "-",
-        section_name: data.data?.section?.name || "-",
-        photo: data.data?.photo || "-",
+        section_id: data.data?.section?.id || "-",
+        photo: data.data?.image || "-",
+        subMachines: data.data.subMachines || "[]"
       });
     } catch (error) {
       throw new Error(error);

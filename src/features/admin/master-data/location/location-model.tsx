@@ -37,9 +37,13 @@ export default function useLocationHooks() {
       name:
         type == "departemen" ? dataDepartemenById?.name : dataSectionById?.name,
       department_id: dataSectionById?.department_id,
-      section_id: dataDepartemenById?.section_id,
+      section_id:
+        type == "departemen"
+          ? dataDepartemenById?.section
+          : dataDepartemenById?.section_id,
     },
   });
+  // console.log(dataDepartemenById);
 
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -61,6 +65,9 @@ export default function useLocationHooks() {
 
   //state data Section
   const [dataSection, setDataSection] = useState<Section[]>([]);
+  //state data Section
+  const [dataSectionWithoutDepartment, setDataSectionWithoutDepartment] =
+    useState<Section[]>([]);
 
   //state succes create/update data
   const [isSuccess, setIsSuccess] = useState(false);
@@ -94,6 +101,18 @@ export default function useLocationHooks() {
         setIsLoadingData(false);
         setDataSection(result);
       }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data section Without Department
+  const getDataSectionWithoutDepartment = async () => {
+    setIsLoadingData(true);
+    try {
+      const result = await SectionRepository.getSectionWithoutDepartment();
+      setIsLoadingData(false);
+      setDataSectionWithoutDepartment(result);
     } catch (error) {
       console.log(error);
     }
@@ -149,7 +168,6 @@ export default function useLocationHooks() {
     try {
       const result = await DepartemenRepository.create(
         Departemen.create({
-          //id: data.id,
           name: data.name,
           section: data.section_id,
         })
@@ -188,7 +206,6 @@ export default function useLocationHooks() {
   //edit data Departemen
   const editDataDepartemen = async (data) => {
     setIsLoadingData(true);
-
     try {
       const result = await DepartemenRepository.edit(
         Departemen.create({
@@ -249,7 +266,7 @@ export default function useLocationHooks() {
 
   useEffect(() => {
     getDataDepartemen();
-    getDataSection();
+    getDataSectionWithoutDepartment();
   }, []);
 
   useEffect(() => {
@@ -293,6 +310,7 @@ export default function useLocationHooks() {
     dataDepartemenById,
     dataSection,
     isLoadingData,
+    dataSectionWithoutDepartment,
     getDataDepartemenById,
     getDataSectionById,
     createDataSection,

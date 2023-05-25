@@ -5,6 +5,7 @@ export interface IMaintenanceProps {
   type: string;
   machine: string;
   section: string;
+  content?: string | undefined;
 }
 
 export interface IMaintenance {
@@ -24,6 +25,7 @@ export class Maintenance
       type: this.type,
       machine: this.machine,
       section: this.section,
+      content: this.content,
     };
   }
 
@@ -38,5 +40,8 @@ export class Maintenance
   }
   get section(): string {
     return this._props.section;
+  }
+  get content(): string | undefined {
+    return this._props.content;
   }
 }
