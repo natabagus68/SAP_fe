@@ -1,16 +1,164 @@
 import { Breadcrumbs, Toggle } from "@common/components";
 import { ChartTopDashboard } from "@common/components/chart-top-dashboard";
-import MixedChart from "../chart/MixedChart";
 import { useState } from "react";
 import Datepicker from "react-tailwindcss-datepicker";
-import DoughnutChart from "../chart/dougnutChart";
-import LineChart from "../chart/lineChart";
+import DoughnutChart from "@common/components/charts/DoughnutChart";
+import { ChartLine } from "@common/components/charts/ChartLine";
+import maintenance_process from "../../../../assets/svg/maintenance_process.svg";
+import maintenance_success from "../../../../assets/svg/maintenance_success.svg";
+import maintenance_warning from "../../../../assets/svg/maintenance_warning.svg";
+import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
+import MixedChart from "@common/components/charts/MixedChart";
 
 export default function GeneralView() {
   return (
-    <>
+    <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs items={["Dashboard", "General"]} />
-      <div className="mt-5 w-full flex justify-between gap-8">
+      <div className="flex gap-[28px] h-[110px]">
+        <div className="rounded-md border flex-1 border-[#D0D3D9] p-6 gap-6 bg-white flex items-center justify-between">
+          <img
+            src={maintenance_success}
+            alt="Maintenance Process"
+            className="w-[42px] h-[42px]"
+          />
+          <div className="flex flex-1 flex-col gap-2">
+            <div className="flex gap-1 items-end">
+              <span className="text-[#514E4E] text-base">Checklist:</span>
+              <div>
+                <span className="text-[#514E4E] text-2xl font-bold">120</span>
+                <span className="text-[#9A9898] text-base">/200</span>
+              </div>
+            </div>
+            <div className="flex gap-1 items-end">
+              <span className="text-[#514E4E] text-base">Working Time:</span>
+              <span className="text-[#514E4E] text-base font-semibold">
+                12:22
+              </span>
+            </div>
+          </div>
+          <button className="flex items-center gap-1">
+            <span className="font-semibold text-[#20519F]">Detail</span>
+            <ArrowUpIcon
+              className="rotate-90 w-[16px] h-[16px]"
+              color="#20519F"
+            />
+          </button>
+        </div>
+        <div className="rounded-md border flex-1 border-[#D0D3D9] p-6 gap-6 bg-white flex items-center justify-between">
+          <img
+            src={maintenance_process}
+            alt="Maintenance Process"
+            className="w-[42px] h-[42px]"
+          />
+          <div className="flex flex-1 flex-col gap-2">
+            <div className="flex gap-1 items-end">
+              <span className="text-[#514E4E] text-base">Preventive:</span>
+              <div>
+                <span className="text-[#514E4E] text-2xl font-bold">120</span>
+                <span className="text-[#9A9898] text-base">/200</span>
+              </div>
+            </div>
+            <div className="flex gap-1 items-end">
+              <span className="text-[#514E4E] text-base">Working Time:</span>
+              <span className="text-[#514E4E] text-base font-semibold">
+                12:22
+              </span>
+            </div>
+          </div>
+          <button className="flex items-center gap-1">
+            <span className="font-semibold text-[#20519F]">Detail</span>
+            <ArrowUpIcon
+              className="rotate-90 w-[16px] h-[16px]"
+              color="#20519F"
+            />
+          </button>
+        </div>
+        <div className="rounded-md border flex-1 border-[#D0D3D9] p-6 gap-6 bg-white flex items-center justify-between">
+          <img
+            src={maintenance_warning}
+            alt="Maintenance Process"
+            className="w-[42px] h-[42px]"
+          />
+          <div className="flex flex-1 flex-col gap-2">
+            <div className="flex gap-1 items-end">
+              <span className="text-[#514E4E] text-base">Corrective:</span>
+              <div>
+                <span className="text-[#514E4E] text-2xl font-bold">120</span>
+                <span className="text-[#9A9898] text-base">/200</span>
+              </div>
+            </div>
+            <div className="flex gap-1 items-end">
+              <span className="text-[#  514E4E] text-base">Working Time:</span>
+              <span className="text-[#514E4E] text-base font-semibold">
+                12:22
+              </span>
+            </div>
+          </div>
+          <button className="flex items-center gap-1">
+            <span className="font-semibold text-[#20519F]">Detail</span>
+            <ArrowUpIcon
+              className="rotate-90 w-[16px] h-[16px]"
+              color="#20519F"
+            />
+          </button>
+        </div>
+      </div>
+      <div className="rounded-md border border-[#D0D3D9] h-[400px] p-6 bg-white flex justify-between flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <span className="font-semibold text-base text-[#514E4E]">
+            Trouble Statistic
+          </span>
+          <select
+            className={`h-[40px] border border-[#D0D3D9] rounded px-2 bg-white`}
+          >
+            <option value="">Daily</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+        <div className="flex-1">
+          <MixedChart height={"100%"} />
+        </div>
+      </div>
+      <div className="flex gap-[28px] h-[400px]">
+        <div className="rounded-md border border-[#D0D3D9] w-full h-[400px] p-6 bg-white flex justify-between flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-base text-[#514E4E]">
+              Checklist Problem
+            </span>
+            <select
+              className={`h-[40px] border border-[#D0D3D9] rounded px-2 bg-white`}
+            >
+              <option value="">Daily</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+          </div>
+          <div className="h-full">
+            <div className="w-fit h-full">
+              <DoughnutChart height={"100%"} />
+            </div>
+          </div>
+        </div>
+        <div className="rounded-md border border-[#D0D3D9] w-full h-[400px] p-6 bg-white flex justify-between flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-base text-[#514E4E]">
+              Sparepart Cost
+            </span>
+            <select
+              className={`h-[40px] border border-[#D0D3D9] rounded px-2 bg-white`}
+            >
+              <option value="">Daily</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+          </div>
+          <div className="flex-1">
+            <ChartLine datas={[1, 2]} labels={["a", "b"]} height={"100%"} />
+          </div>
+        </div>
+      </div>
+      {/* <div className="mt-5 w-full flex justify-between gap-8">
         <ChartTopDashboard checkList={120} time={2020}>
           <div className="relative">
             <svg
@@ -61,9 +209,9 @@ export default function GeneralView() {
             </svg>
           </div>
         </ChartTopDashboard>
-      </div>
+      </div> */}
 
-      <div className="mt-5 w-full border bordert-gray-300 rounded-xl bg-white py-4 px-3">
+      {/* <div className="mt-5 w-full border bordert-gray-300 rounded-xl bg-white py-4 px-3">
         <div className="w-full flex justify-between px-4">
           <h1 className="text-bold text-3xl ">Trouble Statistic</h1>
           <div>
@@ -83,8 +231,8 @@ export default function GeneralView() {
         <div>
           <MixedChart />
         </div>
-      </div>
-      <div className="mt-10 w-full flex justify-between  gap-2">
+      </div> */}
+      {/* <div className="mt-10 w-full flex justify-between  gap-2">
         <div className="w-full border border-gray-300 rounded-xl py-4 px-1 bg-white">
           <div className="w-full flex justify-between">
             <h1 className="font-bold text-xl">Checklist Problem</h1>
@@ -196,8 +344,7 @@ export default function GeneralView() {
             <LineChart />
           </div>
         </div>
-      </div>
-    </>
+      </div> */}
+    </main>
   );
 }
-
