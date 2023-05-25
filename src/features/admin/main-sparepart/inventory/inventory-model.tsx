@@ -41,7 +41,7 @@ export default function useInventory() {
       setTimeout(() => {
         setIsLoadingData(false);
         setDataInventoryKategory(result);
-      }, 300);
+      }, 500);
     } catch (error) {
       console.log(error);
     }

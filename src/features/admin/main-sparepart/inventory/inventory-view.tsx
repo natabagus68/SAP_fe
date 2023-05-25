@@ -26,14 +26,12 @@ export default function InventoryView() {
           {fakeCard.map((item) => (
             <div className="border border-blue-300 shadow rounded-md w-full">
               <div className="animate-pulse">
-                <div className="w-full h-[278px] bg-white rounded-md border px-6 py-4 flex items-center justify-between flex-col">
+                <div className="w-full h-[278px] bg-white rounded-md border px-6 py-4 flex items-center justify-center">
                   <img
                     src={imgDefault}
                     alt="icon-kategory"
-                    className="w-[140px] h-[140px]"
+                    className="h-[50%] bg-black"
                   />
-                  <span className="w-full text-[#514E4E] text-base font-semibold"></span>
-                  {/* <button className="text-white w-full h-[46px] px-[20px] font-semibold bg-[#20519F] rounded"></button> */}
                 </div>
               </div>
             </div>
