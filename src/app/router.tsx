@@ -75,7 +75,7 @@ export default createBrowserRouter([
             element: <TraceabilityView />,
           },
           {
-            path: "detail/:id",
+            path: "detail/:type/:id",
             element: <TraceabilityDetail />,
           },
         ],

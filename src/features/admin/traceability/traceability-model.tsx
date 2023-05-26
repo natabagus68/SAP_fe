@@ -1,34 +1,32 @@
-import TraceabilityApiRepository from "@data/api/traceavility/traceability-api-repository";
-import TraceabilityPreventiveApiRepository from "@data/api/traceavility/traceability-preventive-api-repository";
+import TraceabilityApiRepository from "@data/api/traceability/traceability-api-repository";
+import TraceabilityPreventiveChecklistApiRepository from "@data/api/traceability/traceability-preventive-checklist-api-repository";
 import { Traceability } from "@domain/models/traceability/traceability";
-import { TraceabilityPreventive } from '@domain/models/traceability/traceability-preventive';
+import { TraceabilityPreventiveChecklist } from "@domain/models/traceability/traceability-preventive-checklist"
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function useTraceability() {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const { id } = useParams()
+  const { id, type } = useParams()
+
+
   //data Traceability
   const [dataTraceability, setDataTraceability] = useState<Traceability[]>([]);
-  const [dataTraceabilityPreventive, setDataTraceabilityPreventive] = useState<TraceabilityPreventive>(null);
+  const [dataTraceabilityById, setDataTraceabilityById] = useState<TraceabilityPreventiveChecklist>(null);
   //modalExport
   const [openModalExport, setOpenModalExport] = useState(false);
 
   const [isLoadingData, setIsLoadingData] = useState(true)
 
+
   // init api traceability
   const traceabilityApi = new TraceabilityApiRepository()
-  const traceabilityPreventiveApi = new TraceabilityPreventiveApiRepository()
+  const traceabilityPreventiveChecklistApi = new TraceabilityPreventiveChecklistApiRepository()
 
   //click detail data
   const onOpenDetail = (type:string, id:string): void => {
-    navigate(`detail/${id}`, {
-      state: {
-        type: type,
-      },
-    });
-    getTraceabilityPreventive(id)
+    navigate(`detail/${type}/${id}`);
+    getTraceabilityByid(id, type)
   };
   //click back/kembali
   const onOpenBack = (): void => {
@@ -49,12 +47,12 @@ export default function useTraceability() {
     }
   }
 
-  const getTraceabilityPreventive = async (id:string) => {
+  const getTraceabilityByid = async (id:string, type:string) => {
     setIsLoadingData(true)
     try {
-      const result = await traceabilityPreventiveApi.getById(id)
+      const result = await traceabilityPreventiveChecklistApi.getById(id, type)
       
-      setDataTraceabilityPreventive(result)
+      setDataTraceabilityById(result)
      
       setIsLoadingData(false)
       
@@ -66,20 +64,21 @@ export default function useTraceability() {
   useEffect(() => {
     getTraceability()
   }, []);
+
   useEffect(() => {
-    if (id) {
-      getTraceabilityPreventive(id)      
+    if (id && type) {
+      getTraceabilityByid(id, type)      
     }
-  }, [id]);
+  }, [id, type]);
 
   return {
-    state,
     dataTraceability,
     openModalExport,
     onOpenDetail,
     onOpenBack,
     setOpenModalExport,
     isLoadingData,
-    dataTraceabilityPreventive
+    dataTraceabilityById,
+    type
   };
 }
