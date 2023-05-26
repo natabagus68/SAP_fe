@@ -173,7 +173,7 @@ export default createBrowserRouter([
             ],
           },
           {
-            path: "corrective",
+            path: ":date/:status/:section_id/corrective",
             element: <Root />,
             children: [
               {
@@ -181,7 +181,7 @@ export default createBrowserRouter([
                 element: <CorrectiveView />,
               },
               {
-                path: "details",
+                path: ":id/details",
                 element: <CorrectiveDetail />,
               },
             ],

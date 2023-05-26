@@ -9,10 +9,13 @@ export default function useCorrective() {
   const navigate = useNavigate();
   const { state } = useLocation();
   // params data from url
-  const { date, status, section_id } = useParams();
+  const { date, status, section_id, id } = useParams();
 
-  //data Preventive
+  //data corrective
   const [dataCorrective, setDataCorrective] = useState([]);
+
+  //data corrective by id
+  const [dataCorrectiveById, setDataCorrectiveById] = useState(null);
 
   //api Repository
   const correctiveRepository = new CorrectiveApiRepository();
@@ -35,11 +38,11 @@ export default function useCorrective() {
     navigate("details", {
       state: {
         data: {
-          id: state?.data?.id,
-          idCorrective: state?.data?.idCorrective,
-          date: state?.data?.date,
-          noMesin: state?.data?.noMesin,
-          pelaksana: state?.data?.pelaksana,
+          id: dataCorrectiveById?.id,
+          idCorrective: dataCorrectiveById?.idCorrective,
+          date: dataCorrectiveById?.date,
+          noMesin: dataCorrectiveById?.noMesin,
+          pelaksana: dataCorrectiveById?.pelaksana,
         },
       },
     });
@@ -60,64 +63,71 @@ export default function useCorrective() {
   };
 
   //get data corrective
-  // const getDataCorrective = async () => {
-  //   setIsLoadingData(true);
-  //   setDataCorrective([]);
-  //   try {
-  //     const result = await correctiveRepository.get(
-  //       date != "null" ? date : "",
-  //       status != "null" ? status : "",
-  //       section_id != "null" ? section_id : ""
-  //     );
-  //     setTimeout(() => {
-  //       setIsLoadingData(false);
-  //       setDataCorrective(result);
-  //     }, 500);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getDataCorrective = async () => {
+    setIsLoadingData(true);
+    setDataCorrective([]);
+    try {
+      const result = await correctiveRepository.get(
+        date != "null" ? date : "",
+        status != "null" ? status : "",
+        section_id != "null" ? section_id : ""
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataCorrective(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //  //get data cheklist by Id
-  //  const getDataCorrectiveById = async (id: string) => {
-  //   try {
-  //     const result = await correctiveRepository.getDataById(id);
-  //     setDataCorrectiveById(result);
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // };
+  const getDataCorrectiveById = async (id: string) => {
+    try {
+      const result = await correctiveRepository.getDataById(id);
+      setDataCorrectiveById(result);
+      console.log(result, "data-by-id");
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
-  // get data section
-  // const getDataSection = async () => {
-  //   try {
-  //     const result = await sectionRepository.getSection();
-  //     setDataSection(result);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  //get data section
+  const getDataSection = async () => {
+    try {
+      const result = await sectionRepository.getSection();
+      setDataSection(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    setDataCorrective([
-      {
-        id: 1,
-        idPreventive: "A0B12345",
-        date: "13/10/2023",
-        noMesin: "SR-12345",
-        pelaksana: "Bramantra Putra",
-        status: "closed",
-      },
-      {
-        id: 2,
-        idPreventive: "A0B1222",
-        date: "13/10/2023",
-        noMesin: "RS-12345",
-        pelaksana: "Cendani Arum",
-        status: "open",
-      },
-    ]);
+    if (!!id) {
+      getDataCorrectiveById(id);
+    }
   }, []);
+
+  // useEffect(() => {
+  //   setDataCorrective([
+  //     {
+  //       id: 1,
+  //       idPreventive: "A0B12345",
+  //       date: "13/10/2023",
+  //       noMesin: "SR-12345",
+  //       pelaksana: "Bramantra Putra",
+  //       status: "closed",
+  //     },
+  //     {
+  //       id: 2,
+  //       idPreventive: "A0B1222",
+  //       date: "13/10/2023",
+  //       noMesin: "RS-12345",
+  //       pelaksana: "Cendani Arum",
+  //       status: "open",
+  //     },
+  //   ]);
+  // }, []);
 
   return {
     state,
@@ -139,7 +149,14 @@ export default function useCorrective() {
     statusDocument,
     setStatusDocument,
     isLoadingData,
-    //getDataCorrective,
-    //getDataSection,
+    date,
+    status,
+    id,
+    section_id,
+    dataSection,
+    getDataCorrective,
+    getDataSection,
+    dataCorrectiveById,
+    getDataCorrectiveById,
   };
 }

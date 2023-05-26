@@ -97,7 +97,10 @@ export default function AdminLayout() {
                 label="Preventive"
                 to={"report/null/null/null/preventive"}
               />
-              <NavItem label="Corrective" to={"report/corrective"} />
+              <NavItem
+                label="Corrective"
+                to={"report/null/null/null/corrective"}
+              />
             </NavItem>
 
             <NavItem
