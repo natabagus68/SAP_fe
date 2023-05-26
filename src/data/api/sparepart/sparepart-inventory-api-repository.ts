@@ -52,6 +52,14 @@ export class SparepartInventoryApiRepository
       throw new Error(error);
     }
   }
+  async editStatus(id: string): Promise<void> {
+    try {
+      const { data } = await api.put(`inventory-category/${id}/status`);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
   async delete(id: string): Promise<void> {
     try {
       const { data } = await api.delete(`inventory-category/${id}`);

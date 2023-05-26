@@ -67,7 +67,7 @@ export default function useMesin() {
       sub_mechine_no: dataSubmesinById?.no,
 
       machine_no: dataMesinById?.machine_no,
-      section: dataMesinById?.section,
+      section: dataMesinById?.section_id,
       photo: dataMesinById?.photo,
 
       indicator: dataParameterById?.indicator,
@@ -403,9 +403,23 @@ export default function useMesin() {
   const getDataMesinById = async (id: string) => {
     try {
       const result = await mesinRepository.getDataById(id);
-      setTimeout(() => {
-        setDataMesinById(result);
-      }, 500);
+      setDataMesinById(result);
+      let arr = [];
+      arr = result?.subMachines?.map((item) => {
+        return {
+          subMachineId: item?.subMachine?.id,
+          parameters: [
+            item?.subMachine?.parameters?.map((item) => {
+              return {
+                parameterId: item.id,
+                interval: item.interval,
+                frequencyTypeId: item.frequency.id,
+              };
+            }),
+          ],
+        };
+      });
+      setSubMesinDetail(arr);
     } catch (error) {
       throw new Error(error);
     }

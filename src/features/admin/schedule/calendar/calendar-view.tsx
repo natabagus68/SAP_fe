@@ -31,7 +31,7 @@ export default function CalendarView() {
     return () => {
       calendar.calendarInstance.current.destroy();
     };
-  }, [calendar.month, calendar.day, calendar.dataSchedules]);
+  }, [calendar.month, calendar.day, calendar.dataSchedules, calendar.page]);
   useEffect(() => {
     calendar.getDataMaintenanceAll();
   }, [calendar.month]);
@@ -128,27 +128,50 @@ export default function CalendarView() {
                         className="px-[20px] py-[17px] gap-2 border rounded flex flex-col justify-between"
                       >
                         <div className="flex items-center gap-2">
-                          <img
-                            src={
-                              maintenance.type == "checklist"
-                                ? maintenance_success
-                                : maintenance.type == "preventive"
-                                ? maintenance_process
-                                : maintenance_warning
-                            }
-                            alt="Maintenace Icon"
-                            className="w-[20px] h-[20px]"
-                          />
+                          {maintenance.type == "remark" ? (
+                            <FlieIcon
+                              className="w-[22px] h-[22px]"
+                              color="#514E4E"
+                            />
+                          ) : (
+                            <img
+                              src={
+                                maintenance.type == "checklist"
+                                  ? maintenance_success
+                                  : maintenance.type == "preventive"
+                                  ? maintenance_process
+                                  : maintenance.type == "corrective"
+                                  ? maintenance_warning
+                                  : null
+                              }
+                              alt="Maintenace Icon"
+                              className="w-[20px] h-[20px]"
+                            />
+                          )}
                           <span className="text-[#514E4E] ">
                             {maintenance.type[0].toLocaleUpperCase()}
                             {maintenance.type.slice(1)}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[#514E4E] font-semibold text-base">
-                            {maintenance.type[0].toLocaleUpperCase()}
-                            {maintenance.type.slice(1)} Machine{" "}
-                            {maintenance.machine}
+                          <span className="text-[#514E4E] font-semibold text-base flex flex-col">
+                            <span>
+                              {maintenance.type != "remark"
+                                ? `${maintenance.type[0].toLocaleUpperCase()}${maintenance.type.slice(
+                                    1
+                                  )} Machine`
+                                : null}
+                            </span>
+                            <span>
+                              {maintenance.type != "remark"
+                                ? `${maintenance.machine}`
+                                : null}
+                            </span>
+                            <span className="text-[#514E4E] truncate">
+                              {maintenance.type == "remark"
+                                ? `${maintenance.content}`
+                                : null}
+                            </span>
                           </span>
                           <span className="text-[#514E4E] ">
                             {moment(
@@ -160,16 +183,32 @@ export default function CalendarView() {
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <button
-                            onClick={() =>
-                              calendar.navigate(`${maintenance.id}/edit`)
-                            }
-                          >
-                            <EditIcon color="#F79009" />
-                          </button>
+                          {maintenance.type == "remark" ? (
+                            <button
+                              onClick={() => {
+                                calendar.setOpenModalRemark(true);
+                                calendar.setRemarkData(maintenance.content);
+                              }}
+                            >
+                              <EyeShowIcon color="#20519F" />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                calendar.navigate(`${maintenance.id}/edit`)
+                              }
+                            >
+                              <EditIcon color="#F79009" />
+                            </button>
+                          )}
                           <button
                             onClick={() => {
-                              calendar.setDataId(maintenance.id);
+                              if (maintenance.type == "remark") {
+                                calendar.setRemarkData("remark");
+                                calendar.setDataId(maintenance.id);
+                              } else {
+                                calendar.setDataId(maintenance.id);
+                              }
                               calendar.setOpenModalDelete(true);
                             }}
                           >
@@ -179,7 +218,7 @@ export default function CalendarView() {
                       </div>
                     ))
                   )}
-                  {calendar.dataMaintenance?.map((item, _i) =>
+                  {/* {calendar.dataMaintenance?.map((item, _i) =>
                     item.schedules?.remark?.map((remark, i) => (
                       <div
                         key={i}
@@ -222,7 +261,7 @@ export default function CalendarView() {
                         </div>
                       </div>
                     ))
-                  )}
+                  )} */}
                 </div>
               )}
             </div>
@@ -236,25 +275,57 @@ export default function CalendarView() {
             ) : null}
           </div>
           <div className="flex justify-center gap-4">
-            <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
+            <button
+              disabled={
+                !!calendar.dataMaintenance[0]?.meta?.prevPage ? false : true
+              }
+              onClick={() =>
+                calendar.navigate(
+                  `../${calendar.day}/${calendar.month}/${calendar.year}/${calendar.dataMaintenance[0]?.meta?.prevPage}/calendar`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!calendar.dataMaintenance[0]?.meta?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
               <ArrowUpIcon
                 className="w-[16px] h-[16px] -rotate-90"
-                color="#B8B6B6"
+                color={`${
+                  !!calendar.dataMaintenance[0]?.meta?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
               />
             </button>
             <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
-              1
+              {!!calendar.dataMaintenance[0]?.meta?.page
+                ? calendar.dataMaintenance[0]?.meta?.page
+                : 1}
             </div>
-            <div className="flex items-center justify-center text-[#20519F]">
-              ...
-            </div>
-            <div className="flex items-center justify-center text-[#20519F]">
-              4
-            </div>
-            <button className="px-4 h-[40px] text-[#20519F] border gap-2 border-[#20519F] rounded flex items-center justify-center">
+            <button
+              disabled={
+                !!calendar.dataMaintenance[0]?.meta?.nextPage ? false : true
+              }
+              onClick={() =>
+                calendar.navigate(
+                  `../${calendar.day}/${calendar.month}/${calendar.year}/${calendar.dataMaintenance[0]?.meta?.nextPage}/calendar`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!calendar.dataMaintenance[0]?.meta?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
               <ArrowUpIcon
                 className="w-[16px] h-[16px] rotate-90"
-                color="#20519F"
+                color={`${
+                  !!calendar.dataMaintenance[0]?.meta?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
               />
             </button>
           </div>

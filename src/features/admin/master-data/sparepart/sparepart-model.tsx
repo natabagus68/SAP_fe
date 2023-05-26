@@ -528,6 +528,17 @@ export default function useSparepart() {
     }
   };
 
+  // edit status category inventory
+  const editStatusInventory = async (id: string) => {
+    try {
+      const result = await inventorySparepartRepository.editStatus(id);
+      getDataSparepartInventory();
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  };
+
   //setup react form hook
   const {
     register,
@@ -667,5 +678,6 @@ export default function useSparepart() {
     createCategory,
     editCategory,
     deleteDataCategory,
+    editStatusInventory,
   };
 }

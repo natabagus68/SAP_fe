@@ -13,6 +13,15 @@ export class SectionApiRepository implements SectionRepository {
       })
     );
   }
+  async getSectionWithoutDepartment(): Promise<Section[]> {
+    const { data } = await api.get(`section/without-department`);
+    return data?.data?.map((item) =>
+      Section.create({
+        id: item?.id,
+        name: item?.name || "-",
+      })
+    );
+  }
   async getDataById(id: string): Promise<Section> {
     try {
       const { data } = await api.get(`section/${id}`);

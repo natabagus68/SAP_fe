@@ -6,6 +6,8 @@ import { SubMesin } from "@domain/models/mesin/sub-mesin";
 
 export default function MesinForm() {
   const mesin = useMesin();
+  console.log(mesin.subMesinDetail);
+  
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
@@ -353,7 +355,7 @@ export default function MesinForm() {
                     <td className="px-[32px] py-2">
                       <div className="flex flex-col gap-2">
                         <select
-                          value={item.subMachineId || ""}
+                          value={item?.subMachineId || ""}
                           onChange={(e) =>
                             mesin.setValueSubMachine(i, e.target.value)
                           }
@@ -380,7 +382,7 @@ export default function MesinForm() {
                     </td>
                     <td className="px-[32px] py-2">
                       <div className="flex flex-col gap-2">
-                        {item.parameters?.map((item, idx) => (
+                        {item?.parameters?.map((item, idx) => (
                           <select
                             key={idx}
                             value={item.parameterId || ""}
@@ -411,7 +413,7 @@ export default function MesinForm() {
                     </td>
                     <td className="px-[32px]" style={{ verticalAlign: "top" }}>
                       <div className="flex flex-col gap-2 py-2">
-                        {item.parameters?.map((item, idx) => (
+                        {item?.parameters?.map((item, idx) => (
                           <input
                             key={idx}
                             type="text"
@@ -427,7 +429,7 @@ export default function MesinForm() {
                     </td>
                     <td className="px-[32px]" style={{ verticalAlign: "top" }}>
                       <div className="flex flex-col gap-2 py-2">
-                        {item.parameters?.map((item, idx) => (
+                        {item?.parameters?.map((item, idx) => (
                           <div key={idx} className="flex gap-2">
                             <select
                               value={item.frequencyTypeId || ""}
@@ -437,7 +439,7 @@ export default function MesinForm() {
                               className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]"
                             >
                               <option value="">Pilih Frequency</option>
-                              {mesin.dataFrequency.map((item, i) => (
+                              {mesin.dataFrequency?.map((item, i) => (
                                 <option key={i} value={item.id}>
                                   {item.type}
                                 </option>

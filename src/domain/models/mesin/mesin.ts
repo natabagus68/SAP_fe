@@ -7,7 +7,7 @@ export interface IMesinProps {
   section_id?: string | undefined;
   section_name?: string | undefined;
   photo?: string | undefined;
-  subMachines?: string | undefined;
+  subMachines?: any | undefined;
 }
 
 export interface IMesin {
@@ -48,7 +48,7 @@ export class Mesin extends Entity<IMesinProps> implements IMesin {
   get photo(): string | undefined {
     return this._props.photo;
   }
-  get subMachines(): string | undefined {
+  get subMachines(): any | undefined {
     return this._props.subMachines;
   }
 }
