@@ -7,13 +7,15 @@ import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 
 export default function TraceabilityDetail() {
   const traceability = useTraceability();
+  console.log(traceability);
+  
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs items={["Traceability", "Details"]} />
       <div className="rounded-md border border-[#D0D3D9] bg-white">
         <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">
-            {traceability?.state?.type == "Checklist"
+            {traceability?.state?.type === "checklist"
               ? "Detail Checklist"
               : "Detail Preventive"}
           </span>
