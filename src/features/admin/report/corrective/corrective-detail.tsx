@@ -168,7 +168,7 @@ export default function CorrectiveDetail() {
         <div className="w-full flex items-center py-[18px] px-[32px] border-[#D0D3D9]">
           <span className="text-2xl text-[#514E4E] font-bold ">Inventory</span>
         </div>
-        <div className="w-full flex gap-[160px] py-[18px] px-[32px] flex-wrap">
+        <div className="w-full flex gap-[80px] py-[18px] px-[32px] flex-wrap">
           {" "}
           <table className="w-full">
             <thead className="bg-[#FAFAFB] border border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold ">
@@ -204,21 +204,11 @@ export default function CorrectiveDetail() {
               ))}
             </tbody>
           </table>
-          {/* {corrective.isLoadingData ? (
-            <div className="w-full h-[48px] flex items-center justify-center">
-              <LoadingIcon
-                color="black"
-                className="w-[24px] h-[24px] animate-spin"
-              />
+          {!corrective.dataCorrectiveById?.inventory.length ? (
+            <div className="w-full h-[24px] flex items-center justify-center">
+              Data Inventory Kosong
             </div>
-          ) : !!!corrective.dataCorrectiveById?.inventory?.length ? (
-            <div className="w-full flex flex-col items-center py-[60px]">
-              <img src={empty_data_table} alt="Empty data table" className="" />
-              <span className="text-[#514E4E] text-2xl font-bold">
-                Tidak ada data
-              </span>
-            </div>
-          ) : null} */}
+          ) : null}
         </div>
 
         <div className="flex py-4 px-[32px] justify-end gap-4">
@@ -272,10 +262,40 @@ export default function CorrectiveDetail() {
                   <tr>
                     <td className="px-[16px]">
                       <div className="w-[50px] h-[50px]">
-                        <img src={gambar_part} alt="Gambar=part" />
+                        {corrective.statusDocument == false ? (
+                          <img
+                            src={
+                              corrective.dataCorrectiveById
+                                ?.documentationBeforePhoto
+                            }
+                            alt="Gambar=part"
+                          />
+                        ) : (
+                          <img
+                            src={
+                              corrective.dataCorrectiveById
+                                ?.documentationAfterPhoto
+                            }
+                            alt="Gambar=part"
+                          />
+                        )}
                       </div>
                     </td>
-                    <td className="px-[16px]">Photo_kerusakan.jpg</td>
+                    <td className="px-[16px]">
+                      {corrective.statusDocument == false ? (
+                        <>
+                          {` ${corrective.dataCorrectiveById?.documentationBeforePhoto}`.split(
+                            "/"
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {` ${corrective.dataCorrectiveById?.documentationAfterPhoto}`.split(
+                            "/"
+                          )}
+                        </>
+                      )}
+                    </td>
                     <td className="px-[16px] font-semibold text-blue-700">
                       <a onClick={() => corrective.setOpenModalPicture(true)}>
                         Lihat
@@ -294,10 +314,40 @@ export default function CorrectiveDetail() {
                   <tr>
                     <td className="px-[16px]">
                       <div className="w-[50px] h-[50px]">
-                        <img src={gambar_part} alt="Gambar=part" />
+                        {corrective.statusDocument == false ? (
+                          <img
+                            src={
+                              corrective.dataCorrectiveById
+                                ?.documentationBeforeVideo
+                            }
+                            alt="Video-part"
+                          />
+                        ) : (
+                          <img
+                            src={
+                              corrective.dataCorrectiveById
+                                ?.documentationAfterVideo
+                            }
+                            alt="Video-part"
+                          />
+                        )}
                       </div>
                     </td>
-                    <td className="px-[16px]">video_kerusakan.mp4</td>
+                    <td className="px-[16px]">
+                      {corrective.statusDocument == false ? (
+                        <>
+                          {` ${corrective.dataCorrectiveById?.documentationBeforeVideo}`.split(
+                            "/"
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {` ${corrective.dataCorrectiveById?.documentationAfterVideo}`.split(
+                            "/"
+                          )}
+                        </>
+                      )}
+                    </td>
                     <td className="px-[16px] font-semibold text-blue-700">
                       <a onClick={() => corrective.setOpenModalVideo(true)}>
                         Lihat
@@ -317,7 +367,11 @@ export default function CorrectiveDetail() {
       >
         <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
           <div className="relative flex justify-center ">
-            <img src={gambar_part} alt="Gambar=part" className="w-[500px]" />
+            <img
+              src={corrective.dataCorrectiveById?.documentationBeforePhoto}
+              alt="Gambar-part"
+              className="w-[500px]"
+            />
             <button
               className="flex items-center p-2 top-0 right-0  absolute "
               onClick={() => corrective.onOpenBackModalPicture()}
@@ -334,7 +388,11 @@ export default function CorrectiveDetail() {
       >
         <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
           <div className="relative flex justify-center ">
-            <img src={gambar_part} alt="Gambar=part" className="w-[500px]" />
+            <img
+              src={corrective.dataCorrectiveById?.documentationBeforeVideo}
+              alt="Gambar=part"
+              className="w-[500px]"
+            />
             <button
               className="flex items-center p-2 top-0 right-0  absolute "
               onClick={() => corrective.onOpenBackModalVideo()}

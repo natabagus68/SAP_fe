@@ -1,7 +1,6 @@
 import { Corrective } from "@domain/models/report/corrective";
 import { CorrectiveRepository } from "@domain/repositories/report/corrective-repository";
 import { api } from "../_api";
-import { CorrectiveDocumentation } from "@domain/models/report/corrective-documentation";
 import { CorrectiveInventory } from "@domain/models/report/corrective-inventory";
 
 export class CorrectiveApiRepository implements CorrectiveRepository {
@@ -50,12 +49,11 @@ export class CorrectiveApiRepository implements CorrectiveRepository {
         damage_type: data.data?.report?.damage_type || "",
         deskripsi: data.data?.report?.description || "",
 
-        // documentation: data.data?.documentation?.before.map((item) =>
-        //   CorrectiveDocumentation.create({
-        //     photo: item.photo || "-",
-        //     video: item.video || "-",
-        //   })
-        // ),
+        documentationBeforePhoto:
+          data.data?.documentation?.before?.photos || "",
+        documentationAfterPhoto: data.data?.documentation?.after?.photos || "",
+        documentationBeforeVideo: data.data?.documentation?.before?.video || "",
+        documentationAfterVideo: data.data?.documentation?.after?.video || "",
 
         inventory: data.data?.inventory.map((item) =>
           CorrectiveInventory.create({

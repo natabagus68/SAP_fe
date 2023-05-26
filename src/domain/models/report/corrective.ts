@@ -1,5 +1,4 @@
 import { Entity } from "../_entity";
-import { CorrectiveDocumentation } from "./corrective-documentation";
 import { CorrectiveInventory } from "./corrective-inventory";
 
 export interface ICorrectiveProps {
@@ -21,7 +20,12 @@ export interface ICorrectiveProps {
   damage_type?: string | undefined;
   deskripsi?: string | undefined;
 
-  documentation?: CorrectiveDocumentation | undefined;
+  documentationBeforePhoto?: string | undefined;
+  documentationAfterPhoto?: string | undefined;
+
+  documentationBeforeVideo?: string | undefined;
+  documentationAfterVideo?: string | undefined;
+
   inventory?: CorrectiveInventory | undefined;
 }
 
@@ -56,7 +60,11 @@ export class Corrective
       damage_type: this.damage_type,
       deskripsi: this.deskripsi,
 
-      documentation: this.documentation,
+      documentationBeforePhoto: this.documentationBeforePhoto,
+      documentationAfterPhoto: this.documentationAfterPhoto,
+      documentationBeforeVideo: this.documentationBeforeVideo,
+      documentationAfterVideo: this.documentationAfterVideo,
+
       inventory: this.inventory,
     };
   }
@@ -105,8 +113,17 @@ export class Corrective
   get deskripsi(): string | undefined {
     return this._props.deskripsi;
   }
-  get documentation(): CorrectiveDocumentation | undefined {
-    return this._props.documentation;
+  get documentationBeforePhoto(): string | undefined {
+    return this._props.documentationBeforePhoto;
+  }
+  get documentationAfterPhoto(): string | undefined {
+    return this._props.documentationAfterPhoto;
+  }
+  get documentationBeforeVideo(): string | undefined {
+    return this._props.documentationBeforeVideo;
+  }
+  get documentationAfterVideo(): string | undefined {
+    return this._props.documentationAfterVideo;
   }
   get inventory(): CorrectiveInventory | undefined {
     return this._props.inventory;
