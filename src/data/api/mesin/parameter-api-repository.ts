@@ -39,7 +39,6 @@ export class ParameterApiRepository implements ParameterRepository {
         variable: parameter.variable,
         uom: parameter.uom,
       });
-
       return data.data;
     } catch (error) {
       throw new Error(error);
@@ -50,12 +49,10 @@ export class ParameterApiRepository implements ParameterRepository {
     try {
       const { data } = await api.put(`machine-parameter/${parameter.id}`, {
         name: parameter.name,
-        indicator: parameter.indicator,
+        indicatorId: parameter.indicator,
         variable: parameter.variable,
         uom: parameter.uom,
       });
-      console.log(data, "edit-api-repo");
-
       return data.data;
     } catch (error) {
       throw new Error(error);

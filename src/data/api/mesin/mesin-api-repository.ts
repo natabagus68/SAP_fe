@@ -25,7 +25,7 @@ export class MesinApiRepository implements MesinRepository {
         name: data.data?.name || "-",
         section_id: data.data?.section?.id || "-",
         photo: data.data?.image || "-",
-        subMachines: data.data.subMachines || "[]"
+        subMachines: data.data.subMachines || "[]",
       });
     } catch (error) {
       throw new Error(error);
@@ -51,14 +51,15 @@ export class MesinApiRepository implements MesinRepository {
     try {
       const formData = new FormData();
       if (typeof mesin.photo == "string" || mesin.photo.length == 0) {
-        formData.append("photo", "");
+        formData.append("image", mesin.photo);
       } else {
-        formData.append("photo", mesin.photo[0]);
+        formData.append("image", mesin.photo[0]);
       }
       formData.append("machine_no", mesin.machine_no);
       formData.append("name", mesin.name);
-      formData.append("section", mesin.section_id);
-      const { data } = await api.post(`machine/${mesin.id}`, formData);
+      formData.append("section_id", mesin.section_id);
+      formData.append("subMachines", mesin.subMachines);
+      const { data } = await api.put(`machine/${mesin.id}`, formData);
       return data.data;
     } catch (error) {
       throw new Error(error);

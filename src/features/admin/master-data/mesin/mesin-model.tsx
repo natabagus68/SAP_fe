@@ -71,7 +71,7 @@ export default function useMesin() {
       photo: dataMesinById?.photo,
 
       indicator: dataParameterById?.indicator,
-      variable: dataParameterById?.variable,
+      variable: dataParameterById?.variable || "status",
       // batasAtas: dataParameterById?.batasAtas,
       // batasBawah: dataParameterById?.batasBawah,
 
@@ -232,21 +232,20 @@ export default function useMesin() {
     setSubMesinDetail(arr);
   };
 
-  const FormChangeSubmesin = (item, e) => {
-    let data = [...subMesinDetail];
-    data[item][e.target.name] = e.target.value;
-    setSubMesinDetail(data);
-  };
+  // const FormChangeSubmesin = (item, e) => {
+  //   let data = [...subMesinDetail];
+  //   data[item][e.target.name] = e.target.value;
+  //   setSubMesinDetail(data);
+  // };
 
-  const valueStatusChange = (e) => {
-    setIsSelectVar(e.target.value);
-    setVariableDetail([]);
-  };
+  // const valueStatusChange = (e) => {
+  //   setIsSelectVar(e.target.value);
+  //   setVariableDetail([]);
+  // };
 
   const addFormVariable = () => {
     setVariableDetail([
       ...variableDetail,
-
       {
         uomId: "",
         upperLimit: "",
@@ -254,12 +253,17 @@ export default function useMesin() {
       },
     ]);
   };
+  const removeFormVariable = (i) => {
+    let arr = [...variableDetail];
+    arr[i] = undefined;
+    arr.filter((e) => e);
+    setVariableDetail(arr.filter((e) => e));
+  };
 
   const setValueUom = (i, value) => {
     let data = [...variableDetail];
-    data[i].uom_id = value;
+    data[i].uomId = value;
     setVariableDetail(data);
-    console.log(data, "cek datavalue");
   };
 
   const setValueUpperLimit = (i, value) => {
@@ -345,6 +349,14 @@ export default function useMesin() {
     }
   };
 
+  // const filterDataSubMesin = (id) => {
+  //   const filterId = subMesinDetail
+  //     .map((item) => item.parameters?.map((item) => item.parameterId))
+  //     .flat()
+  //     .filter((item) => item == id).length;
+  //   return filterId;
+  // };
+
   // get data parameter
   const getDataParameter = async () => {
     setIsLoadingData(true);
@@ -417,7 +429,7 @@ export default function useMesin() {
                 frequencyTypeId: item.frequency.id,
               };
             }),
-          ],
+          ].flat(),
         };
       });
       setSubMesinDetail(arr);
@@ -429,9 +441,7 @@ export default function useMesin() {
   const getDataSubmesinById = async (id: string) => {
     try {
       const result = await subMesinRepository.getDataById(id);
-      setTimeout(() => {
-        setDataSubmesinById(result);
-      }, 500);
+      setDataSubmesinById(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -532,28 +542,36 @@ export default function useMesin() {
 
   //edit  data
   const editMesin = async (data) => {
-    console.log(data);
-
-    // setIsLoadingData(true);
-    // try {
-    //   const result = await mesinRepository.edit(
-    //     Mesin.create({
-    //       id: id,
-    //       name: data.name,
-    //       machine_no: data.machine_no,
-    //       section_name: data.section_name,
-    //       section_id: data.section_id,
-    //       photo: data.photo,
-    //     })
-    //   );
-
-    //   setTimeout(() => {
-    //     setIsLoadingData(false);
-    //     navigate("../");
-    //   }, 500);
-    // } catch (error) {
-    //   throw new Error(error);
-    // }
+    let newPhoto = "";
+    if (typeof data.photo == "string") {
+      newPhoto = dataMesinById?.photo;
+    }
+    if (data.photo.length == 0) {
+      newPhoto = dataMesinById?.photo;
+    }
+    if (typeof data.photo != "string" && data.photo.length != 0) {
+      newPhoto = data.photo;
+    }
+    setIsLoadingData(true);
+    try {
+      const result = await mesinRepository.edit(
+        Mesin.create({
+          id: id,
+          name: data.name,
+          machine_no: data.machine_no,
+          section_id: data.section,
+          photo: newPhoto,
+          subMachines: JSON.stringify(subMesinDetail),
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      setIsLoadingData(false);
+      throw new Error(error);
+    }
   };
 
   const createSubmesin = async (data) => {
@@ -606,7 +624,6 @@ export default function useMesin() {
   const createParameter = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-
     try {
       const result = await parameterRepository.create(
         Parameter.create({
@@ -616,7 +633,6 @@ export default function useMesin() {
           uom: variableDetail,
         })
       );
-
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -693,7 +709,6 @@ export default function useMesin() {
   const editParameter = async (data) => {
     setIsLoadingData(true);
     setMessage(null);
-    console.log(data, "mesin-data-model");
 
     try {
       const result = await parameterRepository.edit(
@@ -705,7 +720,6 @@ export default function useMesin() {
           uom: variableDetail,
         })
       );
-      console.log(result, "mesin-result-model");
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -901,6 +915,8 @@ export default function useMesin() {
     dataParameterById,
     dataFrequency,
     subMesinDetail,
+    variableDetail,
+    watch,
     navigate,
     register,
     handleSubmit,
@@ -938,15 +954,13 @@ export default function useMesin() {
     addFormVariable,
     removeFormSubmesin,
     removeFieldParameter,
-    FormChangeSubmesin,
     setValueSubMachine,
     setValueInterval,
     setValueParameter,
     setValueFrequency,
-    valueStatusChange,
-    variableDetail,
     setValueUom,
     setValueUpperLimit,
     setValueLowerrLimit,
+    removeFormVariable,
   };
 }
