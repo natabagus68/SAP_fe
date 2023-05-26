@@ -6,8 +6,8 @@ import { SubMesin } from "@domain/models/mesin/sub-mesin";
 
 export default function MesinForm() {
   const mesin = useMesin();
-  console.log(mesin.subMesinDetail);
-  
+  console.log(mesin.variableDetail);
+
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
@@ -139,7 +139,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <select
                           className={`h-[40px] w-full border border-[#D0D3D9] rounded px-2`}
-                          value={item.uom_id || ""}
+                          value={mesin.variableDetail[i].uom_id || ""}
                           onChange={(e) => mesin.setValueUom(i, e.target.value)}
                         >
                           <option value="">Pilih UoM</option>
@@ -163,7 +163,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <input
                           type="text"
-                          value={item.upper_limit || ""}
+                          value={mesin.variableDetail[i].upper_limit || ""}
                           className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 `}
                           placeholder="Masukan batas atas"
                           onChange={(e) =>
@@ -177,7 +177,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <input
                           type="text"
-                          value={item.lower_limit || ""}
+                          value={mesin.variableDetail[i].lower_limit || ""}
                           className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 `}
                           placeholder="Masukan batas bawah"
                           onChange={(e) =>

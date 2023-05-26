@@ -248,9 +248,9 @@ export default function useMesin() {
       ...variableDetail,
 
       {
-        uom_id: "",
-        upper_limit: "",
-        lower_limit: "",
+        uomId: "",
+        upperLimit: "",
+        lowerLimit: "",
       },
     ]);
   };
@@ -259,17 +259,18 @@ export default function useMesin() {
     let data = [...variableDetail];
     data[i].uom_id = value;
     setVariableDetail(data);
+    console.log(data, "cek datavalue");
   };
 
   const setValueUpperLimit = (i, value) => {
     let data = [...variableDetail];
-    data[i].upper_limit = value;
+    data[i].upperLimit = value;
     setVariableDetail(data);
   };
 
   const setValueLowerrLimit = (i, value) => {
     let data = [...variableDetail];
-    data[i].lower_limit = value;
+    data[i].lowerLimit = value;
     setVariableDetail(data);
   };
 
@@ -452,7 +453,13 @@ export default function useMesin() {
       const result = await parameterRepository.getDataById(id);
       setTimeout(() => {
         setDataParameterById(result);
-        setVariableDetail(result.uom);
+        setVariableDetail(
+          result.uom.map((item) => ({
+            uomId: item.uom_id,
+            upperLimit: item.upper_limit,
+            lowerLimit: item.lower_limit,
+          }))
+        );
       }, 500);
     } catch (error) {
       throw new Error(error);
@@ -603,7 +610,7 @@ export default function useMesin() {
     try {
       const result = await parameterRepository.create(
         Parameter.create({
-          indicator: data.indikator,
+          indicator: data.indicator,
           name: data.name,
           variable: data.variable,
           uom: variableDetail,
@@ -692,7 +699,7 @@ export default function useMesin() {
       const result = await parameterRepository.edit(
         Parameter.create({
           id: id,
-          indicator: data.indikator,
+          indicator: data.indicator,
           name: data.name,
           variable: data.variable,
           uom: variableDetail,
