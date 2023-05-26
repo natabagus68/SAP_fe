@@ -3,7 +3,7 @@ import { Chart as ChartJS, registerables } from "chart.js";
 
 ChartJS.register(...registerables);
 
-export default function DoughnutChart({ datas, labels, height }) {
+export default function DoughnutChart({ height }) {
   const data = {
     labels: ["Rantai Conveyor", "Shaft & Bearing"],
     datasets: [

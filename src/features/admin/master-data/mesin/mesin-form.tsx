@@ -3,11 +3,10 @@ import useMesin from "./mesin-model";
 import PlusIcon from "@common/components/icons-new/PlusIcon";
 import TrashIcon from "@common/components/icons-new/TrashIcon";
 import { SubMesin } from "@domain/models/mesin/sub-mesin";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 
 export default function MesinForm() {
   const mesin = useMesin();
-  console.log(mesin.variableDetail);
-
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs
@@ -108,7 +107,7 @@ export default function MesinForm() {
                         {...mesin.register("variable")}
                         value="status"
                         //checked={mesin.isSeclectVar == "status"}
-                        onChange={mesin.valueStatusChange}
+                        // onChange={mesin.valueStatusChange}
                         className="w-[24px] h-[24px]"
                       />
 
@@ -120,10 +119,9 @@ export default function MesinForm() {
                         {...mesin.register("variable")}
                         value="form"
                         //checked={mesin.isSeclectVar == "form"}
-                        onChange={mesin.valueStatusChange}
+                        // onChange={mesin.valueStatusChange}
                         className="w-[24px] h-[24px]"
                       />
-
                       <span>Form</span>
                     </div>
                   </div>
@@ -133,13 +131,22 @@ export default function MesinForm() {
                     key={i}
                     className="flex flex-col items-start w-full gap-4 p-4 border border-[#D0D3D9]"
                   >
-                    <span>Variable {i + 1}</span>
+                    <div className="flex justify-between w-full items-center">
+                      <span>Variable {i + 1}</span>
+                      <button
+                        className="flex items-center justify-center gap-2 h-[38px] w-[38px] rounded bg-[#F04438]"
+                        onClick={() => mesin.removeFormVariable(i)}
+                        type="button"
+                      >
+                        <TrashIcon color="white" />
+                      </button>
+                    </div>
                     <div className="flex flex-col w-full gap-1">
                       <span>Unit of Measurement</span>
                       <div className="flex gap-4 items-center">
                         <select
                           className={`h-[40px] w-full border border-[#D0D3D9] rounded px-2`}
-                          value={mesin.variableDetail[i].uom_id || ""}
+                          value={mesin.variableDetail[i].uomId || ""}
                           onChange={(e) => mesin.setValueUom(i, e.target.value)}
                         >
                           <option value="">Pilih UoM</option>
@@ -149,13 +156,6 @@ export default function MesinForm() {
                             </option>
                           ))}
                         </select>
-                        {/* <input
-                          type="text"
-                          value={item.uomId || ""}
-                          className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 `}
-                          placeholder="Masukan UoM"
-                          onChange={(e) => mesin.setValueUom(i, e.target.value)}
-                        /> */}
                       </div>
                     </div>
                     <div className="flex flex-col w-full gap-1">
@@ -163,7 +163,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <input
                           type="text"
-                          value={mesin.variableDetail[i].upper_limit || ""}
+                          value={mesin.variableDetail[i].upperLimit || ""}
                           className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 `}
                           placeholder="Masukan batas atas"
                           onChange={(e) =>
@@ -177,7 +177,7 @@ export default function MesinForm() {
                       <div className="flex gap-4 items-center">
                         <input
                           type="text"
-                          value={mesin.variableDetail[i].lower_limit || ""}
+                          value={mesin.variableDetail[i].lowerLimit || ""}
                           className={`h-[40px] border border-[#D0D3D9] w-full rounded px-2 `}
                           placeholder="Masukan batas bawah"
                           onChange={(e) =>
@@ -188,7 +188,7 @@ export default function MesinForm() {
                     </div>
                   </div>
                 ))}
-                {mesin.isSeclectVar == "form" ? (
+                {mesin.watch("variable") == "form" ? (
                   <button
                     className="flex items-center gap-2 h-[46px] rounded text-[#D0D3D9] font-semibold text-sm w-full"
                     type="button"
@@ -236,9 +236,21 @@ export default function MesinForm() {
 
             {mesin.type != "mesin" ? (
               <div className="flex items-center gap-6">
-                <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
-                  Simpan
-                </button>
+                {mesin.isLoadingData ? (
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold cursor-wait"
+                  >
+                    <LoadingIcon
+                      color="white"
+                      className="w-[24px] h-[24px] animate-spin"
+                    />
+                  </button>
+                ) : (
+                  <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
+                    Simpan
+                  </button>
+                )}
                 <button
                   className="flex items-center justify-center gap-2 h-[46px] px-[20px] w-[181px] border border-[#20519F] rounded"
                   type="button"
@@ -318,7 +330,7 @@ export default function MesinForm() {
                 className={` border border-[#D0D3D9] rounded p-1  ${
                   mesin.errors.photo ? "bg-red-100" : "bg-white"
                 }`}
-                {...mesin.register("photo", { required: true })}
+                {...mesin.register("photo", { required: false })}
               />
             </div>
           </div>
@@ -362,11 +374,13 @@ export default function MesinForm() {
                           className="w-[200px] h-[46px] flex items-center justify-center border border-[#20519F] text-[#20519F]"
                         >
                           <option value="">Pilih Sub-Mesin</option>
-                          {mesin.dataSubMesin?.map((item, i) => (
-                            <option key={i} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
+                          {mesin.dataSubMesin?.map((item, i) => {
+                            return (
+                              <option key={i} value={item.id}>
+                                {item.name}
+                              </option>
+                            );
+                          })}
                         </select>
                         <button
                           className="flex items-center gap-2 h-[46px] w-[200px] px-[20px] rounded bg-[#F04438]"
@@ -416,7 +430,7 @@ export default function MesinForm() {
                         {item?.parameters?.map((item, idx) => (
                           <input
                             key={idx}
-                            type="text"
+                            type="number"
                             value={item.interval || ""}
                             onChange={(e) =>
                               mesin.setValueInterval(i, idx, e.target.value)
@@ -468,9 +482,21 @@ export default function MesinForm() {
             ) : null}
             <div className="rounded-md border border-[#D0D3D9] bg-white">
               <div className="w-full flex items-center gap-6 py-[18px] px-[32px] border-b border-[#D0D3D9]">
-                <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
-                  Simpan
-                </button>
+                {mesin.isLoadingData ? (
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold cursor-wait"
+                  >
+                    <LoadingIcon
+                      color="white"
+                      className="w-[24px] h-[24px] animate-spin"
+                    />
+                  </button>
+                ) : (
+                  <button className="flex items-center justify-center gap-2 h-[46px] w-[181px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
+                    Simpan
+                  </button>
+                )}
                 <button
                   className="flex items-center justify-center gap-2 h-[46px] px-[20px] w-[181px] border border-[#20519F] rounded"
                   type="button"
