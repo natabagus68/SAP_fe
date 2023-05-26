@@ -50,7 +50,19 @@ export default function LocationForm() {
               <div className="flex flex-col w-full gap-1">
                 <span>Pilih Section</span>
                 <div className="flex flex-col gap-2">
-                  {location?.dataSection.map((item, i) => (
+                  {location?.dataDepartemenById?.section?.map((item, i) => (
+                    <div key={i} className="flex gap-2 items-center">
+                      <input
+                        type="checkbox"
+                        {...location.register("section_id")}
+                        className="w-[24px] h-[24px]"
+                        value={item.id}
+                        defaultChecked={true}
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  ))}
+                  {location?.dataSectionWithoutDepartment?.map((item, i) => (
                     <div key={i} className="flex gap-2 items-center">
                       <input
                         type="checkbox"
@@ -80,12 +92,12 @@ export default function LocationForm() {
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <span>Departemen</span>
+                <span>Departemen (optional)</span>
                 <select
                   className={`h-[40px] border border-[#D0D3D9] rounded px-2 ${
                     location.errors.department_id ? "bg-red-100" : "bg-white"
                   }`}
-                  {...location.register("department_id", { required: true })}
+                  {...location.register("department_id", { required: false })}
                 >
                   <option value="">Pilih Departemen</option>
                   {location.dataDepartemen.map((item, i) => (

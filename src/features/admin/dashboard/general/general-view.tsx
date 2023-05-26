@@ -134,7 +134,7 @@ export default function GeneralView() {
               <option value="2">2</option>
             </select>
           </div>
-          <div className="h-full">
+          <div className="h-full flex items-center justify-center">
             <div className="w-fit h-full">
               <DoughnutChart height={"100%"} />
             </div>

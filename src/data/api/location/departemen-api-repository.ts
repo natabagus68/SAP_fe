@@ -22,7 +22,6 @@ export class DepartemenApiRepository implements DepartemenRepository {
   async getDataById(id: string): Promise<Departemen> {
     try {
       const { data } = await api.get(`department/${id}`);
-
       return Departemen.create({
         id: data.data?.id,
         name: data.data?.name || "-",
@@ -37,7 +36,7 @@ export class DepartemenApiRepository implements DepartemenRepository {
     try {
       const { data } = await api.post(`department`, {
         name: departemen.name,
-        section: departemen.section,
+        sections: departemen.section,
       });
     } catch (error) {
       throw new Error(error);

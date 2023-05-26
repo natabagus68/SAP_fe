@@ -21,7 +21,7 @@ export class ParameterApiRepository implements ParameterRepository {
       const { data } = await api.get(`machine-parameter/${id}`);
 
       return Parameter.create({
-        indicator: data.data?.indicator?.name || "-",
+        indicator: data.data?.indicator_id || "-",
         name: data.data?.name || "-",
         variable: data.data?.variable || "-",
       });
@@ -34,8 +34,11 @@ export class ParameterApiRepository implements ParameterRepository {
     try {
       const { data } = await api.post("machine-parameter", {
         name: parameter.name,
-        indicator: parameter.indicator,
+        indicatorId: parameter.indicator,
+        variable: parameter.variable,
+        uom: parameter.uom,
       });
+      console.log(data, "apirepo");
 
       return data.data;
     } catch (error) {
@@ -47,8 +50,11 @@ export class ParameterApiRepository implements ParameterRepository {
     try {
       const { data } = await api.put(`machine-parameter/${parameter.id}`, {
         name: parameter.name,
-        indicator: parameter.indicator,
+        indicatorId: parameter.indicator,
+        variable: parameter.variable,
       });
+      console.log(data);
+
       return data.data;
     } catch (error) {
       throw new Error(error);

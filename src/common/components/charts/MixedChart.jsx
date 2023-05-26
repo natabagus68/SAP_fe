@@ -36,7 +36,7 @@ export default function MixedChart({height}) {
       },
       {
         type: "bar",
-        label: "Painting",
+        label: "Sapi",
         data: [12, 19, 3, 5, 2, 3],
         backgroundColor: "rgba(73, 202, 221, 1)",
         stack: "troubleStatistic",
