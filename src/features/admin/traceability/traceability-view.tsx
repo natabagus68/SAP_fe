@@ -10,16 +10,7 @@ export default function TraceabilityView() {
   const traceability = useTraceability();
   return (
     <main className="flex flex-col gap-[28px] justify-between">
-      <Breadcrumbs items={["Traceability"]} />
-      
-      {traceability.isLoadingData ? (
-        <div className="w-full h-[48px] flex items-center justify-center">
-          <LoadingIcon
-            color="black"
-            className="w-[24px] h-[24px] animate-spin"
-          />
-        </div>
-      ) : 
+      <Breadcrumbs items={["Traceability"]} />            
         <div className="rounded-md border border-[#D0D3D9] bg-white">
           <div className="w-full flex items-center justify-between py-[18px] px-[32px] border-b border-[#D0D3D9]">
             <span className="text-2xl text-[#514E4E] font-bold ">
@@ -125,7 +116,7 @@ export default function TraceabilityView() {
                 <th className="px-[32px] text-start">Action</th>
               </tr>
             </thead>
-            <tbody className="text-base text-[#514E4E]">
+            <tbody className="text-base text-[#514E4E]">            
               {traceability?.dataTraceability?.map((item) => (
                 <tr key={item?.id} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">
@@ -166,6 +157,16 @@ export default function TraceabilityView() {
               ))}
             </tbody>
           </table>
+          {traceability.isLoadingData ? (
+            <div className="w-full h-[48px] flex items-center justify-center">
+              <LoadingIcon
+                color="black"
+                className="w-[24px] h-[24px] animate-spin"
+              />
+            </div>
+            ) 
+            : null 
+          }
           <div className="flex py-4 px-[32px] justify-end gap-4">
             <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
               <ArrowUpIcon
@@ -186,7 +187,7 @@ export default function TraceabilityView() {
             </button>
           </div>
         </div>
-      }
+      
       <Modal open={traceability.openModalExport}>
         <div className="w-[430px] flex flex-col gap-4">
           <div className="flex items-center gap-5">

@@ -1,31 +1,34 @@
 import { Entity } from "../_entity";
 import { PreventiveReport } from "../report/preventive-report";
+import { ChecklistReport } from "../report/checklist-report";
 
 
-export interface ITraceabilityPreventiveProps {
+export interface ITraceabilityPreventiveChecklistProps {
     machine_name: string;
     machine_no: string;
     date: string;
     pic: string;
     section: string;
     department: string;
-    interval: string;
-    working_time: string;
+    interval?: string | undefined;
+    working_time?: string | undefined;
     status: string;
     approval_checked_by: string;
     approval_approved_by: string;
-    report: PreventiveReport;
+    report?: PreventiveReport[] | ChecklistReport[] | undefined;
+    total_ng?: number | undefined;
+    total_ok?: number | undefined;
 }
 
-export interface ITraceabilityPreventive {
-  unmarshall(): ITraceabilityPreventiveProps;
+export interface ITraceabilityPreventiveChecklist {
+  unmarshall(): ITraceabilityPreventiveChecklistProps;
 }
 
-export class TraceabilityPreventive extends Entity<ITraceabilityPreventiveProps> implements ITraceabilityPreventive {
-  static create(props: ITraceabilityPreventiveProps) {
-    return new TraceabilityPreventive(props);
+export class TraceabilityPreventiveChecklist extends Entity<ITraceabilityPreventiveChecklistProps> implements ITraceabilityPreventiveChecklist {
+  static create(props: ITraceabilityPreventiveChecklistProps) {
+    return new TraceabilityPreventiveChecklist(props);
   }
-  unmarshall(): ITraceabilityPreventiveProps {
+  unmarshall(): ITraceabilityPreventiveChecklistProps {
     return {
       machine_name: this.machine_name,
       machine_no: this.machine_no,
@@ -38,7 +41,9 @@ export class TraceabilityPreventive extends Entity<ITraceabilityPreventiveProps>
       working_time: this.working_time,
       approval_checked_by: this.approval_checked_by,
       approval_approved_by: this.approval_approved_by,
-      report : this.report      
+      report : this.report,
+      total_ng: this.total_ng,
+      total_ok: this.total_ok
     };
   }
 
@@ -57,10 +62,10 @@ export class TraceabilityPreventive extends Entity<ITraceabilityPreventiveProps>
   get pic(): string {
     return this._props.pic;
   }
-  get interval(): string {
+  get interval(): string | undefined {
     return this._props.interval;
   }
-  get working_time(): string {
+  get working_time(): string | undefined {
     return this._props.working_time;
   }
   get status(): string {
@@ -75,7 +80,13 @@ export class TraceabilityPreventive extends Entity<ITraceabilityPreventiveProps>
   get approval_approved_by(): string {
     return this._props.approval_approved_by;
   }
-  get report(): PreventiveReport {
+  get report(): PreventiveReport[] | ChecklistReport[] | undefined {
     return this._props.report
+  }
+  get total_ng(): number | undefined {
+    return this._props.total_ng
+  }
+  get total_ok(): number | undefined {
+    return this._props.total_ok
   }
 }
