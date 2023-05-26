@@ -58,7 +58,7 @@ export default function CorrectiveView() {
               />
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <span>Status</span>
               <select
                 value={corrective.status != "null" ? corrective.status : ""}
@@ -98,7 +98,7 @@ export default function CorrectiveView() {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
           <div className="relative space-x-10">
             <div className="flex items-center gap-3">
