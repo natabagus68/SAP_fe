@@ -169,7 +169,10 @@ export default function useLocationHooks() {
       const result = await DepartemenRepository.create(
         Departemen.create({
           name: data.name,
-          section: data.section_id,
+          section:
+            typeof data.section_id == "object"
+              ? data.section_id
+              : [data.section_id],
         })
       );
 

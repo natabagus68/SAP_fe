@@ -53,6 +53,7 @@ export default function useManpower() {
   const manpowerRepository = new ManpowerApiRepository();
   //state data manpower
   const [dataManpower, setDataManpower] = useState<Manpower[]>([]);
+
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
   //state succes create/update data

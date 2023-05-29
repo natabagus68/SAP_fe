@@ -1,6 +1,7 @@
 import { Manpower } from "@domain/models/manpower/manpower";
 import { ManpowerRepository } from "@domain/repositories/manpower/manpower-repository";
 import { api } from "../_api";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export class ManpowerApiRepository implements ManpowerRepository {
   async get(): Promise<Manpower[]> {
@@ -17,6 +18,14 @@ export class ManpowerApiRepository implements ManpowerRepository {
           position_name: item?.position?.name || "-",
           departemen_name: item?.section?.departemen?.name || "-",
           avatar: item?.avatar || "",
+          pagination: MetaPagination.create({
+            page: data?.pagination?.page,
+            limit: data?.pagination?.limit,
+            totalRows: data?.pagination?.totalRows,
+            totalPages: data?.pagination?.totalPages,
+            prevPage: data?.pagination?.prevPage,
+            nextPage: data?.pagination?.nextPage,
+          }),
         })
       );
     } catch (error) {

@@ -1,4 +1,5 @@
 import { Entity } from "../_entity";
+import { MetaPagination } from "../meta-pagination";
 
 export interface IManpowerProps {
   id?: string | undefined;
@@ -11,6 +12,7 @@ export interface IManpowerProps {
   departemen_id?: string | undefined;
   departemen_name?: string | undefined;
   avatar?: string | undefined;
+  pagination?: MetaPagination | undefined;
 }
 
 export interface IManpower {
@@ -33,6 +35,7 @@ export class Manpower extends Entity<IManpowerProps> implements IManpower {
       departemen_id: this.departemen_id,
       departemen_name: this.departemen_name,
       avatar: this.avatar,
+      pagination: this.pagination,
     };
   }
 
@@ -65,5 +68,8 @@ export class Manpower extends Entity<IManpowerProps> implements IManpower {
   }
   get avatar(): string | undefined {
     return this._props.avatar;
+  }
+  get pagination(): MetaPagination | undefined {
+    return this._props.pagination;
   }
 }
