@@ -247,7 +247,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "master-data/:type/manpower",
+        path: "master-data/:type/:page/manpower",
         element: <Root />,
         children: [
           {

@@ -3,6 +3,7 @@ import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import default_avatar from "../../../../assets/default_avatar.jpg";
 import useManpower from "./manpower-model";
+import { config } from "@common/utils";
 
 export default function ManpowerDetails() {
   const manpower = useManpower();
@@ -76,9 +77,14 @@ export default function ManpowerDetails() {
           </div>
           <div className="flex flex-col gap-6">
             <span className="text-base text-[#514E4E]">Photo</span>
-            <div className={`w-[155px] h-[155px] rounded-full overflow-hidden ${!!!manpower?.dataManpowerById? "animate-pulse":null}`}>
+            <div className={`w-[155px] h-[155px] rounded-full border border-gray-400 overflow-hidden ${!!!manpower?.dataManpowerById? "animate-pulse":null}`}>
               {!!manpower?.dataManpowerById?.avatar ? (
-                <div className="w-full h-full bg-black"></div>
+                // <div className="w-full h-full bg-black"></div>
+                <img
+                  src={`${config.apiAssetUrl}storage/29-05-2023/master-data/avatar/fae85b5e9dd790e2af9e50000.png`}
+                  alt="Default Avatar"
+                  className="w-[155px] h-[155px]"
+                />
               ) : (
                 <img
                   src={default_avatar}

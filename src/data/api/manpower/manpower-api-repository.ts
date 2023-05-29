@@ -2,34 +2,45 @@ import { Manpower } from "@domain/models/manpower/manpower";
 import { ManpowerRepository } from "@domain/repositories/manpower/manpower-repository";
 import { api } from "../_api";
 import { MetaPagination } from "@domain/models/meta-pagination";
+import { DefaultResponse } from "@domain/models/default-response";
 
 export class ManpowerApiRepository implements ManpowerRepository {
-  async get(): Promise<Manpower[]> {
+  async get(page: number, limit: number, q: string): Promise<DefaultResponse> {
     try {
-      const { data } = await api.get(`employee`);
-      return data?.data?.map((item) =>
-        Manpower.create({
-          id: item?.id,
-          name: item?.name || "-",
-          employee_no: item?.employee_no || "-",
-          section_id: item?.section?.id || "-",
-          section_name: item?.section?.name || "-",
-          position_id: item?.position?.id || "-",
-          position_name: item?.position?.name || "-",
-          departemen_name: item?.section?.departemen?.name || "-",
-          avatar: item?.avatar || "",
-          pagination: MetaPagination.create({
-            page: data?.pagination?.page,
-            limit: data?.pagination?.limit,
-            totalRows: data?.pagination?.totalRows,
-            totalPages: data?.pagination?.totalPages,
-            prevPage: data?.pagination?.prevPage,
-            nextPage: data?.pagination?.nextPage,
-          }),
-        })
+      const { data } = await api.get(
+        `employee?page=${page || 1}&limit=${limit || 10}&q=${q || ""}`
       );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.pagination?.page,
+          limit: data?.pagination?.limit,
+          totalRows: data?.pagination?.totalRows,
+          totalPages: data?.pagination?.totalPages,
+          prevPage: data?.pagination?.prevPage,
+          nextPage: data?.pagination?.nextPage,
+        }),
+        data: data?.data?.map((item) =>
+          Manpower.create({
+            id: item?.id,
+            name: item?.name || "-",
+            employee_no: item?.employee_no || "-",
+            section_id: item?.section?.id || "-",
+            section_name: item?.section?.name || "-",
+            position_id: item?.position?.id || "-",
+            position_name: item?.position?.name || "-",
+            departemen_name: item?.section?.departemen?.name || "-",
+            avatar: item?.avatar || "",
+          })
+        ),
+      });
     } catch (error) {
-      return [];
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
     }
   }
   async getDataById(id: string): Promise<Manpower> {
@@ -40,6 +51,8 @@ export class ManpowerApiRepository implements ManpowerRepository {
         employee_no: data.data?.employee_no || "-",
         section_id: data.data?.section?.id || "-",
         section_name: data.data?.section?.name || "-",
+        departemen_id: data.data?.section?.department?.id || "-",
+        departemen_name: data.data?.section?.department?.name || "-",
         position_id: data.data?.position?.id || "-",
         position_name: data.data?.position?.name || "-",
         avatar: data.data?.avatar || "",
