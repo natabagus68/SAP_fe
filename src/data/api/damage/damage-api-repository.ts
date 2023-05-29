@@ -1,6 +1,8 @@
 import { Damage } from "@domain/models/damage/damage";
 import { DamageRepository } from "@domain/repositories/damage/damage-repository";
 import { api } from "../_api";
+import { MetaPagination } from "@domain/models/meta-pagination";
+import { DefaultResponse } from "@domain/models/default-response";
 
 export class DamageApiRepository implements DamageRepository {
   async get(): Promise<Damage[]> {
@@ -11,6 +13,38 @@ export class DamageApiRepository implements DamageRepository {
         type: item?.type || "-",
       })
     );
+  }
+
+  async getDataByPage(page?: string, limit?: string): Promise<DefaultResponse> {
+    try {
+      const { data } = await api.get(
+        `damage-type?page=${page || ""}&limit=${limit || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.pagination?.page,
+          limit: data?.pagination?.limit,
+          totalRows: data?.pagination?.totalRows,
+          totalPages: data?.pagination?.totalPages,
+          prevPage: data?.pagination?.prevPage,
+          nextPage: data?.pagination?.nextPage,
+        }),
+        data: data?.data?.map((item) =>
+          Damage.create({
+            id: item?.id,
+            type: item?.type || "-",
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
+    }
   }
 
   async getDataById(id: string): Promise<Damage> {
