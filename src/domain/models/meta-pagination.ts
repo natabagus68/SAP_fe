@@ -2,6 +2,8 @@ import { Entity } from "@domain/models/_entity";
 
 export interface IMetaPaginationProps {
   page: number;
+  limit: number;
+  totalRows: number;
   totalPages: number;
   prevPage: number;
   nextPage: number;
@@ -21,6 +23,8 @@ export class MetaPagination
   unmarshall(): IMetaPaginationProps {
     return {
       page: this.page,
+      limit: this.limit,
+      totalRows: this.totalRows,
       totalPages: this.totalPages,
       prevPage: this.prevPage,
       nextPage: this.nextPage,
@@ -29,6 +33,12 @@ export class MetaPagination
 
   get page(): number {
     return this._props.page;
+  }
+  get limit(): number {
+    return this._props.limit;
+  }
+  get totalRows(): number {
+    return this._props.totalRows;
   }
   get totalPages(): number {
     return this._props.totalPages;
