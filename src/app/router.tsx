@@ -353,7 +353,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "master-data/damage",
+        path: "master-data/:page/damage",
         element: <Root />,
         children: [
           {
