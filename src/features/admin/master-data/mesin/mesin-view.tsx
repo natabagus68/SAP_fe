@@ -372,7 +372,8 @@ export default function MesinView() {
           </div>
         ) : null}
         {!mesin.isLoadingData ? (
-          !!!mesin.dataMesin.length && mesin.type == "mesin" ? (
+          !!!mesin.dataMesinWithFilter?.data?.length &&
+          mesin.type == "mesin" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -382,7 +383,8 @@ export default function MesinView() {
           ) : null
         ) : null}
         {!mesin.isLoadingData ? (
-          !!!mesin.dataSubMesin.length && mesin.type == "sub-mesin" ? (
+          !!!mesin.dataSubMesinWithFilter?.data?.length &&
+          mesin.type == "sub-mesin" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -392,7 +394,8 @@ export default function MesinView() {
           ) : null
         ) : null}
         {!mesin.isLoadingData ? (
-          !!!mesin.dataIndikator.length && mesin.type == "indikator" ? (
+          !!!mesin.dataIndikatorWithFilter?.data?.length &&
+          mesin.type == "indikator" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -402,7 +405,8 @@ export default function MesinView() {
           ) : null
         ) : null}
         {!mesin.isLoadingData ? (
-          !!!mesin.dataParameter.length && mesin.type == "parameter" ? (
+          !!!mesin.dataParameterWithFilter?.data?.length &&
+          mesin.type == "parameter" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -412,7 +416,7 @@ export default function MesinView() {
           ) : null
         ) : null}
         {!mesin.isLoadingData ? (
-          !!!mesin.dataUom.length && mesin.type == "uom" ? (
+          !!!mesin.dataUomWithFilter?.data?.length && mesin.type == "uom" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">

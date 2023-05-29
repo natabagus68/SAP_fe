@@ -1,5 +1,6 @@
 import { DepartemenApiRepository } from "@data/api/location/departemen-api-repository";
 import { SectionApiRepository } from "@data/api/location/section-api-repository";
+import { DefaultResponse } from "@domain/models/default-response";
 import { Departemen } from "@domain/models/location/departemen";
 import { Section } from "@domain/models/location/section";
 import { useState, useEffect } from "react";
@@ -14,7 +15,7 @@ import {
 export default function useLocationHooks() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type, id } = useParams();
+  const { type, id, page } = useParams();
 
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
@@ -57,7 +58,6 @@ export default function useLocationHooks() {
 
   //api authenticationRepository
   const DepartemenRepository = new DepartemenApiRepository();
-
   const SectionRepository = new SectionApiRepository();
 
   //state data departemen
@@ -78,6 +78,59 @@ export default function useLocationHooks() {
   //state data checkbox
   const [isChecked, setIsChecked] = useState(false);
 
+  //state data departemen with filter
+  const [dataDepartemenWithFilter, setDataDepartemenWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+  //state data section with filter
+  const [dataSectionWithFilter, setDataSectionWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+
+  // get data Departemen with filter
+  const getDataDepartemenWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataDepartemenWithFilter(null);
+    try {
+      const result = await DepartemenRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "2"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataDepartemenWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data Section with filter
+  const getDataSectionWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataSectionWithFilter(null);
+    try {
+      const result = await SectionRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "2"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSectionWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // get data departemen
   const getDataDepartemen = async () => {
     setIsLoadingData(true);
@@ -274,13 +327,11 @@ export default function useLocationHooks() {
 
   useEffect(() => {
     if (type == "departemen") {
-      getDataDepartemen();
-      setDataSection([]);
+      getDataDepartemenWithFilter();
     } else {
-      getDataSection();
-      setDataDepartemen([]);
+      getDataSectionWithFilter();
     }
-  }, [type]);
+  }, [type, page]);
 
   useEffect(() => {
     if (!!id && type == "departemen") {
@@ -314,6 +365,8 @@ export default function useLocationHooks() {
     dataSection,
     isLoadingData,
     dataSectionWithoutDepartment,
+    dataDepartemenWithFilter,
+    dataSectionWithFilter,
     getDataDepartemenById,
     getDataSectionById,
     createDataSection,

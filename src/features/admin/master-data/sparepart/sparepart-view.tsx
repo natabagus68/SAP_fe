@@ -363,7 +363,8 @@ export default function SparepartView() {
           </div>
         ) : null}
         {!sparepart.isLoadingData ? (
-          !!!sparepart.dataSparepart.length && sparepart.type == "part" ? (
+          !!!sparepart.dataPartWithFilter?.data?.length &&
+          sparepart.type == "part" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -373,7 +374,7 @@ export default function SparepartView() {
           ) : null
         ) : null}
         {!sparepart.isLoadingData ? (
-          !!!sparepart.dataSparepartInventory.length &&
+          !!!sparepart.dataInventoryWithFilter?.data?.length &&
           sparepart.type == "kategory-inventory" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
@@ -384,7 +385,7 @@ export default function SparepartView() {
           ) : null
         ) : null}
         {!sparepart.isLoadingData ? (
-          !!!sparepart.dataSparepartAvailability.length &&
+          !!!sparepart.dataAvailabilityWithFilter?.data?.length &&
           sparepart.type == "availability" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
@@ -395,7 +396,7 @@ export default function SparepartView() {
           ) : null
         ) : null}
         {!sparepart.isLoadingData ? (
-          !!!sparepart.dataSparepartKategory.length &&
+          !!!sparepart.dataCategoryWithFilter?.data?.length &&
           sparepart.type == "kategory-sparepart" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />

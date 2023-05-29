@@ -60,7 +60,7 @@ export default function DamageView() {
             </tr>
           </thead>
           <tbody className="text-base text-[#514E4E]">
-            {damage.dataDamage.map((item, i) => (
+            {damage.dataDamage?.data?.map((item, i) => (
               <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                 <td className="px-[32px]">{item.type}</td>
                 <td className="px-[32px]">
@@ -99,7 +99,7 @@ export default function DamageView() {
               className="w-[24px] h-[24px] animate-spin"
             />
           </div>
-        ) : !!!damage.dataDamage.length ? (
+        ) : !!!damage.dataDamage.data?.length ? (
           <div className="w-full flex flex-col items-center py-[60px]">
             <img src={empty_data_table} alt="Empty data table" className="" />
             <span className="text-[#514E4E] text-2xl font-bold">
@@ -109,7 +109,19 @@ export default function DamageView() {
         ) : null}
 
         <div className="flex py-4 px-[32px] justify-end gap-4">
-          <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
+          <button
+            disabled={!!damage.dataDamage?.pagination?.prevPage ? false : true}
+            onClick={() =>
+              damage.navigate(
+                `../master-data/${damage.dataDamage?.pagination?.prevPage}/damage`
+              )
+            }
+            className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+              !!damage.dataDamage?.pagination?.prevPage
+                ? "border-[#20519F]"
+                : "border-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
             <ArrowUpIcon
               className="w-[16px] h-[16px] -rotate-90"
               color="#B8B6B6"
@@ -117,13 +129,31 @@ export default function DamageView() {
             <span>Prev</span>
           </button>
           <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
-            1
+            {!!damage.dataDamage?.pagination?.page
+              ? damage.dataDamage?.pagination?.page
+              : "-"}
           </div>
-          <button className="px-4 h-[40px] text-[#20519F] border gap-2 border-[#20519F] rounded flex items-center justify-center">
+          <button
+            disabled={!!damage.dataDamage?.pagination?.nextPage ? false : true}
+            onClick={() =>
+              damage.navigate(
+                `../master-data/${damage.dataDamage?.pagination?.nextPage}/damage`
+              )
+            }
+            className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+              !!damage.dataDamage?.pagination?.nextPage
+                ? "border-[#20519F]"
+                : "border-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
             <span>Next</span>
             <ArrowUpIcon
               className="w-[16px] h-[16px] rotate-90"
-              color="#20519F"
+              color={`${
+                !!damage.dataDamage?.pagination?.nextPage
+                  ? "#20519F"
+                  : "#B8B6B6"
+              }`}
             />
           </button>
         </div>

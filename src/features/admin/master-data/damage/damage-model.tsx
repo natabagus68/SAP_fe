@@ -1,5 +1,7 @@
 import { DamageApiRepository } from "@data/api/damage/damage-api-repository";
 import { Damage } from "@domain/models/damage/damage";
+import { DefaultResponse } from "@domain/models/default-response";
+import { MetaPagination } from "@domain/models/meta-pagination";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -12,7 +14,7 @@ import {
 export default function useDamage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { damageId } = useParams();
+  const { damageId, page } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -43,8 +45,31 @@ export default function useDamage() {
 
   //api authenticationRepository
   const damageRepository = new DamageApiRepository();
-  //state data manpower
-  const [dataDamage, setDataDamage] = useState<Damage[]>([]);
+  const [dataDamage, setDataDamage] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
+
+  const [dataDamageByPage, setDataDamageByPage] = useState([]);
+
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  // const handlePrevPage = () => {
+  //   if (currentPage > 1) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // };
+
+  // const handleNextPage = () => {
+  //   const totalPages = 10;
+
+  //   if (currentPage < totalPages) {
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // };
 
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -54,6 +79,8 @@ export default function useDamage() {
 
   //state message from api
   const [message, setMessage] = useState(null);
+
+  //
 
   // create damage data
   const createDamage = async (data) => {
@@ -81,14 +108,29 @@ export default function useDamage() {
   // get data damage
   const getDataDamage = async () => {
     setIsLoadingData(true);
+    setDataDamage(null);
+
     try {
-      const result = await damageRepository.get();
+      const result = await damageRepository.getDataByPage(
+        !!Number(page) ? page : "1",
+        "5"
+      );
       setTimeout(() => {
-        setIsLoadingData(false);
         setDataDamage(result);
+        setIsLoadingData(false);
       }, 500);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const getDataDamageByPage = async () => {
+    setDataDamage(null);
+    try {
+      const result = await damageRepository.getDataByPage();
+      setDataDamageByPage(result.data);
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
@@ -146,8 +188,19 @@ export default function useDamage() {
   };
 
   useEffect(() => {
+    setMessage(null);
     getDataDamage();
   }, []);
+
+  useEffect(() => {
+    if (!!!Number(page)) {
+      navigate(`../master-data/:page/damage`);
+    }
+  }, []);
+
+  useEffect(() => {
+    getDataDamage();
+  }, [page]);
 
   useEffect(() => {
     if (!!damageId) {
@@ -181,5 +234,7 @@ export default function useDamage() {
     dataDamageById,
     getDataDamageById,
     message,
+    dataDamageByPage,
+    page,
   };
 }

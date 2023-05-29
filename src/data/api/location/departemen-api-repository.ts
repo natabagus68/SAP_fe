@@ -1,6 +1,8 @@
 import { DepartemenRepository } from "@domain/repositories/location/departemen-repository";
 import { api } from "../_api";
 import { Departemen } from "@domain/models/location/departemen";
+import { DefaultResponse } from "@domain/models/default-response";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export class DepartemenApiRepository implements DepartemenRepository {
   async getDepartement(): Promise<Departemen[]> {
@@ -16,6 +18,43 @@ export class DepartemenApiRepository implements DepartemenRepository {
       );
     } catch (error) {
       return [];
+    }
+  }
+
+  async getDataWithFilter(
+    page?: string | undefined,
+    limit?: string | undefined,
+    q?: string | undefined
+  ): Promise<DefaultResponse> {
+    try {
+      const { data } = await api.get(
+        `department?page=${page || ""}&limit=${limit || ""}&q=${q || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.pagination?.page,
+          limit: data?.pagination?.limit,
+          totalRows: data?.pagination?.totalRows,
+          totalPages: data?.pagination?.totalPages,
+          prevPage: data?.pagination?.prevPage,
+          nextPage: data?.pagination?.nextPage,
+        }),
+        data: data?.data?.map((item) =>
+          Departemen.create({
+            id: item?.id,
+            name: item?.name || "-",
+            section: item?.Sections || "-",
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
     }
   }
 

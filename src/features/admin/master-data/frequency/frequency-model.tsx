@@ -8,11 +8,12 @@ import {
 import { useForm } from "react-hook-form";
 import { FrequencyApiRepository } from "@data/api/frequency/frequency-api-repository";
 import { Frequency } from "@domain/models/frequency/frequency";
+import { DefaultResponse } from "@domain/models/default-response";
 
 export default function useFrequency() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { frequencyId } = useParams();
+  const { frequencyId, page } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -43,7 +44,15 @@ export default function useFrequency() {
   //api authenticationRepository
   const frequencyRepository = new FrequencyApiRepository();
   //state data frequency
-  const [dataFrequency, setDataFrequency] = useState<Frequency[]>([]);
+  const [dataFrequency, setDataFrequency] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
+
+  const [dataFrequencyByPage, setDataFrequencyByPage] = useState([]);
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -56,14 +65,28 @@ export default function useFrequency() {
   // get data frequency
   const getDataFrequency = async () => {
     setIsLoadingData(true);
+    setDataFrequency(null);
     try {
-      const result = await frequencyRepository.get();
+      const result = await frequencyRepository.getDataByPage(
+        !!Number(page) ? page : "1",
+        "1"
+      );
       setTimeout(() => {
         setIsLoadingData(false);
         setDataFrequency(result);
       }, 500);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const getDataFrequencyByPage = async () => {
+    setDataFrequency(null);
+    try {
+      const result = await frequencyRepository.getDataByPage();
+      setDataFrequencyByPage(result.data);
+    } catch (error) {
+      throw new Error(error);
     }
   };
 
@@ -144,8 +167,19 @@ export default function useFrequency() {
   };
 
   useEffect(() => {
+    setMessage(null);
     getDataFrequency();
   }, []);
+
+  useEffect(() => {
+    if (!!!Number(page)) {
+      navigate(`../master-data/:page/frequency`);
+    }
+  }, []);
+
+  useEffect(() => {
+    getDataFrequency();
+  }, [page]);
 
   useEffect(() => {
     if (!!frequencyId) {

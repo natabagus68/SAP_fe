@@ -1,6 +1,8 @@
+import { DefaultResponse } from "@domain/models/default-response";
 import { api } from "../_api";
 import { Section } from "@domain/models/location/section";
 import { SectionRepository } from "@domain/repositories/location/section-repository";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export class SectionApiRepository implements SectionRepository {
   async getSection(): Promise<Section[]> {
@@ -13,6 +15,44 @@ export class SectionApiRepository implements SectionRepository {
       })
     );
   }
+
+  async getDataWithFilter(
+    page?: string | undefined,
+    limit?: string | undefined,
+    q?: string | undefined
+  ): Promise<DefaultResponse> {
+    try {
+      const { data } = await api.get(
+        `section?page=${page || ""}&limit=${limit || ""}&q=${q || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.pagination?.page,
+          limit: data?.pagination?.limit,
+          totalRows: data?.pagination?.totalRows,
+          totalPages: data?.pagination?.totalPages,
+          prevPage: data?.pagination?.prevPage,
+          nextPage: data?.pagination?.nextPage,
+        }),
+        data: data?.data?.map((item) =>
+          Section.create({
+            id: item?.id,
+            name: item?.name || "-",
+            department_id: item?.department?.id || "-",
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
+    }
+  }
+
   async getSectionWithoutDepartment(): Promise<Section[]> {
     const { data } = await api.get(`section/without-department`);
     return data?.data?.map((item) =>
