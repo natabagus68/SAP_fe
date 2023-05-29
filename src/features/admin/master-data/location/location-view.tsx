@@ -60,7 +60,9 @@ export default function LocationView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => location.navigate("./../../departemen/location")}
+              onClick={() =>
+                location.navigate("../master-data/departemen/1/location")
+              }
             >
               Departemen
             </button>
@@ -70,7 +72,9 @@ export default function LocationView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => location.navigate("./../../section/location")}
+              onClick={() =>
+                location.navigate("../master-data/section/1/location")
+              }
             >
               Section
             </button>
@@ -101,7 +105,7 @@ export default function LocationView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {location.dataDepartemen.map((item, i) => (
+              {location.dataDepartemenWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">{item.section}</td>
@@ -152,7 +156,7 @@ export default function LocationView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {location.dataSection.map((item, i) => (
+              {location.dataSectionWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">
@@ -195,7 +199,8 @@ export default function LocationView() {
           </div>
         ) : null}
         {!location.isLoadingData ? (
-          !!!location.dataDepartemen.length && location.type == "departemen" ? (
+          !!!location.dataDepartemenWithFilter?.data?.length &&
+          location.type == "departemen" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -205,7 +210,8 @@ export default function LocationView() {
           ) : null
         ) : null}
         {!location.isLoadingData ? (
-          !!!location.dataSection.length && location.type == "section" ? (
+          !!!location.dataSectionWithFilter?.data?.length &&
+          location.type == "section" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -215,25 +221,129 @@ export default function LocationView() {
           ) : null
         ) : null}
 
-        <div className="flex py-4 px-[32px] justify-end gap-4">
-          <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
-            <ArrowUpIcon
-              className="w-[16px] h-[16px] -rotate-90"
-              color="#B8B6B6"
-            />
-            <span>Prev</span>
-          </button>
-          <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
-            1
+        {location.type == "departemen" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!location.dataDepartemenWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                location.navigate(
+                  `../master-data/${location.type}/${location.dataDepartemenWithFilter?.pagination?.prevPage}/location`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!location.dataDepartemenWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!location.dataDepartemenWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!location.dataDepartemenWithFilter?.pagination?.page
+                ? location.dataDepartemenWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!location.dataDepartemenWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                location.navigate(
+                  `../master-data/${location.type}/${location.dataDepartemenWithFilter?.pagination?.nextPage}/location`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!location.dataDepartemenWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!location.dataDepartemenWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
           </div>
-          <button className="px-4 h-[40px] text-[#20519F] border gap-2 border-[#20519F] rounded flex items-center justify-center">
-            <span>Next</span>
-            <ArrowUpIcon
-              className="w-[16px] h-[16px] rotate-90"
-              color="#20519F"
-            />
-          </button>
-        </div>
+        ) : null}
+
+        {location.type == "section" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!location.dataSectionWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                location.navigate(
+                  `../master-data/${location.type}/${location.dataSectionWithFilter?.pagination?.prevPage}/location`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!location.dataSectionWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!location.dataSectionWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!location.dataSectionWithFilter?.pagination?.page
+                ? location.dataSectionWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!location.dataSectionWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                location.navigate(
+                  `../master-data/${location.type}/${location.dataSectionWithFilter?.pagination?.nextPage}/location`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!location.dataSectionWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!location.dataSectionWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
       </div>
     </main>
   );
