@@ -57,7 +57,9 @@ export default function ManpowerView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => manpower.navigate("./../../manpower/manpower")}
+              onClick={() =>
+                manpower.navigate(`../master-data/manpower/1/manpower`)
+              }
             >
               Manpower
             </button>
@@ -67,7 +69,9 @@ export default function ManpowerView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => manpower.navigate("./../../posisi/manpower")}
+              onClick={() =>
+                manpower.navigate(`../master-data/posisi/1/manpower`)
+              }
             >
               Posisi
             </button>
@@ -100,7 +104,7 @@ export default function ManpowerView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {manpower.dataManpower.map((item, i) => (
+              {manpower.dataManpower?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.employee_no}</td>
                   <td className="px-[32px]">{item.name}</td>
@@ -153,7 +157,7 @@ export default function ManpowerView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {manpower.dataPosition.map((item, i) => (
+              {manpower.dataPosition?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">
@@ -187,7 +191,7 @@ export default function ManpowerView() {
           </table>
         )}
         {manpower.isLoadingData ? (
-          <div className="w-full h-[48px] flex items-center justify-center">
+          <div className="w-full h-[64px] flex items-center justify-center">
             <LoadingIcon
               color="black"
               className="w-[24px] h-[24px] animate-spin"
@@ -195,7 +199,8 @@ export default function ManpowerView() {
           </div>
         ) : null}
         {!manpower.isLoadingData ? (
-          !!!manpower.dataManpower.length && manpower.type == "manpower" ? (
+          !!!manpower.dataManpower?.data?.length &&
+          manpower.type == "manpower" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -205,7 +210,7 @@ export default function ManpowerView() {
           ) : null
         ) : null}
         {!manpower.isLoadingData ? (
-          !!!manpower.dataPosition.length && manpower.type == "posisi" ? (
+          !!!manpower.dataPosition?.data?.length && manpower.type == "posisi" ? (
             <div className="w-full flex flex-col items-center py-[60px]">
               <img src={empty_data_table} alt="Empty data table" className="" />
               <span className="text-[#514E4E] text-2xl font-bold">
@@ -214,41 +219,121 @@ export default function ManpowerView() {
             </div>
           ) : null
         ) : null}
-        {/* !!!manpower.dataManpower.length && manpower.type == "manpower" ? (
-          <div className="w-full flex flex-col items-center py-[60px]">
-            <img src={empty_data_table} alt="Empty data table" className="" />
-            <span className="text-[#514E4E] text-2xl font-bold">
-              Tidak ada data
-            </span>
+        {/* <div className="flex justify-center gap-4"></div> */}
+        {manpower.type == "manpower" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!manpower.dataManpower?.pagination?.prevPage ? false : true
+              }
+              onClick={() =>
+                manpower.navigate(
+                  `../master-data/${manpower.type}/${manpower.dataManpower?.pagination?.prevPage}/manpower`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!manpower.dataManpower?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!manpower.dataManpower?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!manpower.dataManpower?.pagination?.page
+                ? manpower.dataManpower?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!manpower.dataManpower?.pagination?.nextPage ? false : true
+              }
+              onClick={() =>
+                manpower.navigate(
+                  `../master-data/${manpower.type}/${manpower.dataManpower?.pagination?.nextPage}/manpower`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!manpower.dataManpower?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!manpower.dataManpower?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
           </div>
-        ) */}
-        {/* {!!!manpower.dataPosition.length ? (
-          <div className="w-full flex flex-col items-center py-[60px]">
-            <img src={empty_data_table} alt="Empty data table" className="" />
-            <span className="text-[#514E4E] text-2xl font-bold">
-              Tidak ada data
-            </span>
+        ) : null}
+        {manpower.type == "posisi" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!manpower.dataPosition?.pagination?.prevPage ? false : true
+              }
+              onClick={() =>
+                manpower.navigate(
+                  `../master-data/${manpower.type}/${manpower.dataPosition?.pagination?.prevPage}/manpower`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!manpower.dataPosition?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!manpower.dataPosition?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!manpower.dataPosition?.pagination?.page
+                ? manpower.dataPosition?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!manpower.dataPosition?.pagination?.nextPage ? false : true
+              }
+              onClick={() =>
+                manpower.navigate(
+                  `../master-data/${manpower.type}/${manpower.dataPosition?.pagination?.nextPage}/manpower`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!manpower.dataPosition?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!manpower.dataPosition?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
           </div>
-        ) : null} */}
-        <div className="flex py-4 px-[32px] justify-end gap-4">
-          <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
-            <ArrowUpIcon
-              className="w-[16px] h-[16px] -rotate-90"
-              color="#B8B6B6"
-            />
-            <span>Prev</span>
-          </button>
-          <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
-            1
-          </div>
-          <button className="px-4 h-[40px] text-[#20519F] border gap-2 border-[#20519F] rounded flex items-center justify-center">
-            <span>Next</span>
-            <ArrowUpIcon
-              className="w-[16px] h-[16px] rotate-90"
-              color="#20519F"
-            />
-          </button>
-        </div>
+        ) : null}
       </div>
     </main>
   );

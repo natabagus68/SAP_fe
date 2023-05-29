@@ -127,7 +127,7 @@ export default function AdminLayout() {
               label={`Master Data`}
               icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
             >
-              <NavItem label="Manpower" to={"master-data/manpower/manpower"} />
+              <NavItem label="Manpower" to={"master-data/manpower/1/manpower"} />
               <NavItem label="Mesin" to={"master-data/mesin/mesin"} />
               <NavItem
                 label="Location"

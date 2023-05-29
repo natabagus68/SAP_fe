@@ -15,33 +15,20 @@ import { Section } from "@domain/models/location/section";
 // import { DepartemenApiRepository } from "@data/api/location/departemen-api-repository";
 import { PositionApiRepository } from "@data/api/manpower/position-api-repository";
 import { Position } from "@domain/models/manpower/position";
+import { DefaultResponse } from "@domain/models/default-response";
+import { MetaPagination } from "@domain/models/meta-pagination";
+import { number } from "yup";
 
 export default function useManpower() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type, id } = useParams();
+  const { type, id, page } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
   //state data manpower by id
   const [dataManpowerById, setDataManpowerById] = useState(null);
   //state data position by id
   const [dataPositionById, setDataPositionById] = useState(null);
-  //setup react form hook
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    values: {
-      nip: dataManpowerById?.employee_no,
-      name:
-        type == "manpower" ? dataManpowerById?.name : dataPositionById?.name,
-      posisi: dataManpowerById?.position_id,
-      section: dataManpowerById?.section_id,
-      photo: dataManpowerById?.avatar,
-      // departemen: state?.data?.departemen,
-    },
-  });
 
   //state modal delete
   const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -52,7 +39,13 @@ export default function useManpower() {
   //api authenticationRepository
   const manpowerRepository = new ManpowerApiRepository();
   //state data manpower
-  const [dataManpower, setDataManpower] = useState<Manpower[]>([]);
+  const [dataManpower, setDataManpower] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
 
   //state loading data
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -66,8 +59,17 @@ export default function useManpower() {
   const [dataSection, setDataSection] = useState<Section[]>([]);
   //api repository position
   const positionRepository = new PositionApiRepository();
-  //state data departemen
-  const [dataPosition, setDataPosition] = useState<Position[]>([]);
+  //state data posisiton
+  const [dataPosition, setDataPosition] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
+  //state data posisiton
+  const [dataPositionForSelect, setDataPositionForSelect] = useState([]);
+
   //state for parsing data id
   const [dataId, setDataId] = useState(null);
   //state message from api
@@ -205,11 +207,18 @@ export default function useManpower() {
   // get data manpower
   const getDataManpower = async () => {
     setIsLoadingData(true);
-    setDataManpower([]);
+    setDataManpower(null);
+    setDataPosition(null);
     try {
-      const result = await manpowerRepository.get();
-      setDataManpower(result);
-      setIsLoadingData(false);
+      const result = await manpowerRepository.get(
+        !!Number(page) ? Number(page) : 1,
+        5,
+        ""
+      );
+      setTimeout(() => {
+        setDataManpower(result);
+        setIsLoadingData(false);
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -217,11 +226,28 @@ export default function useManpower() {
   // get data position
   const getDataPosition = async () => {
     setIsLoadingData(true);
-    setDataPosition([]);
+    setDataPosition(null);
+    setDataManpower(null);
     try {
-      const result = await positionRepository.get();
-      setDataPosition(result);
-      setIsLoadingData(false);
+      const result = await positionRepository.getWithPagination(
+        !!Number(page) ? page : "1",
+        "2",
+        ""
+      );
+      setTimeout(() => {
+        setDataPosition(result);
+        setIsLoadingData(false);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  // get data position
+  const getDataPositionForSection = async () => {
+    setDataPosition(null);
+    try {
+      const result = await positionRepository.getWithPagination();
+      setDataPositionForSelect(result.data);
     } catch (error) {
       throw new Error(error);
     }
@@ -230,7 +256,11 @@ export default function useManpower() {
   const getDataManpowerById = async (id: string) => {
     try {
       const result = await manpowerRepository.getDataById(id);
-      setDataManpowerById(result);
+      // console.log(result);
+      
+      setTimeout(() => {
+        setDataManpowerById(result);
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -239,7 +269,9 @@ export default function useManpower() {
   const getDataPositionById = async (id: string) => {
     try {
       const result = await positionRepository.getDataById(id);
-      setDataPositionById(result);
+      setTimeout(() => {
+        setDataPositionById(result);
+      }, 500);
     } catch (error) {
       throw new Error(error);
     }
@@ -254,10 +286,31 @@ export default function useManpower() {
     }
   };
 
+  //setup react form hook
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    values: {
+      nip: dataManpowerById?.employee_no,
+      name:
+        type == "manpower" ? dataManpowerById?.name : dataPositionById?.name,
+      section: dataManpowerById?.section_id,
+      posisi: dataManpowerById?.position_id,
+      photo: dataManpowerById?.avatar,
+    },
+  });
+
   useEffect(() => {
     setMessage(null);
     getDataPosition();
     getDataSection();
+  }, []);
+  useEffect(() => {
+    if (!!!Number(page)) {
+      navigate(`../master-data/manpower/1/${type}`);
+    }
   }, []);
   useEffect(() => {
     if (type == "manpower") {
@@ -265,9 +318,10 @@ export default function useManpower() {
     } else {
       getDataPosition();
     }
-  }, [type]);
+  }, [type, page]);
   useEffect(() => {
     if (!!id && type == "manpower") {
+      getDataPositionForSection();
       getDataManpowerById(id);
     } else if (!!id && type == "posisi") {
       getDataPositionById(id);
@@ -292,6 +346,8 @@ export default function useManpower() {
     id,
     dataId,
     message,
+    page,
+    dataPositionForSelect,
     setSearchParams,
     navigate,
     createManpower,

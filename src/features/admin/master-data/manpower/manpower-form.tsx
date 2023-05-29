@@ -72,11 +72,13 @@ export default function ManpowerForm() {
                   {...manpower.register("posisi", { required: true })}
                 >
                   <option value="">Pilih posisi</option>
-                  {manpower.dataPosition.map((item, i) => (
-                    <option key={i} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {manpower.dataPositionForSelect?.map((item, i) => {
+                    return (
+                      <option key={i} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className="flex flex-col w-full gap-1">
