@@ -22,11 +22,12 @@ import {
 import moment from "moment";
 import { SectionApiRepository } from "@data/api/location/section-api-repository";
 import { Section } from "@domain/models/location/section";
+import { DefaultResponse } from "@domain/models/default-response";
 
 export default function useSparepart() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type, id } = useParams();
+  const { type, id, page } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
   //state & default data url params
@@ -42,21 +43,16 @@ export default function useSparepart() {
 
   //api authenticationRepository
   const kategorySparepartRepository = new SparepartKategoryApiRepository();
-
   const inventorySparepartRepository = new SparepartInventoryApiRepository();
-
   const partSparepartRepository = new SparepartApiRpository();
-
   const availabilitySparepartRepository =
     new SparepartAvailabilityApiRepository();
-
-  //api uom
   const uomRepository = new UomApiRepository();
+
   //state for uom
   const [dataUom, setDataUom] = useState<UnitOfMeasure[]>([]);
 
   //state data sparepat
-
   const [dataSparepart, setDataSparepart] = useState<SparepartPart[]>([]);
 
   const [dataSparepartAvailability, setDataSparepartAvailability] = useState<
@@ -95,6 +91,111 @@ export default function useSparepart() {
   const sectionRepository = new SectionApiRepository();
   //state data Section
   const [dataSection, setDataSection] = useState<Section[]>([]);
+
+  //state data part with filter
+  const [dataPartWithFilter, setDataPartWithFilter] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
+  //state data inventory with filter
+  const [dataInventoryWithFilter, setDataInventoryWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+  //state data availability with filter
+  const [dataAvailabilityWithFilter, setDataAvailabilityWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+  //state data category with filter
+  const [dataCategoryWithFilter, setDataCategoryWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+
+  // get data part with filter
+  const getDataPatrWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataPartWithFilter(null);
+    try {
+      const result = await partSparepartRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "2"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataPartWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data Inventory with filter
+  const getDataInventoryWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataInventoryWithFilter(null);
+    try {
+      const result = await inventorySparepartRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "2"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataInventoryWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data Availability with filter
+  const getDataAvailabilityWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataAvailabilityWithFilter(null);
+    try {
+      const result = await availabilitySparepartRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "1"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataAvailabilityWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data category with filter
+  const getDataCategoryWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataCategoryWithFilter(null);
+    try {
+      const result = await kategorySparepartRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "1"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataCategoryWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // get data sparepart
   const getDataSparepart = async () => {
@@ -614,15 +715,15 @@ export default function useSparepart() {
   }, []);
   useEffect(() => {
     if (type == "kategory-sparepart") {
-      getDataSparepartKategory();
+      getDataCategoryWithFilter();
     } else if (type == "kategory-inventory") {
-      getDataSparepartInventory();
+      getDataInventoryWithFilter();
     } else if (type == "part") {
-      getDataSparepart();
+      getDataPatrWithFilter();
     } else if (type == "availability") {
-      getDataSparepatAvailability();
+      getDataAvailabilityWithFilter();
     }
-  }, [type]);
+  }, [type, page]);
   useEffect(() => {
     if (!!id && type == "part") {
       getDataSparepartById(id);
@@ -656,6 +757,10 @@ export default function useSparepart() {
     dataId,
     dataInventoryById,
     dataSection,
+    dataPartWithFilter,
+    dataInventoryWithFilter,
+    dataAvailabilityWithFilter,
+    dataCategoryWithFilter,
     setSearchParams,
     setUrlParams,
     navigate,

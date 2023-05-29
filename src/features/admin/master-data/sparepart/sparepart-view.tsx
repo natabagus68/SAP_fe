@@ -69,7 +69,9 @@ export default function SparepartView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => sparepart.navigate("./../../part/sparepart")}
+              onClick={() =>
+                sparepart.navigate("../master-data/part/1/sparepart")
+              }
             >
               Part
             </button>
@@ -80,7 +82,9 @@ export default function SparepartView() {
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
               onClick={() =>
-                sparepart.navigate("./../../kategory-inventory/sparepart")
+                sparepart.navigate(
+                  "../master-data/kategory-inventory/1/sparepart"
+                )
               }
             >
               Kategory Inventory
@@ -92,7 +96,7 @@ export default function SparepartView() {
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
               onClick={() =>
-                sparepart.navigate("./../../availability/sparepart")
+                sparepart.navigate("../master-data/availability/1/sparepart")
               }
             >
               Availability
@@ -104,7 +108,9 @@ export default function SparepartView() {
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
               onClick={() =>
-                sparepart.navigate("./../../kategory-sparepart/sparepart")
+                sparepart.navigate(
+                  "../master-data/kategory-sparepart/1/sparepart"
+                )
               }
             >
               Kategory Sparepart
@@ -134,7 +140,7 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {sparepart.dataSparepart.map((item, i) => {
+              {sparepart.dataPartWithFilter?.data?.map((item, i) => {
                 return (
                   <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                     <td className="px-[32px]">{item.category_name}</td>
@@ -196,7 +202,7 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {sparepart.dataSparepartInventory.map((item, i) => (
+              {sparepart.dataInventoryWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">
                     <div className="flex items-center">
@@ -270,7 +276,7 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {sparepart.dataSparepartAvailability?.map((item, i) => (
+              {sparepart.dataAvailabilityWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item?.rack_code}</td>
                   <td className="px-[32px]">{item?.section_name}</td>
@@ -314,7 +320,7 @@ export default function SparepartView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {sparepart.dataSparepartKategory.map((item, i) => (
+              {sparepart.dataCategoryWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">
@@ -400,7 +406,255 @@ export default function SparepartView() {
           ) : null
         ) : null}
 
-        <div className="flex py-4 px-[32px] justify-end gap-4">
+        {sparepart.type == "part" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!sparepart.dataPartWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataPartWithFilter?.pagination?.prevPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!sparepart.dataPartWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!sparepart.dataPartWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!sparepart.dataPartWithFilter?.pagination?.page
+                ? sparepart.dataPartWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!sparepart.dataPartWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataPartWithFilter?.pagination?.nextPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!sparepart.dataPartWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!sparepart.dataPartWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+
+        {sparepart.type == "kategory-inventory" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!sparepart.dataInventoryWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataInventoryWithFilter?.pagination?.prevPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!sparepart.dataInventoryWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!sparepart.dataInventoryWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!sparepart.dataInventoryWithFilter?.pagination?.page
+                ? sparepart.dataInventoryWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!sparepart.dataInventoryWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataInventoryWithFilter?.pagination?.nextPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!sparepart.dataInventoryWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!sparepart.dataInventoryWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+
+        {sparepart.type == "availability" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!sparepart.dataAvailabilityWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataAvailabilityWithFilter?.pagination?.prevPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!sparepart.dataAvailabilityWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!sparepart.dataAvailabilityWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!sparepart.dataAvailabilityWithFilter?.pagination?.page
+                ? sparepart.dataAvailabilityWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!sparepart.dataAvailabilityWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataAvailabilityWithFilter?.pagination?.nextPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!sparepart.dataAvailabilityWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!sparepart.dataAvailabilityWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+
+        {sparepart.type == "kategory-sparepart" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!sparepart.dataCategoryWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataCategoryWithFilter?.pagination?.prevPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!sparepart.dataCategoryWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!sparepart.dataCategoryWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!sparepart.dataCategoryWithFilter?.pagination?.page
+                ? sparepart.dataCategoryWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!sparepart.dataCategoryWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                sparepart.navigate(
+                  `../master-data/${sparepart.type}/${sparepart.dataCategoryWithFilter?.pagination?.nextPage}/sparepart`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!sparepart.dataCategoryWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!sparepart.dataCategoryWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+
+        {/* <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
             <ArrowUpIcon
               className="w-[16px] h-[16px] -rotate-90"
@@ -418,7 +672,7 @@ export default function SparepartView() {
               color="#20519F"
             />
           </button>
-        </div>
+        </div> */}
       </div>
     </main>
   );

@@ -64,7 +64,7 @@ export default function MesinView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => mesin.navigate("./../../mesin/mesin")}
+              onClick={() => mesin.navigate("../master-data/mesin/1/mesin")}
             >
               Mesin
             </button>
@@ -74,7 +74,7 @@ export default function MesinView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => mesin.navigate("./../../sub-mesin/mesin")}
+              onClick={() => mesin.navigate("../master-data/sub-mesin/1/mesin")}
             >
               Sub-Mesin
             </button>
@@ -84,7 +84,7 @@ export default function MesinView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => mesin.navigate("./../../parameter/mesin")}
+              onClick={() => mesin.navigate("../master-data/parameter/1/mesin")}
             >
               Parameter
             </button>
@@ -94,7 +94,7 @@ export default function MesinView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => mesin.navigate("./../../indikator/mesin")}
+              onClick={() => mesin.navigate("../master-data/indikator/1/mesin")}
             >
               Indikator
             </button>
@@ -104,7 +104,7 @@ export default function MesinView() {
                   ? "text-[#20519F] border-b border-[#20519F]"
                   : "text-[#514E4E]"
               } text-base font-semibold pb-2`}
-              onClick={() => mesin.navigate("./../../uom/mesin")}
+              onClick={() => mesin.navigate("../master-data/uom/1/mesin")}
             >
               UoM
             </button>
@@ -131,7 +131,7 @@ export default function MesinView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {mesin.dataMesin.map((item, i) => (
+              {mesin.dataMesinWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.machine_no}</td>
                   <td className="px-[32px]">{item.name}</td>
@@ -186,7 +186,7 @@ export default function MesinView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {mesin.dataSubMesin.map((item, i) => (
+              {mesin.dataSubMesinWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.no}</td>
                   <td className="px-[32px]">{item.name}</td>
@@ -241,7 +241,7 @@ export default function MesinView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {mesin.dataParameter.map((item, i) => (
+              {mesin.dataParameterWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">{item.variable}</td>
@@ -286,7 +286,7 @@ export default function MesinView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {mesin.dataIndikator.map((item, i) => (
+              {mesin.dataIndikatorWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">
@@ -329,7 +329,7 @@ export default function MesinView() {
               </tr>
             </thead>
             <tbody className="text-base text-[#514E4E]">
-              {mesin.dataUom.map((item, i) => (
+              {mesin.dataUomWithFilter?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">{item.name}</td>
                   <td className="px-[32px]">
@@ -364,7 +364,7 @@ export default function MesinView() {
         ) : null}
 
         {mesin.isLoadingData ? (
-          <div className="w-full h-[48px] flex items-center justify-center">
+          <div className="w-full h-[64px] flex items-center justify-center">
             <LoadingIcon
               color="black"
               className="w-[24px] h-[24px] animate-spin"
@@ -422,7 +422,7 @@ export default function MesinView() {
           ) : null
         ) : null}
 
-        <div className="flex py-4 px-[32px] justify-end gap-4">
+        {/* <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
             <ArrowUpIcon
               className="w-[16px] h-[16px] -rotate-90"
@@ -440,7 +440,307 @@ export default function MesinView() {
               color="#20519F"
             />
           </button>
-        </div>
+        </div> */}
+        {mesin.type == "mesin" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!mesin.dataMesinWithFilter?.pagination?.prevPage ? false : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataMesinWithFilter?.pagination?.prevPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!mesin.dataMesinWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!mesin.dataMesinWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!mesin.dataMesinWithFilter?.pagination?.page
+                ? mesin.dataMesinWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!mesin.dataMesinWithFilter?.pagination?.nextPage ? false : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataMesinWithFilter?.pagination?.nextPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!mesin.dataMesinWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!mesin.dataMesinWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+        {mesin.type == "sub-mesin" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!mesin.dataSubMesinWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataSubMesinWithFilter?.pagination?.prevPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!mesin.dataSubMesinWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!mesin.dataSubMesinWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!mesin.dataSubMesinWithFilter?.pagination?.page
+                ? mesin.dataSubMesinWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!mesin.dataSubMesinWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataSubMesinWithFilter?.pagination?.nextPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!mesin.dataSubMesinWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!mesin.dataSubMesinWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+
+        {mesin.type == "parameter" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!mesin.dataParameterWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataParameterWithFilter?.pagination?.prevPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!mesin.dataParameterWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!mesin.dataParameterWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!mesin.dataParameterWithFilter?.pagination?.page
+                ? mesin.dataParameterWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!mesin.dataParameterWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataParameterWithFilter?.pagination?.nextPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!mesin.dataParameterWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!mesin.dataParameterWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+
+        {mesin.type == "indikator" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!mesin.dataIndikatorWithFilter?.pagination?.prevPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataIndikatorWithFilter?.pagination?.prevPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!mesin.dataIndikatorWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!mesin.dataIndikatorWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!mesin.dataIndikatorWithFilter?.pagination?.page
+                ? mesin.dataIndikatorWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!mesin.dataIndikatorWithFilter?.pagination?.nextPage
+                  ? false
+                  : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataIndikatorWithFilter?.pagination?.nextPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!mesin.dataIndikatorWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!mesin.dataIndikatorWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
+
+        {mesin.type == "uom" ? (
+          <div className="flex py-4 px-[32px] justify-end gap-4">
+            <button
+              disabled={
+                !!mesin.dataUomWithFilter?.pagination?.prevPage ? false : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataUomWithFilter?.pagination?.prevPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#B8B6B6] border gap-2 ${
+                !!mesin.dataUomWithFilter?.pagination?.prevPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] -rotate-90"
+                color={`${
+                  !!mesin.dataUomWithFilter?.pagination?.prevPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+            <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+              {!!mesin.dataUomWithFilter?.pagination?.page
+                ? mesin.dataUomWithFilter?.pagination?.page
+                : "-"}
+            </div>
+            <button
+              disabled={
+                !!mesin.dataUomWithFilter?.pagination?.nextPage ? false : true
+              }
+              onClick={() =>
+                mesin.navigate(
+                  `../master-data/${mesin.type}/${mesin.dataUomWithFilter?.pagination?.nextPage}/mesin`
+                )
+              }
+              className={`px-4 h-[40px] text-[#20519F] border gap-2 ${
+                !!mesin.dataUomWithFilter?.pagination?.nextPage
+                  ? "border-[#20519F]"
+                  : "border-[#B8B6B6]"
+              } rounded flex items-center justify-center`}
+            >
+              <ArrowUpIcon
+                className="w-[16px] h-[16px] rotate-90"
+                color={`${
+                  !!mesin.dataUomWithFilter?.pagination?.nextPage
+                    ? "#20519F"
+                    : "#B8B6B6"
+                }`}
+              />
+            </button>
+          </div>
+        ) : null}
       </div>
     </main>
   );

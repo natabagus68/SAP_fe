@@ -1,6 +1,8 @@
 import { SparepartAvailability } from "@domain/models/sparepart/sparepart-availability";
 import { SparepartAvailabilityRepository } from "@domain/repositories/sparepart/sparepart-availability-repository";
 import { api } from "../_api";
+import { DefaultResponse } from "@domain/models/default-response";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export default class SparepartAvailabilityApiRepository
   implements SparepartAvailabilityRepository
@@ -14,6 +16,42 @@ export default class SparepartAvailabilityApiRepository
         section_name: item?.section?.name || "-",
       })
     );
+  }
+  async getDataWithFilter(
+    page?: string | undefined,
+    limit?: string | undefined,
+    q?: string | undefined
+  ): Promise<DefaultResponse> {
+    try {
+      const { data } = await api.get(
+        `availability-sparepart?page=${page || ""}&limit=${limit || ""}&q=${q || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.pagination?.page,
+          limit: data?.pagination?.limit,
+          totalRows: data?.pagination?.totalRows,
+          totalPages: data?.pagination?.totalPages,
+          prevPage: data?.pagination?.prevPage,
+          nextPage: data?.pagination?.nextPage,
+        }),
+        data: data?.data?.map((item) =>
+          SparepartAvailability.create({
+            id: item.id,
+            rack_code: item?.rack_code || "-",
+            section_name: item?.section?.name || "-",
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
+    }
   }
   async create(availability: SparepartAvailability): Promise<void> {
     try {

@@ -257,7 +257,7 @@ export default function useManpower() {
     try {
       const result = await manpowerRepository.getDataById(id);
       // console.log(result);
-      
+
       setTimeout(() => {
         setDataManpowerById(result);
       }, 500);
@@ -309,7 +309,7 @@ export default function useManpower() {
   }, []);
   useEffect(() => {
     if (!!!Number(page)) {
-      navigate(`../master-data/manpower/1/${type}`);
+      navigate(`../master-data/${type}/1/manpower`);
     }
   }, []);
   useEffect(() => {

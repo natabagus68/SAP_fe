@@ -20,11 +20,12 @@ import { Section } from "@domain/models/location/section";
 import { SectionApiRepository } from "@data/api/location/section-api-repository";
 import { FrequencyApiRepository } from "@data/api/frequency/frequency-api-repository";
 import { Frequency } from "@domain/models/frequency/frequency";
+import { DefaultResponse } from "@domain/models/default-response";
 
 export default function useMesin() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { type, id } = useParams();
+  const { type, id, page } = useParams();
   //setup url params
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -107,6 +108,50 @@ export default function useMesin() {
 
   //state data mesin
   const [dataMesin, setDataMesin] = useState<Mesin[]>([]);
+  //state data mesin with filter
+  const [dataMesinWithFilter, setDataMesinWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+  //state data sub mesin with filter
+  const [dataSubMesinWithFilter, setDataSubMesinWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+  //state data parameter with filter
+  const [dataParameterWithFilter, setDataParameterWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+  //state data indikator with filter
+  const [dataIndikatorWithFilter, setDataIndikatorWithFilter] =
+    useState<DefaultResponse>(
+      DefaultResponse.create({
+        success: false,
+        message: "",
+        data: [],
+      })
+    );
+  //state data uom with filter
+  const [dataUomWithFilter, setDataUomWithFilter] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
 
   const [dataSubMesin, setDataSubMesin] = useState<SubMesin[]>([]);
 
@@ -328,6 +373,92 @@ export default function useMesin() {
       setTimeout(() => {
         setIsLoadingData(false);
         setDataMesin(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get data mesin with filter
+  const getDataMesinWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataMesinWithFilter(null);
+    try {
+      const result = await mesinRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "2"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataMesinWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data sub mesin with filter
+  const getDataSubMesinWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataSubMesinWithFilter(null);
+    try {
+      const result = await subMesinRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "1"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataSubMesinWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data parameter with filter
+  const getDataParameterWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataParameterWithFilter(null);
+    try {
+      const result = await parameterRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "1"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataParameterWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data INDIKATOR with filter
+  const getDataIndikatorWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataIndikatorWithFilter(null);
+    try {
+      const result = await parameterRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "1"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataIndikatorWithFilter(result);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // get data INDIKATOR with filter
+  const getDataUomWithFilter = async () => {
+    setIsLoadingData(true);
+    setDataUomWithFilter(null);
+    try {
+      const result = await uomRepository.getDataWithFilter(
+        !!Number(page) ? page : "1",
+        "1"
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        setDataUomWithFilter(result);
       }, 500);
     } catch (error) {
       console.log(error);
@@ -859,18 +990,24 @@ export default function useMesin() {
   }, []);
 
   useEffect(() => {
-    if (type == "mesin") {
-      getDataMesin();
-    } else if (type == "sub-mesin") {
-      getDataSubMesin();
-    } else if (type == "parameter") {
-      getDataParameter();
-    } else if (type == "indikator") {
-      getDataIndikator();
-    } else {
-      getDataUom();
+    if (!!!Number(page)) {
+      navigate(`../master-data/${type}/1/mesin`);
     }
-  }, [type]);
+  }, []);
+
+  useEffect(() => {
+    if (type == "mesin") {
+      getDataMesinWithFilter();
+    } else if (type == "sub-mesin") {
+      getDataSubMesinWithFilter();
+    } else if (type == "parameter") {
+      getDataParameterWithFilter();
+    } else if (type == "indikator") {
+      getDataIndikatorWithFilter();
+    } else {
+      getDataUomWithFilter();
+    }
+  }, [type, page]);
 
   useEffect(() => {
     if (!!id && type == "mesin") {
@@ -916,6 +1053,11 @@ export default function useMesin() {
     dataFrequency,
     subMesinDetail,
     variableDetail,
+    dataMesinWithFilter,
+    dataSubMesinWithFilter,
+    dataParameterWithFilter,
+    dataIndikatorWithFilter,
+    dataUomWithFilter,
     watch,
     navigate,
     register,

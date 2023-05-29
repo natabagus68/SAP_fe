@@ -4,6 +4,7 @@ import EditIcon from "@common/components/icons-new/EditIcon";
 import useMesin from "./mesin-model";
 import ReloadIcon from "@common/components/icons-new/ReloadIcon";
 import default_image from "../../../../assets/default_image.jpg";
+import { config } from "@common/utils";
 
 export default function MesinDetails() {
   const mesin = useMesin();
@@ -82,12 +83,16 @@ export default function MesinDetails() {
             <div className="flex flex-col gap-6">
               <span className="text-base text-[#514E4E]">Gambar Mesin</span>
               <div
-                className={`w-[300px] h-[155px]  overflow-hidden ${
+                className={`w-[300px] h-[155px] border border-gray-300 overflow-hidden ${
                   !!!mesin?.dataMesinById ? "animate-pulse" : null
                 }`}
               >
                 {!!mesin?.dataMesinById?.photo ? (
-                  <div className="w-full h-full bg-gray-400"></div>
+                  <img
+                    src={`${config.apiAssetUrl}${mesin?.dataMesinById?.photo}`}
+                    alt="Default Image"
+                    className="w-[300px] h-[155px]"
+                  />
                 ) : (
                   <img
                     src={default_image}

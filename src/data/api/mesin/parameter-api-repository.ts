@@ -1,6 +1,8 @@
 import { Parameter } from "@domain/models/mesin/parameter";
 import { ParameterRepository } from "@domain/repositories/mesin/parameter-repository";
 import { api } from "../_api";
+import { DefaultResponse } from "@domain/models/default-response";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export class ParameterApiRepository implements ParameterRepository {
   async get(): Promise<Parameter[]> {
@@ -14,6 +16,44 @@ export class ParameterApiRepository implements ParameterRepository {
         variable: item?.variable || "-",
       })
     );
+  }
+
+  async getDataWithFilter(
+    page?: string | undefined,
+    limit?: string | undefined,
+    q?: string | undefined
+  ): Promise<DefaultResponse> {
+    try {
+      const { data } = await api.get(
+        `machine-parameter?page=${page || ""}&limit=${limit || ""}&q=${q || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.pagination?.page,
+          limit: data?.pagination?.limit,
+          totalRows: data?.pagination?.totalRows,
+          totalPages: data?.pagination?.totalPages,
+          prevPage: data?.pagination?.prevPage,
+          nextPage: data?.pagination?.nextPage,
+        }),
+        data: data?.data?.map((item) =>
+          Parameter.create({
+            id: item?.id,
+            indicator: item?.indicator.name || "-",
+            name: item?.name || "-",
+            variable: item?.variable || "-",
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
+    }
   }
 
   async getDataById(id: string): Promise<Parameter> {

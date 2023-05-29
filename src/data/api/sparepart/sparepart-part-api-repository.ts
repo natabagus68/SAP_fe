@@ -1,6 +1,8 @@
 import { SparepartPart } from "@domain/models/sparepart/sparepart-part";
 import { SparepartPartRepository } from "@domain/repositories/sparepart/sparepart-part-repository";
 import { api } from "../_api";
+import { DefaultResponse } from "@domain/models/default-response";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export class SparepartApiRpository implements SparepartPartRepository {
   async get(): Promise<SparepartPart[]> {
@@ -16,6 +18,47 @@ export class SparepartApiRpository implements SparepartPartRepository {
       })
     );
   }
+
+  async getDataWithFilter(
+    page?: string | undefined,
+    limit?: string | undefined,
+    q?: string | undefined
+  ): Promise<DefaultResponse> {
+    try {
+      const { data } = await api.get(
+        `sparepart?page=${page || ""}&limit=${limit || ""}&q=${q || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.pagination?.page,
+          limit: data?.pagination?.limit,
+          totalRows: data?.pagination?.totalRows,
+          totalPages: data?.pagination?.totalPages,
+          prevPage: data?.pagination?.prevPage,
+          nextPage: data?.pagination?.nextPage,
+        }),
+        data: data?.data?.map((item) =>
+          SparepartPart.create({
+            id: item?.id,
+            category_name: item?.category?.name || "-",
+            item_code: item?.item_code || "-",
+            part_name: item?.name || "-",
+            availability_rack_code: item?.availability?.rack_code || "-",
+            qty_stock: item?.qty_stock || "-",
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
+    }
+  }
+
   async getDataById(id: string): Promise<SparepartPart> {
     try {
       const { data } = await api.get(`sparepart/${id}`);

@@ -269,7 +269,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "master-data/:type/mesin",
+        path: "master-data/:type/:page/mesin",
         element: <Root />,
         children: [
           {
@@ -331,7 +331,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "master-data/:type/sparepart",
+        path: "master-data/:type/:page/sparepart",
         element: <Root />,
         children: [
           {
