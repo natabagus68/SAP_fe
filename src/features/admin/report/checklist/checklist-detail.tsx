@@ -70,9 +70,21 @@ export default function ChecklistDetail() {
                 </tr>
               </tbody>
             </table>
-            <div className="bg-[#12B569] rounded text-white w-fit px-3 py-1">
-              Disetujui
+
+            <div
+              className={`  ${
+                checklist.dataCheklistById?.status == "done"
+                  ? "bg-[#12B569]"
+                  : checklist.dataCheklistById?.status == "waiting"
+                  ? "bg-[#E18308]"
+                  : checklist.dataCheklistById?.status == "rejected"
+                  ? "bg-[#DA3E33]"
+                  : null
+              } rounded text-white w-fit px-3 py-1`}
+            >
+              {checklist.dataCheklistById?.status}
             </div>
+
             <table className="w-fit">
               <thead>
                 <tr>
@@ -183,7 +195,7 @@ export default function ChecklistDetail() {
                     {item.submesin_name} {item.parameter?.length}
                   </td>
                 </tr>
-                {(item.parameter || []).map((item, ii) => (
+                {(item.parameter || []).map((item, i, ii) => (
                   <tr key={`${i}_${ii}`}>
                     <td className="px-[32px] border-r border-b border-[#D0D3D9] text-center">
                       {item.parameter_name}

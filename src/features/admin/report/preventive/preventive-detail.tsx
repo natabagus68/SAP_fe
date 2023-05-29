@@ -76,9 +76,21 @@ export default function PreventiveDetail() {
                 </tr>
               </tbody>
             </table>
-            <div className="bg-[#12B569] rounded text-white w-fit px-3 py-1">
+
+            <div
+              className={`  ${
+                preventive.dataPreventiveById?.status == "done"
+                  ? "bg-[#12B569]"
+                  : preventive.dataPreventiveById?.status == "waiting"
+                  ? "bg-[#E18308]"
+                  : preventive.dataPreventiveById?.status == "rejected"
+                  ? "bg-[#DA3E33]"
+                  : null
+              } rounded text-white w-fit px-3 py-1`}
+            >
               {preventive.dataPreventiveById?.status}
             </div>
+
             <table className="w-fit">
               <thead>
                 <tr>
@@ -169,7 +181,7 @@ export default function PreventiveDetail() {
                     {item.submesin_name} {item.parameter?.length}
                   </td>
                 </tr>
-                {(item.parameter || []).map((item, ii) => (
+                {(item.parameter || []).map((item, i, ii) => (
                   <tr key={`${i}_${ii}`}>
                     <td className="px-[32px] border-r border-b border-[#D0D3D9] text-center">
                       {item.parameter_name}

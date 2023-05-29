@@ -90,7 +90,6 @@ export default function usePreventive() {
     try {
       const result = await preventiveRepository.getDataById(id);
       setDataPreventiveById(result);
-      console.log(result);
     } catch (error) {
       throw new Error(error);
     }

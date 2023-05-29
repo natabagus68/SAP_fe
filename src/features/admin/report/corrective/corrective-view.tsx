@@ -6,6 +6,8 @@ import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import SearchIcon from "@common/components/icons-new/SearchIcon";
 import Modal from "@common/components/modals/Modal";
 import { useEffect } from "react";
+import empty_data_table from "../../../../assets/png/empty_data_table.png";
+import LoadingIcon from "@common/components/icons-new/LoadingIcon";
 
 export default function CorrectiveView() {
   const corrective = useCorrective();
@@ -52,7 +54,7 @@ export default function CorrectiveView() {
                       e.target.value != ""
                         ? e.target.value.split("-").reverse().join("-")
                         : "null"
-                    }/${corrective.status}/${corrective.section_id}/checklist`
+                    }/${corrective.status}/${corrective.section_id}/corrective`
                   )
                 }
               />
@@ -153,6 +155,25 @@ export default function CorrectiveView() {
             ))}
           </tbody>
         </table>
+
+        {corrective.isLoadingData ? (
+          <div className="w-full h-[48px] flex items-center justify-center">
+            <LoadingIcon
+              color="black"
+              className="w-[24px] h-[24px] animate-spin"
+            />
+          </div>
+        ) : null}
+        {!corrective.isLoadingData ? (
+          !!!corrective.dataCorrective.length ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
 
         <div className="flex py-4 px-[32px] justify-end gap-4">
           <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
