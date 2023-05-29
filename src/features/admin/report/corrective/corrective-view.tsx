@@ -9,6 +9,10 @@ import { useEffect } from "react";
 
 export default function CorrectiveView() {
   const corrective = useCorrective();
+  useEffect(() => {
+    corrective.getDataCorrective();
+    corrective.getDataSection();
+  }, [corrective.date, corrective.status, corrective.section_id]);
 
   return (
     <main className="flex flex-col gap-[28px] justify-between">
@@ -31,36 +35,70 @@ export default function CorrectiveView() {
           </div>
         </div>
         <div className="w-full flex items-center py-[18px] px-[32px] gap-4 flex-wrap border-b border-[#D0D3D9] justify-between">
-          <div className="flex items-center gap-3">
-            <span>Tanggal Checklist</span>
-            <input
-              type="date"
-              className="h-[40px] border border-[#D0D3D9] rounded px-2"
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <span>Status</span>
-            <select
-              defaultValue=""
-              className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
-            >
-              <option value="">Semua</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </select>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>Section</span>
-            <select
-              defaultValue=""
-              className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
-            >
-              <option value="">Semua</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </select>
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
+              <span>Tanggal Checklist</span>
+              <input
+                type="date"
+                value={
+                  corrective.date != "null"
+                    ? corrective.date.split("-").reverse().join("-")
+                    : ""
+                }
+                className="h-[40px] border border-[#D0D3D9] rounded px-2"
+                onChange={(e) =>
+                  corrective.navigate(
+                    `../${
+                      e.target.value != ""
+                        ? e.target.value.split("-").reverse().join("-")
+                        : "null"
+                    }/${corrective.status}/${corrective.section_id}/checklist`
+                  )
+                }
+              />
+            </div>
+
+            {/* <div className="flex items-center gap-3">
+              <span>Status</span>
+              <select
+                value={corrective.status != "null" ? corrective.status : ""}
+                className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
+                onChange={(e) =>
+                  corrective.navigate(
+                    `../${corrective.date}/${
+                      e.target.value != "" ? e.target.value : "null"
+                    }/${corrective.section_id}/corrective`
+                  )
+                }
+              >
+                <option value="">Select status</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>Section</span>
+              <select
+                value={
+                  corrective.section_id != "null" ? corrective.section_id : ""
+                }
+                className="h-[33px] border border-[#D0D3D9] rounded-md text-[#514E4E] px-1 outline-none"
+                onChange={(e) =>
+                  corrective.navigate(
+                    `../${corrective.date}/${corrective.status}/${
+                      e.target.value != "" ? e.target.value : "null"
+                    }/corrective`
+                  )
+                }
+              >
+                <option value="">Select section</option>
+                {corrective.dataSection?.map((item, i) => (
+                  <option key={i} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div> */}
           </div>
           <div className="relative space-x-10">
             <div className="flex items-center gap-3">
@@ -80,7 +118,6 @@ export default function CorrectiveView() {
         <table className="w-full">
           <thead className="bg-[#FAFAFB] border-b border-[#D0D3D9] h-[64px] text-sm text-[#514E4E] font-semibold">
             <tr>
-              <th className="px-[32px] text-start">ID Corrective</th>
               <th className="px-[32px] text-start">Tanggal Corrective</th>
               <th className="px-[32px] text-start">No Machine</th>
               <th className="px-[32px] text-start">Pelaksana</th>
@@ -90,16 +127,17 @@ export default function CorrectiveView() {
           <tbody className="text-base text-[#514E4E]">
             {corrective?.dataCorrective?.map((item) => (
               <tr key={item?.id} className="border-b border-[#D0D3D9] h-[64px]">
-                <td className="px-[32px]">{item?.idPreventive}</td>
-                <td className="px-[32px]">{item?.date}</td>
-                <td className="px-[32px]">{item?.noMesin}</td>
-                <td className="px-[32px]">{item?.pelaksana}</td>
+                <td className="px-[32px]">
+                  {item?.date.split("T")[0].split("-").reverse().join("-")}
+                </td>
+                <td className="px-[32px]">{item?.machine_no}</td>
+                <td className="px-[32px]">{item?.pic}</td>
 
                 <td className="px-[32px]">
                   <div className="flex items-center gap-6">
                     <button
                       className="flex items-center gap-2 h-[46px] px-[20px] bg-[#1BBDD4] rounded"
-                      onClick={() => corrective.navigate("details")}
+                      onClick={() => corrective.navigate(`${item.id}/details`)}
                     >
                       <EyeShowIcon color="white" />
                       <span className="text-white text-sm font-semibold">

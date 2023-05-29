@@ -1,12 +1,12 @@
 import { Entity } from "../_entity";
-import { CorrectiveReport } from "./corrective-report";
+import { CorrectiveInventory } from "./corrective-inventory";
 
 export interface ICorrectiveProps {
-  //id?: string | undefined;
+  id?: string | undefined;
   date: string;
   machine_no: string;
   pic: string;
-  status: string;
+  status?: string | undefined;
   success?: boolean | undefined;
   message?: string | undefined;
 
@@ -15,7 +15,18 @@ export interface ICorrectiveProps {
   department?: string | undefined;
   damage_time?: string | undefined;
 
-  report?: CorrectiveReport | undefined;
+  repairing_type?: string | undefined;
+  lifetime_estimate?: string | undefined;
+  damage_type?: string | undefined;
+  deskripsi?: string | undefined;
+
+  documentationBeforePhoto?: string | undefined;
+  documentationAfterPhoto?: string | undefined;
+
+  documentationBeforeVideo?: string | undefined;
+  documentationAfterVideo?: string | undefined;
+
+  inventory?: CorrectiveInventory | undefined;
 }
 
 export interface ICorrective {
@@ -31,7 +42,7 @@ export class Corrective
   }
   unmarsshall(): ICorrectiveProps {
     return {
-      // id: this.id,
+      id: this.id,
       success: this.success,
       message: this.message,
       date: this.date,
@@ -43,12 +54,23 @@ export class Corrective
       section: this.section,
       department: this.department,
       damage_time: this.damage_time,
-      report: this.report,
+
+      repairing_type: this.repairing_type,
+      lifetime_estimate: this.lifetime_estimate,
+      damage_type: this.damage_type,
+      deskripsi: this.deskripsi,
+
+      documentationBeforePhoto: this.documentationBeforePhoto,
+      documentationAfterPhoto: this.documentationAfterPhoto,
+      documentationBeforeVideo: this.documentationBeforeVideo,
+      documentationAfterVideo: this.documentationAfterVideo,
+
+      inventory: this.inventory,
     };
   }
-  //   get id(): string | undefined {
-  //     return this._props.id;
-  //   }
+  get id(): string | undefined {
+    return this._props.id;
+  }
   get success(): boolean | undefined {
     return this._props.success;
   }
@@ -64,7 +86,7 @@ export class Corrective
   get pic(): string {
     return this._props.pic;
   }
-  get status(): string {
+  get status(): string | undefined {
     return this._props.status;
   }
   get machine_name(): string | undefined {
@@ -79,7 +101,31 @@ export class Corrective
   get damage_time(): string | undefined {
     return this._props.damage_time;
   }
-  get report(): CorrectiveReport | undefined {
-    return this._props.report;
+  get repairing_type(): string | undefined {
+    return this._props.repairing_type;
+  }
+  get lifetime_estimate(): string | undefined {
+    return this._props.lifetime_estimate;
+  }
+  get damage_type(): string | undefined {
+    return this._props.damage_type;
+  }
+  get deskripsi(): string | undefined {
+    return this._props.deskripsi;
+  }
+  get documentationBeforePhoto(): string | undefined {
+    return this._props.documentationBeforePhoto;
+  }
+  get documentationAfterPhoto(): string | undefined {
+    return this._props.documentationAfterPhoto;
+  }
+  get documentationBeforeVideo(): string | undefined {
+    return this._props.documentationBeforeVideo;
+  }
+  get documentationAfterVideo(): string | undefined {
+    return this._props.documentationAfterVideo;
+  }
+  get inventory(): CorrectiveInventory | undefined {
+    return this._props.inventory;
   }
 }
