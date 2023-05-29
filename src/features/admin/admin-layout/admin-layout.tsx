@@ -113,7 +113,7 @@ export default function AdminLayout() {
                   new Date().getMonth() + 1
                 }/${new Date().getFullYear()}/1/calendar`}
               />
-              <NavItem label="Monitoring" to={"schedule/monitoring"} />
+              <NavItem label="Monitoring" to={"schedule/monitoring/1"} />
             </NavItem>
             <NavItem
               label={`Sparepart`}

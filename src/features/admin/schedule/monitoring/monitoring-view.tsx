@@ -1,20 +1,19 @@
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import ExportIcon from "@common/components/icons-new/ExportIcon";
-import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import useMonitoring from "./monitoring-model";
-import Modal from "@common/components/modals/Modal";
 import ReloadIcon from "@common/components/icons-new/ReloadIcon";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
+import empty_data_table from "../../../../assets/png/empty_data_table.png";
 import { useEffect } from "react";
 
 export default function MonitoringView() {
   const monitorng = useMonitoring();
+
   useEffect(() => {
     monitorng.getDataMonitoring();
-  }, []);
+  }, [monitorng.page]);
 
   return (
     <main className="flex flex-col gap-[28px] justify-between">
@@ -51,7 +50,7 @@ export default function MonitoringView() {
           </thead>
           <tbody className="text-base text-[#514E4E]">
             {!monitorng.isLoadingData &&
-              monitorng?.dataMonitoring?.map((item, i) => (
+              monitorng?.dataMonitoring?.data?.map((item, i) => (
                 <tr key={i} className="border-b border-[#D0D3D9] h-[64px]">
                   <td className="px-[32px]">
                     {item.date.split("T")[0].split("-").reverse().join("-")}
@@ -97,22 +96,66 @@ export default function MonitoringView() {
             />
           </div>
         ) : null}
+        {!monitorng.isLoadingData ? (
+          !!!monitorng.dataMonitoring?.data?.length ? (
+            <div className="w-full flex flex-col items-center py-[60px]">
+              <img src={empty_data_table} alt="Empty data table" className="" />
+              <span className="text-[#514E4E] text-2xl font-bold">
+                Tidak ada data
+              </span>
+            </div>
+          ) : null
+        ) : null}
         <div className="flex py-4 px-[32px] justify-end gap-4">
-          <button className="px-4 h-[40px] text-[#B8B6B6] border gap-2 border-[#B8B6B6] rounded flex items-center justify-center">
+          <button 
+            disabled={
+              !!monitorng.dataMonitoring?.pagination?.prevPage ? false : true
+            }
+            onClick={() =>
+              monitorng.navigate(
+                `../monitoring/${monitorng.dataMonitoring?.pagination?.prevPage}`
+              )
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!monitorng.dataMonitoring?.pagination?.prevPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
             <ArrowUpIcon
               className="w-[16px] h-[16px] -rotate-90"
-              color="#B8B6B6"
+              color={
+                !!monitorng.dataMonitoring?.pagination?.prevPage ? "#20519F" : "#B8B6B6"
+              }
             />
             <span>Prev</span>
           </button>
           <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
-            1
+            {!!monitorng.dataMonitoring?.pagination?.page
+                ? monitorng.dataMonitoring?.pagination?.page
+                : "-"}
           </div>
-          <button className="px-4 h-[40px] text-[#20519F] border gap-2 border-[#20519F] rounded flex items-center justify-center">
+          <button 
+            disabled={
+              !!monitorng.dataMonitoring?.pagination?.nextPage ? false : true
+            }
+            onClick={() =>
+              monitorng.navigate(
+                `../monitoring/${monitorng.dataMonitoring?.pagination?.nextPage}`
+              )
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!monitorng.dataMonitoring?.pagination?.nextPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
             <span>Next</span>
             <ArrowUpIcon
               className="w-[16px] h-[16px] rotate-90"
-              color="#20519F"
+              color={
+                !!monitorng.dataMonitoring?.pagination?.nextPage ? "#20519F" : "#B8B6B6"
+              }
             />
           </button>
         </div>

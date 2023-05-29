@@ -1,4 +1,6 @@
 import { Entity } from "@domain/models/_entity";
+import { MetaPagination } from "@domain/models/meta-pagination";
+
 
 export interface IMonitoringProps {
   id?: string | undefined;
@@ -9,6 +11,7 @@ export interface IMonitoringProps {
   machine_name: string;
   section_name: string;
   type: string;
+  pagination?: MetaPagination | undefined;
 }
 
 export interface IMonitoring {
@@ -32,6 +35,7 @@ export class Monitoring
       machine_name: this.machine_name,
       section_name: this.section_name,
       type: this.type,
+      pagination: this.pagination
     };
   }
 
@@ -58,5 +62,8 @@ export class Monitoring
   }
   get type(): string {
     return this._props.type;
+  }
+  get pagination(): MetaPagination | undefined {
+    return this._props.pagination;
   }
 }

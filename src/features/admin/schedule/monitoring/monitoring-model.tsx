@@ -1,13 +1,22 @@
 import { MonitoringApiRepository } from "@data/api/schedule/monitoring/monitoring-api-repository";
-import { Monitoring } from "@domain/models/schedule/monitoring/monitoring";
-import { useState, useEffect } from "react";
+import { DefaultResponse } from "@domain/models/default-response";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function useMonitoring() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { page } = useParams();
+  
   //state data Monitoring
-  const [dataMonitoring, setDataMonitoring] = useState<Monitoring[]>([]);
+  const [dataMonitoring, setDataMonitoring] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
   //state modal confirm
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
   //state modal success
@@ -33,9 +42,13 @@ export default function useMonitoring() {
   // get data Monitoring
   const getDataMonitoring = async () => {
     setIsLoadingData(true);
-    setDataMonitoring([]);
+    setDataMonitoring(null);
     try {
-      const result = await monitoringRepository.get();
+      const result = await monitoringRepository.get(
+        !!Number(page) ? Number(page) : 1,
+        5,
+        ""
+      );
       setTimeout(() => {
         setDataMonitoring(result);
       }, 500);
@@ -45,39 +58,18 @@ export default function useMonitoring() {
     }
   };
 
-  useEffect(() => {
-    // setDataTraceability([
-    //   {
-    //     id: 1,
-    //     tipeMaintenance: "Checklist",
-    //     departemen: "Profile",
-    //     section: "Produksi 01",
-    //     line: "01",
-    //     noMesin: "SR-12345",
-    //     pelaksana: "Bramantra Putra",
-    //   },
-    //   {
-    //     id: 2,
-    //     tipeMaintenance: "Preventive",
-    //     departemen: "Profile",
-    //     section: "Produksi 02",
-    //     line: "02",
-    //     noMesin: "RS-12345",
-    //     pelaksana: "Cendani Arum",
-    //   },
-    // ]);
-  }, []);
-
   return {
     state,
     openModalConfirm,
     openModalSuccess,
     isLoadingData,
     dataMonitoring,
+    page,
     onOpenDetail,
     onOpenBack,
     setOpenModalConfirm,
     setOpenModalSuccess,
     getDataMonitoring,
+    navigate
   };
 }

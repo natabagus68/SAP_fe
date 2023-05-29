@@ -107,7 +107,7 @@ export default createBrowserRouter([
             ],
           },
           {
-            path: "monitoring",
+            path: "monitoring/:page",
             element: <Root />,
             children: [
               {
