@@ -137,8 +137,8 @@ export default function AdminLayout() {
                 to={"master-data/departemen/location"}
               />
               <NavItem label="Sparepart" to={"master-data/part/sparepart"} />
-              <NavItem label="Frequency" to={"master-data/frequency"} />
-              <NavItem label="Damage" to={"master-data/:page/damage"} />
+              <NavItem label="Frequency" to={"master-data/1/frequency"} />
+              <NavItem label="Damage" to={"master-data/1/damage"} />
             </NavItem>
 
             <NavItem

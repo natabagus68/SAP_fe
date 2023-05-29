@@ -313,7 +313,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "master-data/frequency",
+        path: "master-data/:page/frequency",
         element: <Root />,
         children: [
           {
