@@ -33,7 +33,7 @@ export class CorrectiveApiRepository implements CorrectiveRepository {
   async getDataById(id: string): Promise<Corrective> {
     try {
       const { data } = await api.get(`report/corrective/${id}`);
-      console.log(data, "apirepogetbyId");
+
       return Corrective.create({
         machine_no: data.data?.detail?.machine?.no || "-",
         machine_name: data.data?.detail?.machine?.name || "-",

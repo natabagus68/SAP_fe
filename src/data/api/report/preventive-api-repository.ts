@@ -34,7 +34,6 @@ export class PreventiveApiRepository implements PreventiveRepository {
   async getDataById(id: string): Promise<Preventive> {
     try {
       const { data } = await api.get(`report/preventive/${id}`);
-      console.log(data);
 
       return Preventive.create({
         machine_no: data.data?.detail?.machine?.no || "-",

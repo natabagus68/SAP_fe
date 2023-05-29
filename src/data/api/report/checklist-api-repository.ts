@@ -34,7 +34,7 @@ export class ChecklistApiRepository implements ChecklistRepository {
   async getDataById(id: string): Promise<Checklist> {
     try {
       const { data } = await api.get(`report/checklist/${id}`);
-      console.log(data);
+
       return Checklist.create({
         //detail report
         machine_no: data.data?.detail?.machine?.no || "-",

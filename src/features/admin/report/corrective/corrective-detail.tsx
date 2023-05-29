@@ -268,7 +268,7 @@ export default function CorrectiveDetail() {
                               corrective.dataCorrectiveById
                                 ?.documentationBeforePhoto
                             }
-                            alt="Gambar=part"
+                            alt="Gambar-part"
                           />
                         ) : (
                           <img
@@ -276,7 +276,7 @@ export default function CorrectiveDetail() {
                               corrective.dataCorrectiveById
                                 ?.documentationAfterPhoto
                             }
-                            alt="Gambar=part"
+                            alt="Gambar-part"
                           />
                         )}
                       </div>

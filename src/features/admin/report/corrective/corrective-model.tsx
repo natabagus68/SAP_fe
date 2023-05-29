@@ -86,7 +86,6 @@ export default function useCorrective() {
     try {
       const result = await correctiveRepository.getDataById(id);
       setDataCorrectiveById(result);
-      console.log(result, "data-by-id");
     } catch (error) {
       throw new Error(error);
     }
