@@ -111,9 +111,8 @@ export default function GeneralView() {
           <select
             className={`h-[40px] border border-[#D0D3D9] rounded px-2 bg-white`}
           >
-            <option value="">Daily</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
+            <option value="daily">Daily</option>
+            <option value="monthly">Monthly</option>
           </select>
         </div>
         <div className="flex-1">
@@ -126,13 +125,13 @@ export default function GeneralView() {
             <span className="font-semibold text-base text-[#514E4E]">
               Checklist Problem
             </span>
-            <select
+            <Datepicker useRange />
+            {/* <select
               className={`h-[40px] border border-[#D0D3D9] rounded px-2 bg-white`}
             >
-              <option value="">Daily</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
+              <option value="daily">Dsaily</option>
+              <option value="monthly">Monthly</option>
+            </select> */}
           </div>
           <div className="h-full">
             <div className="w-fit h-full">
