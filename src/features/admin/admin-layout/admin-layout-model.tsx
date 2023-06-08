@@ -48,7 +48,7 @@ export default function useAdmin() {
   const onIsMe = async (): Promise<void> => {
     setIsLoading(true);
     try {
-      const result = await authenticationRepository.me();
+      // const result = await authenticationRepository.me();
       setTimeout(() => {
         setIsLoading(false);
         navigate(`../${window.location.pathname}`, { replace: true });
