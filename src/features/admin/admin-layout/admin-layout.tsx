@@ -7,12 +7,10 @@ import useAdmin from "./admin-layout-model";
 import LogoutIcon from "@common/components/icons-new/LogoutIcon";
 import { NavItem } from "@common/components";
 import LoadingIcon from "@common/components/icons-new/LoadingIcon";
-import SearchIcon from "@common/components/icons-new/SearchIcon";
 import MasterDataIcon from "@common/components/icons-new/MasterDataIcon";
 import UserIcon from "@common/components/icons-new/UserIcon";
-import CalendarIcon from "@common/components/icons-new/CalendarIcon";
-import SparepartIcon from "@common/components/icons-new/SparepartIcon";
-import FlieIcon from "@common/components/icons-new/FileIcon";
+import StockIcon from "@common/components/icons-new/StockIcon";
+import FileIcon from "@common/components/icons-new/FileIcon";
 
 export default function AdminLayout() {
   const admin = useAdmin();
@@ -32,13 +30,6 @@ export default function AdminLayout() {
             className="cursor-pointer"
             onClick={() => admin.onOpenSideBar()}
           />
-          <button
-            className="px-[20px] gap-2 h-[46px] rounded-md bg-[#4D74B2] text-white flex items-center"
-            onClick={() => admin.onOpenTraceability()}
-          >
-            <SearchIcon />
-            <span>Traceability</span>
-          </button>
         </div>
         <div className="relative">
           <div
@@ -79,75 +70,34 @@ export default function AdminLayout() {
             <NavItem
               label={`Dashboard`}
               icon={<DashboardIcon className="w-[24px] h-[24px]" />}
-            >
-              <NavItem label="General" to={"dashboard/general"} />
-              {/* <NavItem label="Details" to={"dashboard/details"} />
-              <NavItem label="Real Time" to={"dashboard/real-time"} /> */}
-            </NavItem>
-
+              className="text-sm font-[400]"
+            />
             <NavItem
-              label={`Report`}
-              icon={<FlieIcon color="#231F20" className="w-[24px] h-[24px]" />}
-            >
-              <NavItem
-                label="Checklist"
-                to={"report/null/null/null/checklist"}
-              />
-              <NavItem
-                label="Preventive"
-                to={"report/null/null/null/preventive"}
-              />
-              <NavItem
-                label="Corrective"
-                to={"report/null/null/null/corrective"}
-              />
-            </NavItem>
-
+              label={`Monitoring`}
+              icon={
+                <FileIcon color={"#231F20"} className="w-[24px] h-[24px]" />
+              }
+              className="text-sm font-[400]"
+            />
             <NavItem
-              label={`Schedule`}
-              icon={<CalendarIcon className="w-[24px] h-[24px]" />}
-            >
-              <NavItem
-                label="Calendar"
-                to={`schedule/${new Date().getDate()}/${
-                  new Date().getMonth() + 1
-                }/${new Date().getFullYear()}/1/calendar`}
-              />
-              <NavItem label="Monitoring" to={"schedule/monitoring/1"} />
-            </NavItem>
-            <NavItem
-              label={`Sparepart`}
-              icon={<SparepartIcon className="w-[24px] h-[24px]" />}
-            >
-              <NavItem label="Inventory" to={"main-sparepart/inventory"} />
-              <NavItem label="Log Part" to={"main-sparepart/log-part"} />
-              <NavItem label="In/out Stok" to={"main-sparepart/io-stock"} />
-            </NavItem>
+              label={`Stock`}
+              icon={
+                <StockIcon color={"#231F20"} className="w-[24px] h-[24px]" />
+              }
+              className="text-sm font-[400]"
+            />
             <NavItem
               label={`Master Data`}
+              to={"master-data/master-data-view"}
               icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
-            >
-              <NavItem
-                label="Manpower"
-                to={"master-data/manpower/1/manpower"}
-              />
-              <NavItem label="Mesin" to={"master-data/mesin/1/mesin"} />
-              <NavItem
-                label="Location"
-                to={"master-data/departemen/1/location"}
-              />
-              <NavItem label="Sparepart" to={"master-data/part/1/sparepart"} />
-              <NavItem label="Frequency" to={"master-data/1/frequency"} />
-              <NavItem label="Damage" to={"master-data/1/damage"} />
-            </NavItem>
-
+              className="text-sm font-[400]"
+            />
             <NavItem
               label={`User`}
               icon={<UserIcon className="w-[24px] h-[24px]" />}
-            >
-              <NavItem label="Account" to={"user/account"} />
-              <NavItem label="Access" to={"user/access"} />
-            </NavItem>
+              to={"user/user-view"}
+              className="text-sm font-[400]"
+            />
           </div>
         </div>
       </div>

@@ -30,11 +30,6 @@ export default function useAdmin() {
     setIsOpenavatar(!!!isOpenAvatar);
   };
 
-  //click traceability button
-  const onOpenTraceability = (): void => {
-    navigate(`../admin/traceability`);
-  };
-
   //set navigate navbar
   const setNavigate = (url: string): void => {
     navigate(url);
@@ -78,6 +73,5 @@ export default function useAdmin() {
     setNavigate,
     onOpenAvatar,
     onLogout,
-    onOpenTraceability,
   };
 }

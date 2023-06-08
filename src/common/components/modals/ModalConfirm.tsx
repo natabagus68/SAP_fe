@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function ModalConfirm({
   open = false,
-  confirmMessage = "Default Message",
+  confirmMessage = "Is the data you entered correct?",
   setOpen,
   setOpenSuccess,
   cb,
@@ -25,12 +25,12 @@ export default function ModalConfirm({
   return (
     <Modal open={open}>
       <div className="w-[430px] flex flex-col gap-8 items-center">
-        <div className="flex items-center justify-center w-[150px] h-[150px] bg-[#F79009] rounded-full border-[8px] border-[#E9EEF5]">
+        <div className="flex items-center justify-center w-[150px] h-[150px] bg-[#F79009] rounded-full">
           <span className="text-[90px] font-bold text-white">!</span>
         </div>
         <div className="flex items-center flex-col">
           <span className="text-[#2D2A2A] text-[24px] font-semibold">
-            Konfirmasi
+            Confirm the action
           </span>
           <span>{confirmMessage}</span>
         </div>
@@ -38,12 +38,13 @@ export default function ModalConfirm({
         <div className="flex w-full items-end gap-4">
           <button
             className="flex items-center justify-center flex-1 gap-2 h-[46px] px-[20px] border border-[#B8B6B6] rounded text-[#514E4E] text-sm font-semibold"
+            type="button"
             onClick={() => {
               setOpen(false);
               setIsLoading({ loading: false, exec: false });
             }}
           >
-            Batal
+            Cancel
           </button>
           {isLoading.loading ? (
             <button className="flex items-center justify-center flex-1 gap-2 h-[46px] px-[20px] bg-[#20519F] rounded text-white text-sm font-semibold">
@@ -65,7 +66,7 @@ export default function ModalConfirm({
                 // }, 100);
               }}
             >
-              <span>Ya, Konfirmasi</span>
+              <span>Yes, Confirm</span>
             </button>
           )}
         </div>

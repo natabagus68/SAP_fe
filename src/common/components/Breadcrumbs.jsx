@@ -19,7 +19,7 @@ export const Breadcrumbs = ({ items = [] }) => {
       {items.map((item, i, arr) => {
         return (
           <div key={i} className="flex gap-3 items-center">
-            <CaretIcon className="text-neutral-75" />
+            <CaretIcon className="text-[#B8B6B6]" />
             <div
               onClick={() =>
                 items[i] &&
@@ -27,8 +27,8 @@ export const Breadcrumbs = ({ items = [] }) => {
                 i != 0 &&
                 navigate(generateLink(i, arr))
               }
-              className={`font-semibold ${
-                i == arr.length - 1 ? "text-[#20519F]" : "text-gray-700"
+              className={`font-[400] ${
+                i == arr.length - 1 ? "text-[#6F6C6C]" : "text-[#B8B6B6]"
               } ${
                 items[i] && i < arr.length - 1 && i != 0 && "cursor-pointer"
               }`}

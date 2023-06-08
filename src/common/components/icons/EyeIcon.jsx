@@ -1,5 +1,3 @@
-import React from "react";
-
 export const EyeIcon = ({ color = "black", ...props }) => {
   return (
     <>
