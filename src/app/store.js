@@ -1,12 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import adminLayoutReducer from "../features/admin/adminLayout/adminLayoutSlice";
-// import { apiSlice } from "../features/api/apiSlice";
+import layoutStore from "@features/operator/layout-operator/layout-store";
 
 export const store = configureStore({
     reducer: {
-        // adminLayout: adminLayoutReducer,
-        // [apiSlice.reducerPath]: apiSlice.reducer,
+        layoutOperator: layoutStore
     },
-    // middleware: (getDefaultMiddleware) =>
-    //     getDefaultMiddleware().concat(apiSlice.middleware),
 });

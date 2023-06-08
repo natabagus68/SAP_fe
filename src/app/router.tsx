@@ -48,6 +48,11 @@ import LogPartDetails from "@features/admin/main-sparepart/log-part/log-part-det
 import IoStockView from "@features/admin/main-sparepart/io-stok/io-stock-view";
 import IoStockForm from "@features/admin/main-sparepart/io-stok/io-stock-form";
 import GuestView from "@features/guest/guest-view";
+import { LayoutOperator } from "@features/operator/layout-operator/layout-operator";
+import { CastingMachiningPrint } from "@features/operator/casting-machining-print/casting-machining-print-view";
+import { DashboardOperator } from "@features/operator/scan/dashboard/dashboard";
+import { Qr } from "@features/operator/scan/qr/qr-view";
+import { ChartPadf } from "@features/operator/pdf/chard-pdf";
 
 const Root = () => {
   return <Outlet />;
@@ -428,7 +433,40 @@ export default createBrowserRouter([
     ],
   },
   {
+    path: "hmi",
+    element: <LayoutOperator />,
+    children: [
+      {
+        path: "",
+        element: <CastingMachiningPrint />,
+      },
+      {
+        path: "dashboard",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <DashboardOperator />,
+          },
+          {
+            path: "scanQr",
+            element: <Qr />,
+          },
+        ],
+      },
+      {
+        path: ":machine",
+        element: <CastingMachiningPrint />,
+      },
+    ],
+  },
+  {
+    path: "pdf",
+    element: <ChartPadf />,
+  },
+  {
     path: "*",
     element: <Error404 />,
   },
 ]);
+
