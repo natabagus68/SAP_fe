@@ -70,6 +70,7 @@ export default function AdminLayout() {
             <NavItem
               label={`Dashboard`}
               icon={<DashboardIcon className="w-[24px] h-[24px]" />}
+              to={"dashboard/dashboard-view"}
               className="text-sm font-[400]"
             />
             <NavItem

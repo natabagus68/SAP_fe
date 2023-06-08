@@ -4,6 +4,8 @@ import LoginView from "@features/auth/login-view";
 import AdminLayout from "@features/admin/admin-layout/admin-layout";
 import GuestView from "@features/guest/guest-view";
 
+import DashboardView from "@features/admin/dashboard/dashboard-view";
+
 import MasterDataView from "@features/admin/master-data/master-data-view";
 import MasterDataAdd from "@features/admin/master-data/features/add";
 import MasterDataEdit from "@features/admin/master-data/features/edit";
@@ -33,6 +35,12 @@ export default createBrowserRouter([
       {
         path: "dashboard",
         element: <Root />,
+        children: [
+          {
+            path: "dashboard-view",
+            element: <DashboardView />,
+          },
+        ],
       },
       {
         path: "monitoring",
