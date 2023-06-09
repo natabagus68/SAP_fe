@@ -15,6 +15,10 @@ import UserAddView from "@features/admin/user/features/user-add";
 import UserEditView from "@features/admin/user/features/user-edit";
 import UserDetailView from "@features/admin/user/features/user-detail";
 
+import MonitoringView from "@features/admin/monitoring/monitoring-view";
+
+import StockView from "@features/admin/stock/stock-view";
+
 const Root = () => {
   return <Outlet />;
 };
@@ -45,10 +49,22 @@ export default createBrowserRouter([
       {
         path: "monitoring",
         element: <Root />,
+        children: [
+          {
+            path: "monitoring-view",
+            element: <MonitoringView />,
+          },
+        ],
       },
       {
         path: "stock",
         element: <Root />,
+        children: [
+          {
+            path: "stock-view",
+            element: <StockView />,
+          },
+        ],
       },
       {
         path: "master-data",
@@ -97,4 +113,4 @@ export default createBrowserRouter([
     element: <Error404 />,
   },
 ]);
-2
+2;

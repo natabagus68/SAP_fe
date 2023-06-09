@@ -78,6 +78,7 @@ export default function AdminLayout() {
               icon={
                 <FileIcon color={"#231F20"} className="w-[24px] h-[24px]" />
               }
+              to={"monitoring/monitoring-view"}
               className="text-sm font-[400]"
             />
             <NavItem
@@ -85,6 +86,7 @@ export default function AdminLayout() {
               icon={
                 <StockIcon color={"#231F20"} className="w-[24px] h-[24px]" />
               }
+              to={"stock/stock-view"}
               className="text-sm font-[400]"
             />
             <NavItem

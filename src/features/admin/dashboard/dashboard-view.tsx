@@ -2,6 +2,8 @@ import { Breadcrumbs } from "@common/components";
 import FileIcon from "@common/components/icons-new/FileIcon";
 import Datepicker from "react-tailwindcss-datepicker";
 import useDashboardModel from "./dashboard-model";
+import LineBar from "@common/components/bars/LineBar";
+import MixedChart from "@common/components/charts/MixedChart";
 
 export default function DashboardView() {
   const data = useDashboardModel();
@@ -71,14 +73,16 @@ export default function DashboardView() {
               <Datepicker
                 value={data.date}
                 onChange={data.onDate}
-                inputClassName={"bg-[#FFF] rounded-md text-sm"}
                 separator={"-"}
                 displayFormat="MM DD, YYYY"
+                showFooter={true}
+                showShortcuts={true}
+                placeholder="Select Date Transaction"
               />
             </div>
           </div>
-          <div className="h-[350px] flex items-center justify-center">
-            <h1 className="text-2xl font-[700]">💩</h1>
+          <div className="mt-[30px]">
+            <LineBar BC={25} AC={25} BM={50} />
           </div>
         </div>
         <div className="border border-[#D0D3D9] p-4 rounded-md">
@@ -100,8 +104,20 @@ export default function DashboardView() {
               </option>
             </select>
           </div>
-          <div className="h-[350px] flex items-center justify-center">
-            <h1 className="text-2xl font-[700]">💩</h1>
+          <div>
+            <div className="flex items-center justify-center h-[200px]">
+              <MixedChart height={500} />
+            </div>
+            <div className="flex justify-center gap-3 mt-2">
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 bg-[#F79009]"></div>
+                <span className="text-sm">Casting</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 bg-[#1BBDD4]"></div>
+                <span className="text-sm">Machining</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
