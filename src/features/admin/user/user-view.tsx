@@ -15,7 +15,7 @@ export default function UserView() {
   const data = useUserModel();
   return (
     <>
-      <Breadcrumbs items={["Master Data"]} />
+      <Breadcrumbs items={["User"]} />
       <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-4">
         <div className="flex justify-between">
           <div className="flex flex-col">

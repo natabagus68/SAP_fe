@@ -1,9 +1,9 @@
 import { Breadcrumbs } from "@common/components";
 import FileIcon from "@common/components/icons-new/FileIcon";
 import Datepicker from "react-tailwindcss-datepicker";
-import useDashboardModel from "./dashboard-model";
 import LineBar from "@common/components/bars/LineBar";
-import MixedChart from "@common/components/charts/MixedChart";
+import MixedChart from "@features/admin/dashboard/charts/MixedChart";
+import useDashboardModel from "./dashboard-model";
 
 export default function DashboardView() {
   const data = useDashboardModel();
@@ -72,11 +72,12 @@ export default function DashboardView() {
               <span className="text-sm">Date</span>
               <Datepicker
                 value={data.date}
-                onChange={data.onDate}
+                onChange={data.onSelectDate}
                 separator={"-"}
                 displayFormat="MM DD, YYYY"
                 showFooter={true}
                 showShortcuts={true}
+                inputClassName={"dark:bg-[#FFF] py-2 px-6 rounded-md text-sm"}
                 placeholder="Select Date Transaction"
               />
             </div>
@@ -104,20 +105,8 @@ export default function DashboardView() {
               </option>
             </select>
           </div>
-          <div>
-            <div className="flex items-center justify-center h-[200px]">
-              <MixedChart height={500} />
-            </div>
-            <div className="flex justify-center gap-3 mt-2">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 bg-[#F79009]"></div>
-                <span className="text-sm">Casting</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 bg-[#1BBDD4]"></div>
-                <span className="text-sm">Machining</span>
-              </div>
-            </div>
+          <div className="mt-4">
+            <MixedChart />
           </div>
         </div>
       </div>

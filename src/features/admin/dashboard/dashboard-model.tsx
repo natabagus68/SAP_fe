@@ -1,4 +1,4 @@
-import { useState, useEffeect } from "react";
+import { useState } from "react";
 
 export default function useDashboardModel() {
   const [date, setDate] = useState({
@@ -6,13 +6,12 @@ export default function useDashboardModel() {
     endDate: null,
   });
 
-  const onDate = (prev) => {
-    console.log(prev);
+  const onSelectDate = (prev) => {
     setDate(prev);
   };
 
   return {
     date,
-    onDate,
+    onSelectDate,
   };
 }
