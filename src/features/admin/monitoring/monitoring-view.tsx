@@ -56,7 +56,7 @@ export default function MonitoringView() {
         </div>
       </div>
       <div className="w-full overflow-x-scroll">
-        <table>
+        <table className="w-full">
           <thead className="border-t border-b bg-[#D0D3D9] border-gray-400 text-[#667085]">
             <tr className="font-[600] text-sm text-left whitespace-nowrap">
               <th className="pl-4 py-4">QR Tag Number</th>
@@ -82,9 +82,7 @@ export default function MonitoringView() {
                   NM1301160320210001
                 </button>
               </td>
-              <td className="px-4 py-2">
-                CASE COMP MISSION K1AA (FG)
-              </td>
+              <td className="px-4 py-2">CASE COMP MISSION K1AA (FG)</td>
               <td className="px-4 py-2">883</td>
               <td className="px-4 py-2">PCS</td>
               <td className="px-4 py-2">NM2102011000</td>
