@@ -3,9 +3,9 @@ import QRCode from "react-qr-code";
 export const ChartPadf = () => {
   return (
     <>
-      <div className="absolute w-full h-screen flex items-center justify-center">
+      <div className="absolute w-full h-screen flex items-center justify-center bg-gray-500">
         <div className="w-[40%] bg-white p-6">
-          <div className="border-3 border-black p-4">
+          <div className="border-4 border-black p-4">
             <header className="w-full flex justify-between items-center">
               <img src={Logo} className="block" width={250} />
               <p className="block font-bold text-2xl">FO/PPC/PPC/067 Rev:0</p>
