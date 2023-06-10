@@ -9,19 +9,19 @@ export default function UserDetailView() {
   return (
     <>
       <Breadcrumbs items={["User", "Details"]} />
-      <div className="my-4 border rounded-[4px]">
+      <div className="my-4 border rounded-[4px] bg-[#FFF]">
         <div className="px-8 py-6 text-[#514E4E] flex justify-between items-center border-b">
           <div>
-            <h1 className="text-2xl font-[800]">User Details</h1>
+            <h1 className="text-2xl font-[700]">User Details</h1>
             <span className="text-[#667085]">Information account & access</span>
           </div>
           <div className="flex items-center gap-4">
             <button
-              className="border border-[#514E4E] px-5 py-2 rounded-[4px] flex items-center gap-2"
+              className="border border-[#667085] px-5 py-2 rounded-[4px] flex items-center gap-2"
               onClick={() => data.onNavigate(-1)}
             >
               <ArrowIcon className="-rotate-90" />
-              <span className="text-sm">Back</span>
+              <span className="text-sm text-[#667085]">Back</span>
             </button>
             <button
               className="border bg-[#F79009] border-[#F79009] text-[#FFFFFF] px-5 py-2 rounded-[4px] flex items-center gap-2"
@@ -53,15 +53,15 @@ export default function UserDetailView() {
           <div className="grid grid-cols-2 gap-6">
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Name</h1>
-              <span>Budi Rahmat</span>
+              <span className="text-[#514E4E]">Budi Rahmat</span>
             </div>
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Role</h1>
-              <span>Operator</span>
+              <span className="text-[#514E4E]">Operator</span>
             </div>
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Email Address</h1>
-              <span>test@mail.com</span>
+              <span className="text-[#514E4E]">test@mail.com</span>
             </div>
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Status</h1>

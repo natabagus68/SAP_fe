@@ -15,6 +15,7 @@ export default function UserFormView() {
           type="text"
           placeholder="Input Name"
           className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          required
         />
       </div>
       <div className="w-full mb-3">
@@ -24,6 +25,7 @@ export default function UserFormView() {
           type="text"
           placeholder="Input Email"
           className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          required
         />
       </div>
       <div className="w-full mb-3">
@@ -48,6 +50,7 @@ export default function UserFormView() {
             Choose
           </label>
           <input
+            ref={data.imageRef}
             id="user-image"
             name="user-image"
             type="file"
@@ -58,12 +61,14 @@ export default function UserFormView() {
             <button
               name="add-image"
               className="bg-[#F79009] px-3 rounded-[4px]"
+              onClick={data.onResetImageUpdate}
             >
               <EditIcon className="w-4 h-4" />
             </button>
             <button
               name="remove-image"
               className="bg-[#F04438] px-3 rounded-[4px]"
+              onClick={data.onDeleteImageUpdate}
             >
               <TrashIcon className="w-4 h-4" />
             </button>
@@ -74,7 +79,13 @@ export default function UserFormView() {
         <SaveIcon />
         <span className="text-sm font-[600]">Save</span>
       </button>
-      <ModalConfirm open={data.openConfirmModal} setOpen={data.onClose} />
+      <ModalConfirm
+        open={data.openConfirmModal}
+        setOpen={data.onConfirmClose}
+        confirmMessage={""}
+        setOpenSuccess={""}
+        cb={""}
+      />
     </form>
   );
 }

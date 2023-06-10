@@ -13,6 +13,7 @@ export default function MasterDataForm() {
           type="text"
           placeholder="Input machine code"
           className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          required
         />
       </div>
       <div className="w-full mb-3">
@@ -22,6 +23,7 @@ export default function MasterDataForm() {
           type="text"
           placeholder="Input machine name"
           className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          required
         />
       </div>
       <div className="w-full mb-3">
@@ -31,6 +33,7 @@ export default function MasterDataForm() {
           type="text"
           placeholder="Input description"
           className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          required
         />
       </div>
       <div className="w-full">
@@ -40,6 +43,7 @@ export default function MasterDataForm() {
           type="text"
           placeholder="input line (e.g. Line 1)"
           className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          required
         />
       </div>
       <button className="flex items-center justify-center gap-2 h-[46px] w-[200px] bg-[#20519F] text-[#FFFFFF] rounded-[4px] mt-6">
@@ -48,7 +52,10 @@ export default function MasterDataForm() {
       </button>
       <ModalConfirm
         open={data.openConfirmModal}
-        setOpen={data.openConfirmModal}
+        setOpen={data.onConfirmClose}
+        confirmMessage={""}
+        setOpenSuccess={""}
+        cb={""}
       />
     </form>
   );

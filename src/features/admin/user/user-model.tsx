@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { UniqueMessageIdProvider } from "mqtt";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function useUserModel() {
   const navigate = useNavigate();
+  const imageRef = useRef(null);
   const [roleActive, setRoleActive] = useState(false);
   const [openModalFilter, setOpenModalFilter] = useState(false);
   const [openModalPassword, setOpenModalPassword] = useState(false);
@@ -35,6 +37,16 @@ export default function useUserModel() {
     setOpenConfirmModal(true);
   };
 
+  const onDeleteImageUpdate = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imageRef.current.value = ""
+  };
+
+  const onResetImageUpdate = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imageRef.current.click()
+  };
+
   const onPasswordOpen = () => {
     setOpenModalPassword(true);
   };
@@ -51,7 +63,7 @@ export default function useUserModel() {
     setOpenModalDelete(false);
   };
 
-  const onClose = () => {
+  const onConfirmClose = () => {
     setOpenConfirmModal(false);
   };
 
@@ -64,6 +76,7 @@ export default function useUserModel() {
   };
 
   return {
+    imageRef,
     roleActive,
     openModalPreviewPhoto,
     openModalFilter,
@@ -72,7 +85,7 @@ export default function useUserModel() {
     openConfirmModal,
     onNavigate,
     onFormSubmit,
-    onClose,
+    onConfirmClose,
     onFilterOpen,
     onFilterClose,
     onDeleteOpen,
@@ -83,5 +96,7 @@ export default function useUserModel() {
     onInactive,
     onPreviewPhotoOpen,
     onPreviewPhotoClose,
+    onDeleteImageUpdate,
+    onResetImageUpdate,
   };
 }

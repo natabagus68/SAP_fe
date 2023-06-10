@@ -8,8 +8,8 @@ export default function useMonitoringModel() {
   const onSelectDate = (prev) => setDate(prev);
   const onMachineModalOpen = () => setOpenModalMachine(true);
   const onMachineModalClose = () => setOpenModalMachine(false);
-  const onCastingModalOpen = () => setOpenModalCasting(true)
-  const onCastingModalClose= () => setOpenModalCasting(false)
+  const onCastingModalOpen = () => setOpenModalCasting(true);
+  const onCastingModalClose = () => setOpenModalCasting(false);
 
   return {
     date,
@@ -19,6 +19,6 @@ export default function useMonitoringModel() {
     onMachineModalOpen,
     onMachineModalClose,
     onCastingModalOpen,
-    onCastingModalClose
+    onCastingModalClose,
   };
 }

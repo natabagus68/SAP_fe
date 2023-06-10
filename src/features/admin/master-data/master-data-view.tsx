@@ -13,7 +13,7 @@ export default function MasterDataView() {
   return (
     <>
       <Breadcrumbs items={["Master Data"]} />
-      <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-4">
+      <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-[18px] bg-[#FFF]">
         <div className="flex justify-between">
           <div className="flex flex-col">
             <h1 className="text-2xl font-[700]">Master Data</h1>
@@ -47,13 +47,13 @@ export default function MasterDataView() {
           <FilterModal open={data.openModalFilter} close={data.onFilterClose} />
         </div>
         <table className="w-full">
-          <thead className="border-t border-b bg-[#D0D3D9] border-gray-400 text-[#667085]">
-            <tr className="font-[600] text-sm text-left">
-              <th className="pl-4 py-4">Machine Code</th>
-              <th className="px-4 py-4">Machine Name</th>
-              <th className="px-4 py-4">Description</th>
-              <th className="px-4 py-4">Location</th>
-              <th className="px-4 py-4">ACTION</th>
+          <thead className="border-t border-b bg-[#F0F1F3] border-gray-400 text-[#667085]">
+            <tr className="text-sm text-left">
+              <th className="pl-4 py-4 font-[600]">Machine Code</th>
+              <th className="px-4 py-4 font-[600]">Machine Name</th>
+              <th className="px-4 py-4 font-[600]">Description</th>
+              <th className="px-4 py-4 font-[600]">Location</th>
+              <th className="px-4 py-4 font-[600]">ACTION</th>
             </tr>
           </thead>
           <tbody>

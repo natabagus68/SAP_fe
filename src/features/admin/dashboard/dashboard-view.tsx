@@ -10,7 +10,7 @@ export default function DashboardView() {
   return (
     <div className="text-[#514343]">
       <Breadcrumbs items={["Dashboard"]} />
-      <div className="border border-[#D0D3D9] p-4 rounded-md mt-[18px]">
+      <div className="border border-[#D0D3D9] p-4 rounded-md mt-[18px] bg-[#FFF]">
         <div className="flex items-center justify-between mb-[18px]">
           <div className="flex items-center gap-3">
             <h1 className="font-[600]">Dashboard</h1>
@@ -65,7 +65,7 @@ export default function DashboardView() {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-[25px] mt-6">
-        <div className="border border-[#D0D3D9] p-4 rounded-md">
+        <div className="border border-[#D0D3D9] p-4 rounded-md bg-[#FFF]">
           <div className="flex justify-between items-center">
             <h1 className="font-[600]">Overall Transaction</h1>
             <div className="flex items-center gap-3">
@@ -77,7 +77,7 @@ export default function DashboardView() {
                 displayFormat="MM DD, YYYY"
                 showFooter={true}
                 showShortcuts={true}
-                inputClassName={"dark:bg-[#FFF] py-2 px-6 rounded-md text-sm"}
+                inputClassName={"dark:bg-[#FFF] py-2 px-6 rounded-md text-sm border border-[#D0D3D9]"}
                 placeholder="Select Date Transaction"
               />
             </div>
@@ -86,7 +86,7 @@ export default function DashboardView() {
             <LineBar BC={25} AC={25} BM={50} />
           </div>
         </div>
-        <div className="border border-[#D0D3D9] p-4 rounded-md">
+        <div className="border border-[#D0D3D9] p-4 rounded-md bg-[#FFF]">
           <div className="flex items-center justify-between">
             <h1 className="font-[600]">Performance Statistic</h1>
             <select

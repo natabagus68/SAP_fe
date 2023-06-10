@@ -16,7 +16,7 @@ export default function UserView() {
   return (
     <>
       <Breadcrumbs items={["User"]} />
-      <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-4">
+      <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-[18px] bg-[#FFF]">
         <div className="flex justify-between">
           <div className="flex flex-col">
             <h1 className="text-2xl font-[700]">User</h1>
@@ -52,13 +52,13 @@ export default function UserView() {
           <FilterModal open={data.openModalFilter} close={data.onFilterClose} />
         </div>
         <table className="w-full">
-          <thead className="border-t border-b bg-[#D0D3D9] border-gray-400 text-[#667085]">
-            <tr className="font-[600] text-sm text-left">
-              <th className="pl-4 py-4">Status</th>
-              <th className="px-4 py-4">Name</th>
-              <th className="px-4 py-4">Email Address</th>
-              <th className="px-4 py-4">Role</th>
-              <th className="px-4 py-4">ACTION</th>
+          <thead className="border-t border-b bg-[#F0F1F3] border-gray-400 text-[#667085]">
+            <tr className="text-sm text-left">
+              <th className="pl-4 py-4 font-[600]">Status</th>
+              <th className="px-4 py-4 font-[600]">Name</th>
+              <th className="px-4 py-4 font-[600]">Email Address</th>
+              <th className="px-4 py-4 font-[600]">Role</th>
+              <th className="px-4 py-4 font-[600]">ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -83,7 +83,7 @@ export default function UserView() {
               <td className="px-4 py-2 flex gap-2 text-[#FFFFFF]">
                 <button
                   name="detail"
-                  className="border bg-[#20519F] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                  className="border bg-[#20519F] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
                   onClick={() => data.onNavigate("../features/1/user-detail")}
                 >
                   <EyeShowIcon color={"#FFFFFF"} className="w-4 h-4" />
@@ -91,7 +91,7 @@ export default function UserView() {
                 </button>
                 <button
                   name="password"
-                  className="border bg-[#12B569] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                  className="border bg-[#12B569] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
                   onClick={data.onPasswordOpen}
                 >
                   <ChangePasswordIcon className="w-4 h-4" />
@@ -103,7 +103,7 @@ export default function UserView() {
                 />
                 <button
                   name="edit"
-                  className="border bg-[#F79009] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                  className="border bg-[#F79009] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
                   onClick={() => data.onNavigate("../features/1/user-edit")}
                 >
                   <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
@@ -111,7 +111,7 @@ export default function UserView() {
                 </button>
                 <button
                   name="delete"
-                  className="border bg-[#F04438] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                  className="border bg-[#F04438] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
                   onClick={data.onDeleteOpen}
                 >
                   <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />

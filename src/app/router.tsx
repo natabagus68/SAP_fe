@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import { Error404 } from "../common/components";
 import LoginView from "@features/auth/login-view";
 import AdminLayout from "@features/admin/admin-layout/admin-layout";
@@ -113,4 +113,3 @@ export default createBrowserRouter([
     element: <Error404 />,
   },
 ]);
-2;

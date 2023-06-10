@@ -38,21 +38,6 @@ export default function AdminLayout() {
           >
             <div className="w-6 h-6 rounded-full bg-white"></div>
             <span className="text-white font-semibold">Admin</span>
-            <ChevronIcon color="white" />
-          </div>
-          <div
-            className={`${
-              admin.isOpenAvatar ? "flex" : "hidden"
-            } absolute top-[35px] bg-white rounded-md overflow-hidden right-0 flex-col gap-2 min-w-[190px] border border-gray-400`}
-            onMouseLeave={() => admin.onOpenAvatar()}
-          >
-            <div
-              className="flex items-center gap-3 cursor-pointer px-4 py-2 hover:bg-gray-100"
-              onClick={() => admin.onLogout()}
-            >
-              <LogoutIcon />
-              <span>Logout</span>
-            </div>
           </div>
         </div>
       </header>
@@ -66,41 +51,50 @@ export default function AdminLayout() {
         </div>
         <div className="flex flex-col p-4 gap-[12px] overflow-y-auto">
           <span className="font-semibold text-[#5C5C5C]">Menu</span>
-          <div className="flex flex-col gap-2">
-            <NavItem
-              label={`Dashboard`}
-              icon={<DashboardIcon className="w-[24px] h-[24px]" />}
-              to={"dashboard/dashboard-view"}
-              className="text-sm font-[400]"
-            />
-            <NavItem
-              label={`Monitoring`}
-              icon={
-                <FileIcon color={"#231F20"} className="w-[24px] h-[24px]" />
-              }
-              to={"monitoring/monitoring-view"}
-              className="text-sm font-[400]"
-            />
-            <NavItem
-              label={`Stock`}
-              icon={
-                <StockIcon color={"#231F20"} className="w-[24px] h-[24px]" />
-              }
-              to={"stock/stock-view"}
-              className="text-sm font-[400]"
-            />
-            <NavItem
-              label={`Master Data`}
-              to={"master-data/master-data-view"}
-              icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
-              className="text-sm font-[400]"
-            />
-            <NavItem
-              label={`User`}
-              icon={<UserIcon className="w-[24px] h-[24px]" />}
-              to={"user/user-view"}
-              className="text-sm font-[400]"
-            />
+          <div className="flex flex-col gap-2 h-screen justify-between">
+            <div className="mt-3">
+              <NavItem
+                label={`Dashboard`}
+                icon={<DashboardIcon className="w-[24px] h-[24px]" />}
+                to={"dashboard/dashboard-view"}
+                className="text-sm font-[400]"
+              />
+              <NavItem
+                label={`Monitoring`}
+                icon={
+                  <FileIcon color={"#231F20"} className="w-[24px] h-[24px]" />
+                }
+                to={"monitoring/monitoring-view"}
+                className="text-sm font-[400]"
+              />
+              <NavItem
+                label={`Stock`}
+                icon={
+                  <StockIcon color={"#231F20"} className="w-[24px] h-[24px]" />
+                }
+                to={"stock/stock-view"}
+                className="text-sm font-[400]"
+              />
+              <NavItem
+                label={`Master Data`}
+                to={"master-data/master-data-view"}
+                icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
+                className="text-sm font-[400]"
+              />
+              <NavItem
+                label={`User`}
+                icon={<UserIcon className="w-[24px] h-[24px]" />}
+                to={"user/user-view"}
+                className="text-sm font-[400]"
+              />
+            </div>
+            <button
+              onClick={admin.onLogout}
+              className="flex items-center gap-2 text-[#F04438] font-[400] px-4 py-8"
+            >
+              <LogoutIcon color={"#F04438"} />
+              <span>Sign Out</span>
+            </button>
           </div>
         </div>
       </div>

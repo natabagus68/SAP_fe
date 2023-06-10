@@ -8,15 +8,15 @@ export default function MasterDataAdd() {
   return (
     <>
       <Breadcrumbs items={["Master Data", "Add Data"]} />
-      <div className="my-4 border rounded-[4px]">
+      <div className="my-4 border rounded-[4px] bg-[#FFF]">
         <div className="px-8 py-6 text-[#514E4E] flex justify-between items-center border-b">
-          <h1 className="text-2xl font-[800]">Add Data</h1>
+          <h1 className="text-2xl font-[700]">Add Data</h1>
           <div
-            className="flex items-center gap-2 border border-[#514E4E] px-5 py-2 rounded-[4px] cursor-pointer"
+            className="flex items-center gap-2 border border-[#667085] px-5 py-2 rounded-[4px] cursor-pointer"
             onClick={() => data.onNavigate(-1)}
           >
             <ArrowIcon className="-rotate-90" />
-            <span className="text-sm">Back</span>
+            <span className="text-sm text-[#667085]">Back</span>
           </div>
         </div>
         <MasterDataForm />
