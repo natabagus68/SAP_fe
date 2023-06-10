@@ -3,6 +3,11 @@ import { Error404 } from "../common/components";
 import LoginView from "@features/auth/login-view";
 import AdminLayout from "@features/admin/admin-layout/admin-layout";
 import GuestView from "@features/guest/guest-view";
+import { LayoutOperator } from "@features/operator/layout-operator/layout-operator";
+import { CastingMachiningPrint } from "@features/operator/casting-machining-print/casting-machining-print-view";
+import { DashboardOperator } from "@features/operator/scan/dashboard/dashboard";
+import { Qr } from "@features/operator/scan/qr/qr-view";
+import { ChartPadf } from "@features/operator/pdf/chard-pdf";
 
 import DashboardView from "@features/admin/dashboard/dashboard-view";
 
@@ -109,7 +114,40 @@ export default createBrowserRouter([
     ],
   },
   {
+    path: "hmi",
+    element: <LayoutOperator />,
+    children: [
+      {
+        path: "",
+        element: <CastingMachiningPrint />,
+      },
+      {
+        path: "dashboard",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <DashboardOperator />,
+          },
+          {
+            path: "scanQr",
+            element: <Qr />,
+          },
+        ],
+      },
+      {
+        path: ":machine",
+        element: <CastingMachiningPrint />,
+      },
+    ],
+  },
+  {
+    path: "pdf",
+    element: <ChartPadf />,
+  },
+  {
     path: "*",
     element: <Error404 />,
   },
 ]);
+

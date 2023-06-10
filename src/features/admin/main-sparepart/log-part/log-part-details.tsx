@@ -2,13 +2,13 @@ import React from "react";
 import useLogPart from "./log-part-model";
 import { Breadcrumbs } from "@common/components";
 import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
-import gambar_part from "../../../../assets/Gambar-part.png";
+import gambar_part from "../../../../assets/gambar-part.png";
 import drawing from "../../../../assets/Drawing.png";
 import ExportIcon from "@common/components/icons-new/ExportIcon";
 
 export default function LogPartDetails() {
   const logPart = useLogPart();
-  const { dataLogPartById } = logPart
+  const { dataLogPartById } = logPart;
   return (
     <main className="flex flex-col gap-[28px] justify-between">
       <Breadcrumbs items={["Master Data", "Log Part", "Details"]} />
@@ -42,23 +42,33 @@ export default function LogPartDetails() {
               <tbody>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Stok</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.stock}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.stock}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Item Code</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.code}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.code}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Availability</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.availability}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.availability}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Rak</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.rack}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.rack}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Part No</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.no}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.no}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Part Name</td>
@@ -68,11 +78,15 @@ export default function LogPartDetails() {
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Brand</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.brand}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.brand}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Specification</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.spec}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.spec}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Unit of Measurament (UoM) </td>
@@ -82,7 +96,9 @@ export default function LogPartDetails() {
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Type Kategory </td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.category}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.category}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Vendor</td>
@@ -92,31 +108,45 @@ export default function LogPartDetails() {
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Cost</td>
-                  <td className="px-4 py-[6px] font-semibold">Rp. {dataLogPartById?.cost}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    Rp. {dataLogPartById?.cost}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Pengadaan</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.procurement}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.procurement}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Remark</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.remark}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.remark}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Alternative Part</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.alternative_part}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.alternative_part}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Minimum Stock</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.min_stock}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.min_stock}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Delivery Time</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.delivery_time} Hari</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.delivery_time} Hari
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Maintence Rate</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.maintenance_rate} Year</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.maintenance_rate} Year
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Description</td>
@@ -126,19 +156,27 @@ export default function LogPartDetails() {
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Kategory</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.inventory_category}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.inventory_category}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Garansi Datang</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.arrival_warranty}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.arrival_warranty}
+                  </td>
                 </tr>
                 <tr>
                   <td className="px-4 py-[6px]">Garansi Pakai</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.usage_warranty}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.usage_warranty}
+                  </td>
                 </tr>
                 <tr className="bg-[#D0D3D9]">
                   <td className="px-4 py-[6px]">Status</td>
-                  <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.status}</td>
+                  <td className="px-4 py-[6px] font-semibold">
+                    {dataLogPartById?.status}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -152,8 +190,9 @@ export default function LogPartDetails() {
             </div>
             <span className="text-2xl text-[#514E4E]">Drawing</span>
             <div className="w-auto h-auto overflow-hidden ">
-              {dataLogPartById
-                ?.image_drawing_path && <img src={drawing} alt="drawing" />}
+              {dataLogPartById?.image_drawing_path && (
+                <img src={drawing} alt="drawing" />
+              )}
             </div>
             <div className="flex flex-col gap-6">
               <span className="text-2xl text-[#514E4E]">
@@ -175,19 +214,27 @@ export default function LogPartDetails() {
                   </tr>
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Request Quantity</td>
-                    <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.quantity}</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      {dataLogPartById?.quantity}
+                    </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-[6px]">Maintenance Type</td>
-                    <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.usage_maintenance_type}</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      {dataLogPartById?.usage_maintenance_type}
+                    </td>
                   </tr>
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">No Machine</td>
-                    <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.usage_machine_no}</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      {dataLogPartById?.usage_machine_no}
+                    </td>
                   </tr>
                   <tr>
                     <td className="px-4 py-[6px]">Nama Machine</td>
-                    <td className="px-4 py-[6px] font-semibold">{dataLogPartById?.usage_machine_name}</td>
+                    <td className="px-4 py-[6px] font-semibold">
+                      {dataLogPartById?.usage_machine_name}
+                    </td>
                   </tr>
                   <tr className="bg-[#D0D3D9]">
                     <td className="px-4 py-[6px]">Deskripsi</td>
