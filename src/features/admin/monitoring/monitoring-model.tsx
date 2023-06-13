@@ -6,15 +6,18 @@ export default function useMonitoringModel() {
   const [date, setDate] = useState({ startDate: null, endDate: null });
   const [modalMachine, setOpenModalMachine] = useState(false);
   const [modalCasting, setOpenModalCasting] = useState(false);
-  const [modalQrCode, setOpenModalQrCode] = useState(false);
+  const [modalResultQrCode, setModalResultQrCode] = useState(false);
+  const [modalResultReceipt, setOpenResultReceipt] = useState(false);
 
   const onSelectDate = (prev) => setDate(prev);
   const onMachineModalOpen = () => setOpenModalMachine(true);
   const onMachineModalClose = () => setOpenModalMachine(false);
   const onCastingModalOpen = () => setOpenModalCasting(true);
   const onCastingModalClose = () => setOpenModalCasting(false);
-  const onQrCodeOpen = () => setOpenModalQrCode(true);
-  const onQrCodeClose = () => setOpenModalQrCode(false);
+  const onResultReceiptOpen = () => setOpenResultReceipt(true);
+  const onResultReceiptClose = () => setOpenResultReceipt(false);
+  const onResultQrCodeOpen = () => setModalResultQrCode(true);
+  const onResultQrCodeClose = () => setModalResultQrCode(false);
 
   const onNavigate = (path) => navigate(path);
 
@@ -22,14 +25,17 @@ export default function useMonitoringModel() {
     date,
     modalMachine,
     modalCasting,
-    modalQrCode,
+    modalResultReceipt,
+    modalResultQrCode,
     onSelectDate,
     onMachineModalOpen,
     onMachineModalClose,
     onCastingModalOpen,
     onCastingModalClose,
-    onQrCodeOpen,
-    onQrCodeClose,
     onNavigate,
+    onResultReceiptOpen,
+    onResultReceiptClose,
+    onResultQrCodeOpen,
+    onResultQrCodeClose,
   };
 }

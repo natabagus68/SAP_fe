@@ -14,7 +14,10 @@ export default function DashboardView() {
         <div className="flex items-center justify-between mb-[18px]">
           <div className="flex items-center gap-3">
             <h1 className="font-[600]">Dashboard</h1>
-            <span className="text-xs cursor-pointer text-[#20519F]">
+            <span
+              className="text-xs cursor-pointer text-[#20519F]"
+              onClick={() => data.onNavigate("../../monitoring/monitoring-view")}
+            >
               See More
             </span>
           </div>
