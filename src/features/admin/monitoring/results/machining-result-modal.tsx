@@ -1,19 +1,15 @@
 import Logo from "../../../../assets/my-logo.svg";
 import CloseIcon from "@common/components/icons-new/CloseIcon";
+import Modal from "@common/components/modals/Modal";
 
-export default function ReceiptReview({ open, close }) {
+export default function MachiningResultModal({ open, close }) {
   return (
-    <dialog
-      open={open}
-      className="bg-black bg-opacity-50 w-[100dvw] h-[100dvh] z-50 top-0 left-0 fixed p-0 m-0"
-    >
-      <div className="p-6 rounded-xl absolute bg-white top-[50%] left-[45%] translate-x-[-50%] translate-y-[-50%]">
-        <div onClick={close}>
-          <CloseIcon
-            color={"#514E4E"}
-            className="absolute z-10 right-10 top-10 w-4 h-4"
-          />
-        </div>
+    <Modal open={open}>
+      <div onClick={close}>
+        <CloseIcon
+          color={"#514E4E"}
+          className="absolute z-10 right-10 top-10 w-4 h-4 cursor-pointer"
+        />
         <div className="bg-[#FFF] w-[530px] border-2 border-[#514E4E] px-8 py-6">
           <img src={Logo} alt="logo" className="mb-4" />
           <div className="font-[700] text-center">
@@ -54,6 +50,6 @@ export default function ReceiptReview({ open, close }) {
           </div>
         </div>
       </div>
-    </dialog>
+    </Modal>
   );
 }

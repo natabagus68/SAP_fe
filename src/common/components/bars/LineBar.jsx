@@ -1,15 +1,10 @@
 export default function LineBar({ BC, AC, BM }) {
-  const result = {
-    bc: `w-[${BC}%]`
-  }
-
-  console.log(result.bc)
   return (
     <>
       <div className={`w-full flex`}>
-        <div className={`${result.bc} h-[32px] bg-[#F04438] rounded-tl rounded-bl`}></div>
-        <div className={`${result.bc} h-[32px] bg-[#F79009]`}></div>
-        <div className={`${result.bc} h-[32px] bg-[#12B569] rounded-tr rounded-br`}></div>
+        <div className={`w-[25%] h-[32px] bg-[#F04438] rounded-tl rounded-bl`}></div>
+        <div className={`w-[25%] h-[32px] bg-[#F79009]`}></div>
+        <div className={`w-[50%] h-[32px] bg-[#12B569] rounded-tr rounded-br`}></div>
       </div>
       <div className="mt-[45px] flex flex-col gap-[20px]">
         <div className="flex items-center justify-between gap-2">
