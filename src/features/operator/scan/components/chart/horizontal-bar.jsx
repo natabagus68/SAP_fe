@@ -2,7 +2,7 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 const HorizontalBarChart = ({ data }) => {
   const options = {
-    scales: {
+    scale: {
       x: {
         suggestedMax: 100,
       },
@@ -49,4 +49,3 @@ const HorizontalBarChart = ({ data }) => {
 };
 
 export default HorizontalBarChart;
-

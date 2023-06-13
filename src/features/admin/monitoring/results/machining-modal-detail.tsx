@@ -2,8 +2,12 @@ import Modal from "@common/components/modals/Modal";
 import CloseIcon from "@common/components/icons-new/CloseIcon";
 import CastingIcon from "@common/components/icons-new/CastingIcon";
 import MachiningIcon from "@common/components/icons-new/MachiningIcon";
+import ReceiptReview from "./receipt-review";
+import useMonitoringModel from "../monitoring-model";
+import ReceiptIcon from "@common/components/icons-new/ReceiptIcon";
 
 export default function MachiningModalDetail({ open, close }) {
+  const data = useMonitoringModel();
   return (
     <Modal open={open}>
       <div className="flex items-center justify-between border-b w-[1200px]">
@@ -112,9 +116,15 @@ export default function MachiningModalDetail({ open, close }) {
           <div className="mb-6">
             <h1 className="text-[#989FAD] text-sm font-[600] mb-2">Receipt</h1>
             <div className="flex items-center gap-3">
-              <div className="w-[100px] h-[100px] bg-indigo-500"></div>
-              <span className="text-[#20519F] text-sm">View Card</span>
+              <ReceiptIcon />
+              <p
+                className="text-[#20519F] text-sm cursor cursor-pointer"
+                onClick={data.onQrCodeOpen}
+              >
+                View Card
+              </p>
             </div>
+            <ReceiptReview open={data.modalQrCode} close={data.onQrCodeClose} />
           </div>
           <div className="flex items-center">
             <div className="relative">

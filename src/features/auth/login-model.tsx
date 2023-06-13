@@ -44,7 +44,7 @@ export default function useLogin() {
         "ykk-web-admin",
         JSON.stringify({ token: result.token })
       );
-      navigate("../admin/dashboard/general");
+      navigate("../admin/dashboard/dashboard-view");
     } catch (error) {
       setMessages(error.response?.data?.errors);
     }
@@ -53,7 +53,7 @@ export default function useLogin() {
   const onIsMe = async () => {
     setIsLoading(true);
     try {
-      // const result = await authenticationRepository.me();
+      const result = await authenticationRepository.me();
       setTimeout(() => {
         setIsLoading(false);
         navigate(`../admin`, { replace: true });

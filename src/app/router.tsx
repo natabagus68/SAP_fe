@@ -150,4 +150,3 @@ export default createBrowserRouter([
     element: <Error404 />,
   },
 ]);
-

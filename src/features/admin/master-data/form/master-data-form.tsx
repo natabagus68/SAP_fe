@@ -12,7 +12,7 @@ export default function MasterDataForm() {
           name="machine-cide"
           type="text"
           placeholder="Input machine code"
-          className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          className="px-4 py-2 border border-[#D0D3D9] rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm focus:outline-none focus:border-[#20519F] focus:ring-1 focus:ring-[#20519F]"
           required
         />
       </div>
@@ -22,7 +22,7 @@ export default function MasterDataForm() {
           name="machine-cide"
           type="text"
           placeholder="Input machine name"
-          className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm focus:outline-none focus:border-[#20519F] focus:ring-1 focus:ring-[#20519F]"
           required
         />
       </div>
@@ -32,7 +32,7 @@ export default function MasterDataForm() {
           name="machine-cide"
           type="text"
           placeholder="Input description"
-          className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm focus:outline-none focus:border-[#20519F] focus:ring-1 focus:ring-[#20519F]"
           required
         />
       </div>
@@ -42,7 +42,7 @@ export default function MasterDataForm() {
           name="machine-cide"
           type="text"
           placeholder="input line (e.g. Line 1)"
-          className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm"
+          className="px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm focus:outline-none focus:border-[#20519F] focus:ring-1 focus:ring-[#20519F]"
           required
         />
       </div>

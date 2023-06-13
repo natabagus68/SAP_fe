@@ -77,13 +77,15 @@ export default function DashboardView() {
                 displayFormat="MM DD, YYYY"
                 showFooter={true}
                 showShortcuts={true}
-                inputClassName={"dark:bg-[#FFF] py-2 px-6 rounded-md text-sm border border-[#D0D3D9]"}
+                inputClassName={
+                  "dark:bg-[#FFF] py-2 px-6 rounded-md text-sm border border-[#D0D3D9]"
+                }
                 placeholder="Select Date Transaction"
               />
             </div>
           </div>
           <div className="mt-[30px]">
-            <LineBar BC={25} AC={25} BM={50} />
+            <LineBar BC={15} AC={25} BM={50} />
           </div>
         </div>
         <div className="border border-[#D0D3D9] p-4 rounded-md bg-[#FFF]">

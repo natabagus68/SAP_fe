@@ -13,10 +13,10 @@ export default function useGuest() {
   const onIsMe = async () => {
     setIsLoading(true);
     try {
-      // const result = await authenticationRepository.me();
+      const result = await authenticationRepository.me();
       setTimeout(() => {
         setIsLoading(false);
-        navigate(`../admin`, {replace: true});
+        navigate(`../admin/dashboard/dashboard-view`, {replace: true});
       }, 500);
     } catch (error) {
       setIsLoading(false);

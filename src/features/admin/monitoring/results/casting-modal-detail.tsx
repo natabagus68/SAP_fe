@@ -2,8 +2,10 @@ import Modal from "@common/components/modals/Modal";
 import CloseIcon from "@common/components/icons-new/CloseIcon";
 import CastingIcon from "@common/components/icons-new/CastingIcon";
 import MachiningIcon from "@common/components/icons-new/MachiningIcon";
+import useMonitoringModel from "../monitoring-model";
 
 export default function CastingModalView({ open, close }) {
+  const data = useMonitoringModel();
   return (
     <Modal open={open}>
       <div className="flex items-center justify-between border-b w-[1200px]">
@@ -113,7 +115,7 @@ export default function CastingModalView({ open, close }) {
             <h1 className="text-[#989FAD] text-sm font-[600] mb-2">Qr Code</h1>
             <div className="flex items-center gap-3">
               <div className="w-[100px] h-[100px] bg-indigo-500"></div>
-              <span className="text-[#20519F] text-sm">View Card</span>
+              <span className="text-[#20519F] text-sm cursor-pointer">View Card</span>
             </div>
           </div>
           <div className="mb-4">
