@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  const auth = await JSON.parse(localStorage.getItem("ykk-web-admin"));
+  const auth = await JSON.parse(localStorage.getItem("aop-sap"));
   config.headers["Authorization"] = `jwt ${auth?.token}`;
   return config;
 });

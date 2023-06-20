@@ -2,7 +2,7 @@ import { Breadcrumbs } from "@common/components";
 import FilterIcon from "@common/components/icons-new/FilterIcon";
 import { SearchIcon } from "@common/components/icons/SearchIcon";
 import React from "react";
-import FilterModal from "../popup/filter";
+import FilterModal from "../machine/popup/filter";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import TrashIcon from "@common/components/icons-new/TrashIcon";
 import ModalDelete from "@common/components/modals/ModalDelete";
@@ -23,7 +23,7 @@ export default function MaterialDescriptionView() {
             // onClick={() => data.onNavigate("../features/add")}
           >
             <span>+</span>
-            <button name="create">Create new machine</button>
+            <button name="create">Create New Material Description</button>
           </div>
         </div>
         <div className="my-4 bg-[#F0F1F3] p-4 rounded-[4px] flex justify-between">
@@ -48,10 +48,9 @@ export default function MaterialDescriptionView() {
         <table className="w-full">
           <thead className="border-t border-b bg-[#F0F1F3] border-gray-400 text-[#667085]">
             <tr className="text-sm text-left">
-              <th className="pl-4 py-4 font-[600]">Machine Code</th>
-              <th className="px-4 py-4 font-[600]">Machine Name</th>
+              <th className="pl-4 py-4 font-[600]">Material Number</th>
               <th className="px-4 py-4 font-[600]">Description</th>
-              <th className="px-4 py-4 font-[600]">Location</th>
+              <th className="px-4 py-4 font-[600]">Mesin ID</th>
               <th className="px-4 py-4 font-[600]">ACTION</th>
             </tr>
           </thead>
@@ -59,8 +58,7 @@ export default function MaterialDescriptionView() {
             <tr className="border-b border-[#D0D3D9]">
               <td className="pl-4 py-2">K00224</td>
               <td className="px-4 py-2">Machine Satu</td>
-              <td className="px-4 py-2">ckctm12@gmail.com</td>
-              <td className="px-4 py-2">Line 1</td>
+              <td className="px-4 py-2">1233</td>
               <td className="px-4 py-2 flex gap-2">
                 <button
                   name="edit"

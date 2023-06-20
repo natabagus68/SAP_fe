@@ -7,17 +7,17 @@ export class AuthenticationApiRepository implements AuthenticationRepository {
     const { data } = await api.get(`auth/me`);
     return Authentication.create({
       id: data.data.id,
-      name: data.data.name,
+      name: data.data.fullname,
       email: data.data.email,
-    })
+    });
   }
   async login(login: Authentication): Promise<Authentication> {
-    const {data} = await api.post(`auth/login`, {
+    const { data } = await api.post(`auth/login`, {
       email: login.email,
       password: login.password,
     });
     return Authentication.create({
       token: data?.token,
-    })
+    });
   }
 }

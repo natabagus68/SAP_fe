@@ -6,7 +6,7 @@ import EditIcon from "@common/components/icons-new/EditIcon";
 import FilterIcon from "@common/components/icons-new/FilterIcon";
 import Pagination from "@common/components/pagination/Pagination";
 import useMasterDataModel from "./master-data-model";
-import FilterModal from "../popup/filter";
+import FilterModal from "./popup/filter";
 
 export default function MasterDataView() {
   const data = useMasterDataModel();
@@ -21,7 +21,7 @@ export default function MasterDataView() {
           </div>
           <div
             className="flex items-center justify-center gap-2 text-sm bg-[#20519F] text-[#FFFFFF] h-[46px] px-4 rounded-[4px] cursor-pointer"
-            onClick={() => data.onNavigate("../features/add")}
+            onClick={() => data.onNavigate("features/add")}
           >
             <span>+</span>
             <button name="create">Create new machine</button>
@@ -57,35 +57,37 @@ export default function MasterDataView() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-[#D0D3D9]">
-              <td className="pl-4 py-2">K00224</td>
-              <td className="px-4 py-2">Machine Satu</td>
-              <td className="px-4 py-2">ckctm12@gmail.com</td>
-              <td className="px-4 py-2">Line 1</td>
-              <td className="px-4 py-2 flex gap-2">
-                <button
-                  name="edit"
-                  className="border bg-[#F79009] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
-                  onClick={() => data.onNavigate("../features/1/edit")}
-                >
-                  <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
-                  <span>Edit</span>
-                </button>
-                <button
-                  name="delete"
-                  className="border bg-[#F04438] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
-                  onClick={data.onDeleteOpen}
-                >
-                  <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
-                  <span>Delete</span>
-                </button>
-                <ModalDelete
-                  open={data.openModalDelete}
-                  setOpen={data.onDeleteClose}
-                  setOpenConfirm={data.openModalDelete}
-                />
-              </td>
-            </tr>
+            {data.dataMachine?.data?.map((item, i) => (
+              <tr key={i} className="border-b border-[#D0D3D9]">
+                <td className="pl-4 py-2">{item.machineCode}</td>
+                <td className="px-4 py-2">{item.name}</td>
+                <td className="px-4 py-2">{item.description}</td>
+                <td className="px-4 py-2">{item.location}</td>
+                <td className="px-4 py-2 flex gap-2">
+                  <button
+                    name="edit"
+                    className="border bg-[#F79009] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                    onClick={() => data.onNavigate("../features/1/edit")}
+                  >
+                    <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    name="delete"
+                    className="border bg-[#F04438] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                    onClick={data.onDeleteOpen}
+                  >
+                    <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
+                    <span>Delete</span>
+                  </button>
+                  <ModalDelete
+                    open={data.openModalDelete}
+                    setOpen={data.onDeleteClose}
+                    setOpenConfirm={data.openModalDelete}
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <div className="flex items-end justify-end mt-6">

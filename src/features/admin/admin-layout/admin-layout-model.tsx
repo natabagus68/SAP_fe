@@ -38,7 +38,7 @@ export default function useAdmin() {
   //on logout
   const onLogout = async (): Promise<void> => {
     try {
-      await localStorage.removeItem("ykk-web-admin");
+      await localStorage.removeItem("aop-sap");
       window.location.reload();
     } catch (error) {
       console.log(error);

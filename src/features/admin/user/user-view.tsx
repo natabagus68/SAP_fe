@@ -8,7 +8,7 @@ import EyeShowIcon from "@common/components/icons-new/EyeShowIcon";
 import ChangePasswordIcon from "@common/components/icons-new/ChangePasswordIcon";
 import Pagination from "@common/components/pagination/Pagination";
 import ChangePasswordModal from "./popup/change-pass";
-import FilterModal from "../master-data/popup/filter";
+import FilterModal from "../master-data/machine/popup/filter";
 import useUserModel from "./user-model";
 
 export default function UserView() {

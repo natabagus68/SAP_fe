@@ -39,9 +39,11 @@ export default function useLogin() {
           password: data.password,
         })
       );
+      console.log(result.token, "cek");
+
       setMessages("");
       await localStorage.setItem(
-        "ykk-web-admin",
+        "aop-sap",
         JSON.stringify({ token: result.token })
       );
       navigate("../admin/dashboard/dashboard-view");
@@ -54,6 +56,8 @@ export default function useLogin() {
     setIsLoading(true);
     try {
       const result = await authenticationRepository.me();
+      //console.log(result, "halo");
+
       setTimeout(() => {
         setIsLoading(false);
         navigate(`../admin`, { replace: true });
