@@ -5,8 +5,8 @@ import TrashIcon from "@common/components/icons-new/TrashIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import FilterIcon from "@common/components/icons-new/FilterIcon";
 import Pagination from "@common/components/pagination/Pagination";
-import FilterModal from "./popup/filter";
 import useMasterDataModel from "./master-data-model";
+import FilterModal from "../popup/filter";
 
 export default function MasterDataView() {
   const data = useMasterDataModel();

@@ -77,10 +77,16 @@ export default function AdminLayout() {
               />
               <NavItem
                 label={`Master Data`}
-                to={"master-data/master-data-view"}
                 icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
                 className="text-sm font-[400]"
-              />
+              >
+                <NavItem label={"Mesin"} to={"master-data/master-data-view"} />
+                <NavItem
+                  label={"Mesin"}
+                  to={"master-data/material-description"}
+                />
+              </NavItem>
+              .
               <NavItem
                 label={`User`}
                 icon={<UserIcon className="w-[24px] h-[24px]" />}

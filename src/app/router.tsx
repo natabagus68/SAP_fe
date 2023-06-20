@@ -11,7 +11,6 @@ import { ChartPadf } from "@features/operator/pdf/chard-pdf";
 
 import DashboardView from "@features/admin/dashboard/dashboard-view";
 
-import MasterDataView from "@features/admin/master-data/master-data-view";
 import MasterDataAdd from "@features/admin/master-data/features/add";
 import MasterDataEdit from "@features/admin/master-data/features/edit";
 
@@ -23,6 +22,9 @@ import UserDetailView from "@features/admin/user/features/user-detail";
 import MonitoringView from "@features/admin/monitoring/monitoring-view";
 
 import StockView from "@features/admin/stock/stock-view";
+import { element } from "prop-types";
+import MaterialDescriptionView from "@features/admin/master-data/material-description/material-description-view";
+import MasterDataView from "@features/admin/master-data/machine/master-data-view";
 
 const Root = () => {
   return <Outlet />;
@@ -76,16 +78,40 @@ export default createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: "master-data-view",
-            element: <MasterDataView />,
+            path: "mesin",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <MasterDataView />,
+              },
+              {
+                path: "features/add",
+                element: <MasterDataAdd />,
+              },
+              {
+                path: "features/:id/edit",
+                element: <MasterDataEdit />,
+              },
+            ],
           },
           {
-            path: "features/add",
-            element: <MasterDataAdd />,
-          },
-          {
-            path: "features/:id/edit",
-            element: <MasterDataEdit />,
+            path: "material-description",
+            element: <Root />,
+            children: [
+              {
+                path: "",
+                element: <MaterialDescriptionView />,
+              },
+              {
+                path: "features/add",
+                element: <MasterDataAdd />,
+              },
+              {
+                path: "features/:id/edit",
+                element: <MasterDataEdit />,
+              },
+            ],
           },
         ],
       },

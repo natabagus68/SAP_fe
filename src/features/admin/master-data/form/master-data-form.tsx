@@ -1,6 +1,6 @@
 import SaveIcon from "@common/components/icons-new/SaveIcon";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
-import useMasterDataModel from "../master-data-model";
+import useMasterDataModel from "../machine/master-data-model";
 
 export default function MasterDataForm() {
   const data = useMasterDataModel();
