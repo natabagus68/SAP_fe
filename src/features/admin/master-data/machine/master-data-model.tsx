@@ -23,9 +23,6 @@ export default function useMasterDataModel() {
     })
   );
 
-  //state data perpage
-  const [dataMachineByPage, setDataDamageByPage] = useState([]);
-
   //state data per id
   const [dataMachineById, setDataMachineById] = useState(null);
 
@@ -72,16 +69,6 @@ export default function useMasterDataModel() {
       }, 500);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const getDataMachineByPage = async () => {
-    setDataMachine(null);
-    try {
-      const result = await machineRepository.getDataByFilter();
-      setDataDamageByPage(result.data);
-    } catch (error) {
-      throw new Error(error);
     }
   };
 
@@ -201,7 +188,6 @@ export default function useMasterDataModel() {
     onFilterOpen,
     onFilterClose,
     dataMachine,
-    dataMachineByPage,
     dataMachineById,
     message,
     register,

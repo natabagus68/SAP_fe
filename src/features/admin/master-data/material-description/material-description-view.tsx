@@ -1,16 +1,39 @@
 import { Breadcrumbs } from "@common/components";
 import FilterIcon from "@common/components/icons-new/FilterIcon";
 import { SearchIcon } from "@common/components/icons/SearchIcon";
-import React from "react";
 import FilterModal from "../machine/popup/filter";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import TrashIcon from "@common/components/icons-new/TrashIcon";
-import ModalDelete from "@common/components/modals/ModalDelete";
 import Pagination from "@common/components/pagination/Pagination";
+import useMaterialDataModel from "./material-description-model";
+import ModalDelete from "@common/components/modals/ModalDelete";
+import ModalConfirm from "@common/components/modals/ModalConfirm";
+import ModalSuccess from "@common/components/modals/ModalSeccess";
 
 export default function MaterialDescriptionView() {
+  const data = useMaterialDataModel();
   return (
     <>
+      <ModalDelete
+        open={data.openModalDelete}
+        setOpen={data.setOpenModalDelete}
+        setOpenConfirm={data.setOpenModalConfirm}
+      />
+      <ModalConfirm
+        open={data.openModalConfirm}
+        setOpen={data.setOpenModalConfirm}
+        setOpenSuccess={data.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
+        cb={(setIsLoading) => {
+          data.deleteMaterial(data.dataId, setIsLoading);
+        }}
+      />
+      <ModalSuccess
+        open={data.openModalSuccess}
+        setOpen={data.setOpenModalSuccess}
+        isSuccess={data.isSuccess}
+        successMessage="Berhasil menghapus data!"
+      />
       <Breadcrumbs items={["Master Data, Material Description"]} />
       <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-[18px] bg-[#FFF]">
         <div className="flex justify-between">
@@ -20,7 +43,7 @@ export default function MaterialDescriptionView() {
           </div>
           <div
             className="flex items-center justify-center gap-2 text-sm bg-[#20519F] text-[#FFFFFF] h-[46px] px-4 rounded-[4px] cursor-pointer"
-            // onClick={() => data.onNavigate("../features/add")}
+            onClick={() => data.navigate("add")}
           >
             <span>+</span>
             <button name="create">Create New Material Description</button>
@@ -38,12 +61,12 @@ export default function MaterialDescriptionView() {
           </div>
           <button
             className="py-2 w-[10%] pl-4 border text-[#667085] bg-[#FFFFFF] rounded-[4px] text-sm flex gap-2 items-center"
-            // onClick={data.onFilterOpen}
+            onClick={data.onFilterOpen}
           >
             <FilterIcon />
             <h1>Filter</h1>
           </button>
-          {/* <FilterModal open={data.openModalFilter} close={data.onFilterClose} /> */}
+          <FilterModal open={data.openModalFilter} close={data.onFilterClose} />
         </div>
         <table className="w-full">
           <thead className="border-t border-b bg-[#F0F1F3] border-gray-400 text-[#667085]">
@@ -55,34 +78,34 @@ export default function MaterialDescriptionView() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-[#D0D3D9]">
-              <td className="pl-4 py-2">K00224</td>
-              <td className="px-4 py-2">Machine Satu</td>
-              <td className="px-4 py-2">1233</td>
-              <td className="px-4 py-2 flex gap-2">
-                <button
-                  name="edit"
-                  className="border bg-[#F79009] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
-                  //   onClick={() => data.onNavigate("../features/1/edit")}
-                >
-                  <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
-                  <span>Edit</span>
-                </button>
-                <button
-                  name="delete"
-                  className="border bg-[#F04438] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
-                  //   onClick={data.onDeleteOpen}
-                >
-                  <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
-                  <span>Delete</span>
-                </button>
-                {/* <ModalDelete
-                  open={data.openModalDelete}
-                  setOpen={data.onDeleteClose}
-                  setOpenConfirm={data.openModalDelete}
-                /> */}
-              </td>
-            </tr>
+            {data.dataMaterial?.map((item, i) => (
+              <tr key={i} className="border-b border-[#D0D3D9]">
+                <td className="pl-4 py-2">{item.materialNumber}</td>
+                <td className="px-4 py-2">{item.materialDescription}</td>
+                <td className="px-4 py-2">{item.machineId}</td>
+                <td className="px-4 py-2 flex gap-2">
+                  <button
+                    name="edit"
+                    className="border bg-[#F79009] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                    onClick={() => data.navigate(`${item.id}/edit`)}
+                  >
+                    <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    name="delete"
+                    className="border bg-[#F04438] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
+                    onClick={() => {
+                      data.setDataId(item.id);
+                      data.setOpenModalDelete(true);
+                    }}
+                  >
+                    <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
+                    <span>Delete</span>
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <div className="flex items-end justify-end mt-6">

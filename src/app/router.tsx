@@ -23,6 +23,7 @@ import { element } from "prop-types";
 import MaterialDescriptionView from "@features/admin/master-data/material-description/material-description-view";
 import MasterDataView from "@features/admin/master-data/machine/master-data-view";
 import MasterDataForm from "@features/admin/master-data/machine/form/master-data-form";
+import MaterialForm from "@features/admin/master-data/material-description/form/material-description-form";
 
 const Root = () => {
   return <Outlet />;
@@ -101,14 +102,14 @@ export default createBrowserRouter([
                 path: "",
                 element: <MaterialDescriptionView />,
               },
-              // {
-              //   path: "features/add",
-              //   element: <MasterDataAdd />,
-              // },
-              // {
-              //   path: "features/:id/edit",
-              //   element: <MasterDataEdit />,
-              // },
+              {
+                path: "add",
+                element: <MaterialForm />,
+              },
+              {
+                path: ":id/edit",
+                element: <MaterialForm />,
+              },
             ],
           },
         ],
