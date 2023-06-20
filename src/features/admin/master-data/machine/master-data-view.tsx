@@ -7,11 +7,33 @@ import FilterIcon from "@common/components/icons-new/FilterIcon";
 import Pagination from "@common/components/pagination/Pagination";
 import useMasterDataModel from "./master-data-model";
 import FilterModal from "./popup/filter";
+import ModalConfirm from "@common/components/modals/ModalConfirm";
+import ModalSuccess from "@common/components/modals/ModalSeccess";
 
 export default function MasterDataView() {
   const data = useMasterDataModel();
   return (
     <>
+      <ModalDelete
+        open={data.openModalDelete}
+        setOpen={data.setOpenModalDelete}
+        setOpenConfirm={data.setOpenModalConfirm}
+      />
+      <ModalConfirm
+        open={data.openModalConfirm}
+        setOpen={data.setOpenModalConfirm}
+        setOpenSuccess={data.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
+        cb={(setIsLoading) => {
+          data.deleteMachine(data.dataId, setIsLoading);
+        }}
+      />
+      <ModalSuccess
+        open={data.openModalSuccess}
+        setOpen={data.setOpenModalSuccess}
+        isSuccess={data.isSuccess}
+        successMessage="Berhasil menghapus data!"
+      />
       <Breadcrumbs items={["Master Data"]} />
       <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-[18px] bg-[#FFF]">
         <div className="flex justify-between">
@@ -21,7 +43,7 @@ export default function MasterDataView() {
           </div>
           <div
             className="flex items-center justify-center gap-2 text-sm bg-[#20519F] text-[#FFFFFF] h-[46px] px-4 rounded-[4px] cursor-pointer"
-            onClick={() => data.onNavigate("features/add")}
+            onClick={() => data.navigate("add")}
           >
             <span>+</span>
             <button name="create">Create new machine</button>
@@ -67,31 +89,32 @@ export default function MasterDataView() {
                   <button
                     name="edit"
                     className="border bg-[#F79009] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
-                    onClick={() => data.onNavigate("../features/1/edit")}
+                    onClick={() => data.navigate(`${item.id}/edit`)}
                   >
                     <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
                     <span>Edit</span>
                   </button>
                   <button
-                    name="delete"
                     className="border bg-[#F04438] text-[#FFFFFF] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm"
-                    onClick={data.onDeleteOpen}
+                    onClick={() => {
+                      data.setDataId(item.id);
+                      data.setOpenModalDelete(true);
+                    }}
                   >
                     <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
                     <span>Delete</span>
                   </button>
-                  <ModalDelete
-                    open={data.openModalDelete}
-                    setOpen={data.onDeleteClose}
-                    setOpenConfirm={data.openModalDelete}
-                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         <div className="flex items-end justify-end mt-6">
-          <Pagination row={1} limit={1} page={1} />
+          <Pagination
+            row={data.dataMachine?.pagination?.totalRows}
+            limit={data.dataMachine?.pagination?.limit}
+            page={data.dataMachine?.pagination?.page}
+          />
         </div>
       </div>
     </>

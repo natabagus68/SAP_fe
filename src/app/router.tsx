@@ -11,9 +11,6 @@ import { ChartPadf } from "@features/operator/pdf/chard-pdf";
 
 import DashboardView from "@features/admin/dashboard/dashboard-view";
 
-import MasterDataAdd from "@features/admin/master-data/machine/features/add";
-import MasterDataEdit from "@features/admin/master-data/machine/features/edit";
-
 import UserView from "@features/admin/user/user-view";
 import UserAddView from "@features/admin/user/features/user-add";
 import UserEditView from "@features/admin/user/features/user-edit";
@@ -87,13 +84,13 @@ export default createBrowserRouter([
                 element: <MasterDataView />,
               },
               {
-                path: "features/add",
+                path: "add",
                 element: <MasterDataForm />,
               },
-              // {
-              //   path: "features/:id/edit",
-              //   element: <MasterDataEdit />,
-              // },
+              {
+                path: ":id/edit",
+                element: <MasterDataForm />,
+              },
             ],
           },
           {

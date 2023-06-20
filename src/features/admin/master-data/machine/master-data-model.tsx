@@ -11,7 +11,8 @@ export default function useMasterDataModel() {
 
   const [openModalFilter, setOpenModalFilter] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [openModalConfirm, setOpenModalConfirm] = useState(false);
+  const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
   //state data machine
   const [dataMachine, setDataMachine] = useState<DefaultResponse>(
@@ -50,6 +51,12 @@ export default function useMasterDataModel() {
   //state message from api
   const [message, setMessage] = useState(null);
 
+  //state for parsing data id
+  const [dataId, setDataId] = useState(null);
+
+  //state succes create/update data
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const getDataMachine = async () => {
     setIsLoadingData(true);
     setDataMachine(null);
@@ -57,7 +64,7 @@ export default function useMasterDataModel() {
     try {
       const result = await machineRepository.getDataByFilter(
         !!Number(page) ? page : "1",
-        "8"
+        "5"
       );
       setTimeout(() => {
         setDataMachine(result);
@@ -102,6 +109,8 @@ export default function useMasterDataModel() {
           location: data.location,
         })
       );
+      console.log(result, "create");
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -109,31 +118,54 @@ export default function useMasterDataModel() {
     } catch (error) {
       setTimeout(() => {
         setIsLoadingData(false);
-        setMessage("Form Harus diisi Semua!!");
       }, 500);
       throw new Error(error);
     }
   };
 
-  const onNavigate = (path) => {
-    navigate(path);
+  const editMachine = async (data) => {
+    setIsLoadingData(true);
+    console.log(data);
+
+    try {
+      const result = await machineRepository.edit(
+        Machine.create({
+          id: id,
+          name: data.name,
+          description: data.description,
+          machineCode: data.machineCode,
+          location: data.location,
+        })
+      );
+      console.log(result, "cek edit");
+
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      setIsLoadingData(false);
+      throw new Error(error);
+    }
   };
 
-  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setOpenConfirmModal(true);
-  };
-
-  const onDeleteOpen = () => {
-    setOpenModalDelete(true);
-  };
-
-  const onDeleteClose = () => {
-    setOpenModalDelete(false);
-  };
-
-  const onConfirmClose = () => {
-    setOpenConfirmModal(false);
+  const deleteMachine = async (id: string, setIsLoading) => {
+    try {
+      const result = await machineRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataMachine();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
   };
 
   const onFilterOpen = () => {
@@ -153,17 +185,21 @@ export default function useMasterDataModel() {
     getDataMachine();
   }, [page]);
 
+  useEffect(() => {
+    if (!!id) {
+      getDataById(id);
+    }
+  }, [id]);
+
   return {
     openModalFilter,
     openModalDelete,
-    openConfirmModal,
-    onNavigate,
-    onFormSubmit,
-    onConfirmClose,
+    openModalConfirm,
+    openModalSuccess,
+    navigate,
+    errors,
     onFilterOpen,
     onFilterClose,
-    onDeleteOpen,
-    onDeleteClose,
     dataMachine,
     dataMachineByPage,
     dataMachineById,
@@ -171,5 +207,16 @@ export default function useMasterDataModel() {
     register,
     handleSubmit,
     isLoadingData,
+    id,
+    createMachine,
+    editMachine,
+    deleteMachine,
+    getDataById,
+    dataId,
+    isSuccess,
+    setOpenModalDelete,
+    setDataId,
+    setOpenModalConfirm,
+    setOpenModalSuccess,
   };
 }

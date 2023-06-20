@@ -22,30 +22,36 @@ export class MachineApiRepository implements MachineRepository {
     page?: string,
     limit?: string
   ): Promise<DefaultResponse> {
-    const { data } = await api.get(
-      `machine?limit=${limit || ""}&page=${page || ""}`
-    );
-    return DefaultResponse.create({
-      success: true,
-      message: data.message,
-      pagination: MetaPagination.create({
-        page: data?.meta?.page,
-        limit: data?.meta?.per_page,
-        totalRows: data?.meta?.total_rows,
-        totalPages: data?.meta?.total_pages,
-        prevPage: 0,
-        nextPage: 0,
-      }),
-      data: data?.data?.map((item) =>
-        Machine.create({
-          id: item.id,
-          name: item.name,
-          description: item.description,
-          machineCode: item.machineCode,
-          location: item.location,
-        })
-      ),
-    });
+    try {
+      const { data } = await api.get(
+        `machine?limit=${limit || ""}&page=${page || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.meta?.page,
+          limit: data?.meta?.per_page,
+          totalRows: data?.meta?.total_rows,
+          totalPages: data?.meta?.total_pages,
+        }),
+        data: data?.data?.map((item) =>
+          Machine.create({
+            id: item.id,
+            name: item.name,
+            description: item.description,
+            machineCode: item.machineCode,
+            location: item.location,
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
+    }
   }
 
   async getDataById(id: string): Promise<Machine> {
