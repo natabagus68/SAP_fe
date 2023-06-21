@@ -15,7 +15,7 @@ export default function Materi() {
           </h1>
           <button
             className="flex items-center gap-2 border border-[#667085] px-5 py-2 rounded-[4px] cursor-pointer"
-            onClick={() => data.navigate("..")}
+            onClick={() => data.navigate(-1)}
           >
             <ArrowIcon className="-rotate-90" />
             <span className="text-sm text-[#667085]">Back</span>

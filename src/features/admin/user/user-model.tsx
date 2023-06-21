@@ -1,5 +1,6 @@
 import { UserApiRepository } from "@data/api/user/user-api-repository";
 import { DefaultResponse } from "@domain/models/default-response";
+import { User } from "@domain/models/user/user";
 import { UniqueMessageIdProvider } from "mqtt";
 import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -13,9 +14,9 @@ export default function useUserModel() {
   const [openModalFilter, setOpenModalFilter] = useState(false);
   const [openModalPassword, setOpenModalPassword] = useState(false);
   const [openModalPreviewPhoto, setOpenModalPreviewPhoto] = useState(false);
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
-
+  const [openModalConfirm, setOpenModalConfirm] = useState(false);
+  const [openModalSuccess, setOpenModalSuccess] = useState(false);
   const userRepository = new UserApiRepository();
 
   const [dataUser, setDataUser] = useState<DefaultResponse>(
@@ -29,6 +30,8 @@ export default function useUserModel() {
   const [dataUserById, setDataUserById] = useState(null);
 
   const [isLoadingData, setIsLoadingData] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [dataId, setDataId] = useState(null);
   const [message, setMessage] = useState(null);
 
   const getDataUser = async () => {
@@ -63,6 +66,78 @@ export default function useUserModel() {
     }
   };
 
+  const createUser = async (data) => {
+    setIsLoadingData(true);
+    try {
+      const result = await userRepository.create(
+        User.create({
+          email: data.email,
+          fullname: data.fullname,
+          role: data.role,
+          password: data.password,
+          avatarPath: data.avatarPath,
+          isActive: data.isActive,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+      }, 500);
+      throw new Error(error);
+    }
+  };
+
+  const editUser = async (data) => {
+    setIsLoadingData(true);
+    try {
+      const result = await userRepository.create(
+        User.create({
+          id: idUser,
+          email: data.email,
+          fullname: data.fullname,
+          password: data.password,
+          role: data.role,
+          avatarPath: data.avatarPath,
+          isActive: data.isActive,
+        })
+      );
+      setTimeout(() => {
+        setIsLoadingData(false);
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setIsLoadingData(false);
+      }, 500);
+      throw new Error(error);
+    }
+  };
+
+  const deleteUser = async (id: string, setIsLoading) => {
+    try {
+      const result = await userRepository.delete(id);
+      setIsSuccess(true);
+      setTimeout(() => {
+        getDataUser();
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+      }, 500);
+    } catch (error) {
+      setIsSuccess(false);
+      setTimeout(() => {
+        setIsLoading({ loading: false, exec: true });
+        setDataId(null);
+        throw new Error(error);
+      }, 500);
+    }
+  };
+
   const onNavigate = (path) => {
     navigate(path);
   };
@@ -85,7 +160,7 @@ export default function useUserModel() {
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setOpenConfirmModal(true);
+    setOpenModalConfirm(true);
   };
 
   const onDeleteImageUpdate = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -115,7 +190,7 @@ export default function useUserModel() {
   };
 
   const onConfirmClose = () => {
-    setOpenConfirmModal(false);
+    setOpenModalConfirm(false);
   };
 
   const onFilterOpen = () => {
@@ -133,6 +208,12 @@ export default function useUserModel() {
     formState: { errors },
   } = useForm({
     values: {
+      email: dataUserById?.email,
+      fullname: dataUserById?.fullname,
+      role: dataUserById?.role,
+      avatarPath: dataUserById?.avatarPath,
+      password: dataUserById?.password,
+      isActive: dataUserById == "active" ? true : false,
       search: "",
     },
   });
@@ -168,7 +249,12 @@ export default function useUserModel() {
     openModalFilter,
     openModalDelete,
     openModalPassword,
-    openConfirmModal,
+    openModalConfirm,
+    openModalSuccess,
+    setOpenModalConfirm,
+    setOpenModalSuccess,
+    setOpenModalDelete,
+    setDataId,
     onNavigate,
     onFormSubmit,
     onConfirmClose,
@@ -188,9 +274,16 @@ export default function useUserModel() {
     handleSubmit,
     watch,
     message,
+    errors,
     isLoadingData,
+    isSuccess,
     navigate,
     dataUser,
     dataUserById,
+    dataId,
+    createUser,
+    editUser,
+    deleteUser,
+    idUser,
   };
 }

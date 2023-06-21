@@ -10,11 +10,33 @@ import Pagination from "@common/components/pagination/Pagination";
 import ChangePasswordModal from "./popup/change-pass";
 import FilterModal from "../master-data/machine/popup/filter";
 import useUserModel from "./user-model";
+import ModalConfirm from "@common/components/modals/ModalConfirm";
+import ModalSuccess from "@common/components/modals/ModalSeccess";
 
 export default function UserView() {
   const data = useUserModel();
   return (
     <>
+      <ModalDelete
+        open={data.openModalDelete}
+        setOpen={data.setOpenModalDelete}
+        setOpenConfirm={data.setOpenModalConfirm}
+      />
+      <ModalConfirm
+        open={data.openModalConfirm}
+        setOpen={data.setOpenModalConfirm}
+        setOpenSuccess={data.setOpenModalSuccess}
+        confirmMessage="Apakah anda yakin ingin menghapus data ini?"
+        cb={(setIsLoading) => {
+          data.deleteUser(data.dataId, setIsLoading);
+        }}
+      />
+      <ModalSuccess
+        open={data.openModalSuccess}
+        setOpen={data.setOpenModalSuccess}
+        isSuccess={data.isSuccess}
+        successMessage="Berhasil menghapus data!"
+      />
       <Breadcrumbs items={["User"]} />
       <div className="border border-[#D0D3D9] rounded-[4px] px-8 py-6 text-[#514E4E] mt-[18px] bg-[#FFF]">
         <div className="flex justify-between">
@@ -82,11 +104,10 @@ export default function UserView() {
                   <div className="flex items-center">
                     <Toggle
                       id={item.id}
-                      checked={item.isActive ? true : false}
-                      cb={() => console.log("onChange Toggle")}
-                      activeText="active"
-                      inactiveText="inactive"
+                      checked={item.isActive == "active" ? true : false}
+                      cb={() => data.editUser(item.id)}
                     />
+                    <span>{item?.isActive}</span>
                   </div>
                 </td>
                 <td className="px-4 py-2">{item.fullname}</td>
@@ -116,7 +137,7 @@ export default function UserView() {
                   <button
                     name="edit"
                     className="border bg-[#F79009] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
-                    // onClick={() => data.onNavigate("../features/1/user-edit")}
+                    onClick={() => data.navigate(`${item.id}/edit`)}
                   >
                     <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
                     <span>Edit</span>
@@ -124,7 +145,10 @@ export default function UserView() {
                   <button
                     name="delete"
                     className="border bg-[#F04438] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
-                    onClick={data.onDeleteOpen}
+                    onClick={() => {
+                      data.setDataId(item.id);
+                      data.setOpenModalDelete(true);
+                    }}
                   >
                     <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
                     <span>Delete</span>

@@ -45,9 +45,10 @@ export class UserApiRepository implements UserRepository {
             id: item.id,
             email: item.email,
             fullname: item.fullname,
-            isActive: item?.isActive,
+            isActive: item.isActive,
             avatarPath: item.avatarPath,
             role: item.role,
+            password: item.password,
           })
         ),
       });
@@ -70,6 +71,7 @@ export class UserApiRepository implements UserRepository {
         fullname: data.fullname || "-",
         avatarPath: data.avatarPath || "",
         role: data.role || "-",
+        password: data.password || "-",
       });
     } catch (error) {
       throw new Error(error);
@@ -82,6 +84,8 @@ export class UserApiRepository implements UserRepository {
       formData.append("fullname", user.fullname);
       formData.append("email", user.email);
       formData.append("role", user.role);
+      formData.append("password", user.password);
+      formData.append("isActive", JSON.stringify(user.isActive));
       formData.append("avatarPath", user.avatarPath);
       const { data } = await api.post("/admin/user", formData);
       return data.data;
@@ -101,6 +105,8 @@ export class UserApiRepository implements UserRepository {
       } else {
         formData.append("avatarPath", user.avatarPath[0]);
       }
+      formData.append("password", user.password);
+      formData.append("isActive", JSON.stringify(user.isActive));
       //formData.append("avatarPath", user.avatarPath);
       const { data } = await api.put(`/admin/user/${user.id}`, formData);
       return data.data;
