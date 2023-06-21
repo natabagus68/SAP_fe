@@ -20,11 +20,12 @@ export class MachineApiRepository implements MachineRepository {
 
   async getDataByFilter(
     page?: string,
-    limit?: string
+    limit?: string,
+    search?: string
   ): Promise<DefaultResponse> {
     try {
       const { data } = await api.get(
-        `machine?limit=${limit || ""}&page=${page || ""}`
+        `machine?limit=${limit || ""}&page=${page || ""}&search=${search || ""}`
       );
       return DefaultResponse.create({
         success: true,

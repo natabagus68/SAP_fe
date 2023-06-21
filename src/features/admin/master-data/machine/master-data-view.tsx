@@ -54,9 +54,9 @@ export default function MasterDataView() {
             <SearchIcon className="absolute top-[35%] left-[1.5%]" />
             <input
               type="search"
-              name="search"
               placeholder="Search by username, email, role..."
-              className="h-[40px] w-[40%] border outline-none rounded-[4px] placeholder:text-[#D0D3D9] placeholder:text-sm pl-8 active:border-[#E7EAEE]"
+              className={`h-[40px] w-[40%] border outline-none rounded-[4px] placeholder:text-[#D0D3D9] placeholder:text-sm pl-8 active:border-[#E7EAEE]`}
+              {...data.register("search")}
             />
           </div>
           <button

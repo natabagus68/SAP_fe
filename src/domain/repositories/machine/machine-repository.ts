@@ -5,7 +5,8 @@ export interface MachineRepository {
   getDataMachine(): Promise<Machine[]>;
   getDataByFilter(
     page?: string | undefined,
-    limit?: string | undefined
+    limit?: string | undefined,
+    search?: string | undefined
   ): Promise<DefaultResponse>;
   getDataById(id: string): Promise<Machine>;
   create(machine: Machine): Promise<void>;

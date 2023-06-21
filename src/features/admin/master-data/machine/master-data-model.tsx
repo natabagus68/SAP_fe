@@ -29,6 +29,7 @@ export default function useMasterDataModel() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     values: {
@@ -36,6 +37,7 @@ export default function useMasterDataModel() {
       description: dataMachineById?.description,
       machineCode: dataMachineById?.machineCode,
       location: dataMachineById?.location,
+      search: "",
     },
   });
 
@@ -61,7 +63,8 @@ export default function useMasterDataModel() {
     try {
       const result = await machineRepository.getDataByFilter(
         !!Number(page) ? page : "1",
-        "5"
+        "5",
+        watch("search")
       );
       setTimeout(() => {
         setDataMachine(result);
@@ -177,6 +180,15 @@ export default function useMasterDataModel() {
       getDataById(id);
     }
   }, [id]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      getDataMachine();
+    }, 500);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [watch("search")]);
 
   return {
     openModalFilter,
