@@ -1,6 +1,5 @@
 import { User } from "@domain/models/user/user";
 import { UserRepository } from "@domain/repositories/user/user-repository";
-import React, { Component } from "react";
 import { api } from "../_api";
 import { DefaultResponse } from "@domain/models/default-response";
 import { MetaPagination } from "@domain/models/meta-pagination";
@@ -39,16 +38,16 @@ export class UserApiRepository implements UserRepository {
           limit: data?.meta?.limit,
           totalRows: data?.meta?.totalRows,
           totalPages: data?.meta?.totalPages,
+          prevPage: data?.meta?.prevPage,
+          nextPage: data?.meta?.nextPage,
         }),
         data: data?.data?.map((item) =>
           User.create({
             id: item.id,
             email: item.email,
             fullname: item.fullname,
-            isActive: item.isActive,
             avatarPath: item.avatarPath,
             role: item.role,
-            password: item.password,
           })
         ),
       });
@@ -69,9 +68,7 @@ export class UserApiRepository implements UserRepository {
         id: data.id,
         email: data.email || "-",
         fullname: data.fullname || "-",
-        avatarPath: data.avatarPath || "",
         role: data.role || "-",
-        password: data.password || "-",
       });
     } catch (error) {
       throw new Error(error);
@@ -84,8 +81,6 @@ export class UserApiRepository implements UserRepository {
       formData.append("fullname", user.fullname);
       formData.append("email", user.email);
       formData.append("role", user.role);
-      formData.append("password", user.password);
-      formData.append("isActive", JSON.stringify(user.isActive));
       formData.append("avatarPath", user.avatarPath);
       const { data } = await api.post("/admin/user", formData);
       return data.data;
@@ -105,8 +100,6 @@ export class UserApiRepository implements UserRepository {
       } else {
         formData.append("avatarPath", user.avatarPath[0]);
       }
-      formData.append("password", user.password);
-      formData.append("isActive", JSON.stringify(user.isActive));
       //formData.append("avatarPath", user.avatarPath);
       const { data } = await api.put(`/admin/user/${user.id}`, formData);
       return data.data;

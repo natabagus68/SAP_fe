@@ -26,7 +26,6 @@ export default function UserDetailView() {
             <button
               className="border bg-[#F79009] border-[#F79009] text-[#FFFFFF] px-5 py-2 rounded-[4px] flex items-center gap-2"
               onClick={() => data.navigate(`./../edit`)}
-              // onClick={() => data.onNavigate("../features/1/user-edit")}
             >
               <EditIcon className="w-4 h-4" />
               <span>Edit</span>

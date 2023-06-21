@@ -104,8 +104,10 @@ export default function UserView() {
                   <div className="flex items-center">
                     <Toggle
                       id={item.id}
-                      checked={item.isActive == "active" ? true : false}
+                      checked={item.isActive ? true : false}
                       cb={() => data.editUser(item.id)}
+                      activeText="active"
+                      inactiveText="inactive"
                     />
                     <span>{item?.isActive}</span>
                   </div>

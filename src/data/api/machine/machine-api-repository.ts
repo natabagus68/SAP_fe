@@ -32,9 +32,11 @@ export class MachineApiRepository implements MachineRepository {
         message: data.message,
         pagination: MetaPagination.create({
           page: data?.meta?.page,
-          limit: data?.meta?.per_page,
-          totalRows: data?.meta?.total_rows,
-          totalPages: data?.meta?.total_pages,
+          limit: data?.meta?.limit,
+          totalRows: data?.meta?.totalRows,
+          totalPages: data?.meta?.totalPages,
+          prevPage: data?.meta?.prevPage,
+          nextPage: data?.meta?.nextPage,
         }),
         data: data?.data?.map((item) =>
           Machine.create({

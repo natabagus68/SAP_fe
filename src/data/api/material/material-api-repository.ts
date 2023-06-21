@@ -34,8 +34,10 @@ export class MaterialApiRepository implements MaterialRepository {
         pagination: MetaPagination.create({
           page: data?.meta?.page,
           limit: data?.meta?.limit,
-          totalRows: data?.meta?.total_rows,
-          totalPages: data?.meta?.total_pages,
+          totalRows: data?.meta?.totalRows,
+          totalPages: data?.meta?.totalPages,
+          prevPage: data?.meta?.prevPage,
+          nextPage: data?.meta?.nextPage,
         }),
         data: data?.data?.map((item) =>
           Material.create({

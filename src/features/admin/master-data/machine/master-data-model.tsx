@@ -115,7 +115,6 @@ export default function useMasterDataModel() {
 
   const editMachine = async (data) => {
     setIsLoadingData(true);
-    console.log(data);
 
     try {
       const result = await machineRepository.edit(
@@ -127,7 +126,6 @@ export default function useMasterDataModel() {
           location: data.location,
         })
       );
-      console.log(result, "cek edit");
 
       setTimeout(() => {
         setIsLoadingData(false);
@@ -184,11 +182,17 @@ export default function useMasterDataModel() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       getDataMachine();
-    }, 500);
+    }, 200);
     return () => {
       clearTimeout(timeout);
     };
   }, [watch("search")]);
+
+  useEffect(() => {
+    if (!!!Number(page)) {
+      navigate(`../mesin/:page`);
+    }
+  }, []);
 
   return {
     openModalFilter,

@@ -158,6 +158,10 @@ export default function useMaterialDataModel() {
   }, []);
 
   useEffect(() => {
+    getDataMaterial();
+  }, [page]);
+
+  useEffect(() => {
     if (!!id) {
       getDataById(id);
     }
@@ -171,6 +175,12 @@ export default function useMaterialDataModel() {
       clearTimeout(timeout);
     };
   }, [watch("search")]);
+
+  useEffect(() => {
+    if (!!!Number(page)) {
+      navigate(`../material-description/:page`);
+    }
+  }, []);
 
   return {
     navigate,

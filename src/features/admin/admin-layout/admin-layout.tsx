@@ -80,10 +80,10 @@ export default function AdminLayout() {
                 icon={<MasterDataIcon className="w-[24px] h-[24px]" />}
                 className="text-sm font-[400]"
               >
-                <NavItem label={"Mesin"} to={"master-data/mesin"} />
+                <NavItem label={"Mesin"} to={"master-data/mesin/1"} />
                 <NavItem
                   label={"Machine Description"}
-                  to={"master-data/material-description"}
+                  to={"master-data/material-description/1"}
                 />
               </NavItem>
 

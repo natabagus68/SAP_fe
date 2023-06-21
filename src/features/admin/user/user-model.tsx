@@ -74,9 +74,7 @@ export default function useUserModel() {
           email: data.email,
           fullname: data.fullname,
           role: data.role,
-          password: data.password,
           avatarPath: data.avatarPath,
-          isActive: data.isActive,
         })
       );
       setTimeout(() => {
@@ -100,10 +98,8 @@ export default function useUserModel() {
           id: idUser,
           email: data.email,
           fullname: data.fullname,
-          password: data.password,
           role: data.role,
           avatarPath: data.avatarPath,
-          isActive: data.isActive,
         })
       );
       setTimeout(() => {
@@ -212,8 +208,6 @@ export default function useUserModel() {
       fullname: dataUserById?.fullname,
       role: dataUserById?.role,
       avatarPath: dataUserById?.avatarPath,
-      password: dataUserById?.password,
-      isActive: dataUserById == "active" ? true : false,
       search: "",
     },
   });

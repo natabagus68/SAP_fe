@@ -76,7 +76,7 @@ export default createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: "mesin",
+            path: "mesin/:page",
             element: <Root />,
             children: [
               {
@@ -94,7 +94,7 @@ export default createBrowserRouter([
             ],
           },
           {
-            path: "material-description",
+            path: "material-description/:page",
             element: <Root />,
             children: [
               {

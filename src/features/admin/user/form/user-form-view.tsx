@@ -43,18 +43,6 @@ export default function UserFormView() {
           </div>
 
           <div className="w-full mb-3">
-            <h1 className="mb-2">Password</h1>
-            <input
-              type="password"
-              placeholder="Input Password"
-              className={`px-4 py-2 border border-[#D0D3D9] rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm focus:outline-none focus:border-[#20519F] focus:ring-1 focus:ring-[#20519F] ${
-                data.errors.password ? "bg-red-100" : "bg-white"
-              }`}
-              {...data.register("password", { required: true })}
-            />
-          </div>
-
-          <div className="w-full mb-3">
             <h1 className="mb-2">Email Address</h1>
             <input
               type="text"
@@ -117,21 +105,6 @@ export default function UserFormView() {
               </div>
             </div>
           </div>
-
-          <div className="w-full mt-3">
-            <span>Status</span>
-            <div className="w-fit flex gap-2 items-center">
-              <input
-                type="checkbox"
-                className="w-[16px] h-[16px]"
-                {...data.register("isActive")}
-              />
-              <span>
-                {data.watch("isActive") == false ? "Inactive" : "Active"}
-              </span>
-            </div>
-          </div>
-
           <button className="flex items-center justify-center gap-2 h-[46px] w-[200px] bg-[#20519F] text-[#FFFFFF] rounded-[4px] mt-6">
             <SaveIcon />
             <span className="text-sm font-[600]">Save</span>

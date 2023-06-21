@@ -5,8 +5,8 @@ export interface IMetaPaginationProps {
   limit: number;
   totalRows: number;
   totalPages: number;
-  // prevPage: number;
-  // nextPage: number;
+  prevPage: number;
+  nextPage: number;
 }
 
 export interface IMetaPagination {
@@ -26,8 +26,8 @@ export class MetaPagination
       limit: this.limit,
       totalRows: this.totalRows,
       totalPages: this.totalPages,
-      // prevPage: this.prevPage,
-      // nextPage: this.nextPage,
+      prevPage: this.prevPage,
+      nextPage: this.nextPage,
     };
   }
 
@@ -43,10 +43,10 @@ export class MetaPagination
   get totalPages(): number {
     return this._props.totalPages;
   }
-  // get prevPage(): number {
-  //   return this._props.prevPage;
-  // }
-  // get nextPage(): number {
-  //   return this._props.nextPage;
-  // }
+  get prevPage(): number {
+    return this._props.prevPage;
+  }
+  get nextPage(): number {
+    return this._props.nextPage;
+  }
 }

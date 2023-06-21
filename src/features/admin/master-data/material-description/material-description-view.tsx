@@ -9,6 +9,7 @@ import useMaterialDataModel from "./material-description-model";
 import ModalDelete from "@common/components/modals/ModalDelete";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 
 export default function MaterialDescriptionView() {
   const data = useMaterialDataModel();
@@ -108,8 +109,56 @@ export default function MaterialDescriptionView() {
             ))}
           </tbody>
         </table>
-        <div className="flex items-end justify-end mt-6">
-          <Pagination row={1} limit={1} page={1} />
+        <div className="flex py-4 px-[32px] justify-end gap-4">
+          <button
+            disabled={!!data.dataMaterial?.pagination?.prevPage ? false : true}
+            onClick={() =>
+              data.navigate(
+                `../material-description/${data.dataMaterial?.pagination?.prevPage}`
+              )
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!data.dataMaterial?.pagination?.prevPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] -rotate-90"
+              color={`${
+                !!data.dataMaterial?.pagination?.prevPage
+                  ? "#20519F"
+                  : "#B8B6B6"
+              }`}
+            />
+          </button>
+          <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+            {!!data.dataMaterial?.pagination?.page
+              ? data.dataMaterial?.pagination?.page
+              : "-"}
+          </div>
+          <button
+            disabled={!!data.dataMaterial?.pagination?.nextPage ? false : true}
+            onClick={() =>
+              data.navigate(
+                `../material-description/${data.dataMaterial?.pagination?.nextPage}`
+              )
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!data.dataMaterial?.pagination?.nextPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] rotate-90"
+              color={`${
+                !!data.dataMaterial?.pagination?.nextPage
+                  ? "#20519F"
+                  : "#B8B6B6"
+              }`}
+            />
+          </button>
         </div>
       </div>
     </>

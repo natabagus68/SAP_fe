@@ -9,6 +9,7 @@ import useMasterDataModel from "./master-data-model";
 import FilterModal from "./popup/filter";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 
 export default function MasterDataView() {
   const data = useMasterDataModel();
@@ -109,12 +110,52 @@ export default function MasterDataView() {
             ))}
           </tbody>
         </table>
-        <div className="flex items-end justify-end mt-6">
-          <Pagination
-            row={data.dataMachine?.pagination?.totalRows}
-            limit={data.dataMachine?.pagination?.limit}
-            page={data.dataMachine?.pagination?.page}
-          />
+        <div className="flex py-4 px-[32px] justify-end gap-4">
+          <button
+            disabled={!!data.dataMachine?.pagination?.prevPage ? false : true}
+            onClick={() =>
+              data.navigate(
+                `../mesin/${data.dataMachine?.pagination?.prevPage}`
+              )
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!data.dataMachine?.pagination?.prevPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] -rotate-90"
+              color={`${
+                !!data.dataMachine?.pagination?.prevPage ? "#20519F" : "#B8B6B6"
+              }`}
+            />
+          </button>
+          <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+            {!!data.dataMachine?.pagination?.page
+              ? data.dataMachine?.pagination?.page
+              : "-"}
+          </div>
+          <button
+            disabled={!!data.dataMachine?.pagination?.nextPage ? false : true}
+            onClick={() =>
+              data.navigate(
+                `../mesin/${data.dataMachine?.pagination?.nextPage}`
+              )
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!data.dataMachine?.pagination?.nextPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] rotate-90"
+              color={`${
+                !!data.dataMachine?.pagination?.nextPage ? "#20519F" : "#B8B6B6"
+              }`}
+            />
+          </button>
         </div>
       </div>
     </>
