@@ -18,14 +18,14 @@ export default function UserDetailView() {
           <div className="flex items-center gap-4">
             <button
               className="border border-[#667085] px-5 py-2 rounded-[4px] flex items-center gap-2"
-              onClick={() => data.onNavigate(-1)}
+              // onClick={() => data.onNavigate(-1)}
             >
               <ArrowIcon className="-rotate-90" />
               <span className="text-sm text-[#667085]">Back</span>
             </button>
             <button
               className="border bg-[#F79009] border-[#F79009] text-[#FFFFFF] px-5 py-2 rounded-[4px] flex items-center gap-2"
-              onClick={() => data.onNavigate("../features/1/user-edit")}
+              // onClick={() => data.onNavigate("../features/1/user-edit")}
             >
               <EditIcon className="w-4 h-4" />
               <span>Edit</span>
@@ -53,19 +53,30 @@ export default function UserDetailView() {
           <div className="grid grid-cols-2 gap-6">
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Name</h1>
-              <span className="text-[#514E4E]">Budi Rahmat</span>
+              <span className="text-[#514E4E]">
+                {data.dataUserById?.fullname}
+              </span>
             </div>
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Role</h1>
-              <span className="text-[#514E4E]">Operator</span>
+              <span className="text-[#514E4E]">{data.dataUserById?.role}</span>
             </div>
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Email Address</h1>
-              <span className="text-[#514E4E]">test@mail.com</span>
+              <span className="text-[#514E4E]">{data.dataUserById?.email}</span>
             </div>
             <div>
               <h1 className="text-[#989FAD] text-[14px]">Status</h1>
-              <span className="text-[#12B569]">Active</span>
+              <span
+                className={`${
+                  data.dataUserById?.isActive == true
+                    ? "text-[#12B569]"
+                    : "text-[#F04438]"
+                }`}
+              >
+                {data.dataUserById?.isActive == true ? "Active" : "Inactive"}
+              </span>
+              {/* <span className="text-[#12B569]">Active</span> */}
             </div>
           </div>
         </div>

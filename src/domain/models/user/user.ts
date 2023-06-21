@@ -1,0 +1,51 @@
+import { Entity } from "../_entity";
+
+export interface IUserProps {
+  id?: string | undefined;
+  email: string;
+  fullname: string;
+  isActive?: boolean | undefined;
+  avatarPath?: any | undefined;
+  role: string;
+}
+
+export interface IUser {
+  unmarshall(): IUserProps;
+}
+
+export class User extends Entity<IUserProps> implements IUser {
+  static create(props: IUserProps) {
+    return new User(props);
+  }
+  unmarshall(): IUserProps {
+    return {
+      id: this.id,
+      email: this.email,
+      fullname: this.fullname,
+      isActive: this.isActive,
+      avatarPath: this.avatarPath,
+      role: this.role,
+    };
+  }
+
+  get id(): string | undefined {
+    return this._props.id;
+  }
+
+  get email(): string {
+    return this._props.email;
+  }
+
+  get fullname(): string {
+    return this._props.fullname;
+  }
+  get isActive(): boolean | undefined {
+    return this._props.isActive;
+  }
+  get avatarPath(): any | undefined {
+    return this._props.avatarPath;
+  }
+  get role(): string {
+    return this._props.role;
+  }
+}

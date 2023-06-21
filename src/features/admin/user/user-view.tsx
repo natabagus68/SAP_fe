@@ -1,4 +1,4 @@
-import { Breadcrumbs } from "@common/components";
+import { Breadcrumbs, Toggle } from "@common/components";
 import { SearchIcon } from "@common/components/icons/SearchIcon";
 import FilterIcon from "@common/components/icons-new/FilterIcon";
 import EditIcon from "@common/components/icons-new/EditIcon";
@@ -26,7 +26,7 @@ export default function UserView() {
           </div>
           <div
             className="flex items-center justify-center gap-2 text-sm bg-[#20519F] text-[#FFFFFF] h-[46px] px-4 rounded-[4px] cursor-pointer"
-            onClick={() => data.onNavigate("../features/user-add")}
+            onClick={() => data.navigate("add")}
           >
             <span>+</span>
             <button name="create">Create new user</button>
@@ -37,9 +37,9 @@ export default function UserView() {
             <SearchIcon className="absolute top-[35%] left-[1.5%]" />
             <input
               type="search"
-              name="search"
               placeholder="Search by username, email, role..."
-              className="h-[40px] w-[40%] border outline-none rounded-[4px] placeholder:text-[#D0D3D9] placeholder:text-sm pl-8 active:border-[#E7EAEE]"
+              className={`h-[40px] w-[40%] border outline-none rounded-[4px] placeholder:text-[#D0D3D9] placeholder:text-sm pl-8 active:border-[#E7EAEE]`}
+              {...data.register("search")}
             />
           </div>
           <button
@@ -62,68 +62,81 @@ export default function UserView() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-[#D0D3D9]">
-              <td className="w-[12%] relative">
-                <label className="absolute inline-flex items-center cursor-pointer left-[10%] top-[30%]">
-                  <input type="checkbox" value="" className="sr-only peer" />
-                  <div
-                    className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
-                    onClick={() =>
-                      !data.roleActive ? data.onActive() : data.onInactive()
-                    }
-                  ></div>
-                  <span className="absolute text-sm left-[52px]">
-                    {data.roleActive ? "Active" : "Inactive"}
-                  </span>
-                </label>
-              </td>
-              <td className="px-4 py-2">Udin Jaenudi</td>
-              <td className="px-4 py-2">test@mail.com</td>
-              <td className="px-4 py-2">Admin</td>
-              <td className="px-4 py-2 flex gap-2 text-[#FFFFFF]">
-                <button
-                  name="detail"
-                  className="border bg-[#20519F] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
-                  onClick={() => data.onNavigate("../features/1/user-detail")}
-                >
-                  <EyeShowIcon color={"#FFFFFF"} className="w-4 h-4" />
-                  <span>Detail</span>
-                </button>
-                <button
-                  name="password"
-                  className="border bg-[#12B569] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
-                  onClick={data.onPasswordOpen}
-                >
-                  <ChangePasswordIcon className="w-4 h-4" />
-                  <span>Change Password</span>
-                </button>
-                <ChangePasswordModal
-                  open={data.openModalPassword}
-                  close={data.onPasswordClose}
-                />
-                <button
-                  name="edit"
-                  className="border bg-[#F79009] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
-                  onClick={() => data.onNavigate("../features/1/user-edit")}
-                >
-                  <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
-                  <span>Edit</span>
-                </button>
-                <button
-                  name="delete"
-                  className="border bg-[#F04438] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
-                  onClick={data.onDeleteOpen}
-                >
-                  <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
-                  <span>Delete</span>
-                </button>
-                <ModalDelete
-                  open={data.openModalDelete}
-                  setOpen={data.onDeleteClose}
-                  setOpenConfirm={data.openModalDelete}
-                />
-              </td>
-            </tr>
+            {data.dataUser?.data?.map((item, i) => (
+              <tr key={i} className="border-b border-[#D0D3D9]">
+                {/* <td className="w-[12%] relative">
+                  <label className="absolute inline-flex items-center cursor-pointer left-[10%] top-[30%]">
+                    <input type="checkbox" value="" className="sr-only peer" />
+                    <div
+                      className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+                      onClick={() =>
+                        !data.roleActive ? data.onActive() : data.onInactive()
+                      }
+                    ></div>
+                    <span className="absolute text-sm left-[52px]">
+                      {data.roleActive ? "Active" : "Inactive"}
+                    </span>
+                  </label>
+                </td> */}
+                <td className="px-[32px]">
+                  <div className="flex items-center">
+                    <Toggle
+                      id={item.id}
+                      checked={item.isActive ? true : false}
+                      cb={() => console.log("onChange Toggle")}
+                      activeText="active"
+                      inactiveText="inactive"
+                    />
+                  </div>
+                </td>
+                <td className="px-4 py-2">{item.fullname}</td>
+                <td className="px-4 py-2">{item.email}</td>
+                <td className="px-4 py-2">{item.role}</td>
+                <td className="px-4 py-2 flex gap-2 text-[#FFFFFF]">
+                  <button
+                    name="detail"
+                    className="border bg-[#20519F] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
+                    onClick={() => data.navigate(`${item.id}/details`)}
+                  >
+                    <EyeShowIcon color={"#FFFFFF"} className="w-4 h-4" />
+                    <span>Detail</span>
+                  </button>
+                  <button
+                    name="password"
+                    className="border bg-[#12B569] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
+                    onClick={data.onPasswordOpen}
+                  >
+                    <ChangePasswordIcon className="w-4 h-4" />
+                    <span>Change Password</span>
+                  </button>
+                  <ChangePasswordModal
+                    open={data.openModalPassword}
+                    close={data.onPasswordClose}
+                  />
+                  <button
+                    name="edit"
+                    className="border bg-[#F79009] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
+                    // onClick={() => data.onNavigate("../features/1/user-edit")}
+                  >
+                    <EditIcon color={"#FFFFFF"} className="w-4 h-4" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    name="delete"
+                    className="border bg-[#F04438] h-[46px] px-6 flex items-center gap-2 rounded-[4px] text-sm border-none"
+                    onClick={data.onDeleteOpen}
+                  >
+                    <TrashIcon color={"#FFFFFF"} className="w-4 h-4" />
+                    <span>Delete</span>
+                  </button>
+                  {/* <ModalDelete
+                    open={data.openModalDelete}
+                    setOpen={data.onDeleteClose}
+                    setOpenConfirm={data.openModalDelete}
+                  /> */}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <div className="flex items-end justify-end mt-6">

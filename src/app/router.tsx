@@ -12,8 +12,6 @@ import { ChartPadf } from "@features/operator/pdf/chard-pdf";
 import DashboardView from "@features/admin/dashboard/dashboard-view";
 
 import UserView from "@features/admin/user/user-view";
-import UserAddView from "@features/admin/user/features/user-add";
-import UserEditView from "@features/admin/user/features/user-edit";
 import UserDetailView from "@features/admin/user/features/user-detail";
 
 import MonitoringView from "@features/admin/monitoring/monitoring-view";
@@ -24,6 +22,7 @@ import MaterialDescriptionView from "@features/admin/master-data/material-descri
 import MasterDataView from "@features/admin/master-data/machine/master-data-view";
 import MasterDataForm from "@features/admin/master-data/machine/form/master-data-form";
 import MaterialForm from "@features/admin/master-data/material-description/form/material-description-form";
+import UserFormView from "@features/admin/user/form/user-form-view";
 
 const Root = () => {
   return <Outlet />;
@@ -119,20 +118,20 @@ export default createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: "user-view",
+            path: "",
             element: <UserView />,
           },
           {
-            path: "features/user-add",
-            element: <UserAddView />,
+            path: "add",
+            element: <UserFormView />,
           },
           {
-            path: "features/:id/user-detail",
+            path: ":idUser/details",
             element: <UserDetailView />,
           },
           {
-            path: "features/:id/user-edit",
-            element: <UserEditView />,
+            path: ":idUser/edit",
+            element: <UserFormView />,
           },
         ],
       },

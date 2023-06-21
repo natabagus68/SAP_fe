@@ -1,9 +1,13 @@
+import { UserApiRepository } from "@data/api/user/user-api-repository";
+import { DefaultResponse } from "@domain/models/default-response";
 import { UniqueMessageIdProvider } from "mqtt";
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function useUserModel() {
   const navigate = useNavigate();
+  const { page, idUser } = useParams();
   const imageRef = useRef(null);
   const [roleActive, setRoleActive] = useState(false);
   const [openModalFilter, setOpenModalFilter] = useState(false);
@@ -11,6 +15,53 @@ export default function useUserModel() {
   const [openModalPreviewPhoto, setOpenModalPreviewPhoto] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
+
+  const userRepository = new UserApiRepository();
+
+  const [dataUser, setDataUser] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
+
+  const [dataUserById, setDataUserById] = useState(null);
+
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [message, setMessage] = useState(null);
+
+  const getDataUser = async () => {
+    setIsLoadingData(true);
+    setDataUser(null);
+
+    try {
+      const result = await userRepository.getDataByFilter(
+        !!Number(page) ? page : "1",
+        "5",
+        watch("search")
+      );
+      setTimeout(() => {
+        setDataUser(result);
+        setIsLoadingData(false);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataUserById = async (id: string) => {
+    try {
+      const result = await userRepository.getDataById(id);
+      console.log(result);
+
+      setTimeout(() => {
+        setDataUserById(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
   const onNavigate = (path) => {
     navigate(path);
@@ -39,12 +90,12 @@ export default function useUserModel() {
 
   const onDeleteImageUpdate = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imageRef.current.value = ""
+    imageRef.current.value = "";
   };
 
   const onResetImageUpdate = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imageRef.current.click()
+    imageRef.current.click();
   };
 
   const onPasswordOpen = () => {
@@ -75,6 +126,41 @@ export default function useUserModel() {
     setOpenModalFilter(false);
   };
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    values: {
+      search: "",
+    },
+  });
+
+  useEffect(() => {
+    setMessage(null);
+    getDataUser();
+  }, []);
+
+  useEffect(() => {
+    getDataUser();
+  }, [page]);
+
+  useEffect(() => {
+    if (!!idUser) {
+      getDataUserById(idUser);
+    }
+  }, [idUser]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      getDataUser();
+    }, 500);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [watch("search")]);
+
   return {
     imageRef,
     roleActive,
@@ -98,5 +184,13 @@ export default function useUserModel() {
     onPreviewPhotoClose,
     onDeleteImageUpdate,
     onResetImageUpdate,
+    register,
+    handleSubmit,
+    watch,
+    message,
+    isLoadingData,
+    navigate,
+    dataUser,
+    dataUserById,
   };
 }
