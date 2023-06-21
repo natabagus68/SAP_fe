@@ -1,4 +1,5 @@
 import { MaterialApiRepository } from "@data/api/material/material-api-repository";
+import { DefaultResponse } from "@domain/models/default-response";
 import { Material } from "@domain/models/material/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,14 +7,21 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function useMaterialDataModel() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { page, id } = useParams();
 
   const [openModalFilter, setOpenModalFilter] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
   const [openModalSuccess, setOpenModalSuccess] = useState(false);
 
-  const [dataMaterial, setDataMaterial] = useState<Material[]>([]);
+  const [dataMaterial, setDataMaterial] = useState<DefaultResponse>(
+    DefaultResponse.create({
+      success: false,
+      message: "",
+      data: [],
+    })
+  );
+
   const [dataMaterialById, setDataMaterialById] = useState(null);
 
   const materialRepository = new MaterialApiRepository();
@@ -28,8 +36,13 @@ export default function useMaterialDataModel() {
 
   const getDataMaterial = async () => {
     setIsLoadingData(true);
+    setDataMaterial(null);
     try {
-      const result = await materialRepository.getDataMaterial();
+      const result = await materialRepository.getDataByfilter(
+        !!Number(page) ? page : "1",
+        "5",
+        watch("search")
+      );
       setTimeout(() => {
         setDataMaterial(result);
         setIsLoadingData(false);
@@ -128,12 +141,14 @@ export default function useMaterialDataModel() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     values: {
       materialNumber: dataMaterialById?.materialNumber,
       materialDescription: dataMaterialById?.materialDescription,
       machineId: dataMaterialById?.machineId,
+      search: "",
     },
   });
 
@@ -147,6 +162,15 @@ export default function useMaterialDataModel() {
       getDataById(id);
     }
   }, [id]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      getDataMaterial();
+    }, 500);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [watch("search")]);
 
   return {
     navigate,

@@ -1,6 +1,8 @@
 import { Material } from "@domain/models/material/material";
 import { MaterialRepository } from "@domain/repositories/material/material-repository";
 import { api } from "../_api";
+import { DefaultResponse } from "@domain/models/default-response";
+import { MetaPagination } from "@domain/models/meta-pagination";
 
 export class MaterialApiRepository implements MaterialRepository {
   async getDataMaterial(): Promise<Material[]> {
@@ -13,6 +15,44 @@ export class MaterialApiRepository implements MaterialRepository {
         machineId: item.machineId,
       })
     );
+  }
+
+  async getDataByfilter(
+    page?: string,
+    limit?: string,
+    search?: string
+  ): Promise<DefaultResponse> {
+    try {
+      const { data } = await api.get(
+        `material-description?search=${search || ""}&limit=${
+          limit || ""
+        }&page=${page || ""}`
+      );
+      return DefaultResponse.create({
+        success: true,
+        message: data.message,
+        pagination: MetaPagination.create({
+          page: data?.meta?.page,
+          limit: data?.meta?.limit,
+          totalRows: data?.meta?.total_rows,
+          totalPages: data?.meta?.total_pages,
+        }),
+        data: data?.data?.map((item) =>
+          Material.create({
+            id: item.id,
+            materialNumber: item.materialNumber,
+            materialDescription: item.materialDescription,
+            machineId: item.machineId,
+          })
+        ),
+      });
+    } catch (error) {
+      return DefaultResponse.create({
+        success: false,
+        message: "error",
+        data: [],
+      });
+    }
   }
 
   async getDataById(id: string): Promise<Material> {

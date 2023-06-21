@@ -54,9 +54,9 @@ export default function MaterialDescriptionView() {
             <SearchIcon className="absolute top-[35%] left-[1.5%]" />
             <input
               type="search"
-              name="search"
               placeholder="Search by username, email, role..."
-              className="h-[40px] w-[40%] border outline-none rounded-[4px] placeholder:text-[#D0D3D9] placeholder:text-sm pl-8 active:border-[#E7EAEE]"
+              className={`h-[40px] w-[40%] border outline-none rounded-[4px] placeholder:text-[#D0D3D9] placeholder:text-sm pl-8 active:border-[#E7EAEE]`}
+              {...data.register("search")}
             />
           </div>
           <button
@@ -78,7 +78,7 @@ export default function MaterialDescriptionView() {
             </tr>
           </thead>
           <tbody>
-            {data.dataMaterial?.map((item, i) => (
+            {data.dataMaterial?.data?.map((item, i) => (
               <tr key={i} className="border-b border-[#D0D3D9]">
                 <td className="pl-4 py-2">{item.materialNumber}</td>
                 <td className="px-4 py-2">{item.materialDescription}</td>
