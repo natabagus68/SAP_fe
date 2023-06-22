@@ -18,7 +18,7 @@ export default function UserFormView() {
           </h1>
           <div
             className="flex items-center gap-2 border border-[#667085] px-5 py-2 rounded-[4px] cursor-pointer"
-            onClick={() => data.onNavigate(-1)}
+            onClick={() => data.navigate(-1)}
           >
             <ArrowIcon className="-rotate-90" />
             <span className="text-sm text-[#667085]">Back</span>
@@ -69,42 +69,65 @@ export default function UserFormView() {
 
           <div className="w-full">
             <h1 className="mb-2">Profile Pictures</h1>
-            <div className="flex">
-              <label
-                htmlFor="user-image"
-                className="bg-[#20519F] text-[#FFFFFF] text-sm rounded-tl-[4px] rounded-bl-[4px] w-[10%] flex items-center justify-center cursor-pointer"
-              >
-                Choose
-              </label>
-              <input
-                ref={data.imageRef}
-                id="user-image"
-                name="user-image"
-                type="file"
-                placeholder="images.png"
-                className={`file:hidden py-2 pl-4 border w-[60%] text-sm rounded-tr-lg rounded-br-lg cursor-pointer border-[#D0D3D9] bg-[#FFFFFF] ${
-                  data.errors.avatarPath ? "bg-red-100" : "bg-white"
-                }`}
-                {...data.register("avatarPath")}
-              />
-              <div className="flex gap-3 ml-4">
-                <button
-                  name="add-image"
-                  className="bg-[#F79009] px-3 rounded-[4px]"
-                  // onClick={data.onResetImageUpdate}
+            {!!data?.idUser ? (
+              <div className="flex">
+                <label
+                  htmlFor="user-image"
+                  className="bg-[#20519F] text-[#FFFFFF] text-sm rounded-tl-[4px] rounded-bl-[4px] w-[10%] flex items-center justify-center cursor-pointer"
                 >
-                  <EditIcon className="w-4 h-4" />
-                </button>
-                <button
-                  name="remove-image"
-                  className="bg-[#F04438] px-3 rounded-[4px]"
-                  // onClick={data.onDeleteImageUpdate}
-                >
-                  <TrashIcon className="w-4 h-4" />
-                </button>
+                  Choose
+                </label>
+                <input
+                  ref={data.imageRef}
+                  // id="user-image"
+                  // name="user-image"
+                  type="file"
+                  placeholder="images.png"
+                  className={` file:hidden py-2 pl-4 border w-[60%] text-sm rounded-tr-lg rounded-br-lg cursor-pointer border-[#D0D3D9] bg-[#FFFFFF] ${
+                    data.errors.avatarPath ? "bg-red-100" : "bg-white"
+                  }`}
+                  {...data.register("avatarPath")}
+                />
+                <div className="flex gap-3 ml-4">
+                  <button
+                    name="add-image"
+                    className="bg-[#F79009] px-3 rounded-[4px]"
+                    // onClick={data.onResetImageUpdate}
+                  >
+                    <EditIcon className="w-4 h-4" />
+                  </button>
+                  <button
+                    name="remove-image"
+                    className="bg-[#F04438] px-3 rounded-[4px]"
+                    // onClick={data.onDeleteImageUpdate}
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex">
+                <label
+                  htmlFor="user-image"
+                  className="bg-[#20519F] text-[#FFFFFF] text-sm rounded-tl-[4px] rounded-bl-[4px] w-[10%] flex items-center justify-center cursor-pointer"
+                >
+                  Choose
+                </label>
+                <input
+                  ref={data.imageRef}
+                  // id="user-image"
+                  // name="user-image"
+                  type="file"
+                  placeholder="images.png"
+                  className={` file:hidden py-2 pl-4 border w-[60%] text-sm rounded-tr-lg rounded-br-lg cursor-pointer border-[#D0D3D9] bg-[#FFFFFF] ${
+                    data.errors.avatarPath ? "bg-red-100" : "bg-white"
+                  }`}
+                  {...data.register("avatarPath")}
+                />
+              </div>
+            )}
           </div>
+
           <button className="flex items-center justify-center gap-2 h-[46px] w-[200px] bg-[#20519F] text-[#FFFFFF] rounded-[4px] mt-6">
             <SaveIcon />
             <span className="text-sm font-[600]">Save</span>

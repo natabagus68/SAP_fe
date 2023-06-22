@@ -12,4 +12,5 @@ export interface UserRepository {
   create(user: User): Promise<void>;
   edit(user: User): Promise<void>;
   delete(id: string): Promise<void>;
+  editPassword(id: string, form);
 }

@@ -3,6 +3,8 @@ import { ArrowIcon } from "@common/components/icons";
 import EditIcon from "@common/components/icons-new/EditIcon";
 import PreviewImageModal from "../popup/preview-image";
 import useUserModel from "../user-model";
+import { config } from "@common/utils";
+import default_avatar from "../../../../assets/default_avatar.jpg";
 
 export default function UserDetailView() {
   const data = useUserModel();
@@ -35,7 +37,21 @@ export default function UserDetailView() {
         <div className="px-8 py-6 border-b w-1/3">
           <h1 className="font-[600] text-[#313030] mb-3">Profile Picture</h1>
           <div className="flex items-center gap-6">
-            <div className="w-[125px] h-[125px] bg-gray-800 rounded-full"></div>
+            <div className="w-[125px] h-[125px] border-gray-200 rounded-full">
+              {!!data?.dataUserById?.avatarPath ? (
+                <img
+                  src={`${config.apiAssetUrl}${data?.dataUserById?.avatarPath}`}
+                  alt="Avatar User"
+                  className="object-cover"
+                />
+              ) : (
+                <img
+                  src={default_avatar}
+                  alt="Default Avatar"
+                  className="object-cover"
+                />
+              )}
+            </div>
             <span
               className="text-sm text-[#20519F] cursor-pointer"
               onClick={data.onPreviewPhotoOpen}
@@ -66,7 +82,8 @@ export default function UserDetailView() {
               <span className="text-[#514E4E]">{data.dataUserById?.email}</span>
             </div>
             <div>
-              <h1 className="text-[#989FAD] text-[14px]">Status</h1>
+              <h1 className="text-[#989FAD] text-[14px]">Informasi Account</h1>
+
               <span
                 className={`${
                   data.dataUserById?.isActive == true
@@ -76,7 +93,6 @@ export default function UserDetailView() {
               >
                 {data.dataUserById?.isActive == true ? "Active" : "Inactive"}
               </span>
-              {/* <span className="text-[#12B569]">Active</span> */}
             </div>
           </div>
         </div>

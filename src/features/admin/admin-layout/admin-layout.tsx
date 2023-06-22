@@ -90,7 +90,7 @@ export default function AdminLayout() {
               <NavItem
                 label={`User`}
                 icon={<UserIcon className="w-[24px] h-[24px]" />}
-                to={"user"}
+                to={"user/1"}
                 className="text-sm font-[400]"
               />
             </div>

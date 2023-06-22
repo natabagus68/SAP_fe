@@ -5,6 +5,7 @@ export interface IMaterialProps {
   materialNumber: string;
   materialDescription: string;
   machineId: string;
+  machineName: string;
 }
 
 export interface IMaterial {
@@ -21,6 +22,7 @@ export class Material extends Entity<IMaterialProps> implements IMaterial {
       materialNumber: this.materialNumber,
       materialDescription: this.materialDescription,
       machineId: this.machineId,
+      machineName: this.machineName,
     };
   }
   get id(): string | undefined {
@@ -37,5 +39,9 @@ export class Material extends Entity<IMaterialProps> implements IMaterial {
 
   get machineId(): string {
     return this._props.machineId;
+  }
+
+  get machineName(): string {
+    return this._props.machineName;
   }
 }

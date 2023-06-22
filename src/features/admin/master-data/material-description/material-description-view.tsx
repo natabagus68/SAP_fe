@@ -74,7 +74,7 @@ export default function MaterialDescriptionView() {
             <tr className="text-sm text-left">
               <th className="pl-4 py-4 font-[600]">Material Number</th>
               <th className="px-4 py-4 font-[600]">Description</th>
-              <th className="px-4 py-4 font-[600]">Mesin ID</th>
+              <th className="px-4 py-4 font-[600]">Machine Name</th>
               <th className="px-4 py-4 font-[600]">ACTION</th>
             </tr>
           </thead>
@@ -83,7 +83,7 @@ export default function MaterialDescriptionView() {
               <tr key={i} className="border-b border-[#D0D3D9]">
                 <td className="pl-4 py-2">{item.materialNumber}</td>
                 <td className="px-4 py-2">{item.materialDescription}</td>
-                <td className="px-4 py-2">{item.machineId}</td>
+                <td className="px-4 py-2">{item.machineName}</td>
                 <td className="px-4 py-2 flex gap-2">
                   <button
                     name="edit"

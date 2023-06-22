@@ -12,7 +12,7 @@ export class UserApiRepository implements UserRepository {
         id: item.id,
         email: item.email,
         fullname: item.fullname,
-        isActive: item?.isActive,
+        isActive: item?.isActive || false,
         avatarPath: item.avatarPath,
         role: item.role,
       })
@@ -48,6 +48,7 @@ export class UserApiRepository implements UserRepository {
             fullname: item.fullname,
             avatarPath: item.avatarPath,
             role: item.role,
+            isActive: item.isActive || false,
           })
         ),
       });
@@ -69,6 +70,8 @@ export class UserApiRepository implements UserRepository {
         email: data.email || "-",
         fullname: data.fullname || "-",
         role: data.role || "-",
+        avatarPath: data.avatarPath || "",
+        isActive: data.isActive,
       });
     } catch (error) {
       throw new Error(error);
@@ -81,8 +84,10 @@ export class UserApiRepository implements UserRepository {
       formData.append("fullname", user.fullname);
       formData.append("email", user.email);
       formData.append("role", user.role);
-      formData.append("avatarPath", user.avatarPath);
+      formData.append("avatarPath", user.avatarPath[0]);
       const { data } = await api.post("/admin/user", formData);
+      console.log(data, "api-data");
+
       return data.data;
     } catch (error) {
       throw new Error(error);
@@ -95,13 +100,10 @@ export class UserApiRepository implements UserRepository {
       formData.append("fullname", user.fullname);
       formData.append("email", user.email);
       formData.append("role", user.role);
-      if (typeof user.avatarPath == "string" || user.avatarPath.length == 0) {
-        formData.append("avatarPath", "");
-      } else {
-        formData.append("avatarPath", user.avatarPath[0]);
-      }
-      //formData.append("avatarPath", user.avatarPath);
+      formData.append("avatarPath", user.avatarPath[0]);
       const { data } = await api.put(`/admin/user/${user.id}`, formData);
+      console.log(data, "api-data");
+
       return data.data;
     } catch (error) {
       throw new Error(error);
@@ -111,6 +113,18 @@ export class UserApiRepository implements UserRepository {
   async delete(id: string): Promise<void> {
     try {
       const { data } = await api.delete(`/admin/user/${id}`);
+      return data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async editPassword(id: string, form) {
+    try {
+      const { data } = await api.put(`/admin/user/change-password/${id}`, {
+        password: form.password,
+        confirmPassword: form.confirmPassword,
+      });
       return data.data;
     } catch (error) {
       throw new Error(error);

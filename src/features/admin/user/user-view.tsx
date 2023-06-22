@@ -12,6 +12,7 @@ import FilterModal from "../master-data/machine/popup/filter";
 import useUserModel from "./user-model";
 import ModalConfirm from "@common/components/modals/ModalConfirm";
 import ModalSuccess from "@common/components/modals/ModalSeccess";
+import ArrowUpIcon from "@common/components/icons-new/ArrowUpIcon";
 
 export default function UserView() {
   const data = useUserModel();
@@ -86,26 +87,12 @@ export default function UserView() {
           <tbody>
             {data.dataUser?.data?.map((item, i) => (
               <tr key={i} className="border-b border-[#D0D3D9]">
-                {/* <td className="w-[12%] relative">
-                  <label className="absolute inline-flex items-center cursor-pointer left-[10%] top-[30%]">
-                    <input type="checkbox" value="" className="sr-only peer" />
-                    <div
-                      className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
-                      onClick={() =>
-                        !data.roleActive ? data.onActive() : data.onInactive()
-                      }
-                    ></div>
-                    <span className="absolute text-sm left-[52px]">
-                      {data.roleActive ? "Active" : "Inactive"}
-                    </span>
-                  </label>
-                </td> */}
                 <td className="px-[32px]">
                   <div className="flex items-center">
                     <Toggle
                       id={item.id}
                       checked={item.isActive ? true : false}
-                      cb={() => data.editUser(item.id)}
+                      cb={() => console.log("1")}
                       activeText="active"
                       inactiveText="inactive"
                     />
@@ -165,9 +152,52 @@ export default function UserView() {
             ))}
           </tbody>
         </table>
-        <div className="flex items-end justify-end mt-6">
-          <Pagination row={1} limit={1} page={1} />
+        <div className="flex py-4 px-[32px] justify-end gap-4">
+          <button
+            disabled={!!data.dataUser?.pagination?.prevPage ? false : true}
+            onClick={() =>
+              data.navigate(`../user/${data.dataUser?.pagination?.prevPage}`)
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!data.dataUser?.pagination?.prevPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] -rotate-90"
+              color={`${
+                !!data.dataUser?.pagination?.prevPage ? "#20519F" : "#B8B6B6"
+              }`}
+            />
+          </button>
+          <div className="w-[40px] h-[40px] bg-[#20519F] rounded flex items-center justify-center text-white">
+            {!!data.dataUser?.pagination?.page
+              ? data.dataUser?.pagination?.page
+              : "-"}
+          </div>
+          <button
+            disabled={!!data.dataUser?.pagination?.nextPage ? false : true}
+            onClick={() =>
+              data.navigate(`../user/${data.dataUser?.pagination?.nextPage}`)
+            }
+            className={`px-4 h-[40px] border gap-2 ${
+              !!data.dataUser?.pagination?.nextPage
+                ? "border-[#20519F] text-[#20519F]"
+                : "border-[#B8B6B6] text-[#B8B6B6]"
+            } rounded flex items-center justify-center`}
+          >
+            <ArrowUpIcon
+              className="w-[16px] h-[16px] rotate-90"
+              color={`${
+                !!data.dataUser?.pagination?.nextPage ? "#20519F" : "#B8B6B6"
+              }`}
+            />
+          </button>
         </div>
+        {/* <div className="flex items-end justify-end mt-6">
+          <Pagination row={1} limit={1} page={1} />
+        </div> */}
       </div>
     </>
   );

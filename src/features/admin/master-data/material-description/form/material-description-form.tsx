@@ -50,15 +50,20 @@ export default function Materi() {
             />
           </div>
           <div className="w-full">
-            <h1 className="mb-2">ID Machine</h1>
-            <input
-              type="text"
-              placeholder="input line (e.g. Line 1)"
+            <h1 className="mb-2">Nama Machine</h1>
+            <select
               className={`px-4 py-2 border border-[#D0D3D9] outline-none rounded-lg placeholder:text-[#B8B6B6] w-[80%] text-sm focus:outline-none focus:border-[#20519F] focus:ring-1 focus:ring-[#20519F] ${
                 data.errors.machineId ? "bg-red-100" : "bg-white"
               }`}
               {...data.register("machineId", { required: true })}
-            />
+            >
+              <option value="">Piih Nama Machine</option>
+              {data.dataMachine?.map((item, i) => (
+                <option key={i} value={item?.id}>
+                  {item?.name}
+                </option>
+              ))}
+            </select>
           </div>
           <button className="flex items-center justify-center gap-2 h-[46px] w-[200px] bg-[#20519F] text-[#FFFFFF] rounded-[4px] mt-6">
             <SaveIcon />

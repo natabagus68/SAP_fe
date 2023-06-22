@@ -7,12 +7,14 @@ import { MetaPagination } from "@domain/models/meta-pagination";
 export class MaterialApiRepository implements MaterialRepository {
   async getDataMaterial(): Promise<Material[]> {
     const { data } = await api.get(`material-description`);
+
     return data?.data?.map((item) =>
       Material.create({
         id: item.id,
         materialNumber: item.materialNumber,
         materialDescription: item.materialDescription,
         machineId: item.machineId,
+        machineName: item.machineData.name,
       })
     );
   }
@@ -45,6 +47,7 @@ export class MaterialApiRepository implements MaterialRepository {
             materialNumber: item.materialNumber,
             materialDescription: item.materialDescription,
             machineId: item.machineId,
+            machineName: item.machineData.name,
           })
         ),
       });
@@ -60,11 +63,13 @@ export class MaterialApiRepository implements MaterialRepository {
   async getDataById(id: string): Promise<Material> {
     try {
       const { data } = await api.get(`material-description/${id}`);
+
       return Material.create({
         id: data.data?.id,
         materialNumber: data.data?.materialNumber,
         materialDescription: data.data?.materialDescription,
         machineId: data.data?.machineId,
+        machineName: data.data?.machineData?.name,
       });
     } catch (error) {
       throw new Error(error);
@@ -93,6 +98,7 @@ export class MaterialApiRepository implements MaterialRepository {
         materialDescription: material.materialDescription,
         machineId: material.machineId,
       });
+
       return data.data;
     } catch (error) {
       throw new Error(error);

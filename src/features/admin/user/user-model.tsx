@@ -68,6 +68,7 @@ export default function useUserModel() {
 
   const createUser = async (data) => {
     setIsLoadingData(true);
+    console.log(data, "cek-model");
     try {
       const result = await userRepository.create(
         User.create({
@@ -77,6 +78,8 @@ export default function useUserModel() {
           avatarPath: data.avatarPath,
         })
       );
+      console.log(result, "cekres");
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -92,6 +95,7 @@ export default function useUserModel() {
 
   const editUser = async (data) => {
     setIsLoadingData(true);
+
     try {
       const result = await userRepository.create(
         User.create({
@@ -102,6 +106,7 @@ export default function useUserModel() {
           avatarPath: data.avatarPath,
         })
       );
+
       setTimeout(() => {
         setIsLoadingData(false);
         navigate("../");
@@ -134,9 +139,14 @@ export default function useUserModel() {
     }
   };
 
-  const onNavigate = (path) => {
-    navigate(path);
-  };
+  // const editPassword = async (id: string, form) => {
+  //   try {
+  //     const result = await userRepository.editPassword(id);
+  //     getDataUser();
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // };
 
   const onPreviewPhotoOpen = () => {
     setOpenModalPreviewPhoto(true);
@@ -144,19 +154,6 @@ export default function useUserModel() {
 
   const onPreviewPhotoClose = () => {
     setOpenModalPreviewPhoto(false);
-  };
-
-  const onActive = () => {
-    setRoleActive(true);
-  };
-
-  const onInactive = () => {
-    setRoleActive(false);
-  };
-
-  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setOpenModalConfirm(true);
   };
 
   const onDeleteImageUpdate = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -236,6 +233,12 @@ export default function useUserModel() {
     };
   }, [watch("search")]);
 
+  useEffect(() => {
+    if (!!!Number(page)) {
+      navigate(`../user/:page`);
+    }
+  }, []);
+
   return {
     imageRef,
     roleActive,
@@ -249,8 +252,6 @@ export default function useUserModel() {
     setOpenModalSuccess,
     setOpenModalDelete,
     setDataId,
-    onNavigate,
-    onFormSubmit,
     onConfirmClose,
     onFilterOpen,
     onFilterClose,
@@ -258,8 +259,6 @@ export default function useUserModel() {
     onDeleteClose,
     onPasswordOpen,
     onPasswordClose,
-    onActive,
-    onInactive,
     onPreviewPhotoOpen,
     onPreviewPhotoClose,
     onDeleteImageUpdate,

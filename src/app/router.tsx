@@ -114,7 +114,7 @@ export default createBrowserRouter([
         ],
       },
       {
-        path: "User",
+        path: "User/:page",
         element: <Root />,
         children: [
           {

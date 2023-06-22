@@ -1,7 +1,9 @@
+import { MachineApiRepository } from "@data/api/machine/machine-api-repository";
 import { MaterialApiRepository } from "@data/api/material/material-api-repository";
 import { DefaultResponse } from "@domain/models/default-response";
+import { Machine } from "@domain/models/machine/machine";
 import { Material } from "@domain/models/material/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -23,8 +25,12 @@ export default function useMaterialDataModel() {
   );
 
   const [dataMaterialById, setDataMaterialById] = useState(null);
+  //console.log(dataMaterialById);
+
+  const [dataMachine, setDataMachine] = useState<Machine[]>();
 
   const materialRepository = new MaterialApiRepository();
+  const machineRepository = new MachineApiRepository();
 
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -37,12 +43,14 @@ export default function useMaterialDataModel() {
   const getDataMaterial = async () => {
     setIsLoadingData(true);
     setDataMaterial(null);
+
     try {
       const result = await materialRepository.getDataByfilter(
         !!Number(page) ? page : "1",
         "5",
         watch("search")
       );
+
       setTimeout(() => {
         setDataMaterial(result);
         setIsLoadingData(false);
@@ -73,6 +81,7 @@ export default function useMaterialDataModel() {
           materialNumber: data.materialNumber,
           materialDescription: data.materialDescription,
           machineId: data.machineId,
+          machineName: data.machineName,
         })
       );
 
@@ -98,6 +107,7 @@ export default function useMaterialDataModel() {
           materialNumber: data.materialNumber,
           materialDescription: data.materialDescription,
           machineId: data.machineId,
+          machineName: data.machineName,
         })
       );
 
@@ -130,6 +140,15 @@ export default function useMaterialDataModel() {
     }
   };
 
+  const getDataMachine = async () => {
+    try {
+      const result = await machineRepository.getDataMachine();
+      setDataMachine(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onFilterOpen = () => {
     setOpenModalFilter(true);
   };
@@ -155,6 +174,7 @@ export default function useMaterialDataModel() {
   useEffect(() => {
     setMessage(null);
     getDataMaterial();
+    getDataMachine();
   }, []);
 
   useEffect(() => {
@@ -210,5 +230,6 @@ export default function useMaterialDataModel() {
     createMaterial,
     editMaterial,
     deleteMaterial,
+    dataMachine,
   };
 }
