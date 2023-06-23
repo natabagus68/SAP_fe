@@ -49,10 +49,8 @@ export default function MonitoringView() {
                   id="sorting"
                   className="px-4 py-2 border border-[#D0D3D9] bg-[#FFF] rounded text-sm"
                 >
-                  <option value="ASC">Ascending</option>
-                  <option value="DSC">Descending</option>
-                  <option value="LUpdate">Last Update</option>
-                  <option value="FUpdate">First Update</option>
+                  <option value="ASC">Last Update</option>
+                  <option value="DSC">First Update</option>
                 </select>
               </div>
             </div>
@@ -74,43 +72,49 @@ export default function MonitoringView() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-[#D0D3D9] text-sm whitespace-nowrap">
-                <td className="px-4 py-2">
-                  <button
-                    type="button"
-                    name="complete"
-                    className="border rounded-md border-[#20519F] text-[#20519F] inline-block p-2 cursor-pointer"
-                    onClick={data.onMachineModalOpen}
-                  >
-                    NM1301160320210001
-                  </button>
-                </td>
-                <td className="px-4 py-2">CASE COMP MISSION K1AA (FG)</td>
-                <td className="px-4 py-2">883</td>
-                <td className="px-4 py-2">PCS</td>
-                <td className="px-4 py-2">NM2102011000</td>
-                <td className="px-4 py-2">
-                  <span className="p-2 bg-[#F79009] rounded text-[#FFF]">
-                    16/08/2013
-                  </span>
-                </td>
-                <td className="px-4 py-2">
-                  <span className="p-2 bg-[#F79009] rounded text-[#FFF]">
-                    16/08/2013
-                  </span>
-                </td>
-                <td className="px-4 py-2">
-                  <span className="p-2 bg-[#20519F] rounded text-[#FFF]">
-                    07/05/2016
-                  </span>
-                </td>
-                <td className="px-4 py-2">
-                  <span className="p-2 bg-[#20519F] rounded text-[#FFF]">
-                    07/05/2016
-                  </span>
-                </td>
-              </tr>
-              <tr className="border-b border-[#D0D3D9] text-sm">
+              {data.dataMonitoring?.map((item, i) => (
+                <tr
+                  key={i}
+                  className="border-b border-[#D0D3D9] text-sm whitespace-nowrap"
+                >
+                  <td className="px-4 py-2">
+                    <button
+                      type="button"
+                      name="complete"
+                      className="border rounded-md border-[#20519F] text-[#20519F] inline-block p-2 cursor-pointer"
+                      onClick={data.onMachineModalOpen}
+                    >
+                      {item.qrTagNumber}
+                    </button>
+                  </td>
+                  <td className="px-4 py-2">-</td>
+                  <td className="px-4 py-2">{item.qtyQrTag}</td>
+                  <td className="px-4 py-2">-</td>
+                  <td className="px-4 py-2">-</td>
+                  <td className="px-4 py-2">
+                    <span className="p-2 bg-[#F79009] rounded text-[#FFF]">
+                      {item.beforeCastingAt}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2">
+                    <span className="p-2 bg-[#F79009] rounded text-[#FFF]">
+                      {item.castingAt}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2">
+                    <span className="p-2 bg-[#20519F] rounded text-[#FFF]">
+                      {item.beforeMachiningAt}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2">
+                    <span className="p-2 bg-[#20519F] rounded text-[#FFF]">
+                      {item.afterMachiningAt}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+
+              {/* <tr className="border-b border-[#D0D3D9] text-sm">
                 <td className="px-4 py-2">
                   <button
                     type="button"
@@ -145,7 +149,7 @@ export default function MonitoringView() {
                     -
                   </span>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>

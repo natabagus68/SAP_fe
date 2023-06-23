@@ -97,7 +97,7 @@ export default function useUserModel() {
     setIsLoadingData(true);
 
     try {
-      const result = await userRepository.create(
+      const result = await userRepository.edit(
         User.create({
           id: idUser,
           email: data.email,
@@ -139,14 +139,24 @@ export default function useUserModel() {
     }
   };
 
-  // const editPassword = async (id: string, form) => {
-  //   try {
-  //     const result = await userRepository.editPassword(id);
-  //     getDataUser();
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // };
+  const editPassword = async (id: string, form) => {
+    try {
+      const result = await userRepository.editPassword(
+        id,
+        form.create({
+          id: id,
+          password: form.password,
+          confirmPassword: form.confirmPassword,
+        })
+      );
+
+      setTimeout(() => {
+        navigate("../");
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
   const onPreviewPhotoOpen = () => {
     setOpenModalPreviewPhoto(true);
@@ -201,11 +211,13 @@ export default function useUserModel() {
     formState: { errors },
   } = useForm({
     values: {
+      search: "",
       email: dataUserById?.email,
       fullname: dataUserById?.fullname,
       role: dataUserById?.role,
       avatarPath: dataUserById?.avatarPath,
-      search: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -277,6 +289,7 @@ export default function useUserModel() {
     createUser,
     editUser,
     deleteUser,
+    editPassword,
     idUser,
   };
 }

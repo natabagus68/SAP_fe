@@ -86,7 +86,6 @@ export class UserApiRepository implements UserRepository {
       formData.append("role", user.role);
       formData.append("avatarPath", user.avatarPath[0]);
       const { data } = await api.post("/admin/user", formData);
-      console.log(data, "api-data");
 
       return data.data;
     } catch (error) {
@@ -102,7 +101,6 @@ export class UserApiRepository implements UserRepository {
       formData.append("role", user.role);
       formData.append("avatarPath", user.avatarPath[0]);
       const { data } = await api.put(`/admin/user/${user.id}`, formData);
-      console.log(data, "api-data");
 
       return data.data;
     } catch (error) {
@@ -119,12 +117,14 @@ export class UserApiRepository implements UserRepository {
     }
   }
 
-  async editPassword(id: string, form) {
+  async editPassword(id: string, form: User) {
     try {
       const { data } = await api.put(`/admin/user/change-password/${id}`, {
         password: form.password,
         confirmPassword: form.confirmPassword,
       });
+      console.log(data);
+
       return data.data;
     } catch (error) {
       throw new Error(error);

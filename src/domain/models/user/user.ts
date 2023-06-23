@@ -7,6 +7,7 @@ export interface IUserProps {
   isActive?: boolean | undefined;
   avatarPath?: string | undefined;
   password?: string | undefined;
+  confirmPassword?: string | undefined;
   role: string;
 }
 
@@ -27,6 +28,7 @@ export class User extends Entity<IUserProps> implements IUser {
       avatarPath: this.avatarPath,
       role: this.role,
       password: this.password,
+      confirmPassword: this.confirmPassword,
     };
   }
 
@@ -52,5 +54,8 @@ export class User extends Entity<IUserProps> implements IUser {
   }
   get password(): string | undefined {
     return this._props.password;
+  }
+  get confirmPassword(): string | undefined {
+    return this._props.confirmPassword;
   }
 }

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { MonitoringApiRepository } from "@data/api/monitoring/monitoring-api-repository";
+import { Monitoring } from "@domain/models/monitoring/monitoring";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function useMonitoringModel() {
@@ -8,6 +10,21 @@ export default function useMonitoringModel() {
   const [modalCasting, setOpenModalCasting] = useState(false);
   const [modalResultQrCode, setModalResultQrCode] = useState(false);
   const [modalResultReceipt, setOpenResultReceipt] = useState(false);
+
+  const [dataMonitoring, setDataMonitoring] = useState<Monitoring[]>([]);
+
+  const monitoringRepository = new MonitoringApiRepository();
+
+  const getDataMonitoring = async () => {
+    try {
+      const result = await monitoringRepository.getDataMonitoring();
+      setTimeout(() => {
+        setDataMonitoring(result);
+      }, 500);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
   const onSelectDate = (prev) => setDate(prev);
   const onMachineModalOpen = () => setOpenModalMachine(true);
@@ -20,6 +37,10 @@ export default function useMonitoringModel() {
   const onResultQrCodeClose = () => setModalResultQrCode(false);
 
   const onNavigate = (path) => navigate(path);
+
+  useEffect(() => {
+    getDataMonitoring();
+  }, []);
 
   return {
     date,
@@ -37,5 +58,6 @@ export default function useMonitoringModel() {
     onResultReceiptClose,
     onResultQrCodeOpen,
     onResultQrCodeClose,
+    dataMonitoring,
   };
 }
