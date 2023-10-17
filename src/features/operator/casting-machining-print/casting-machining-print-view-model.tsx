@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import layoutContex from "../layout-operator/layout-contex";
-import { Title } from "@domain/models/operator/layout-model/layout";
+import { Title } from "@domain/models/";
 import { useParams } from "react-router-dom";
 
 export const useCastingMachiningPrint = () => {
@@ -32,4 +32,3 @@ export const useCastingMachiningPrint = () => {
     }
   }, [head]);
 };
-
